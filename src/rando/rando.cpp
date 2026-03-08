@@ -146,9 +146,15 @@ int randoInfo_c::draw() {
     }
         */
 
-    if (dComIfGs_isDungeonItemBossKey() && getDrawBigKey())
+    if (dComIfGs_isDungeonItemBossKey() && getDrawBigKey() && daAlink_getAlinkActorClass() && !daAlink_getAlinkActorClass()->checkEventRun())
     {
-        getBigKeyIconPtr()->draw(535.f, 340.f, 30.f, 30.f, false, false, false);
+        f32 keyYPos = 340.f;
+        if (dComIfGs_getKeyNum() == 0)
+        {
+            keyYPos += 20.f;
+        }
+
+        getBigKeyIconPtr()->draw(535.f, keyYPos, 30.f, 30.f, false, false, false);
     }
     return 1;
 }
