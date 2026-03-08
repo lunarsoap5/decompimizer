@@ -5,6 +5,7 @@
 #include "dolphin/gx/GXStruct.h"
 #include "SSystem/SComponent/c_xyz.h"
 #include "SSystem/SComponent/c_sxyz.h"
+#include "JSystem/JKernel/JKRHeap.h"
 
 bool playerIsInRoomStage(s32 room, const char* stage);
 void checkTransformFromWolf();
@@ -22,5 +23,8 @@ void replaceEquipItemColor();
 bool checkToTSwordReqEquip();
 int getCurrentStageID();
 bool checkButtonsHeld(u32);
+bool checkButtonsPressedThisFrame(u32);
+void randoCreateHeap();
+JKRHeap* getRandoHeap();
 
 #endif  // TOOLS_H

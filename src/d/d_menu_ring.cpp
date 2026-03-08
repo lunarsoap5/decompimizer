@@ -26,6 +26,9 @@
 #include "m_Do/m_Do_controller_pad.h"
 #include "m_Do/m_Do_graphic.h"
 #include "rando/itemWheelMenu.h"
+#include "rando/tools/tools.h"
+#include "rando/tools/verifyItemFunctions.h"
+#include "rando/rando.h"
 #include <string>
 
 #include <cstdio>
@@ -540,12 +543,15 @@ dMenu_Ring_c::~dMenu_Ring_c() {
 */
 void dMenu_Ring_c::_create() {
     g_customMenuRing.setRingOpen(true);
+    setHUDButtonsAlpha(g_customMenuRing.shouldDisplayMenu);
     (this->*stick_init[mStatus])();
     Z2GetAudioMgr()->seStart(Z2SE_ITEM_RING_IN, NULL, 0, 0, 1.0f, 1.0f, -1.0f, -1.0f, 0);
 }
 
 void dMenu_Ring_c::_delete() {
+    setHUDButtonsAlpha(false);
     g_customMenuRing.setRingOpen(false);
+    g_customMenuRing.dontDisplayMenu();
 }
 
 /** @details
@@ -575,6 +581,36 @@ void dMenu_Ring_c::_move() {
 }
 
 void dMenu_Ring_c::_draw() {
+
+    bool shouldDisplayMenu = g_customMenuRing.shouldDisplayMenu;
+    // If the ring was already drawn this frame then don't check the buttons
+    if (!g_customMenuRing.shouldDrawRingThisFrame())
+    {
+        // Check if either R or Z was drawn this frame
+        if (checkButtonsPressedThisFrame(PAD_BUTTON_START | PAD_TRIGGER_Z))
+        {
+            shouldDisplayMenu = !shouldDisplayMenu;
+            g_customMenuRing.setDisplayMenu(shouldDisplayMenu);
+            g_customMenuRing.drawRingThisFrame();
+
+            // Handle wether the controller buttons should be displayed or not.
+            setHUDButtonsAlpha(shouldDisplayMenu);
+        }
+    }
+
+    if (!shouldDisplayMenu)
+    {
+        J2DTextBox textbox;
+        JUtility::TColor white(255, 255, 255, 255);
+        textbox.setFont(mDoExt_getMesgFont());
+        textbox.setFontSize(16.f, 16.f);
+        textbox.setLineSpace(16.f);
+        textbox.setString("Press Start\nor Z to\ntoggle\nadditional\ndata");
+        textbox.setCharColor(white);
+        textbox.setGradColor(white);
+        textbox.draw(mCenterPosX + 465.f, mCenterPosY + 157.f);
+    }
+
     J2DGrafContext* grafPort = dComIfGp_getCurrentGrafPort();
     grafPort->setup2D();
     if (mDrawFlag == 0) {
@@ -631,6 +667,46 @@ void dMenu_Ring_c::_draw() {
         mpItemExplain->trans(mCenterPosX, mCenterPosY);
         mpItemExplain->draw((J2DOrthoGraph*)grafPort);
         drawFlag0();
+    }
+
+    bool questStatus = g_customMenuRing.shouldChangeQuestItem();
+    u8 currentSlot = mItemSlots[mCurrentSlot];
+    if (currentSlot == 0x15)
+    {
+        if (getWarashibeItemCount() >= 0x2)
+        {
+            g_randoInfo.getDPadIconPtr()->draw(mCenterPosX + 330.f, mCenterPosY + 194.f, 30.f, 30.f, false, false, false);
+        }
+        if (checkButtonsPressedThisFrame(PAD_BUTTON_RIGHT) && questStatus)
+        {
+            g_customMenuRing.changeQuestItem(!questStatus);
+            u8 warashibeItem = setNextWarashibeItem();
+            for (int i =0; i < mTotalItemTexToAlloc; i++)
+            {
+                if (mItemSlots[i] == currentSlot)
+                {
+                    s32 i_textureNum =
+                        dMeter2Info_readItemTexture(warashibeItem, mpItemBuf[i][0], NULL, mpItemBuf[i][1], NULL,
+                                                    mpItemBuf[i][2], NULL, NULL, NULL, -1);
+                    for (int k = 0; k < i_textureNum; k++) {
+                        mpItemTex[i][k] = new J2DPicture(mpItemBuf[i][k]);
+                        mpItemTex[i][k]->setBasePosition(J2DBasePosition_4);
+                    }
+
+                    u8 texScale = dItem_data::getTexScale(warashibeItem);
+                    f32 fVar1 = (texScale / 100.0f);
+                    f32 fVar2 = (mpItemBuf[i][0]->width / 48.0f);
+                    fVar1 = fVar2 * fVar1;
+                    mItemSlotParam1[i] = fVar1;
+                    mItemSlotParam2[i] = (mpItemBuf[i][0]->height / 48.0f * (texScale / 100.0f));
+                }
+            }
+        }
+    }
+
+    if (shouldDisplayMenu)
+    {
+        g_customMenuRing.handleItemWheelMenu(this);
     }
 }
 

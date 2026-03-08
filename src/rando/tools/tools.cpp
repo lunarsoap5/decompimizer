@@ -14,6 +14,10 @@
 #include "f_op/f_op_actor_mng.h"
 #include "m_Do/m_Do_controller_pad.h"
 #include "dolphin/dvd.h"
+#include "JSystem/JKernel/JKRExpHeap.h"
+
+static JKRExpHeap* s_randoHeap = NULL;
+static const u32 RANDO_HEAP_SIZE = 0xC0000;  // 768KB
 
 bool playerIsInRoomStage(s32 room, const char* stage)
 {
@@ -144,6 +148,11 @@ bool checkButtonComboAnalog(uint combo)
 bool checkButtonsHeld(u32 buttons)
 {
     return (mDoCPd_c::getHold(PAD_1) & buttons) == buttons;
+}
+
+bool checkButtonsPressedThisFrame(u32 buttons)
+{
+    return mDoCPd_c::getTrig(PAD_1) & buttons;
 }
 
 void handleQuickTransform()
@@ -446,4 +455,16 @@ int getCurrentStageID()
 
     // Didn't find the current stage for some reason
     return -1;
+}
+
+
+void randoCreateHeap() {
+    if (s_randoHeap != NULL) return;
+
+    JKRExpHeap* archiveHeap = (JKRExpHeap*)mDoExt_getArchiveHeap();
+    s_randoHeap = JKRExpHeap::create(RANDO_HEAP_SIZE, archiveHeap, true);
+}
+
+JKRHeap* getRandoHeap() {
+    return s_randoHeap;
 }

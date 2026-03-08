@@ -12,6 +12,11 @@
 #include "d/d_meter2_info.h"
 #include "d/d_meter2_draw.h"
 #include "m_Do/m_Do_controller_pad.h"
+#include "JSystem/J2DGraph/J2DPrint.h"
+#include "JSystem/J2DGraph/J2DTextBox.h"
+#include "JSystem/J2DGraph/J2DOrthoGraph.h"
+#include "rando/tools/draw.h"
+#include "m_Do/m_Do_ext.h"
 
 randoInfo_c g_randoInfo;
 
@@ -24,11 +29,20 @@ int randoInfo_c::_create() {
     hasPendingToDChange = false;
     g_customMenuRing._initialize();
     g_seedInfo._create();
+    randoCreateHeap();
+
+    mpItemWheelText = new (getRandoHeap(), 4) J2DTextBox(); 
+    mpItemWheelText->setFont(mDoExt_getMesgFont());
+    mpItemWheelText->setFontSize(24.0f, 24.0f);
+    mpItemWheelText->setString("Example Text");
+    
     return 1;
 }
 
 int randoInfo_c::_delete() {
     mInitialized = false;
+    delete mpItemWheelText;
+    mpItemWheelText = NULL;
     return 1;
 }
 
@@ -36,6 +50,10 @@ int randoInfo_c::execute() {
     if (!mInitialized) {
         return 0;
     }
+
+    g_customMenuRing.resetRingDrawnThisFrame();
+    g_customMenuRing.changeQuestItem(true);
+
     const uint currentButtons = mDoCPd_c::getHold(PAD_1);
 
     if (currentButtons != getLastButtonInput())
@@ -120,6 +138,13 @@ int randoInfo_c::execute() {
 }
 
 int randoInfo_c::draw() {
+    // Test drawing from rando heap
+    /*
+    if (mpItemWheelText != NULL)
+    {
+        mpItemWheelText->draw(100.f, 100.f, 608.f, HBIND_LEFT);
+    }
+        */
     return 1;
 }
 

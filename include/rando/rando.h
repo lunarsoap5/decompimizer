@@ -3,6 +3,8 @@
 #define EVENT_ITEM_QUEUE_SIZE 0x10
 
 #include "dolphin/types.h"
+#include "JSystem/J2DGraph/J2DTextbox.h"
+#include "JSystem/J2DGraph/J2DPicture.h"
 
 enum TimeChange
 {
@@ -21,6 +23,7 @@ enum EventItemStatus
 class randoInfo_c {
 public:
     randoInfo_c() { mInitialized = false; }
+    J2DTextBox* mpItemWheelText;
 
     int _create();
     int _delete();
@@ -45,6 +48,7 @@ public:
     u8 getTimeChange() { return mTimeChange; }
     bool getRoomReloadingState() { return roomReloadingState; }
     bool getHasPendingToDChange() { return hasPendingToDChange; }
+    J2DPicture* getDPadIconPtr() { return dPadIconPtr;}
     
     void setGiveItemToPlayerStatus(u8 status) { eventItemStatus = status;}
     void setLastButtonInput(u16 buttonInput) { m_LastButtonInput = buttonInput;}
@@ -52,6 +56,7 @@ public:
     void setHasPendingToDChange(bool hasPending) { hasPendingToDChange = hasPending; }
     void setTimeChange(u8 newTimeChange) { mTimeChange = newTimeChange; }
     void setRoomReloadingState(bool newState) { roomReloadingState = newState; }
+    void setDPadIconPtr(J2DPicture* ptr) { dPadIconPtr = ptr;}
 
     bool mInitialized;
     u8 eventItemStatus;
@@ -64,6 +69,7 @@ public:
     u8 mTimeChange;
     u8 eventItemQueue[EVENT_ITEM_QUEUE_SIZE];
     bool roomReloadingState;
+    J2DPicture* dPadIconPtr;
 };
 
 void checkSetHCBkFlag(u8 req, u8 currentCount);

@@ -514,6 +514,20 @@ dScnLogo_c::~dScnLogo_c() {
     #if PLATFORM_WII
     data_8053a730 = 0;
     #endif
+
+
+    if (!g_randoInfo.getDPadIconPtr())
+    {
+        JKRArchive* main2DArchive = dComIfGp_getMain2DArchive();
+        if (main2DArchive)
+        {
+            ResTIMG const* dpadIcon = (ResTIMG const*)main2DArchive->getResource(0x54494D47, "font_51.bti");
+            if (dpadIcon)
+            {
+                g_randoInfo.setDPadIconPtr(new J2DPicture(dpadIcon));
+            }
+        }
+    }
 }
 
 static int phase_0(dScnLogo_c* i_this) {
