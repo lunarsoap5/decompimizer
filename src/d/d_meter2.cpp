@@ -23,6 +23,7 @@
 #include "f_op/f_op_msg_mng.h"
 #include "d/actor/d_a_horse.h"
 #include "rando/itemWheelMenu.h"
+#include "rando/rando.h"
 
 int dMeter2_c::_create() {
     stage_stag_info_class* stag_info = dComIfGp_getStageStagInfo();
@@ -2844,8 +2845,10 @@ void dMeter2_c::alphaAnimeKey() {
         (mStatus & 0x8000000) || (mStatus & 0x10000000) || dMeter2Info_isSub2DStatus(1))
     {
         mpMeterDraw->setAlphaKeyAnimeMin();
+        g_randoInfo.setDrawBigKey(false);
     } else {
         mpMeterDraw->setAlphaKeyAnimeMax();
+        g_randoInfo.setDrawBigKey(true);
     }
 
     mpMeterDraw->setAlphaKeyChange(false);

@@ -49,6 +49,8 @@ public:
     bool getRoomReloadingState() { return roomReloadingState; }
     bool getHasPendingToDChange() { return hasPendingToDChange; }
     J2DPicture* getDPadIconPtr() { return dPadIconPtr;}
+    J2DPicture* getBigKeyIconPtr() { return bigKeyIconPtr;}
+    bool getDrawBigKey() { return drawBigKey;}
     
     void setGiveItemToPlayerStatus(u8 status) { eventItemStatus = status;}
     void setLastButtonInput(u16 buttonInput) { m_LastButtonInput = buttonInput;}
@@ -57,6 +59,8 @@ public:
     void setTimeChange(u8 newTimeChange) { mTimeChange = newTimeChange; }
     void setRoomReloadingState(bool newState) { roomReloadingState = newState; }
     void setDPadIconPtr(J2DPicture* ptr) { dPadIconPtr = ptr;}
+    void setBigKeyIconPtr(J2DPicture* ptr) { bigKeyIconPtr = ptr;}
+    void setDrawBigKey(bool val) { drawBigKey = val; }
 
     bool mInitialized;
     u8 eventItemStatus;
@@ -70,6 +74,8 @@ public:
     u8 eventItemQueue[EVENT_ITEM_QUEUE_SIZE];
     bool roomReloadingState;
     J2DPicture* dPadIconPtr;
+    J2DPicture* bigKeyIconPtr;
+    bool drawBigKey;
 };
 
 void checkSetHCBkFlag(u8 req, u8 currentCount);

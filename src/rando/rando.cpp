@@ -145,6 +145,11 @@ int randoInfo_c::draw() {
         mpItemWheelText->draw(100.f, 100.f, 608.f, HBIND_LEFT);
     }
         */
+
+    if (dComIfGs_isDungeonItemBossKey() && getDrawBigKey())
+    {
+        getBigKeyIconPtr()->draw(535.f, 340.f, 30.f, 30.f, false, false, false);
+    }
     return 1;
 }
 
