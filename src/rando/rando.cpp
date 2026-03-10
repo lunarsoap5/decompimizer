@@ -15,8 +15,10 @@
 #include "JSystem/J2DGraph/J2DPrint.h"
 #include "JSystem/J2DGraph/J2DTextBox.h"
 #include "JSystem/J2DGraph/J2DOrthoGraph.h"
+#include "JSystem/J2DGraph/J2DScreen.h"
 #include "rando/tools/draw.h"
 #include "m_Do/m_Do_ext.h"
+#include <cstdio>
 
 randoInfo_c g_randoInfo;
 
@@ -27,22 +29,85 @@ int randoInfo_c::_create() {
     rainbowPhaseAngle = 0.f;
     eventItemStatus = QUEUE_EMPTY;
     hasPendingToDChange = false;
+    
+    randoCreateHeap();
     g_customMenuRing._initialize();
     g_seedInfo._create();
-    randoCreateHeap();
 
-    mpItemWheelText = new (getRandoHeap(), 4) J2DTextBox(); 
-    mpItemWheelText->setFont(mDoExt_getMesgFont());
-    mpItemWheelText->setFontSize(24.0f, 24.0f);
-    mpItemWheelText->setString("Example Text");
+    // Initialize custom icons we will use
+    ResTIMG const* dpadIcon = (ResTIMG const*)dComIfGp_getMain2DArchive()->getResource(0x54494D47, "font_51.bti");
+            
+    if (dpadIcon)
+        g_randoInfo.setDPadIconPtr(new (getRandoHeap(), 4) J2DPicture(dpadIcon));
+
+    JKRHeap* heap = getRandoHeap();
+    ResTIMG* tex = (ResTIMG*)dComIfGp_getItemIconArchive()->getResource('TIMG', "im_item_icon_boss_key_48.bti");;
     
+    if (tex != NULL) {
+        u32 imgSize = GXGetTexBufferSize(tex->width, tex->height, tex->format,
+                                            tex->mipmapEnabled, tex->mipmapCount);
+        u32 totalSize = tex->imageOffset + imgSize;
+        if (tex->indexTexture && tex->numColors > 0) {
+            u32 palEnd = tex->paletteOffset + tex->numColors * 2;
+            if (palEnd > totalSize) {
+                totalSize = palEnd;
+            }
+        }
+        bigKeyIconBuf = (ResTIMG*)heap->alloc(totalSize, 32);
+        if (bigKeyIconBuf != NULL) {
+            memcpy(bigKeyIconBuf, tex, totalSize);
+            DCStoreRangeNoSync(bigKeyIconBuf, totalSize);
+            bigKeyIconPtr = new (heap, 4) J2DPicture(bigKeyIconBuf);
+        }
+    }
+
+    tex = (ResTIMG*)dComIfGp_getItemIconArchive()->getResource('TIMG', "tt_map_48.bti");;
+    
+    if (tex != NULL) {
+        u32 imgSize = GXGetTexBufferSize(tex->width, tex->height, tex->format,
+                                            tex->mipmapEnabled, tex->mipmapCount);
+        u32 totalSize = tex->imageOffset + imgSize;
+        if (tex->indexTexture && tex->numColors > 0) {
+            u32 palEnd = tex->paletteOffset + tex->numColors * 2;
+            if (palEnd > totalSize) {
+                totalSize = palEnd;
+            }
+        }
+        dunMapIconBuf = (ResTIMG*)heap->alloc(totalSize, 32);
+        if (dunMapIconBuf != NULL) {
+            memcpy(dunMapIconBuf, tex, totalSize);
+            DCStoreRangeNoSync(dunMapIconBuf, totalSize);
+            dunMapIconPtr = new (heap, 4) J2DPicture(dunMapIconBuf);
+        }
+    }
+
+    tex = (ResTIMG*)dComIfGp_getItemIconArchive()->getResource('TIMG', "tt_kmps_48.bti");;
+    
+    if (tex != NULL) {
+        u32 imgSize = GXGetTexBufferSize(tex->width, tex->height, tex->format,
+                                            tex->mipmapEnabled, tex->mipmapCount);
+        u32 totalSize = tex->imageOffset + imgSize;
+        if (tex->indexTexture && tex->numColors > 0) {
+            u32 palEnd = tex->paletteOffset + tex->numColors * 2;
+            if (palEnd > totalSize) {
+                totalSize = palEnd;
+            }
+        }
+        dunCompassIconBuf = (ResTIMG*)heap->alloc(totalSize, 32);
+        if (dunCompassIconBuf != NULL) {
+            memcpy(dunCompassIconBuf, tex, totalSize);
+            DCStoreRangeNoSync(dunCompassIconBuf, totalSize);
+            dunCompassIconPtr = new (heap, 4) J2DPicture(dunCompassIconBuf);
+        }
+    }
+
     return 1;
 }
 
 int randoInfo_c::_delete() {
     mInitialized = false;
-    delete mpItemWheelText;
-    mpItemWheelText = NULL;
+    delete g_customMenuRing.mpItemWheelText;
+    g_customMenuRing.mpItemWheelText = NULL;
     return 1;
 }
 
@@ -138,13 +203,6 @@ int randoInfo_c::execute() {
 }
 
 int randoInfo_c::draw() {
-    // Test drawing from rando heap
-    /*
-    if (mpItemWheelText != NULL)
-    {
-        mpItemWheelText->draw(100.f, 100.f, 608.f, HBIND_LEFT);
-    }
-        */
 
     if (dComIfGs_isDungeonItemBossKey() && getDrawBigKey() && daAlink_getAlinkActorClass() && !daAlink_getAlinkActorClass()->checkEventRun())
     {

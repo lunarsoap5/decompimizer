@@ -408,6 +408,8 @@ public:
             mPohNum += 1;
         }
     };
+    u8 getCollectCrystal() { return mCrystal;}
+    u8 getCollectMirror() { return mMirror;}
 
 private:
     /* 0x0 */ u8 mItem[8];

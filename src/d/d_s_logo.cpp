@@ -18,6 +18,7 @@
 #include "m_Do/m_Do_graphic.h"
 #include "m_Do/m_Do_machine.h"
 #include "rando/rando.h"
+#include "rando/tools/tools.h"
 
 #if PLATFORM_WII
 #include "d/d_cursor_mng.h"
@@ -514,26 +515,6 @@ dScnLogo_c::~dScnLogo_c() {
     #if PLATFORM_WII
     data_8053a730 = 0;
     #endif
-
-
-    if (!g_randoInfo.getDPadIconPtr())
-    {
-        JKRArchive* main2DArchive = dComIfGp_getMain2DArchive();
-        if (main2DArchive)
-        {
-            ResTIMG const* dpadIcon = (ResTIMG const*)main2DArchive->getResource(0x54494D47, "font_51.bti");
-            ResTIMG const* bigKeyIcon = (ResTIMG const*)dComIfGp_getDmapResArchive()->getResource(0x54494D47, "im_item_icon_boss_key_48.bti");
-            if (dpadIcon)
-            {
-                g_randoInfo.setDPadIconPtr(new J2DPicture(dpadIcon));
-            }
-
-            if (bigKeyIcon)
-            {
-                g_randoInfo.setBigKeyIconPtr(new J2DPicture(bigKeyIcon));
-            }
-        }
-    }
 }
 
 static int phase_0(dScnLogo_c* i_this) {

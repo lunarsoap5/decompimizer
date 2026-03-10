@@ -542,7 +542,9 @@ dMenu_Ring_c::~dMenu_Ring_c() {
  * and plays the item wheel opening sound
 */
 void dMenu_Ring_c::_create() {
+    // Initialize custom item wheel menu values
     g_customMenuRing.setRingOpen(true);
+    g_customMenuRing.setUpItemWheelMenuText();
     setHUDButtonsAlpha(g_customMenuRing.shouldDisplayMenu);
     (this->*stick_init[mStatus])();
     Z2GetAudioMgr()->seStart(Z2SE_ITEM_RING_IN, NULL, 0, 0, 1.0f, 1.0f, -1.0f, -1.0f, 0);

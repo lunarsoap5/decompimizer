@@ -3,15 +3,19 @@
 
 #include "dolphin/types.h"
 #include "d/d_menu_ring.h"
+#include "JSystem/J2DGraph/J2DTextbox.h"
 
 class customMenuRing_c {
 public:
+    J2DTextBox* mpItemWheelText;
 
     int _initialize();
     int _delete();
     int execute();
     int draw();
     void handleItemWheelMenu(dMenu_Ring_c*);
+    void setUpItemWheelMenuText();
+
     bool isRingOpen() {return mRingOpen;}
     void setRingOpen(bool val) {mRingOpen = val;}
     void dontDisplayMenu() { shouldDisplayMenu = false; }

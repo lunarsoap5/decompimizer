@@ -23,7 +23,6 @@ enum EventItemStatus
 class randoInfo_c {
 public:
     randoInfo_c() { mInitialized = false; }
-    J2DTextBox* mpItemWheelText;
 
     int _create();
     int _delete();
@@ -50,6 +49,8 @@ public:
     bool getHasPendingToDChange() { return hasPendingToDChange; }
     J2DPicture* getDPadIconPtr() { return dPadIconPtr;}
     J2DPicture* getBigKeyIconPtr() { return bigKeyIconPtr;}
+    J2DPicture* getDunMapIconPtr() { return dunMapIconPtr;}
+    J2DPicture* getDunCompassIconPtr() { return dunCompassIconPtr;}
     bool getDrawBigKey() { return drawBigKey;}
     
     void setGiveItemToPlayerStatus(u8 status) { eventItemStatus = status;}
@@ -60,6 +61,8 @@ public:
     void setRoomReloadingState(bool newState) { roomReloadingState = newState; }
     void setDPadIconPtr(J2DPicture* ptr) { dPadIconPtr = ptr;}
     void setBigKeyIconPtr(J2DPicture* ptr) { bigKeyIconPtr = ptr;}
+    void setDunMapIconPtr(J2DPicture* ptr) { dunMapIconPtr = ptr;}
+    void setDunCompassIconPtr(J2DPicture* ptr) { dunCompassIconPtr = ptr;}
     void setDrawBigKey(bool val) { drawBigKey = val; }
 
     bool mInitialized;
@@ -75,6 +78,11 @@ public:
     bool roomReloadingState;
     J2DPicture* dPadIconPtr;
     J2DPicture* bigKeyIconPtr;
+    J2DPicture* dunMapIconPtr;
+    J2DPicture* dunCompassIconPtr;
+    ResTIMG* bigKeyIconBuf;
+    ResTIMG* dunMapIconBuf;
+    ResTIMG* dunCompassIconBuf;
     bool drawBigKey;
 };
 

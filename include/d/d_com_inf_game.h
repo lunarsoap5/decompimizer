@@ -1664,12 +1664,20 @@ inline bool dComIfGs_isCollectCrystal(u8 i_item) {
     return g_dComIfG_gameInfo.info.getPlayer().getCollect().isCollectCrystal(i_item);
 }
 
+inline u8 dComIfGs_getCollectCrystal() {
+    return g_dComIfG_gameInfo.info.getPlayer().getCollect().getCollectCrystal();
+}
+
 inline void dComIfGs_onCollectMirror(u8 i_item) {
     g_dComIfG_gameInfo.info.getPlayer().getCollect().onCollectMirror(i_item);
 }
 
 inline bool dComIfGs_isCollectMirror(u8 i_item) {
-    return g_dComIfG_gameInfo.info.getPlayer().getCollect().isCollectMirror(i_item);
+    return g_dComIfG_gameInfo.info.getPlayer().getCollect().isCollectMirror(i_item); // test
+}
+
+inline u8 dComIfGs_getCollectMirror() {
+    return g_dComIfG_gameInfo.info.getPlayer().getCollect().getCollectMirror();
 }
 
 inline void dComIfGs_setLightDropNum(u8 i_level, u8 i_num) {

@@ -468,3 +468,26 @@ void randoCreateHeap() {
 JKRHeap* getRandoHeap() {
     return s_randoHeap;
 }
+
+
+J2DPicture* randoCopyItemArchiveTexture(JKRArchive* arc, const char* name, JKRHeap* heap, J2DPicture* picture, ResTIMG* buffer) {
+    ResTIMG* tex = (ResTIMG*)arc->getResource('TIMG', name);;
+    
+    if (tex != NULL) {
+        u32 imgSize = GXGetTexBufferSize(tex->width, tex->height, tex->format,
+                                            tex->mipmapEnabled, tex->mipmapCount);
+        u32 totalSize = tex->imageOffset + imgSize;
+        if (tex->indexTexture && tex->numColors > 0) {
+            u32 palEnd = tex->paletteOffset + tex->numColors * 2;
+            if (palEnd > totalSize) {
+                totalSize = palEnd;
+            }
+        }
+        buffer = (ResTIMG*)heap->alloc(totalSize, 32);
+        if (buffer != NULL) {
+            memcpy(buffer, tex, totalSize);
+            DCStoreRangeNoSync(buffer, totalSize);
+            picture = new (heap, 4) J2DPicture(buffer);
+        }
+    }
+}
