@@ -207,7 +207,6 @@ int randoInfo_c::execute() {
 
     if (checkButtonComboAnalog(PAD_TRIGGER_R | PAD_BUTTON_Y))
     {
-        addItemToEventQueue(fpcNm_ITEM_SNOWPEAK_SMALL_KEY);
         handleQuickTransform();
     }
     else if (daAlink_getAlinkActorClass() && checkButtonsHeld(PAD_TRIGGER_R) && g_seedInfo.spinnerSpeedIsIncreased())
