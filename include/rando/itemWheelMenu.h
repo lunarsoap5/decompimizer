@@ -7,7 +7,8 @@
 
 class customMenuRing_c {
 public:
-    J2DTextBox* mpItemWheelText;
+    J2DTextBox* mpItemWheelDunText;
+    J2DTextBox* mpItemWheelKeyText;
 
     int _initialize();
     int _delete();
@@ -33,6 +34,7 @@ public:
 };
 
 void setHUDButtonsAlpha(bool);
+char* getYesNoText(bool);
 
 extern customMenuRing_c g_customMenuRing;
 

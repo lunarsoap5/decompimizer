@@ -600,18 +600,15 @@ void dMenu_Ring_c::_draw() {
         }
     }
 
-    if (!shouldDisplayMenu)
-    {
-        J2DTextBox textbox;
-        JUtility::TColor white(255, 255, 255, 255);
-        textbox.setFont(mDoExt_getMesgFont());
-        textbox.setFontSize(16.f, 16.f);
-        textbox.setLineSpace(16.f);
-        textbox.setString("Press Start\nor Z to\ntoggle\nadditional\ndata");
-        textbox.setCharColor(white);
-        textbox.setGradColor(white);
-        textbox.draw(mCenterPosX + 465.f, mCenterPosY + 157.f);
-    }
+    J2DTextBox textbox;
+    JUtility::TColor white(255, 255, 255, 255);
+    textbox.setFont(mDoExt_getMesgFont());
+    textbox.setFontSize(16.f, 16.f);
+    textbox.setLineSpace(16.f);
+    textbox.setString("Press Start\nor Z to\ntoggle\nadditional\ndata");
+    textbox.setCharColor(white);
+    textbox.setGradColor(white);
+    textbox.draw(mCenterPosX + 465.f, mCenterPosY + 157.f);
 
     J2DGrafContext* grafPort = dComIfGp_getCurrentGrafPort();
     grafPort->setup2D();

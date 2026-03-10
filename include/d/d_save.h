@@ -638,6 +638,8 @@ public:
 
     u8 getKeyNum() { return mKeyNum; }
     void setKeyNum(u8 i_keyNum) { mKeyNum = i_keyNum; }
+    u8 getTotalKeyNum() { return mTotalKeyNum; }
+    void setTotalKeyNum(u8 i_keyNum) { mTotalKeyNum = i_keyNum; }
     void onDungeonItemMap() { onDungeonItem(MAP); }
     void offDungeonItemMap() { offDungeonItem(MAP); }
     s32 isDungeonItemMap() const { return isDungeonItem(MAP); }
@@ -672,6 +674,7 @@ private:
     /* 0x18 */ u32 mItem[1];
     /* 0x1C */ u8 mKeyNum;
     /* 0x1D */ u8 mDungeonItem;
+    /* 0x1E */ u8 mTotalKeyNum;
 };  // Size: 0x20
 
 class dSv_event_c {

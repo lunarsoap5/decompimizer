@@ -80,9 +80,17 @@ public:
     J2DPicture* bigKeyIconPtr;
     J2DPicture* dunMapIconPtr;
     J2DPicture* dunCompassIconPtr;
+    J2DPicture* cheeseIconPtr;
+    J2DPicture* pumpkinIconPtr;
+    J2DPicture* bedKeyIconPtr;
+    J2DPicture* gmKeyIconPtr;
     ResTIMG* bigKeyIconBuf;
     ResTIMG* dunMapIconBuf;
     ResTIMG* dunCompassIconBuf;
+    ResTIMG* cheeseIconBuf;
+    ResTIMG* pumpkinIconBuf;
+    ResTIMG* bedKeyIconBuf;
+    ResTIMG* gmKeyIconBuf;
     bool drawBigKey;
 };
 

@@ -1097,7 +1097,9 @@ void dComIfGs_setSelectEquipClothes(u8 i_itemNo);
 void dComIfGs_setSelectEquipSword(u8 i_itemNo);
 void dComIfGs_setSelectEquipShield(u8 i_itemNo);
 void dComIfGs_setKeyNum(int i_stageNo, u8 i_keyNum);
+void dComIfGs_setTotalKeyNum(int i_stageNo, u8 i_keyNum);
 u8 dComIfGs_getKeyNum(int i_stageNo);
+u8 dComIfGs_getTotalKeyNum(int i_stageNo);
 void dComIfGs_setWarpItemData(char const* stage, cXyz pos, s16 angle, s8 roomNo, u8 param_4,
                               u8 param_5);
 void dComIfGs_setLastWarpMarkItemData(const char* stage, cXyz pos, s16 angle, s8 roomNo, u8, u8);
@@ -1921,8 +1923,16 @@ inline u8 dComIfGs_getKeyNum() {
     return g_dComIfG_gameInfo.info.getMemory().getBit().getKeyNum();
 }
 
+inline u8 dComIfGs_getTotalKeyNum() {
+    return g_dComIfG_gameInfo.info.getMemory().getBit().getTotalKeyNum();
+}
+
 inline void dComIfGs_setKeyNum(u8 i_keyNum) {
     g_dComIfG_gameInfo.info.getMemory().getBit().setKeyNum(i_keyNum);
+}
+
+inline void dComIfGs_setTotalKeyNum(u8 i_keyNum) {
+    g_dComIfG_gameInfo.info.getMemory().getBit().setTotalKeyNum(i_keyNum);
 }
 
 inline void dComIfGs_onDungeonItemMap() {

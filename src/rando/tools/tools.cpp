@@ -490,4 +490,5 @@ J2DPicture* randoCopyItemArchiveTexture(JKRArchive* arc, const char* name, JKRHe
             picture = new (heap, 4) J2DPicture(buffer);
         }
     }
+    return picture;
 }

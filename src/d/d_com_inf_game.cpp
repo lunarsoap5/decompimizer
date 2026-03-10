@@ -2694,9 +2694,31 @@ void dComIfGs_setKeyNum(int i_stageNo, u8 i_keyNum) {
     g_dComIfG_gameInfo.info.getSavedata().getSave(i_stageNo).getBit().setKeyNum(i_keyNum);
 }
 
+void dComIfGs_setTotalKeyNum(int i_stageNo, u8 i_keyNum) {
+    if (dComIfGp_getStageStagInfo()) {
+        if (i_stageNo == dStage_stagInfo_GetSaveTbl(dComIfGp_getStageStagInfo())) {
+            dComIfGs_setTotalKeyNum(i_keyNum);
+        }
+    }
+
+    g_dComIfG_gameInfo.info.getSavedata().getSave(i_stageNo).getBit().setTotalKeyNum(i_keyNum);
+}
+
 // Rando-added function
 u8 dComIfGs_getKeyNum(int i_stageNo) {
+    if (i_stageNo == dStage_stagInfo_GetSaveTbl(dComIfGp_getStageStagInfo())) {
+        return dComIfGs_getKeyNum();
+    }
+
     return g_dComIfG_gameInfo.info.getSavedata().getSave(i_stageNo).getBit().getKeyNum();
+}
+
+u8 dComIfGs_getTotalKeyNum(int i_stageNo) {
+    if (i_stageNo == dStage_stagInfo_GetSaveTbl(dComIfGp_getStageStagInfo())) {
+        return dComIfGs_getTotalKeyNum();
+    }
+
+    return g_dComIfG_gameInfo.info.getSavedata().getSave(i_stageNo).getBit().getTotalKeyNum();
 }
 
 static void dComIfGs_setWarpItemData(int param_0, char const* i_stage, cXyz i_pos, s16 i_angle, s8 i_roomNo,

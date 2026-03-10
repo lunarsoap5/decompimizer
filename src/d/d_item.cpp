@@ -1182,52 +1182,72 @@ void item_func_HORSE_FLUTE() {
 
 void item_func_FOREST_SMALL_KEY() {
     u8 currentKeys = dComIfGs_getKeyNum(0x10);
+    u8 currentTotalKeys = dComIfGs_getTotalKeyNum(0x10);
     dComIfGs_setKeyNum(0x10, currentKeys + 1);
+    dComIfGs_setTotalKeyNum(0x10, currentTotalKeys + 1);
 }
 
 void item_func_MINES_SMALL_KEY() {
     u8 currentKeys = dComIfGs_getKeyNum(0x11);
+    u8 currentTotalKeys = dComIfGs_getTotalKeyNum(0x11);
     dComIfGs_setKeyNum(0x11, currentKeys + 1);
+    dComIfGs_setTotalKeyNum(0x11, currentTotalKeys + 1);
 }
 
 void item_func_LAKEBED_SMALL_KEY() {
     u8 currentKeys = dComIfGs_getKeyNum(0x12);
+    u8 currentTotalKeys = dComIfGs_getTotalKeyNum(0x12);
     dComIfGs_setKeyNum(0x12, currentKeys + 1);
+    dComIfGs_setTotalKeyNum(0x12, currentTotalKeys + 1);
 }
 
 void item_func_ARBITERS_SMALL_KEY() {
     u8 currentKeys = dComIfGs_getKeyNum(0x13);
+    u8 currentTotalKeys = dComIfGs_getTotalKeyNum(0x13);
     dComIfGs_setKeyNum(0x13, currentKeys + 1);
+    dComIfGs_setTotalKeyNum(0x13, currentTotalKeys + 1);
 }
 
 void item_func_SNOWPEAK_SMALL_KEY() {
     u8 currentKeys = dComIfGs_getKeyNum(0x14);
+    u8 currentTotalKeys = dComIfGs_getTotalKeyNum(0x14);
     dComIfGs_setKeyNum(0x14, currentKeys + 1);
+    dComIfGs_setTotalKeyNum(0x14, currentTotalKeys + 1);
 }
 
 void item_func_TEMPLE_OF_TIME_SMALL_KEY() {
     u8 currentKeys = dComIfGs_getKeyNum(0x15);
+    u8 currentTotalKeys = dComIfGs_getTotalKeyNum(0x15);
     dComIfGs_setKeyNum(0x15, currentKeys + 1);
+    dComIfGs_setTotalKeyNum(0x15, currentTotalKeys + 1);
 }
 
 void item_func_CITY_SMALL_KEY() {
     u8 currentKeys = dComIfGs_getKeyNum(0x16);
+    u8 currentTotalKeys = dComIfGs_getTotalKeyNum(0x16);
     dComIfGs_setKeyNum(0x16, currentKeys + 1);
+    dComIfGs_setTotalKeyNum(0x16, currentTotalKeys + 1);
 }
 
 void item_func_PALACE_SMALL_KEY() {
     u8 currentKeys = dComIfGs_getKeyNum(0x17);
+    u8 currentTotalKeys = dComIfGs_getTotalKeyNum(0x17);
     dComIfGs_setKeyNum(0x17, currentKeys + 1);
+    dComIfGs_setTotalKeyNum(0x17, currentTotalKeys + 1);
 }
 
 void item_func_HYRULE_SMALL_KEY() {
     u8 currentKeys = dComIfGs_getKeyNum(0x18);
+    u8 currentTotalKeys = dComIfGs_getTotalKeyNum(0x18);
     dComIfGs_setKeyNum(0x18, currentKeys + 1);
+    dComIfGs_setTotalKeyNum(0x18, currentTotalKeys + 1);
 }
 
 void item_func_CAMP_SMALL_KEY() {
     u8 currentKeys = dComIfGs_getKeyNum(0xA);
+    u8 currentTotalKeys = dComIfGs_getTotalKeyNum(0xA);
     dComIfGs_setKeyNum(0xA, currentKeys + 1);
+    dComIfGs_setTotalKeyNum(0xA, currentTotalKeys + 1);
 }
 
 void item_func_LAKE_HYLIA_PORTAL() {

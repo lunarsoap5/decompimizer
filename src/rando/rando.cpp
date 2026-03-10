@@ -101,13 +101,91 @@ int randoInfo_c::_create() {
         }
     }
 
+    tex = (ResTIMG*)dComIfGp_getItemIconArchive()->getResource('TIMG', "im_pumpkin_48.bti");;
+    
+    if (tex != NULL) {
+        u32 imgSize = GXGetTexBufferSize(tex->width, tex->height, tex->format,
+                                            tex->mipmapEnabled, tex->mipmapCount);
+        u32 totalSize = tex->imageOffset + imgSize;
+        if (tex->indexTexture && tex->numColors > 0) {
+            u32 palEnd = tex->paletteOffset + tex->numColors * 2;
+            if (palEnd > totalSize) {
+                totalSize = palEnd;
+            }
+        }
+        pumpkinIconBuf = (ResTIMG*)heap->alloc(totalSize, 32);
+        if (pumpkinIconBuf != NULL) {
+            memcpy(pumpkinIconBuf, tex, totalSize);
+            DCStoreRangeNoSync(pumpkinIconBuf, totalSize);
+            pumpkinIconPtr = new (heap, 4) J2DPicture(pumpkinIconBuf);
+        }
+    }
+
+    tex = (ResTIMG*)dComIfGp_getItemIconArchive()->getResource('TIMG', "im_cheese_48.bti");;
+    
+    if (tex != NULL) {
+        u32 imgSize = GXGetTexBufferSize(tex->width, tex->height, tex->format,
+                                            tex->mipmapEnabled, tex->mipmapCount);
+        u32 totalSize = tex->imageOffset + imgSize;
+        if (tex->indexTexture && tex->numColors > 0) {
+            u32 palEnd = tex->paletteOffset + tex->numColors * 2;
+            if (palEnd > totalSize) {
+                totalSize = palEnd;
+            }
+        }
+        cheeseIconBuf = (ResTIMG*)heap->alloc(totalSize, 32);
+        if (cheeseIconBuf != NULL) {
+            memcpy(cheeseIconBuf, tex, totalSize);
+            DCStoreRangeNoSync(cheeseIconBuf, totalSize);
+            cheeseIconPtr = new (heap, 4) J2DPicture(cheeseIconBuf);
+        }
+    }
+
+    tex = (ResTIMG*)dComIfGp_getItemIconArchive()->getResource('TIMG', "ni_mkey_parts3_get_47_56.bti");;
+    
+    if (tex != NULL) {
+        u32 imgSize = GXGetTexBufferSize(tex->width, tex->height, tex->format,
+                                            tex->mipmapEnabled, tex->mipmapCount);
+        u32 totalSize = tex->imageOffset + imgSize;
+        if (tex->indexTexture && tex->numColors > 0) {
+            u32 palEnd = tex->paletteOffset + tex->numColors * 2;
+            if (palEnd > totalSize) {
+                totalSize = palEnd;
+            }
+        }
+        gmKeyIconBuf = (ResTIMG*)heap->alloc(totalSize, 32);
+        if (gmKeyIconBuf != NULL) {
+            memcpy(gmKeyIconBuf, tex, totalSize);
+            DCStoreRangeNoSync(gmKeyIconBuf, totalSize);
+            gmKeyIconPtr = new (heap, 4) J2DPicture(gmKeyIconBuf);
+        }
+    }
+
+    tex = (ResTIMG*)dComIfGp_getItemIconArchive()->getResource('TIMG', "ni_key_shinshitu_48.bti");;
+    
+    if (tex != NULL) {
+        u32 imgSize = GXGetTexBufferSize(tex->width, tex->height, tex->format,
+                                            tex->mipmapEnabled, tex->mipmapCount);
+        u32 totalSize = tex->imageOffset + imgSize;
+        if (tex->indexTexture && tex->numColors > 0) {
+            u32 palEnd = tex->paletteOffset + tex->numColors * 2;
+            if (palEnd > totalSize) {
+                totalSize = palEnd;
+            }
+        }
+        bedKeyIconBuf = (ResTIMG*)heap->alloc(totalSize, 32);
+        if (bedKeyIconBuf != NULL) {
+            memcpy(bedKeyIconBuf, tex, totalSize);
+            DCStoreRangeNoSync(bedKeyIconBuf, totalSize);
+            bedKeyIconPtr = new (heap, 4) J2DPicture(bedKeyIconBuf);
+        }
+    }
+
     return 1;
 }
 
 int randoInfo_c::_delete() {
     mInitialized = false;
-    delete g_customMenuRing.mpItemWheelText;
-    g_customMenuRing.mpItemWheelText = NULL;
     return 1;
 }
 
@@ -129,6 +207,7 @@ int randoInfo_c::execute() {
 
     if (checkButtonComboAnalog(PAD_TRIGGER_R | PAD_BUTTON_Y))
     {
+        addItemToEventQueue(fpcNm_ITEM_SNOWPEAK_SMALL_KEY);
         handleQuickTransform();
     }
     else if (daAlink_getAlinkActorClass() && checkButtonsHeld(PAD_TRIGGER_R) && g_seedInfo.spinnerSpeedIsIncreased())
@@ -212,7 +291,26 @@ int randoInfo_c::draw() {
             keyYPos += 20.f;
         }
 
-        getBigKeyIconPtr()->draw(535.f, keyYPos, 30.f, 30.f, false, false, false);
+        switch(getCurrentStageID())
+        {
+            case Goron_Mines:
+            {
+                gmKeyIconPtr->draw(535.f, keyYPos, 30.f, 30.f, false, false, false);
+                break;
+            }
+
+            case Snowpeak_Ruins:
+            {
+                bedKeyIconPtr->draw(535.f, keyYPos, 30.f, 30.f, false, false, false);
+                break;
+            }
+
+            default:
+            {
+                getBigKeyIconPtr()->draw(535.f, keyYPos, 30.f, 30.f, false, false, false);
+                break;
+            }
+        }
     }
     return 1;
 }
