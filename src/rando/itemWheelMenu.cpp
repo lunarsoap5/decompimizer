@@ -108,11 +108,11 @@ void customMenuRing_c::setUpItemWheelMenuText()
     bool hasCoroGateKey = dComIfGs_isStageSwitch(0x2, 0xC);
     bool hasGateKey = haveItem(fpcNm_ITEM_BOSSRIDER_KEY);
 
-    snprintf(itemWheelTextBuf, sizeof(itemWheelTextBuf), "Shadows: %d/3\nShards: %d/4\n\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n", shadowsCount, shardsCount, "Forest", "Mines", "Lakebed", "Arbiters", "Snowpeak", "Time", "City", "Palace", "Hyrule", "Desert", "Faron Gate", "Coro Gate", "Gate Keys");
+    snprintf(itemWheelTextBuf, sizeof(itemWheelTextBuf), "Shadows: %d/3         Key Legend:\nShards: %d/4      Current/Found/Total\n\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n", shadowsCount, shardsCount, "Forest", "Mines", "Lakebed", "Arbiters", "Snowpeak", "Time", "City", "Palace", "Hyrule", "Desert", "Faron Gate", "Coro Gate", "Gate Keys");
     
     mpItemWheelDunText->setString(itemWheelTextBuf); 
 
-    snprintf(itemWheelTextBuf, sizeof(itemWheelTextBuf), "\n\n\n%d (%d)\n%d (%d)\n%d (%d)\n%d (%d)\n%d (%d)\n%d (%d)\n%d (%d)\n%d (%d)\n%d (%d)\n%d (%d)\n%s\n%s\n%s\n", ftKeyNum, ftTotalKeyNum, gmKeyNum, gmTotalKeyNum, lbtKeyNum, lbtTotalKeyNum, agKeyNum, agTotalKeyNum, sprKeyNum, sprTotalKeyNum, totKeyNum, totTotalKeyNum, citsKeyNum, citsTotalKeyNum, potKeyNum, potTotalKeyNum, hcKeyNum, hcTotalKeyNum, campKeyNum, campTotalKeyNum, getYesNoText(hasFaronGateKey), getYesNoText(hasCoroGateKey),getYesNoText(hasGateKey));
+    snprintf(itemWheelTextBuf, sizeof(itemWheelTextBuf), "\n\n\n%d/%d/%d\n%d/%d/%d\n%d/%d/%d\n%d/%d/%d\n%d/%d/%d\n%d/%d/%d\n%d/%d/%d\n%d/%d/%d\n%d/%d/%d\n%d/%d/%d\n%s\n%s\n%s\n", ftKeyNum, ftTotalKeyNum, 4, gmKeyNum, gmTotalKeyNum, 3, lbtKeyNum, lbtTotalKeyNum, 3, agKeyNum, agTotalKeyNum, 5, sprKeyNum, sprTotalKeyNum, 4, totKeyNum, totTotalKeyNum, 3, citsKeyNum, citsTotalKeyNum, 1, potKeyNum, potTotalKeyNum, 7, hcKeyNum, hcTotalKeyNum, 3, campKeyNum, campTotalKeyNum, 1, getYesNoText(hasFaronGateKey), getYesNoText(hasCoroGateKey),getYesNoText(hasGateKey));
 
     mpItemWheelKeyText->setString(itemWheelTextBuf); 
 }
