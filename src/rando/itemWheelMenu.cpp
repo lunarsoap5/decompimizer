@@ -121,13 +121,13 @@ void customMenuRing_c::handleItemWheelMenu(dMenu_Ring_c* dMenuRingPtr)
 {
     const f32 ringPosX = dMenuRingPtr->getXPos();
     const f32 ringPosY = dMenuRingPtr->getYPos();
-    f32 windowPosXOffset = 105.f;
+    f32 windowPosXOffset = 95.f;
     f32 windowPosYOffset = 20.f;
     GXColor colorBlk = {0, 0, 0, 255};
 
     // Draw the background first
     
-    drawFilledRect(ringPosX + windowPosXOffset, ringPosY + windowPosYOffset, 285.f, 410.f, colorBlk);
+    drawFilledRect(ringPosX + windowPosXOffset, ringPosY + windowPosYOffset, 305.f, 410.f, colorBlk);
 
     windowPosXOffset += 7.f;
     windowPosYOffset += 20.f;
