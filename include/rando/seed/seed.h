@@ -159,8 +159,8 @@ public:
     /* 0x94 */ GXColor wolfDomeAttackWave1Color;
     /* 0x98 */ GXColor wolfDomeAttackWave2Color;
     /* 0x9C */ GXColor lightSwordGlowColor;
-    /* 0x100 */ uint lanternColor;
-    /* 0x104 */ EntranceInfo spawnInfo;
+    /* 0xA0 */ uint lanternColor;
+    /* 0xA4 */ EntranceInfo spawnInfo;
 };
 
 class seedInfo_c {

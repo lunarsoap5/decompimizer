@@ -270,7 +270,7 @@ void seedInfo_c::handleReturnToLocation(bool isReturnToDungeonEntrance)
     dComIfGs_setStartPoint(newPoint);
 
     dStage_nextStage_c* nextStagePtr = dComIfGp_getNextStagePtr();
-    strncpy(nextStagePtr->getName(), allStages[newStageIdx], sizeof(nextStagePtr->getName()) - 1);
+    strncpy(nextStagePtr->getName(), allStages[newStageIdx], sizeof(char[8]) - 1);
     nextStagePtr->setRoomNo(newRoomNo);
     nextStagePtr->setPoint(newPoint);
     nextStagePtr->setLayer(newLayer);
