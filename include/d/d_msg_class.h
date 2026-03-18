@@ -781,6 +781,12 @@ struct jmessage_string_tRenderingProcessor : public JMessage::TRenderingProcesso
 #define MSGTAG_BALLOON_SCORE    12
 #define MSGTAG_FISH_COUNT       13
 #define MSGTAG_ROLLGOAL_LV      14
+#define MSGTAG_S_WALLET_MAX     15
+#define MSGTAG_M_WALLET_MAX     16
+#define MSGTAG_L_WALLET_MAX     17
+#define MSGTAG_SKY_LETTER_NUM   18
+#define MSGTAG_POE_TOTAL        19
+#define MSGTAG_SKY_LETTER_NUM_1 20
 
 // Group 6
 #define MSGTAG_PLAYER_GENITIV   0

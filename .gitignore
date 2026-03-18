@@ -33,6 +33,7 @@ compile_commands.json
 # Miscellaneous
 /*.txt
 *.exe
+*.arc
 
 # MacOS
 .DS_Store

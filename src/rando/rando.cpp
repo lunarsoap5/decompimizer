@@ -224,13 +224,7 @@ int randoInfo_c::execute() {
         }
     }
 
-    // Every 300 frames, set rupees to a random value
-    mFrameCounter++;
-    if (mFrameCounter >= 300) {
-        mFrameCounter = 0;
-        u16 randomRupees = (u16)cM_rndF(1000.0f);
-        dComIfGs_setRupee(randomRupees);
-    }
+    
 
     // Always check for and handle time of day changes
     if (getTimeChange() != NO_CHANGE)

@@ -1760,6 +1760,7 @@ u16 dMsgFlow_c::query054(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_spea
     return i_flowNode_p->param;
 }
 
+// Can change time of day
 u16 dMsgFlow_c::query055(mesg_flow_node_branch*, fopAc_ac_c*, int) {
     // This function is based on query044 which is used to determine whether to show the Midna menu which includes
     // "Warp" or not. We also add a check to ensure the current environment is not twilight. "R_SP161" is STAR tent.

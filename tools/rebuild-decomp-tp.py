@@ -173,6 +173,7 @@ if __name__ == "__main__":
                 try:
                     with open(file_path, "rb") as f:
                         gcm.add_new_file(gcm_file_path, BytesIO(f.read()))
+                        logging.info("Added custom file: %s" % gcm_file_path)
                 except Exception as e:
                     logging.error(f"Couldn't add file: {file_path}")
             else:
