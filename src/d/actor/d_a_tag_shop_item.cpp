@@ -78,8 +78,9 @@ int daTag_ShopItem_c::Delete() {
 int daTag_ShopItem_c::Execute() {
     if (mProcessID == fpcM_ERROR_PROCESS_ID_e) {
         if (mCreateTimer == 0) {
+            // We want the created shop actor to pass on all of its params
             mProcessID =
-                fopAcM_create(PROC_ShopItem, getType() | (getGroupID() << 28),
+                fopAcM_create(PROC_ShopItem, fopAcM_GetParam(this),
                               &current.pos, fopAcM_GetRoomNo(this), &current.angle, NULL, -1);
 
         } else {

@@ -103,6 +103,7 @@ public:
     const EntryInfo* getBugRewardCheckInfoPtr() const { return &bugRewardCheckInfo; }
     const EntryInfo* getEventItemCheckInfoPtr() const { return &eventItemCheckInfo; }
     const EntryInfo* getStartingItemCheckInfoPtr() const { return &startingItemInfo; }
+    const EntryInfo* getShopItemCheckInfoPtr() const { return &shopItemCheckInfo; }
     
     /* 0x00 */ char magic[3]; // Not null terminated, should always be TPR
     /* 0x03 */ char seedName[33];
@@ -161,6 +162,7 @@ public:
     /* 0x9C */ GXColor lightSwordGlowColor;
     /* 0xA0 */ uint lanternColor;
     /* 0xA4 */ EntranceInfo spawnInfo;
+    /* 0xA8 */ EntryInfo shopItemCheckInfo;
 };
 
 class seedInfo_c {

@@ -9,16 +9,27 @@
 #include "JSystem/JKernel/JKRSolidHeap.h"
 #include "d/d_com_inf_game.h"
 #include "m_Do/m_Do_lib.h"
+#include "d/d_item_data.h"
+#include "rando/data/stages.h"
 
 const char* daShopItem_c::getShopArcname() {
+    // If the item is 0xFF we want to show sold out.
+    // If not, show the item ID
     switch (m_itemNo) {
-    case fpcNm_ITEM_NONE:
-        if (strcmp("R_SP160", dComIfGp_getStartStageName()) == 0) {
-            mShopItemID = SHOP_ITEMNO_ARMOR_SOLD;
-        } else {
-            mShopItemID = SHOP_ITEMNO_SOLD;
+        case fpcNm_ITEM_NONE:
+            if (strcmp("R_SP160", dComIfGp_getStartStageName()) == 0) {
+                mShopItemID = SHOP_ITEMNO_ARMOR_SOLD;
+            } else {
+                mShopItemID = SHOP_ITEMNO_SOLD;
+            }
+            break;
+        default:
+        {
+            mShopItemID = daShopItem_prm::getShopItemNo(this);
+            break;
         }
-        break;
+
+    /*
     case fpcNm_ITEM_OIL_BOTTLE:
         mShopItemID = SHOP_ITEMNO_OIL;
         break;
@@ -85,25 +96,64 @@ const char* daShopItem_c::getShopArcname() {
         break;
     default:
         return NULL;
-    }
+    */}
 
+    // Sera's shop is different as it is not created by TGSPITM actors and is instead created by Sera's actor manually.
+    if (strcmp(allStages[Ordon_Village_Interiors], dComIfGp_getStartStageName()) == 0) 
+    {
+        switch (m_itemNo) {
+            case fpcNm_ITEM_PACHINKO:
+            {
+                mShopItemID = SHOP_ITEM_SERA_SLINGSHOT;
+                break;
+            }
+            case fpcNm_ITEM_MILK_BOTTLE:
+            {
+                mShopItemID = SHOP_ITEM_SERA_MILK;
+                break;
+            }
+            case fpcNm_ITEM_OIL_BOTTLE:
+            {
+                mShopItemID = SHOP_ITEM_SERA_OIL;
+                break;
+            }
+            case fpcNm_ITEM_BEE_CHILD:
+            {
+                mShopItemID = SHOP_ITEM_SERA_LARVA;
+                break;
+            }
+            
+        };
+    }
+    
     return mData[mShopItemID].get_arcName();
 }
 
 const f32 daShopItem_c::m_cullfar_max = 5000.0f;
 
 u16 daShopItem_c::getHeapSize() {
-    static const u16 HeapSizeTbl[] = {
+    /*static const u16 HeapSizeTbl[] = {
         0x0810, 0x0810, 0x0810, 0x0810, 0x0810, 0x0810, 0x0810, 0x0810,
         0x0EB0, 0x0810, 0x0EB0, 0x3990, 0x3990, 0x8000, 0x0810, 0x1540,
         0x0810, 0x0810, 0x0810, 0x43A0, 0x2280, 0x0810, 0x0810,
     };
 
+    */
     u8 a_ShopItemID = getShopItemID();
+    u16 heapSize;
+
+    if (a_ShopItemID == SHOP_ITEMNO_ARMOR_SOLD)
+    {
+        heapSize = 0x43a0;
+    }
+    else
+    {
+        heapSize = 0x810;
+    }
     OS_REPORT("ShopItemID [%u]\n", a_ShopItemID);
     ASSERT(a_ShopItemID < SHOP_ITEMNO_MAX);
 
-    return HeapSizeTbl[a_ShopItemID];
+    return heapSize; //HeapSizeTbl[a_ShopItemID];
 }
 
 void daShopItem_c::CreateInit() {
