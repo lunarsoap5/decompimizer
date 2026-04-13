@@ -11,6 +11,7 @@
 #include "d/d_com_inf_game.h"
 #include "d/d_cc_d.h"
 #include "d/d_item_data.h"
+#include "rando/rando.h"
 #include <cmath>
 
 const static dCcD_SrcCyl l_cyl_src = {
@@ -108,7 +109,7 @@ int daItemShield_c::__CreateHeap() {
 
 int daItemShield_c::create() {
     fopAcM_ct(this, daItemShield_c);
-    m_itemNo = fpcNm_ITEM_WOOD_SHIELD;
+    m_itemNo = g_randoInfo.getEventItem(fpcNm_ITEM_SHIELD); // Search for rando check first
     if (fopAcM_isSwitch(this, getSwBit2())) {
         OS_REPORT("木の盾：もう取ったので出ません\n");
         return cPhs_ERROR_e;
