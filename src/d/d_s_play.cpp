@@ -519,6 +519,48 @@ static int phase_1(dScnPly_c* i_this) {
     if (dComIfG_syncStageRes("Stg_00") < 0) {
         dComIfG_setStageRes("Stg_00", NULL);
     }
+
+    // If we are loading in after a void or game over, don't try to handle special spawns
+    if(!daPy_py_c::checkRoomRestartStart())
+    {
+    /* copypasta-ing current rando code until we decide what we want to do
+        // Check if where we are loading in has a mapping specified in the seedData. For example, mapping bosses to
+        // dungeons, handling warp portals, disabling ones which are invalid or lead to crashes/softlocks, etc.
+        uint8_t stageIdx = rando::gRandomizer->getSeedPtr()->getStageIDX();
+        d_stage::dStage_startStage* startStgPtr = &d_com_inf_game::dComIfG_gameInfo.play.mStartStage;
+        const rando::ReturnPlace* returnPlace =
+            rando::gRandomizer->getSeedPtr()->getReturnPlaceSectionPtr()->getReturnPlace(stageIdx,
+                                                                                            startStgPtr->mRoomNo,
+                                                                                            startStgPtr->mPoint,
+                                                                                            startStgPtr->mLayer);
+
+        if (returnPlace == nullptr)
+        {
+            // If no special mapping, then keep track of where we are loading in as long as the point is non-negative.
+            // This catches certain cases which checkRoomRestartStart does not, such as after voiding during
+            // snowboarding with no Yeto/Yeta. We still want to handle point -4, so we wait until here to compare to 0.
+            if (startStgPtr->mPoint >= 0)
+            {
+                rando::gRandomizer->setLastSavableStart(*startStgPtr);
+            }
+        }
+        else if (returnPlace->getStageIDX() != 0xFF)
+        {
+            // If returnPlace's stage is 0xFF, then we skip updating the lastSavableStart. Else update it here.
+            d_stage::dStage_startStage* lastSavableStartPtr = rando::gRandomizer->getLastSavableStart();
+
+            strncpy(lastSavableStartPtr->mStage,
+                    libtp::data::stage::allStages[returnPlace->getStageIDX()],
+                    sizeof(lastSavableStartPtr->mStage) - 1);
+            lastSavableStartPtr->mRoomNo = returnPlace->getRoomNo();
+            // Get point as u16 so we overwrite both bytes in struct's point when it was previously negative.
+            lastSavableStartPtr->mPoint = static_cast<uint16_t>(returnPlace->getPoint());
+            lastSavableStartPtr->mLayer = returnPlace->getLayer();
+        }
+    
+        note based on the save data stuff i've looked at. instead of doing the lastSavableStart stuff, just update mStartStage since that's what kankyo_14 reads from when saving. 
+    */
+    }
     return cPhs_NEXT_e;
 }
 

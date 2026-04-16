@@ -34,6 +34,7 @@ compile_commands.json
 /*.txt
 *.exe
 *.arc
+*.bmg
 
 # MacOS
 .DS_Store
