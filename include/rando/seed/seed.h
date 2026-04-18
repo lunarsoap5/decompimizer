@@ -3,6 +3,7 @@
 
 #include "dolphin/types.h"
 #include "rando/seed/seedData.h"
+#include "rando/returnPlaces.h"
 #include <string>
 
 enum SeedEnabledFlag
@@ -91,6 +92,7 @@ public:
     uint getLanternColor() const { return lanternColor; }
     u8* getLanternColorPtr() const { return (u8*)&lanternColor; }
     EntranceInfo getSpawnInfo() const { return spawnInfo; }
+    u16 getReturnPlaceSectionOffset() const {return returnPlaceSectionOffset; }
 
     //const EntryInfo* getVolatilePatchInfoPtr() const { return &volatilePatchInfo; }
     //const EntryInfo* getOneTimePatchInfoPtr() const { return &oneTimePatchInfo; }
@@ -163,6 +165,7 @@ public:
     /* 0xA0 */ uint lanternColor;
     /* 0xA4 */ EntranceInfo spawnInfo;
     /* 0xA8 */ EntryInfo shopItemCheckInfo;
+    /* 0xAC */ u16 returnPlaceSectionOffset;
 };
 
 class seedInfo_c {
@@ -181,7 +184,7 @@ class seedInfo_c {
         const BugReward* getBugRewardChecksPtr() const { return m_BugRewardChecks; }
         const PoeReward* getPoeRewardsPtr() const { return m_PoeRewards; }
         const EventItem* getEventChecksPtr() const { return m_EventChecks; }
-
+        const ReturnPlaceSection* getReturnPlaceSectionPtr() const { return m_ReturnPlaceSection;}
         const RawRGBTable* getRawRGBTablePtr() const { return m_RawRGBTable; }
 
         bool flagBitfieldFlagIsEnabled(uint flag) const;
@@ -230,7 +233,7 @@ class seedInfo_c {
         const BugReward* m_BugRewardChecks;
         const PoeReward* m_PoeRewards;
         const EventItem* m_EventChecks;
-
+        const ReturnPlaceSection* m_ReturnPlaceSection;
         const RawRGBTable* m_RawRGBTable;
     };
 

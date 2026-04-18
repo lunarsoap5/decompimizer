@@ -45,6 +45,10 @@ int seedInfo_c::_create() {
 
     memcpy((u8*)gciDataPtr, &data[headerPtr->getHeaderSize()], dataSize);
 
+    u32 returnPlaceSectionOffset = headerPtr->getReturnPlaceSectionOffset();
+    ReturnPlaceSection* returnPlaceSectionPtr = (ReturnPlaceSection*)(gciDataPtr + returnPlaceSectionOffset);
+    m_ReturnPlaceSection = returnPlaceSectionPtr;
+
     delete[] data;
 
     // Now that the seed is loaded, populate any arrays/pointers that need set:

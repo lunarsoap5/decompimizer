@@ -241,6 +241,8 @@ public:
     char* getName() { return mName; }
     u8 getPlayerStatus() const { return mPlayerStatus; }
     s8 getRoomNo() const { return mRoomNo; }
+    void setLayer(u8 layer) {unk10 = layer; }
+    u8 getLayer() const {return unk10; }
 
 private:
     /* 0x00 */ char mName[8];

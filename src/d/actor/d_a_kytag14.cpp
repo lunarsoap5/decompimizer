@@ -71,6 +71,7 @@ static int daKytag14_Execute(kytag14_class* i_this) {
         #endif
         g_dComIfG_gameInfo.info.getPlayer().getPlayerReturnPlace().set(
             dComIfGp_getStartStageName(), i_this->mSaveRoomNo, i_this->mSavePoint);
+        g_dComIfG_gameInfo.info.getPlayer().getPlayerReturnPlace().setLayer(dComIfGp_getStartStageLayer());
     }
 
     return 1;

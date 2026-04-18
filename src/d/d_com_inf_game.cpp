@@ -2341,7 +2341,7 @@ void dComIfGs_gameStart() {
         g_dComIfG_gameInfo.info.getPlayer().getPlayerReturnPlace().getName(),
         g_dComIfG_gameInfo.info.getPlayer().getPlayerReturnPlace().getPlayerStatus(),
         g_dComIfG_gameInfo.info.getPlayer().getPlayerReturnPlace().getRoomNo(),
-        -1, 0.0f, 0, 1, 0, 0, 0, 0
+        g_dComIfG_gameInfo.info.getPlayer().getPlayerReturnPlace().getLayer(), 0.0f, 0, 1, 0, 0, 0, 0
     );
 }
 
