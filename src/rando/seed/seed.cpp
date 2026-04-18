@@ -249,13 +249,12 @@ void seedInfo_c::handleReturnToLocation(bool isReturnToDungeonEntrance)
         // Turn the player back into Link if they are currently wolf
         dComIfGs_setTransformStatus(0);
     }
-    /*else  // Commenting out until we figure out how we want to do this in the future. 
+    else 
     {
         // Return to dungeon entrance
-        uint8_t stageIdx = rando::gRandomizer->getSeedPtr()->getStageIDX();
-        const rando::ReturnPlace* returnPlace =
-            rando::gRandomizer->getSeedPtr()->getReturnPlaceSectionPtr()->getReturnPlace(stageIdx, -1, -1, -1);
-        if (returnPlace == nullptr || returnPlace->getStageIDX() == 0xFF)
+        uint8_t stageIdx = getCurrentStageID();
+        const ReturnPlace* returnPlace = g_seedInfo.getReturnPlaceSectionPtr()->getReturnPlace(stageIdx, -1, -1, -1);
+        if (returnPlace == NULL || returnPlace->getStageIDX() == 0xFF)
         {
             // If failed to find valid mapping for some reason, return without doing anything.
             return;
@@ -265,14 +264,14 @@ void seedInfo_c::handleReturnToLocation(bool isReturnToDungeonEntrance)
         newRoomNo = returnPlace->getRoomNo();
         newLayer = returnPlace->getLayer();
         // Get point as u16 so we overwrite both bytes in struct's point when it was previously negative.
-        newPoint = static_cast<uint16_t>(returnPlace->getPoint());
+        newPoint = (u16)(returnPlace->getPoint());
 
         // If return is LBT entrance, then put us on land if transforming is unlocked like vanilla.
-        if (newStageIdx == libtp::data::stage::StageIDs::Lakebed_Temple && newRoomNo == 0 &&
-            libtp::tp::d_com_inf_game::dComIfGs_isEventBit(libtp::data::flags::TRANSFORMING_UNLOCKED))
+        if ((newStageIdx == Lakebed_Temple) && (newRoomNo == 0) && dComIfGs_isEventBit(TRANSFORMING_UNLOCKED))
+        {
             newPoint = 2;
+        }
     }
-    */
 
     // Clear the lastMode value in case the player was previously riding Epona or swimming.
     dComIfGs_setLastSceneMode(0);

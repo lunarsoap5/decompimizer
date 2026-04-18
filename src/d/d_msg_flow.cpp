@@ -1778,15 +1778,13 @@ u16 dMsgFlow_c::query056(mesg_flow_node_branch*, fopAc_ac_c*, int) {
     uint8_t stageIDX = getCurrentStageID();
     if (stageIDX <= 29)
     {
-        /* // Commenting out until re figure out the return to spawn stuff
+        // Commenting out until re figure out the return to spawn stuff
         // In a Dungeon or (mini)boss room.
-        const rando::ReturnPlace* returnPlace =
-            rando::gRandomizer->getSeedPtr()->getReturnPlaceSectionPtr()->getReturnPlace(stageIDX, -1, -1, -1);
-        if (returnPlace != nullptr && returnPlace->getStageIDX() != 0xFF)
+        const ReturnPlace* returnPlace = g_seedInfo.getReturnPlaceSectionPtr()->getReturnPlace(stageIDX, -1, -1, -1);
+        if (returnPlace != NULL && returnPlace->getStageIDX() != 0xFF)
             return 0;
         else
             return 1;
-        */
     }
     return 2;
 }
