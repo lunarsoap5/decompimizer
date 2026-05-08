@@ -5,6 +5,7 @@
 #include "dolphin/types.h"
 #include "JSystem/J2DGraph/J2DTextbox.h"
 #include "JSystem/J2DGraph/J2DPicture.h"
+#include "d/d_stage.h"
 
 enum TimeChange
 {
@@ -92,6 +93,7 @@ public:
     ResTIMG* bedKeyIconBuf;
     ResTIMG* gmKeyIconBuf;
     bool drawBigKey;
+    dStage_startStage_c lastSavableStart;
 };
 
 void checkSetHCBkFlag(u8 req, u8 currentCount);

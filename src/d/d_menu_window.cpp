@@ -14,6 +14,9 @@
 #include "d/d_menu_save.h"
 #include "d/d_menu_skill.h"
 #include "d/d_menu_window.h"
+#include "rando/rando.h"
+#include "rando/data/stages.h"
+#include "rando/data/flags.h"
 
 #include "d/d_camera.h"
 #include "d/d_menu_window_HIO.h"
@@ -404,6 +407,21 @@ void dMw_c::dmap_move_init(u8) {}
 void dMw_c::dmap_close_init(u8) {}
 
 void dMw_c::collect_save_open_init(u8) {
+    s8 roomNo = g_randoInfo.lastSavableStart.getRoomNo();
+    s16 point = g_randoInfo.lastSavableStart.getPoint();
+
+    // If S+Q would put us in first LBT room, check if flag is set which should make us spawn on land. Wait to
+    // update until here so saves correct value even if you just found Shadow Crystal and immediately S+Q.
+    if (roomNo == 0 &&
+        !strncmp(g_randoInfo.lastSavableStart.getName(),allStages[Lakebed_Temple], sizeof(char [8])) && 
+        dComIfGs_isEventBit(TRANSFORMING_UNLOCKED))
+    {
+        point = 2;
+    }
+
+    g_dComIfG_gameInfo.info.getPlayer().getPlayerReturnPlace().set(g_randoInfo.lastSavableStart.getName(), roomNo, point);
+    g_dComIfG_gameInfo.info.getPlayer().getPlayerReturnPlace().setLayer(g_randoInfo.lastSavableStart.getLayer());
+
     field_0x144 = 10;
     dMeter2Info_setWindowStatus(10);
     dMw_collect_delete(true);

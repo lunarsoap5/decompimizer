@@ -535,7 +535,7 @@ static int phase_1(dScnPly_c* i_this) {
 
         if ((returnPlace != NULL) && (returnPlace->getStageIDX() != 0xFF))
         {
-            dComIfGp_getStartStage()->set(allStages[returnPlace->getStageIDX()], returnPlace->getRoomNo(), returnPlace->getPoint(), returnPlace->getLayer());
+            g_randoInfo.lastSavableStart.set(allStages[returnPlace->getStageIDX()], returnPlace->getRoomNo(), returnPlace->getPoint(), returnPlace->getLayer());
         } 
     }
     return cPhs_NEXT_e;
