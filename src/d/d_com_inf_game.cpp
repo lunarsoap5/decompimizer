@@ -186,7 +186,7 @@ int dComIfG_play_c::getLayerNo_common_common(const char* i_stageName, int i_room
                 case Faron_Woods:
                 case Faron_Woods_Interiors:
                 {
-                    if ((i_roomNo == 5) || (i_roomNo == 6)) // North Faron or Mist Area
+                    if ((i_roomNo == 5) || (i_roomNo == 6) || (i_roomNo == 11)) // North Faron or Mist Area
                     {
                         condition = dComIfGs_isEventBit(ORDON_DAY_2_OVER); // Talo Saved
                         if (condition)

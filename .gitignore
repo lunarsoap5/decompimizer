@@ -16,6 +16,8 @@ orig/*/*
 *.o
 *.map
 *.MAP
+*.dzr
+*.dzs
 
 # Build files
 build/
