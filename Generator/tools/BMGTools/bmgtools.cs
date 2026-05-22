@@ -191,10 +191,10 @@ public static class BmgTools
         [JsonPropertyName("Data")]
         public string? Data { get; set; }
 
-        [JsonPropertyName("Attribute Length")]
+        [JsonPropertyName("Attribute_Length")]
         public int? AttributeLength { get; set; }
 
-        [JsonPropertyName("Unknown MID1 Value")]
+        [JsonPropertyName("Unknown_MID1_Value")]
         public string? UnknownMID1Value { get; set; }
     }
 
@@ -284,15 +284,15 @@ public static class BmgTools
             uint dat1Offset = ReadUInt32BE(br);
             byte[] attributes = br.ReadBytes(itemLength - 4);
 
-            Console.WriteLine($"0x{i:X} {PrettyHex(attributes)}");
+            //Console.WriteLine($"0x{i:X} {PrettyHex(attributes)}");
 
             infItems.Add((dat1Offset, attributes));
         }
 
-        Console.WriteLine($"{messageCount} entries in inf1 read");
-        Console.WriteLine(
-            $"0x{br.BaseStream.Position:X} 0x{(infSection.Start + infSection.Size):X}"
-        );
+        //Console.WriteLine($"{messageCount} entries in inf1 read");
+        //Console.WriteLine(
+        //    $"0x{br.BaseStream.Position:X} 0x{(infSection.Start + infSection.Size):X}"
+        //);
 
         List<Message> messages = new List<Message>();
 
@@ -383,8 +383,8 @@ public static class BmgTools
         messagesJson.Add(
             new Dictionary<string, object>
             {
-                { "Attribute Length", itemLength },
-                { "Unknown MID1 Value", unknownMidValue.ToString("x") }
+                { "Attribute_Length", itemLength },
+                { "Unknown_MID1_Value", unknownMidValue.ToString("x") }
             }
         );
 
@@ -466,11 +466,11 @@ public static class BmgTools
         {
             JsonElement first = messages[0];
 
-            if (first.TryGetProperty("Attribute Length", out JsonElement attrLenElem))
+            if (first.TryGetProperty("Attribute_Length", out JsonElement attrLenElem))
             {
                 attrLength = (ushort)attrLenElem.GetInt32();
 
-                if (first.TryGetProperty("Unknown MID1 Value", out JsonElement unknownElem))
+                if (first.TryGetProperty("Unknown_MID1_Value", out JsonElement unknownElem))
                 {
                     unkMid1Val = ushort.Parse(unknownElem.GetString()!, NumberStyles.HexNumber);
                 }
@@ -711,11 +711,11 @@ public static class BmgTools
         {
             JsonElement first = messages[0];
 
-            if (first.TryGetProperty("Attribute Length", out JsonElement attrLenElem))
+            if (first.TryGetProperty("Attribute_Length", out JsonElement attrLenElem))
             {
                 attrLength = (ushort)attrLenElem.GetInt32();
 
-                if (first.TryGetProperty("Unknown MID1 Value", out JsonElement unknownElem))
+                if (first.TryGetProperty("Unknown_MID1_Value", out JsonElement unknownElem))
                 {
                     unkMid1Val = ushort.Parse(unknownElem.GetString()!, NumberStyles.HexNumber);
                 }
@@ -940,7 +940,7 @@ public static class BmgTools
             output = input + ".json";
         }
 
-        Console.WriteLine("input: " + input);
+        //Console.WriteLine("input: " + input);
         Console.WriteLine("output: " + output);
 
         DumpBmgToJsonTxt(input, output);
@@ -952,7 +952,7 @@ public static class BmgTools
     {
         Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
-        Console.WriteLine("input: " + input);
+        //Console.WriteLine("input: " + input);
 
         return DumpBmgToJsonTxt(input, "");
     }
@@ -966,7 +966,7 @@ public static class BmgTools
             output = input + ".bmg";
         }
 
-        Console.WriteLine("input: " + input);
+        //Console.WriteLine("input: " + input);
         Console.WriteLine("output: " + output);
         Console.WriteLine("encoding: " + encoding);
         if (useFileStream)

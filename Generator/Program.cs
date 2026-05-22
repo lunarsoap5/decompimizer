@@ -1,138 +1,237 @@
 ﻿using System.Text.Json;
+using System.Text.Json.Serialization;
 using RarcTools;
 
 Console.WriteLine("Hello, World!");
 
 // Open ISO Image
-RarcTools.GCRebuilder.GCRebuilder.ExtractISO("decompimizer-GZ2E01.iso", @"extractedISO\");
+RarcTools.GCRebuilder.GCRebuilder.ExtractISO(@"decompimizer-GZ2E01.iso", @"extractedISO/");
 
-// Decrypt, extract, and re-pack a stage archive
-string archiveDirectory = RarcTools.RARCDump.DumpArchive(
-    Yaz0dec.InitYaz0Decode(@"extractedISO\root\res\Stage\F_SP109\R00_00.arc")
-);
+var options = new JsonSerializerOptions { ReadCommentHandling = JsonCommentHandling.Skip };
 
-// Read dzr file into a serialized var
-var dzxContents = JsonSerializer.Deserialize<List<DZXDataBlock>>(
-    LibStage.ExtractDZX(archiveDirectory + @"\dzr\room.dzr")
-);
-
-/*
-// Modifying per section
-var sclsSections = sections.Where(s => s.Tag == "SCLS");
-
-foreach (var section in sclsSections)
-{
-    var entries = section.Entries.Select(e => e.Deserialize<SclsEntry>()).ToList();
-    // work with entries
-}
-
-// adding per section
-var sclsSections = sections.Where(s => s.Tag == "SCLS");
-
-
-sclsSections.Add()
-*/
-
-string dzxString = JsonSerializer.Serialize(
-    dzxContents,
-    new JsonSerializerOptions { WriteIndented = true }
-);
-LibStage.PackageDZX(dzxString, archiveDirectory + @"\dzr\room.dzr", false);
-RarcTools.RARCPacker.PackArchive(archiveDirectory);
-
-// Decrypt, extract, and re-pack a bmg archive
-//
-archiveDirectory = RarcTools.RARCDump.DumpArchive(
-    Yaz0dec.InitYaz0Decode(@"extractedISO\root\res\Msgus\bmgres.arc")
-);
-string bmgContents = BmgTools.DumpBmg(archiveDirectory + @"\zel_00.bmg");
-BmgTools.PackBmg(bmgContents, archiveDirectory + @"\zel_00.bmg", "iso-8859-1", false);
-RarcTools.RARCPacker.PackArchive(archiveDirectory);
-RarcTools.GCRebuilder.GCRebuilder.RebuildISO(@"extractedISO\root\", "newISO.iso", false);
-System.IO.Directory.Delete(@"extractedISO\", true); // delete the temp ISO directory once we are done with it.
-
-
-/*
-// Notes for putting everything together - DZX
-
+// Apply DZX Patches first
 // Deserialize DZX Patches file:
-var patches = JsonSerializer.Deserialize<List<DZXPatch>>(patchJson);
-
-
-// unpack dzx file
-. . .
-var dataBlocks = JsonSerializer.Deserialize<List<DZXDataBlock>>(json);
+string dzxPatchContents = File.ReadAllText(@"Generator/patch_files/dzx_patches.jsonc");
+var dzxPatches = JsonSerializer.Deserialize<List<DZXPatch>>(dzxPatchContents, options);
 
 // Modify section
-foreach (var patch in patches)
+foreach (var dzxPatch in dzxPatches)
 {
-    // Verify that we have a type mapping for the block we are wanting to replace
-    if (!TagTypes.TryGetValue(patch.DataBlock, out Type entryType))
-        continue;
+    string archiveDirectory = RarcTools.RARCDump.DumpArchive(
+        Yaz0dec.InitYaz0Decode(@"extractedISO/root/" + dzxPatch.FilePath + ".arc")
+    );
 
-    // Loop through all of the dataBlock entries until we find the tag that we want to match
-    var section = dataBlocks.First(s => s.Tag == patch.DataBlock);
-
-    // Loop through all entries in the dataBlock
-    for (int i = 0; i < section.Entries.Count; i++)
+    Console.WriteLine("archive dir: " + archiveDirectory);
+    // Read dzr file into a serialized var
+    string filePath = "";
+    if (dzxPatch.FilePath.Contains("STG_00"))
     {
-        var entry = section.Entries[i].Deserialize(entryType);
-        if (entry.ID == patch.ID)
+        filePath = "/dzs/stage.dzs";
+    }
+    else
+    {
+        filePath = "/dzr/room.dzr";
+    }
+    Console.WriteLine("File path: " + archiveDirectory + filePath);
+    var dzxContents = JsonSerializer.Deserialize<List<DZXDataBlock>>(
+        LibStage.ExtractDZX(archiveDirectory + filePath)
+    );
+
+    foreach (DZXChange DZXChange in dzxPatch.Changes)
+    {
+        bool didPatch = false;
+        // Verify that we have a type mapping for the block we are wanting to replace
+        Type entryType = DZX.GetEntryType(DZXChange.DataBlock);
+        if (entryType == null)
         {
-            var patched = ApplyChanges(entry, patch.Data);
-            datablocks.Entries[i] = JsonSerializer.SerializeToElement(patched);
+            Console.WriteLine("No entry type defined for: " + DZXChange.DataBlock);
+            continue;
+        }
+        // Loop through all of the dataBlock entries until we find the tag that we want to match
+        foreach (DZXDataBlock s in dzxContents)
+        {
+            Console.WriteLine(s.Tag);
+        }
+        Console.WriteLine("looking for: " + DZXChange.DataBlock);
+        int sectionIndex = dzxContents.FindIndex(
+            s => DZXChange.DataBlock != null && s.Tag == DZXChange.DataBlock
+        );
+
+        switch (DZXChange.Operation)
+        {
+            case "add":
+            {
+                dzxContents[sectionIndex].Entries.Add(
+                    JsonSerializer.SerializeToElement(
+                        JsonSerializer.Deserialize(DZXChange.Data, entryType)
+                    )
+                );
+                break;
+            }
+
+            case "modify":
+            {
+                for (int i = 0; i < dzxContents[sectionIndex].Entries.Count; i++)
+                {
+                    //Console.WriteLine(section.Entries[i]);
+                    var entry = dzxContents[sectionIndex].Entries[i].Deserialize(entryType);
+
+                    // Currently an entry's ID is made up of Name@x,y,z
+                    string sectionID = "";
+
+                    // For Kak Malo Mart, the ID includes the param as multiple items can be in the same place.
+                    if (archiveDirectory.Contains(@"R_SP109\R03"))
+                    {
+                        sectionID = PatchFunctions.GetEntryParamID(
+                            dzxContents[sectionIndex].Entries[i]
+                        );
+                    }
+                    else
+                    {
+                        sectionID = PatchFunctions.GetEntryID(dzxContents[sectionIndex].Entries[i]);
+                    }
+                    Console.WriteLine(sectionID);
+                    if (sectionID == DZXChange.ID)
+                    {
+                        var patched = PatchFunctions.ApplyChanges(
+                            dzxContents[sectionIndex].Entries[i].Deserialize(entryType),
+                            DZXChange.Data
+                        );
+                        dzxContents[sectionIndex].Entries[i] = JsonSerializer.SerializeToElement(
+                            patched
+                        );
+
+                        // Successfully patched the section, so break out.
+                        Console.WriteLine(
+                            "Successfully Applied Patch to: "
+                                + archiveDirectory
+                                + "-"
+                                + DZXChange.ID
+                        );
+                        didPatch = true;
+                        break;
+                    }
+                }
+                if (!didPatch)
+                {
+                    // If we make it to here, we did not find an actor in the section with the specified ID
+                    Console.WriteLine(
+                        "Unable to find patch for: " + archiveDirectory + "-" + DZXChange.ID
+                    );
+                }
+                break;
+            }
+            case "remove":
+            {
+                dzxContents[sectionIndex].Entries.RemoveAll(
+                    e => PatchFunctions.GetEntryID(e) == DZXChange.ID
+                );
+                break;
+            }
         }
     }
+
+    // Re-Package the Archive
+    string dzxString = JsonSerializer.Serialize(
+        dzxContents,
+        new JsonSerializerOptions { WriteIndented = true }
+    );
+    LibStage.PackageDZX(dzxString, archiveDirectory + filePath, false);
+    RarcTools.RARCPacker.PackArchive(
+        archiveDirectory,
+        archiveDirectory[..archiveDirectory.LastIndexOf("\\")] + ".arc",
+        true
+    );
 }
 
-// add section
-foreach (var patch in patches)
-{
-    // Verify that we have a type mapping for the block we are wanting to replace
-    if (!TagTypes.TryGetValue(patch.DataBlock, out Type entryType))
-        continue;
-
-    // Loop through all of the dataBlock entries until we find the tag that we want to match
-    var section = dataBlocks.First(s => s.Tag == patch.DataBlock);
-
-    // Add the entry
-    section.Entries.Add(patch.Data.Deserialize(entryType));
-}
-
-// Delete section
-foreach (var patch in patches)
-{
-    // Verify that we have a type mapping for the block we are wanting to replace
-    if (!TagTypes.TryGetValue(patch.DataBlock, out Type entryType))
-        continue;
-
-    // Loop through all of the dataBlock entries until we find the tag that we want to match
-    var section = dataBlocks.First(s => s.Tag == patch.DataBlock);
-
-    // Remove the entry that matches the patch ID
-    section.Entries.RemoveAll(e => e.GetProperty("ID").GetInt32() == patch.ID);
-}
-*/
-
-
-/*
-// Notes for putting everything together - BMG
-
+// Apply BMG Patches
 // Deserialize BMG Patches file:
-List<BMGPatch> patches = JsonSerializer.Deserialize<List<BMGPatch>>(patchJson);
-
-
-// unpack bmg file
-. . .
-List<BMGDataBlock> dataBlocks = JsonSerializer.Deserialize<List<BMGDataBlock>>(json);
+string bmgPatchContents = File.ReadAllText(@"Generator/patch_files/bmg_patches.jsonc");
+var bmgPatches = JsonSerializer.Deserialize<List<BMGPatch>>(bmgPatchContents, options);
 
 // Modify section
-foreach (BMGPatch patch in patches)
+foreach (var bmgPatch in bmgPatches)
 {
-    // Loop through all of the dataBlock entries until we find the tag that we want to match
-    var section = dataBlocks.First(s => ((s.Index == patch.Index) || (s.Section == patch.Section));
+    Console.WriteLine(bmgPatch.FilePath);
+    string archiveDirectory = RarcTools.RARCDump.DumpArchive(
+        Yaz0dec.InitYaz0Decode(
+            @"extractedISO/root/"
+                + bmgPatch.FilePath[..bmgPatch.FilePath.LastIndexOf("/zel")]
+                + ".arc"
+        )
+    );
 
-    var patched = ApplyChanges(entry, patch.Data);
-    datablocks.Entries[i] = JsonSerializer.SerializeToElement(patched);
+    Console.WriteLine("archive dir: " + archiveDirectory);
+    Console.WriteLine("File path: " + bmgPatch.FilePath);
+    List<BMGDataBlock> bmgContents = JsonSerializer.Deserialize<List<BMGDataBlock>>(
+        BmgTools.DumpBmg(archiveDirectory + @"\" + PatchFunctions.AfterLast(bmgPatch.FilePath, '/'))
+    );
+
+    foreach (BMGChange bmgChange in bmgPatch.Changes)
+    {
+        bool didPatch = false;
+        // Loop through all of the dataBlock entries until we find the tag that we want to match
+        //Console.WriteLine("looking for: " + bmgChange.Index);
+        int sectionIndex = bmgContents.FindIndex(
+            s =>
+                (bmgChange.Index != null && s.index?.ToLower() == bmgChange.Index.ToLower())
+                || (bmgChange.Section != null && s.Section == bmgChange.Section)
+        );
+
+        if (sectionIndex == -1)
+        {
+            Console.WriteLine("Unable to find section for: " + bmgChange.Index);
+            continue;
+        }
+
+        switch (bmgChange.Operation)
+        {
+            case "modify":
+            {
+                var patched = PatchFunctions.ApplyChanges(
+                    bmgContents[sectionIndex],
+                    bmgChange.ChangeData
+                );
+                bmgContents[sectionIndex] = (BMGDataBlock)patched;
+                // Successfully patched the section, so break out.
+                Console.WriteLine(
+                    "Successfully Applied Patch to: " + archiveDirectory + "-" + bmgChange.Index
+                );
+
+                /*Console.WriteLine(
+                    JsonSerializer.Serialize(
+                        bmgContents[sectionIndex],
+                        new JsonSerializerOptions { WriteIndented = true }
+                    )
+                );*/
+                break;
+            }
+        }
+    }
+
+    // Re-Package the Archive
+    var bmgOptions = new JsonSerializerOptions
+    {
+        DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+        WriteIndented = true
+    };
+    string bmgString = JsonSerializer.Serialize(bmgContents, bmgOptions);
+    BmgTools.PackBmg(
+        bmgString,
+        archiveDirectory + @"\" + PatchFunctions.AfterLast(bmgPatch.FilePath, '/'),
+        "iso-8859-1",
+        false
+    );
+    RarcTools.RARCPacker.PackArchive(
+        archiveDirectory,
+        archiveDirectory[..archiveDirectory.LastIndexOf("\\")] + ".arc",
+        true
+    );
 }
-*/
+
+RarcTools.GCRebuilder.GCRebuilder.RebuildISO(
+    @"extractedISO\root\",
+    "decompimizer-GZ2E01.iso",
+    false
+);
+System.IO.Directory.Delete(@"extractedISO\", true); // delete the temp ISO directory once we are done with it.

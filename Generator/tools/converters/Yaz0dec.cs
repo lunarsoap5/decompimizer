@@ -112,8 +112,9 @@ internal class Yaz0dec
             }
 
             if (readBytes + 3 >= srcSize)
+            {
                 return dstName; // nothing left to decode and/or the file is already decoded
-
+            }
             readBytes += 4; // skip 'Yaz0' magic
 
             // Read uncompressed size (big-endian u32 at current position)
@@ -131,7 +132,7 @@ internal class Yaz0dec
 
             File.WriteAllBytes(dstName, dst[..r.DstPos]);
         }
-        return dstName.Replace(".arc", ".rarc");
+        return dstName;
     }
 
     // ── Entry point ────────────────────────────────────────────────────────────

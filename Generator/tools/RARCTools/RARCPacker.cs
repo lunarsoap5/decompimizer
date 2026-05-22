@@ -67,13 +67,13 @@ namespace RarcTools
 
         public static int totalNumFilesAdded;
 
-        public static void PackArchive(string args)
+        public static void PackArchive(string srcDir, string dstDir, bool deleteDirectory)
         {
             //This is a hack to enable debugging
             //args = new string[1];
             //args[0] = @"H:\Games\NGC\fsa root\GC4Sword\Boss\boss010.arc_dir\boss010";
             //Once complete the above two lines can recieve the chop
-            if (args.Length == 0)
+            if (srcDir.Length == 0)
             {
                 Console.WriteLine("RARC Packer");
                 Console.WriteLine("by JaytheHam");
@@ -85,17 +85,11 @@ namespace RarcTools
                 return;
             }
 
-            char[] yup = new char[1];
-            yup[0] = '\\';
-            string newFile = args + "-repacked";
-            newFile.TrimEnd(yup);
-            newFile = newFile + ".arc";
-
             stringTable = CreateStringTable(); //Setup the string table
 
             //Get all directories and sub-ones in an array and create an appropriately sized Node array
             string[] allDirectories = Directory.GetDirectories(
-                args,
+                srcDir,
                 "*",
                 SearchOption.AllDirectories
             );
@@ -109,12 +103,12 @@ namespace RarcTools
             nodes[0].type = "ROOT";
 
             nodes[0].filenameOffset = (uint)stringTable.Length;
-            String rootDirName = new FileInfo(args).Name;
+            String rootDirName = new FileInfo(srcDir).Name;
             stringTable = stringTable + rootDirName + (char)0x00;
 
             nodes[0].foldernameHash = Hash(rootDirName);
 
-            string[] files = Directory.GetFileSystemEntries(args);
+            string[] files = Directory.GetFileSystemEntries(srcDir);
             nodes[0].numFileEntries = (ushort)(files.Length + 2);
 
             nodes[0].firstFileEntryOffset = 0;
@@ -122,7 +116,7 @@ namespace RarcTools
             numNodesDone++; //One node is complete
 
             //Get the total number of subdirectories and files
-            string[] allFiles = Directory.GetFiles(args, "*", SearchOption.AllDirectories);
+            string[] allFiles = Directory.GetFiles(srcDir, "*", SearchOption.AllDirectories);
             int numOfFilesAndDirs = allFiles.Length + allDirectories.Length;
             //Now set up an array of FileEntrys(Taking into account the "." and ".." file entries for each folder
             fileEntries = new FileEntry[numOfFilesAndDirs + (allDirectories.Length * 2) + 2];
@@ -132,20 +126,20 @@ namespace RarcTools
 
             //CURRENTLY ONLY GOES TWO FOLDERS DEEP (Should be recursive, but it's not yet)
             //Create FileEntry for each file in current folder
-            string[] folders = ProcessFilesAndFolders(args);
+            string[] folders = ProcessFilesAndFolders(srcDir);
             //For each folder
             for (int i = 0; i < folders.Length; i++)
             {
-                args = folders[i];
-                CreateNode(args);
-                string[] folders2 = ProcessFilesAndFolders(args);
+                srcDir = folders[i];
+                CreateNode(srcDir);
+                string[] folders2 = ProcessFilesAndFolders(srcDir);
 
                 //Do that again for any files/folders in this folder
                 for (int i2 = 0; i2 < folders2.Length; i2++)
                 {
-                    args = folders2[i2];
-                    CreateNode(args);
-                    ProcessFilesAndFolders(args);
+                    srcDir = folders2[i2];
+                    CreateNode(srcDir);
+                    ProcessFilesAndFolders(srcDir);
                 }
             }
 
@@ -208,8 +202,8 @@ namespace RarcTools
             header.sizeOfStringTable = (uint)stringTable.Length;
             header.size = lengthOfDataTable + header.dataStartOffset + 0x20;
 
-            //Let's write it out
-            FileStream filestreamWriter = new FileStream(newFile, FileMode.Create);
+            //Let's write it out - if the dstDir is overwriting an existing file, delete it.
+            FileStream filestreamWriter = new FileStream(dstDir, FileMode.Create);
             BinaryWriter binWriter = new BinaryWriter(filestreamWriter);
             //First the Header is written
             binWriter.Write(header.type[0]);
@@ -361,7 +355,12 @@ namespace RarcTools
             binWriter.Close();
             filestreamWriter.Close();
 
-            Console.WriteLine("Packed and good to go!");
+            if (deleteDirectory)
+            {
+                Directory.Delete(srcDir, true);
+            }
+
+            Console.WriteLine("Wrote Packaged Archive to: " + dstDir);
         }
 
         static string CreateStringTable()

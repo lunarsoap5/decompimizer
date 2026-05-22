@@ -149,9 +149,9 @@ internal class LibStage
                     ["field_0x1"] = d[offset + 1],
                     ["field_0x2"] = d[offset + 2],
                     ["field_0x3"] = d[offset + 3],
-                    ["Position X"] = ReadF32(d, offset + 4),
-                    ["Position Y"] = ReadF32(d, offset + 8),
-                    ["Position Z"] = ReadF32(d, offset + 12),
+                    ["Position_X"] = ReadF32(d, offset + 4),
+                    ["Position_Y"] = ReadF32(d, offset + 8),
+                    ["Position_Z"] = ReadF32(d, offset + 12),
                 }
             );
             offset += 0x10;
@@ -174,12 +174,12 @@ internal class LibStage
             entries.Add(
                 new JsonObject
                 {
-                    ["Number of Points"] = numPoints,
-                    ["Path Index"] = pathIndex,
+                    ["Number_of_Points"] = numPoints,
+                    ["Path_Index"] = pathIndex,
                     ["field_0x4"] = f4,
                     ["Looped"] = isLoop,
                     ["field_0x6"] = f6,
-                    ["RPPN Entry Index"] = (int)(firstOffset / 0x10),
+                    ["RPPN_Entry_Index"] = (int)(firstOffset / 0x10),
                 }
             );
             offset += 12;
@@ -222,9 +222,9 @@ internal class LibStage
                     ["x"] = ReadF32(d, offset + 12),
                     ["y"] = ReadF32(d, offset + 16),
                     ["z"] = ReadF32(d, offset + 20),
-                    ["Angle X"] = ReadS16(d, offset + 24),
-                    ["Angle Y"] = ReadS16(d, offset + 26),
-                    ["Angle Z"] = ReadS16(d, offset + 28),
+                    ["Angle_X"] = ReadS16(d, offset + 24),
+                    ["Angle_Y"] = ReadS16(d, offset + 26),
+                    ["Angle_Z"] = ReadS16(d, offset + 28),
                     ["EnemyNo"] = ReadS16(d, offset + 30),
                 }
             );
@@ -242,7 +242,7 @@ internal class LibStage
             entries.Add(
                 new JsonObject
                 {
-                    ["Camera Type"] = ReadAscii(d, offset, 16),
+                    ["Camera_Type"] = ReadAscii(d, offset, 16),
                     ["field_0x10"] = d[offset + 16],
                     ["field_0x11"] = d[offset + 17],
                     ["field_0x12"] = d[offset + 18],
@@ -296,9 +296,9 @@ internal class LibStage
                     ["x"] = ReadF32(d, offset),
                     ["y"] = ReadF32(d, offset + 4),
                     ["z"] = ReadF32(d, offset + 8),
-                    ["Angle X"] = ReadS16(d, offset + 12),
-                    ["Angle Y"] = ReadS16(d, offset + 14),
-                    ["Angle Z"] = ReadS16(d, offset + 16),
+                    ["Angle_X"] = ReadS16(d, offset + 12),
+                    ["Angle_Y"] = ReadS16(d, offset + 14),
+                    ["Angle_Z"] = ReadS16(d, offset + 16),
                     ["field_0x12"] = d[offset + 18],
                     ["field_0x13"] = d[offset + 19],
                 }
@@ -344,13 +344,13 @@ internal class LibStage
                     ["x"] = ReadF32(d, offset + 12),
                     ["y"] = ReadF32(d, offset + 16),
                     ["z"] = ReadF32(d, offset + 20),
-                    ["Angle X"] = ReadS16(d, offset + 24),
-                    ["Angle Y"] = ReadS16(d, offset + 26),
-                    ["Angle Z"] = ReadS16(d, offset + 28),
+                    ["Angle_X"] = ReadS16(d, offset + 24),
+                    ["Angle_Y"] = ReadS16(d, offset + 26),
+                    ["Angle_Z"] = ReadS16(d, offset + 28),
                     ["EnemyNo"] = ReadS16(d, offset + 30),
-                    ["Scale X"] = d[offset + 32],
-                    ["Scale Y"] = d[offset + 33],
-                    ["Scale Z"] = d[offset + 34],
+                    ["Scale_X"] = d[offset + 32],
+                    ["Scale_Y"] = d[offset + 33],
+                    ["Scale_Z"] = d[offset + 34],
                     ["field_0x23"] = d[offset + 35],
                 }
             );
@@ -372,12 +372,12 @@ internal class LibStage
                 new JsonObject
                 {
                     ["Parameters"] = (long)ReadU32(d, offset),
-                    ["Sea Level"] = ReadF32(d, offset + 4),
+                    ["Sea_Level"] = ReadF32(d, offset + 4),
                     ["field_0x8"] = ReadF32(d, offset + 8),
                     ["field_0xc"] = ReadF32(d, offset + 12),
                     ["field_0x10"] = tbl,
-                    ["Default Camera"] = d[offset + 0x1A],
-                    ["Bit Sw"] = d[offset + 0x1B],
+                    ["Default_Camera"] = d[offset + 0x1A],
+                    ["Bit_Sw"] = d[offset + 0x1B],
                     ["Msg"] = ReadU16(d, offset + 0x1C),
                 }
             );
@@ -395,12 +395,12 @@ internal class LibStage
             entries.Add(
                 new JsonObject
                 {
-                    ["Left Room X"] = ReadF32(d, offset),
-                    ["Inner Room Z"] = ReadF32(d, offset + 4),
-                    ["Right Room X"] = ReadF32(d, offset + 8),
-                    ["Front Room Z"] = ReadF32(d, offset + 12),
-                    ["Min Floor No."] = d[offset + 16],
-                    ["Max Floor No."] = d[offset + 17],
+                    ["Left_Room_X"] = ReadF32(d, offset),
+                    ["Inner_Room_Z"] = ReadF32(d, offset + 4),
+                    ["Right_Room_X"] = ReadF32(d, offset + 8),
+                    ["Front_Room_Z"] = ReadF32(d, offset + 12),
+                    ["Min_Floor_No"] = d[offset + 16],
+                    ["Max_Floor_No"] = d[offset + 17],
                     ["field_0x12"] = d[offset + 18],
                     ["field_0x13"] = d[offset + 19],
                     ["field_0x14"] = ReadF32(d, offset + 20),
@@ -500,9 +500,9 @@ internal class LibStage
                     ["y"] = ReadF32(d, offset + 4),
                     ["z"] = ReadF32(d, offset + 8),
                     ["Radius"] = ReadF32(d, offset + 12),
-                    ["Direction X"] = ReadF32(d, offset + 16),
-                    ["Direction Y"] = ReadF32(d, offset + 20),
-                    ["Spotlight Cutoff"] = ReadF32(d, offset + 24),
+                    ["Direction_X"] = ReadF32(d, offset + 16),
+                    ["Direction_Y"] = ReadF32(d, offset + 20),
+                    ["Spotlight_Cutoff"] = ReadF32(d, offset + 24),
                     ["field_0x1c"] = d[offset + 28],
                     ["field_0x1d"] = d[offset + 29],
                     ["field_0x1e"] = d[offset + 30],
@@ -523,7 +523,7 @@ internal class LibStage
             var tbl = new JsonArray();
             for (int j = 0; j < 65; j++)
                 tbl.Add(d[offset + j]);
-            entries.Add(new JsonObject { ["Pselect ID Table"] = tbl });
+            entries.Add(new JsonObject { ["Pselect_ID_Table"] = tbl });
             offset += 0x41;
         }
         return entries;
@@ -541,8 +541,8 @@ internal class LibStage
             entries.Add(
                 new JsonObject
                 {
-                    ["Palette Ids"] = palIds,
-                    ["Change Rate"] = ReadF32(d, offset + 8),
+                    ["Palette_Ids"] = palIds,
+                    ["Change_Rate"] = ReadF32(d, offset + 8),
                 }
             );
             offset += 0xC;
@@ -575,20 +575,20 @@ internal class LibStage
             entries.Add(
                 new JsonObject
                 {
-                    ["Actor Ambient Color"] = actorAmb,
-                    ["BG Ambient Colors"] = bgAmb,
-                    ["P Light Colors"] = plight,
-                    ["Fog Color"] = fogColor,
-                    ["Fog Start Z"] = ReadF32(d, offset),
-                    ["Fog End Z"] = ReadF32(d, offset + 4),
-                    ["Virt Idx"] = d[offset + 8],
-                    ["Terrain Light Influence"] = d[offset + 9],
-                    ["Cloud Shadow Density"] = d[offset + 10],
+                    ["Actor_Ambient_Color"] = actorAmb,
+                    ["BG_Ambient_Colors"] = bgAmb,
+                    ["P_Light_Colors"] = plight,
+                    ["Fog_Color"] = fogColor,
+                    ["Fog_Start_Z"] = ReadF32(d, offset),
+                    ["Fog_End_Z"] = ReadF32(d, offset + 4),
+                    ["Virt_Idx"] = d[offset + 8],
+                    ["Terrain_Light_Influence"] = d[offset + 9],
+                    ["Cloud_Shadow_Density"] = d[offset + 10],
                     ["field_0x2f"] = d[offset + 11],
-                    ["Bloom Table Idx"] = d[offset + 12],
-                    ["BG Ambient Color 1a"] = d[offset + 13],
-                    ["BG Ambient Color 2a"] = d[offset + 14],
-                    ["BG Ambient Color 3a"] = d[offset + 15],
+                    ["Bloom_Table_Idx"] = d[offset + 12],
+                    ["BG_Ambient_Color_1a"] = d[offset + 13],
+                    ["BG_Ambient_Color_2a"] = d[offset + 14],
+                    ["BG_Ambient_Color_3a"] = d[offset + 15],
                 }
             );
             offset += 16;
@@ -608,9 +608,9 @@ internal class LibStage
             entries.Add(
                 new JsonObject
                 {
-                    ["Sky Color"] = ReadRGB(d, offset),
-                    ["Cloud Color"] = ReadRGB(d, offset + 3),
-                    ["Other Colors"] = others,
+                    ["Sky_Color"] = ReadRGB(d, offset),
+                    ["Cloud_Color"] = ReadRGB(d, offset + 3),
+                    ["Other_Colors"] = others,
                 }
             );
             offset += 0x15;
@@ -648,16 +648,16 @@ internal class LibStage
                 {
                     ["Name"] = ReadAscii(d, offset, 8),
                     ["field_0x8"] = d[offset + 8],
-                    ["Type Flag"] = d[offset + 9],
+                    ["Type_Flag"] = d[offset + 9],
                     ["field_0xa"] = d[offset + 10],
-                    ["Appear Type"] = d[offset + 11],
-                    ["Position X"] = ReadF32(d, offset + 12),
-                    ["Position Y"] = ReadF32(d, offset + 16),
-                    ["Position Z"] = ReadF32(d, offset + 20),
-                    ["Room No."] = ReadS16(d, offset + 24),
+                    ["Appear_Type"] = d[offset + 11],
+                    ["Position_X"] = ReadF32(d, offset + 12),
+                    ["Position_Y"] = ReadF32(d, offset + 16),
+                    ["Position_Z"] = ReadF32(d, offset + 20),
+                    ["Room_No"] = ReadS16(d, offset + 24),
                     ["Rotation"] = ReadS16(d, offset + 26),
                     ["Item"] = d[offset + 28],
-                    ["Flag ID"] = d[offset + 29],
+                    ["Flag_ID"] = d[offset + 29],
                     ["field_0x1e"] = d[offset + 30],
                     ["field_0x1f"] = d[offset + 31],
                 }
@@ -677,16 +677,16 @@ internal class LibStage
                 new JsonObject
                 {
                     ["Number"] = d[offset],
-                    ["Room Number"] = (sbyte)d[offset + 1],
+                    ["Room_Number"] = (sbyte)d[offset + 1],
                     ["Status"] = d[offset + 2],
-                    ["Argument 1"] = d[offset + 3],
-                    ["Position X"] = ReadF32(d, offset + 4),
-                    ["Position Y"] = ReadF32(d, offset + 8),
-                    ["Position Z"] = ReadF32(d, offset + 12),
-                    ["Sw Bit"] = d[offset + 16],
+                    ["Argument_1"] = d[offset + 3],
+                    ["Position_X"] = ReadF32(d, offset + 4),
+                    ["Position_Y"] = ReadF32(d, offset + 8),
+                    ["Position_Z"] = ReadF32(d, offset + 12),
+                    ["Sw_Bit"] = d[offset + 16],
                     ["Type"] = d[offset + 17],
-                    ["Argument 2"] = d[offset + 18],
-                    ["Angle Y"] = (sbyte)d[offset + 19],
+                    ["Argument_2"] = d[offset + 18],
+                    ["Angle_Y"] = (sbyte)d[offset + 19],
                 }
             );
             offset += 0x14;
@@ -711,21 +711,21 @@ internal class LibStage
                 {
                     ["field_0x0"] = ReadF32(d, offset),
                     ["field_0x4"] = ReadF32(d, offset + 4),
-                    ["Camera Type"] = d[offset + 8],
+                    ["Camera_Type"] = d[offset + 8],
                     ["field_0x9"] = d[offset + 9],
                     ["field_0xa"] = ReadU16(d, offset + 10),
                     ["field_0xc"] = (long)ReadU32(d, offset + 12),
                     ["field_0x10"] = (long)ReadU32(d, offset + 16),
                     ["field_0x14"] = f14,
-                    ["Gap Level"] = ReadS16(d, offset + 0x1A),
-                    ["Range Up"] = ReadS16(d, offset + 0x1C),
-                    ["Range Down"] = ReadS16(d, offset + 0x1E),
+                    ["Gap_Level"] = ReadS16(d, offset + 0x1A),
+                    ["Range_Up"] = ReadS16(d, offset + 0x1C),
+                    ["Range_Down"] = ReadS16(d, offset + 0x1E),
                     ["field_0x20"] = ReadF32(d, offset + 0x20),
                     ["field_0x24"] = ReadF32(d, offset + 0x24),
-                    ["Msg Group"] = d[offset + 0x28],
+                    ["Msg_Group"] = d[offset + 0x28],
                     ["field_0x29"] = d[offset + 0x29],
-                    ["Stage Title No"] = ReadU16(d, offset + 0x2A),
-                    ["Particle No"] = particle,
+                    ["Stage_Title_No"] = ReadU16(d, offset + 0x2A),
+                    ["Particle_No"] = particle,
                 }
             );
             offset += 0x3C;
@@ -752,7 +752,7 @@ internal class LibStage
         for (int i = 0; i < count; i++)
         {
             entries.Add(
-                new JsonObject { ["Room Number"] = d[offset], ["Block Id"] = d[offset + 1] }
+                new JsonObject { ["Room_Number"] = d[offset], ["Block_Id"] = d[offset + 1] }
             );
             offset += 2;
         }
@@ -826,7 +826,7 @@ internal class LibStage
                             ["field_0x0"] = l0,
                             ["field_0x1"] = l1,
                             ["field_0x3"] = l3,
-                            ["Vertex Indexes"] = verts
+                            ["Vertex_Indexes"] = verts
                         }
                     );
                     lineOffset += 8;
@@ -848,7 +848,7 @@ internal class LibStage
                             ["field_0x0"] = p0,
                             ["field_0x2"] = p2,
                             ["field_0x3"] = p3,
-                            ["Vertex Indexes"] = verts
+                            ["Vertex_Indexes"] = verts
                         }
                     );
                     polyOffset += 8;
@@ -886,7 +886,7 @@ internal class LibStage
         return new JsonObject
         {
             ["field_0x1"] = f1,
-            ["Entry Num"] = count,
+            ["Entry_Num"] = count,
             ["Vertices"] = vertices,
             ["Floors"] = floors
         };
@@ -903,22 +903,22 @@ internal class LibStage
         {
             WriteF32(buf, e!["field_0x0"]!.GetValue<float>());
             WriteF32(buf, e["field_0x4"]!.GetValue<float>());
-            WriteU8(buf, (byte)e["Camera Type"]!.GetValue<int>());
+            WriteU8(buf, (byte)e["Camera_Type"]!.GetValue<int>());
             WriteU8(buf, (byte)e["field_0x9"]!.GetValue<int>());
             WriteU16(buf, (ushort)e["field_0xa"]!.GetValue<int>());
             WriteU32(buf, (uint)e["field_0xc"]!.GetValue<long>());
             WriteU32(buf, (uint)e["field_0x10"]!.GetValue<long>());
             foreach (var v in e["field_0x14"]!.AsArray())
                 buf.Add((byte)v!.GetValue<int>());
-            WriteS16(buf, (short)e["Gap Level"]!.GetValue<int>());
-            WriteS16(buf, (short)e["Range Up"]!.GetValue<int>());
-            WriteS16(buf, (short)e["Range Down"]!.GetValue<int>());
+            WriteS16(buf, (short)e["Gap_Level"]!.GetValue<int>());
+            WriteS16(buf, (short)e["Range_Up"]!.GetValue<int>());
+            WriteS16(buf, (short)e["Range_Down"]!.GetValue<int>());
             WriteF32(buf, e["field_0x20"]!.GetValue<float>());
             WriteF32(buf, e["field_0x24"]!.GetValue<float>());
-            WriteU8(buf, (byte)e["Msg Group"]!.GetValue<int>());
+            WriteU8(buf, (byte)e["Msg_Group"]!.GetValue<int>());
             WriteU8(buf, (byte)e["field_0x29"]!.GetValue<int>());
-            WriteU16(buf, (ushort)e["Stage Title No"]!.GetValue<int>());
-            foreach (var v in e["Particle No"]!.AsArray())
+            WriteU16(buf, (ushort)e["Stage_Title_No"]!.GetValue<int>());
+            foreach (var v in e["Particle_No"]!.AsArray())
                 buf.Add((byte)v!.GetValue<int>());
         }
         return buf.ToArray();
@@ -969,7 +969,7 @@ internal class LibStage
         var buf = new List<byte>();
         foreach (var e in entries.AsArray())
         {
-            WriteAscii(buf, e!["Camera Type"]!.GetValue<string>(), 16);
+            WriteAscii(buf, e!["Camera_Type"]!.GetValue<string>(), 16);
             WriteU8(buf, (byte)e["field_0x10"]!.GetValue<int>());
             WriteU8(buf, (byte)e["field_0x11"]!.GetValue<int>());
             WriteU8(buf, (byte)e["field_0x12"]!.GetValue<int>());
@@ -988,9 +988,9 @@ internal class LibStage
             WriteF32(buf, e!["x"]!.GetValue<float>());
             WriteF32(buf, e["y"]!.GetValue<float>());
             WriteF32(buf, e["z"]!.GetValue<float>());
-            WriteS16(buf, (short)e["Angle X"]!.GetValue<int>());
-            WriteS16(buf, (short)e["Angle Y"]!.GetValue<int>());
-            WriteS16(buf, (short)e["Angle Z"]!.GetValue<int>());
+            WriteS16(buf, (short)e["Angle_X"]!.GetValue<int>());
+            WriteS16(buf, (short)e["Angle_Y"]!.GetValue<int>());
+            WriteS16(buf, (short)e["Angle_Z"]!.GetValue<int>());
             WriteU8(buf, (byte)e["field_0x12"]!.GetValue<int>());
             WriteU8(buf, (byte)e["field_0x13"]!.GetValue<int>());
         }
@@ -1011,9 +1011,9 @@ internal class LibStage
         var buf = new List<byte>();
         foreach (var e in entries.AsArray())
         {
-            WriteRGB(buf, e!["Sky Color"]!.AsArray());
-            WriteRGB(buf, e["Cloud Color"]!.AsArray());
-            foreach (var col in e["Other Colors"]!.AsArray())
+            WriteRGB(buf, e!["Sky_Color"]!.AsArray());
+            WriteRGB(buf, e["Cloud_Color"]!.AsArray());
+            foreach (var col in e["Other_Colors"]!.AsArray())
                 WriteRGB(buf, col!.AsArray());
         }
         return buf.ToArray();
@@ -1023,7 +1023,7 @@ internal class LibStage
     {
         var buf = new List<byte>();
         foreach (var e in entries.AsArray())
-            foreach (var v in e!["Pselect ID Table"]!.AsArray())
+            foreach (var v in e!["Pselect_ID_Table"]!.AsArray())
                 buf.Add((byte)v!.GetValue<int>());
         return buf.ToArray();
     }
@@ -1033,9 +1033,9 @@ internal class LibStage
         var buf = new List<byte>();
         foreach (var e in entries.AsArray())
         {
-            foreach (var v in e!["Palette Ids"]!.AsArray())
+            foreach (var v in e!["Palette_Ids"]!.AsArray())
                 buf.Add((byte)v!.GetValue<int>());
-            WriteF32(buf, e["Change Rate"]!.GetValue<float>());
+            WriteF32(buf, e["Change_Rate"]!.GetValue<float>());
         }
         return buf.ToArray();
     }
@@ -1045,22 +1045,22 @@ internal class LibStage
         var buf = new List<byte>();
         foreach (var e in entries.AsArray())
         {
-            WriteRGB(buf, e!["Actor Ambient Color"]!.AsArray());
-            foreach (var col in e["BG Ambient Colors"]!.AsArray())
+            WriteRGB(buf, e!["Actor_Ambient_Color"]!.AsArray());
+            foreach (var col in e["BG_Ambient_Colors"]!.AsArray())
                 WriteRGB(buf, col!.AsArray());
-            foreach (var col in e["P Light Colors"]!.AsArray())
+            foreach (var col in e["P_Light_Colors"]!.AsArray())
                 WriteRGB(buf, col!.AsArray());
-            WriteRGB(buf, e["Fog Color"]!.AsArray());
-            WriteF32(buf, e["Fog Start Z"]!.GetValue<float>());
-            WriteF32(buf, e["Fog End Z"]!.GetValue<float>());
-            WriteU8(buf, (byte)e["Virt Idx"]!.GetValue<int>());
-            WriteU8(buf, (byte)e["Terrain Light Influence"]!.GetValue<int>());
-            WriteU8(buf, (byte)e["Cloud Shadow Density"]!.GetValue<int>());
+            WriteRGB(buf, e["Fog_Color"]!.AsArray());
+            WriteF32(buf, e["Fog_Start_Z"]!.GetValue<float>());
+            WriteF32(buf, e["Fog_End_Z"]!.GetValue<float>());
+            WriteU8(buf, (byte)e["Virt_Idx"]!.GetValue<int>());
+            WriteU8(buf, (byte)e["Terrain_Light_Influence"]!.GetValue<int>());
+            WriteU8(buf, (byte)e["Cloud_Shadow_Density"]!.GetValue<int>());
             WriteU8(buf, (byte)e["field_0x2f"]!.GetValue<int>());
-            WriteU8(buf, (byte)e["Bloom Table Idx"]!.GetValue<int>());
-            WriteU8(buf, (byte)e["BG Ambient Color 1a"]!.GetValue<int>());
-            WriteU8(buf, (byte)e["BG Ambient Color 2a"]!.GetValue<int>());
-            WriteU8(buf, (byte)e["BG Ambient Color 3a"]!.GetValue<int>());
+            WriteU8(buf, (byte)e["Bloom_Table_Idx"]!.GetValue<int>());
+            WriteU8(buf, (byte)e["BG_Ambient_Color_1a"]!.GetValue<int>());
+            WriteU8(buf, (byte)e["BG_Ambient_Color_2a"]!.GetValue<int>());
+            WriteU8(buf, (byte)e["BG_Ambient_Color_3a"]!.GetValue<int>());
         }
         return buf.ToArray();
     }
@@ -1071,13 +1071,13 @@ internal class LibStage
         foreach (var e in entries.AsArray())
         {
             WriteU32(buf, (uint)e!["Parameters"]!.GetValue<long>());
-            WriteF32(buf, e["Sea Level"]!.GetValue<float>());
+            WriteF32(buf, e["Sea_Level"]!.GetValue<float>());
             WriteF32(buf, e["field_0x8"]!.GetValue<float>());
             WriteF32(buf, e["field_0xc"]!.GetValue<float>());
             foreach (var v in e["field_0x10"]!.AsArray())
                 buf.Add((byte)v!.GetValue<int>());
-            WriteU8(buf, (byte)e["Default Camera"]!.GetValue<int>());
-            WriteU8(buf, (byte)e["Bit Sw"]!.GetValue<int>());
+            WriteU8(buf, (byte)e["Default_Camera"]!.GetValue<int>());
+            WriteU8(buf, (byte)e["Bit_Sw"]!.GetValue<int>());
             WriteU16(buf, (ushort)e["Msg"]!.GetValue<int>());
         }
         return buf.ToArray();
@@ -1088,12 +1088,12 @@ internal class LibStage
         var buf = new List<byte>();
         foreach (var e in entries.AsArray())
         {
-            WriteF32(buf, e!["Left Room X"]!.GetValue<float>());
-            WriteF32(buf, e["Inner Room Z"]!.GetValue<float>());
-            WriteF32(buf, e["Right Room X"]!.GetValue<float>());
-            WriteF32(buf, e["Front Room Z"]!.GetValue<float>());
-            WriteU8(buf, (byte)e["Min Floor No."]!.GetValue<int>());
-            WriteU8(buf, (byte)e["Max Floor No."]!.GetValue<int>());
+            WriteF32(buf, e!["Left_Room_X"]!.GetValue<float>());
+            WriteF32(buf, e["Inner_Room_Z"]!.GetValue<float>());
+            WriteF32(buf, e["Right_Room_X"]!.GetValue<float>());
+            WriteF32(buf, e["Front_Room_Z"]!.GetValue<float>());
+            WriteU8(buf, (byte)e["Min_Floor_No"]!.GetValue<int>());
+            WriteU8(buf, (byte)e["Max_Floor_No"]!.GetValue<int>());
             WriteU8(buf, (byte)e["field_0x12"]!.GetValue<int>());
             WriteU8(buf, (byte)e["field_0x13"]!.GetValue<int>());
             WriteF32(buf, e["field_0x14"]!.GetValue<float>());
@@ -1172,9 +1172,9 @@ internal class LibStage
             WriteF32(buf, e["x"]!.GetValue<float>());
             WriteF32(buf, e["y"]!.GetValue<float>());
             WriteF32(buf, e["z"]!.GetValue<float>());
-            WriteS16(buf, (short)e["Angle X"]!.GetValue<int>());
-            WriteS16(buf, (short)e["Angle Y"]!.GetValue<int>());
-            WriteS16(buf, (short)e["Angle Z"]!.GetValue<int>());
+            WriteS16(buf, (short)e["Angle_X"]!.GetValue<int>());
+            WriteS16(buf, (short)e["Angle_Y"]!.GetValue<int>());
+            WriteS16(buf, (short)e["Angle_Z"]!.GetValue<int>());
             WriteS16(buf, (short)e["EnemyNo"]!.GetValue<int>());
         }
         return buf.ToArray();
@@ -1189,9 +1189,9 @@ internal class LibStage
             WriteF32(buf, e["y"]!.GetValue<float>());
             WriteF32(buf, e["z"]!.GetValue<float>());
             WriteF32(buf, e["Radius"]!.GetValue<float>());
-            WriteF32(buf, e["Direction X"]!.GetValue<float>());
-            WriteF32(buf, e["Direction Y"]!.GetValue<float>());
-            WriteF32(buf, e["Spotlight Cutoff"]!.GetValue<float>());
+            WriteF32(buf, e["Direction_X"]!.GetValue<float>());
+            WriteF32(buf, e["Direction_Y"]!.GetValue<float>());
+            WriteF32(buf, e["Spotlight_Cutoff"]!.GetValue<float>());
             WriteU8(buf, (byte)e["field_0x1c"]!.GetValue<int>());
             WriteU8(buf, (byte)e["field_0x1d"]!.GetValue<int>());
             WriteU8(buf, (byte)e["field_0x1e"]!.GetValue<int>());
@@ -1207,16 +1207,16 @@ internal class LibStage
         {
             WriteAscii(buf, e!["Name"]!.GetValue<string>(), 8);
             WriteU8(buf, (byte)e["field_0x8"]!.GetValue<int>());
-            WriteU8(buf, (byte)e["Type Flag"]!.GetValue<int>());
+            WriteU8(buf, (byte)e["Type_Flag"]!.GetValue<int>());
             WriteU8(buf, (byte)e["field_0xa"]!.GetValue<int>());
-            WriteU8(buf, (byte)e["Appear Type"]!.GetValue<int>());
-            WriteF32(buf, e["Position X"]!.GetValue<float>());
-            WriteF32(buf, e["Position Y"]!.GetValue<float>());
-            WriteF32(buf, e["Position Z"]!.GetValue<float>());
-            WriteS16(buf, (short)e["Room No."]!.GetValue<int>());
+            WriteU8(buf, (byte)e["Appear_Type"]!.GetValue<int>());
+            WriteF32(buf, e["Position_X"]!.GetValue<float>());
+            WriteF32(buf, e["Position_Y"]!.GetValue<float>());
+            WriteF32(buf, e["Position_Z"]!.GetValue<float>());
+            WriteS16(buf, (short)e["Room_No"]!.GetValue<int>());
             WriteS16(buf, (short)e["Rotation"]!.GetValue<int>());
             WriteU8(buf, (byte)e["Item"]!.GetValue<int>());
-            WriteU8(buf, (byte)e["Flag ID"]!.GetValue<int>());
+            WriteU8(buf, (byte)e["Flag_ID"]!.GetValue<int>());
             WriteU8(buf, (byte)e["field_0x1e"]!.GetValue<int>());
             WriteU8(buf, (byte)e["field_0x1f"]!.GetValue<int>());
         }
@@ -1229,16 +1229,16 @@ internal class LibStage
         foreach (var e in entries.AsArray())
         {
             WriteU8(buf, (byte)e!["Number"]!.GetValue<int>());
-            WriteS8(buf, (sbyte)e["Room Number"]!.GetValue<int>());
+            WriteS8(buf, (sbyte)e["Room_Number"]!.GetValue<int>());
             WriteU8(buf, (byte)e["Status"]!.GetValue<int>());
-            WriteU8(buf, (byte)e["Argument 1"]!.GetValue<int>());
-            WriteF32(buf, e["Position X"]!.GetValue<float>());
-            WriteF32(buf, e["Position Y"]!.GetValue<float>());
-            WriteF32(buf, e["Position Z"]!.GetValue<float>());
-            WriteU8(buf, (byte)e["Sw Bit"]!.GetValue<int>());
+            WriteU8(buf, (byte)e["Argument_1"]!.GetValue<int>());
+            WriteF32(buf, e["Position_X"]!.GetValue<float>());
+            WriteF32(buf, e["Position_Y"]!.GetValue<float>());
+            WriteF32(buf, e["Position_Z"]!.GetValue<float>());
+            WriteU8(buf, (byte)e["Sw_Bit"]!.GetValue<int>());
             WriteU8(buf, (byte)e["Type"]!.GetValue<int>());
-            WriteU8(buf, (byte)e["Argument 2"]!.GetValue<int>());
-            WriteS8(buf, (sbyte)e["Angle Y"]!.GetValue<int>());
+            WriteU8(buf, (byte)e["Argument_2"]!.GetValue<int>());
+            WriteS8(buf, (sbyte)e["Angle_Y"]!.GetValue<int>());
         }
         return buf.ToArray();
     }
@@ -1248,12 +1248,12 @@ internal class LibStage
         var buf = new List<byte>();
         foreach (var e in entries.AsArray())
         {
-            WriteU16(buf, (ushort)e!["Number of Points"]!.GetValue<int>());
-            WriteS16(buf, (short)e["Path Index"]!.GetValue<int>());
+            WriteU16(buf, (ushort)e!["Number_of_Points"]!.GetValue<int>());
+            WriteS16(buf, (short)e["Path_Index"]!.GetValue<int>());
             WriteU8(buf, (byte)e["field_0x4"]!.GetValue<int>());
             WriteU8(buf, (byte)e["Looped"]!.GetValue<int>());
             WriteU16(buf, (ushort)e["field_0x6"]!.GetValue<int>());
-            WriteU32(buf, (uint)(e["RPPN Entry Index"]!.GetValue<int>() * 0x10));
+            WriteU32(buf, (uint)(e["RPPN_Entry_Index"]!.GetValue<int>() * 0x10));
         }
         return buf.ToArray();
     }
@@ -1267,9 +1267,9 @@ internal class LibStage
             WriteU8(buf, (byte)e["field_0x1"]!.GetValue<int>());
             WriteU8(buf, (byte)e["field_0x2"]!.GetValue<int>());
             WriteU8(buf, (byte)e["field_0x3"]!.GetValue<int>());
-            WriteF32(buf, e["Position X"]!.GetValue<float>());
-            WriteF32(buf, e["Position Y"]!.GetValue<float>());
-            WriteF32(buf, e["Position Z"]!.GetValue<float>());
+            WriteF32(buf, e["Position_X"]!.GetValue<float>());
+            WriteF32(buf, e["Position_Y"]!.GetValue<float>());
+            WriteF32(buf, e["Position_Z"]!.GetValue<float>());
         }
         return buf.ToArray();
     }
@@ -1284,13 +1284,13 @@ internal class LibStage
             WriteF32(buf, e["x"]!.GetValue<float>());
             WriteF32(buf, e["y"]!.GetValue<float>());
             WriteF32(buf, e["z"]!.GetValue<float>());
-            WriteS16(buf, (short)e["Angle X"]!.GetValue<int>());
-            WriteS16(buf, (short)e["Angle Y"]!.GetValue<int>());
-            WriteS16(buf, (short)e["Angle Z"]!.GetValue<int>());
+            WriteS16(buf, (short)e["Angle_X"]!.GetValue<int>());
+            WriteS16(buf, (short)e["Angle_Y"]!.GetValue<int>());
+            WriteS16(buf, (short)e["Angle_Z"]!.GetValue<int>());
             WriteS16(buf, (short)e["EnemyNo"]!.GetValue<int>());
-            WriteU8(buf, (byte)e["Scale X"]!.GetValue<int>());
-            WriteU8(buf, (byte)e["Scale Y"]!.GetValue<int>());
-            WriteU8(buf, (byte)e["Scale Z"]!.GetValue<int>());
+            WriteU8(buf, (byte)e["Scale_X"]!.GetValue<int>());
+            WriteU8(buf, (byte)e["Scale_Y"]!.GetValue<int>());
+            WriteU8(buf, (byte)e["Scale_Z"]!.GetValue<int>());
             WriteU8(buf, (byte)e["field_0x23"]!.GetValue<int>());
         }
         return buf.ToArray();
@@ -1322,8 +1322,8 @@ internal class LibStage
         var buf = new List<byte>();
         foreach (var e in entries.AsArray())
         {
-            WriteU8(buf, (byte)e!["Room Number"]!.GetValue<int>());
-            WriteU8(buf, (byte)e["Block Id"]!.GetValue<int>());
+            WriteU8(buf, (byte)e!["Room_Number"]!.GetValue<int>());
+            WriteU8(buf, (byte)e["Block_Id"]!.GetValue<int>());
         }
         return buf.ToArray();
     }
@@ -1403,7 +1403,7 @@ internal class LibStage
 
                 foreach (var l in g["Lines"]!.AsArray())
                 {
-                    var verts = l!["Vertex Indexes"]!.AsArray();
+                    var verts = l!["Vertex_Indexes"]!.AsArray();
                     WriteU8(linePolyData, (byte)l["field_0x0"]!.GetValue<int>());
                     WriteU8(linePolyData, (byte)l["field_0x1"]!.GetValue<int>());
                     WriteU8(linePolyData, (byte)verts.Count);
@@ -1414,7 +1414,7 @@ internal class LibStage
                 }
                 foreach (var p in g["Polygons"]!.AsArray())
                 {
-                    var verts = p!["Vertex Indexes"]!.AsArray();
+                    var verts = p!["Vertex_Indexes"]!.AsArray();
                     WriteU8(linePolyData, (byte)p["field_0x0"]!.GetValue<int>());
                     WriteU8(linePolyData, (byte)verts.Count);
                     WriteU8(linePolyData, (byte)p["field_0x2"]!.GetValue<int>());

@@ -2,12 +2,12 @@
   // Lakebed Temple
   {
     "description": "Move the LBT entrance scene change to be closer to the player so they can leave without IB/ZA",
-    "FilePath": "res/Stage/D_MN01/R00_00/dzr/room.dzr",
+    "FilePath": "res/Stage/D_MN01/R00_00",
     "Changes": [
       {
         "Operation": "modify",
         "DataBlock": "SCOB",
-        "ID": "scnChg@-11.90811538696289,180.0,25000.0",
+        "ID": "scnChg@-11,180,25730",
         "Data": {
           "z": 25000.0
         }
@@ -16,12 +16,12 @@
   },
   {
     "description": "Add hint sign to Lakebed Temple",
-    "FilePath": "res/Stage/D_MN01/R03_00/dzr/room.dzr",
+    "FilePath": "res/Stage/D_MN01/R03_00",
     "Changes": [
       {
         "Operation": "add",
         "DataBlock": "ACTR",
-        "data": {
+        "Data": {
           "Name": "Obj_kn2",
           "param": 4294967295,
           "x": -4765.38037109375,
@@ -38,12 +38,12 @@
   // Goron Mines
   {
     "description": "Add hint sign to Goron Mines",
-    "FilePath": "res/Stage/D_MN04/R17_00/dzr/room.dzr",
+    "FilePath": "res/Stage/D_MN04/R17_00",
     "Changes": [
       {
         "Operation": "add",
         "DataBlock": "ACTR",
-        "data": {
+        "Data": {
           "Name": "Obj_kn2",
           "param": 4294967295,
           "x": 11394.185546875,
@@ -60,12 +60,12 @@
   // Forest Temple
   {
     "description": "Add hint sign to Forest Temple",
-    "FilePath": "res/Stage/D_MN05/R00_00/dzr/room.dzr",
+    "FilePath": "res/Stage/D_MN05/R00_00",
     "Changes": [
       {
         "Operation": "add",
         "DataBlock": "ACTR",
-        "data": {
+        "Data": {
           "Name": "Obj_kn2",
           "param": 4294967295,
           "x": -1972.1168212890625,
@@ -82,12 +82,12 @@
   // Temple of Time
   {
     "description": "Add hint sign to Temple of Time",
-    "FilePath": "res/Stage/D_MN06/R00_00/dzr/room.dzr",
+    "FilePath": "res/Stage/D_MN06/R00_00",
     "Changes": [
       {
         "Operation": "add",
         "DataBlock": "ACTR",
-        "data": {
+        "Data": {
           "Name": "Obj_kn2",
           "param": 4294967295,
           "x": -618.9334716796875,
@@ -103,12 +103,12 @@
   },
   {
     "description": "Add hint sign to Temple of Time",
-    "FilePath": "res/Stage/D_MN06/R04_00/dzr/room.dzr",
+    "FilePath": "res/Stage/D_MN06/R04_00",
     "Changes": [
       {
         "Operation": "add",
         "DataBlock": "ACTR",
-        "data": {
+        "Data": {
           "Name": "Obj_kn2",
           "param": 4294967295,
           "x": -3885.2158203125,
@@ -125,12 +125,12 @@
   // City in the Sky
   {
     "description": "Add hint sign to City in the Sky and scene change to get back to Lake Hylia",
-    "FilePath": "res/Stage/D_MN07/R00_00/dzr/room.dzr",
+    "FilePath": "res/Stage/D_MN07/R00_00",
     "Changes": [
       {
         "Operation": "add",
         "DataBlock": "ACTR",
-        "data": {
+        "Data": {
           "Name": "Obj_kn2",
           "param": 4294967295,
           "x": 0.0,
@@ -145,7 +145,7 @@
       {
         "Operation": "add",
         "DataBlock": "SCOB",
-        "data": {
+        "Data": {
           "Name": "scnChg",
           "param": 4294901761,
           "x": -3176.0,
@@ -165,12 +165,12 @@
   },
   {
     "description": "Add hint sign to City in the Sky",
-    "FilePath": "res/Stage/D_MN07/R02_00/dzr/room.dzr",
+    "FilePath": "res/Stage/D_MN07/R02_00",
     "Changes": [
       {
         "Operation": "add",
         "DataBlock": "ACTR",
-        "data": {
+        "Data": {
           "Name": "Obj_kn2",
           "param": 4294967295,
           "x": 3376.5400390625,
@@ -186,18 +186,18 @@
   },
   {
     "description": "Remove Argorok Actor to prevent bridge breaking",
-    "FilePath": "res/Stage/D_MN07/R06_00/dzr/room.dzr",
+    "FilePath": "res/Stage/D_MN07/R06_00",
     "Changes": [
       {
         "Operation": "remove",
         "DataBlock": "ACTR",
-        "ID": "dr@-7075.0,-200.0,-11809.4033203125"
+        "ID": "dr@-7075,-200,-11809"
       }
     ]
   },
   {
     "description": "Adjust Cits shop item flags",
-    "FilePath": "res/Stage/D_MN07/R16_00/dzr/room.dzr",
+    "FilePath": "res/Stage/D_MN07/R16_00",
     "Changes": [
       {
         "Operation": "modify",
@@ -243,12 +243,12 @@
   },
   {
     "description": "Modify savemem actor to prevent save warping to west wing",
-    "FilePath": "res/Stage/D_MN07/STG_00/dzs/stage.dzs",
+    "FilePath": "res/Stage/D_MN07/STG_00",
     "Changes": [
       {
         "Operation": "modify",
         "DataBlock": "ACTR",
-        "ID": "Savmem@-15044.2919921875,0.0,-11283.109375",
+        "ID": "Savmem@-15044,0,-11283",
         "Data": {
           "param": 3
         }
@@ -258,12 +258,12 @@
   // Palace of Twilight
   {
     "description": "Add hint sign to Palace of Twilight, remove TagYami that prevents player from going north before sols are collected",
-    "FilePath": "res/Stage/D_MN08/R00_00/dzr/room.dzr",
+    "FilePath": "res/Stage/D_MN08/R00_00",
     "Changes": [
       {
         "Operation": "add",
         "DataBlock": "ACTe",
-        "data": {
+        "Data": {
           "Name": "Obj_kn2",
           "param": 4294967295,
           "x": 679.0,
@@ -278,24 +278,24 @@
       {
         "Operation": "remove",
         "DataBlock": "SCOe",
-        "ID": "TagYami@250.0,800.0,5800.0"
+        "ID": "TagYami@250,800,5800"
       },
       {
         "Operation": "remove",
         "DataBlock": "SCOe",
-        "ID": "ClearB@255.0,1600.0,2560.0"
+        "ID": "ClearB@255,1600,2560"
       }
     ]
   },
   // Hyrule Castle
   {
     "description": "Add hint sign to Hyrule Castle",
-    "FilePath": "res/Stage/D_MN09/R11_00/dzr/room.dzr",
+    "FilePath": "res/Stage/D_MN09/R11_00",
     "Changes": [
       {
         "Operation": "add",
         "DataBlock": "ACT0",
-        "data": {
+        "Data": {
           "Name": "Obj_kn2",
           "param": 4294967295,
           "x": 0.0,
@@ -312,12 +312,12 @@
   // Arbiters Grounds
   {
     "description": "Add hint sign to Arbiters Grounds",
-    "FilePath": "res/Stage/D_MN10/R02_00/dzr/room.dzr",
+    "FilePath": "res/Stage/D_MN10/R02_00",
     "Changes": [
       {
         "Operation": "add",
         "DataBlock": "ACTR",
-        "data": {
+        "Data": {
           "Name": "Obj_kn2",
           "param": 4294967295,
           "x": -349.4043884277344,
@@ -334,12 +334,12 @@
   // Snowpeak Ruins
   {
     "description": "Add hint sign to Snowpeak Ruins",
-    "FilePath": "res/Stage/D_MN11/R01_00/dzr/room.dzr",
+    "FilePath": "res/Stage/D_MN11/R01_00",
     "Changes": [
       {
         "Operation": "add",
         "DataBlock": "ACTR",
-        "data": {
+        "Data": {
           "Name": "Obj_kn2",
           "param": 4294967295,
           "x": -530.0,
@@ -356,12 +356,12 @@
   // Cave of Ordeals
   {
     "description": "Add hint sign to Cave of Ordeals",
-    "FilePath": "res/Stage/D_SB01/R00_00/dzr/room.dzr",
+    "FilePath": "res/Stage/D_SB01/R00_00",
     "Changes": [
       {
         "Operation": "add",
         "DataBlock": "ACTR",
-        "data": {
+        "Data": {
           "Name": "Obj_kn2",
           "param": 4294967295,
           "x": -1191.4200439453125,
@@ -378,12 +378,12 @@
   // Lake Hylia Long Cave
   {
     "description": "Add hint sign to Lake Hylia Long Cave",
-    "FilePath": "res/Stage/D_SB03/R00_00/dzr/room.dzr",
+    "FilePath": "res/Stage/D_SB03/R00_00",
     "Changes": [
       {
         "Operation": "add",
         "DataBlock": "ACTR",
-        "data": {
+        "Data": {
           "Name": "Obj_kn2",
           "param": 4294967295,
           "x": -2987.38671875,
@@ -400,12 +400,12 @@
   // Ordon Village
   {
     "description": "Patch Bo Doors, add Epona actor, and modify freestanding rupee flags",
-    "FilePath": "res/Stage/F_SP103/R00_00/dzr/room.dzr",
+    "FilePath": "res/Stage/F_SP103/R00_00",
     "Changes": [
       {
         "Operation": "modify",
         "DataBlock": "Doo0",
-        "ID": "kdoor@470.4829406738281,500.19000244140625,5323.12890625",
+        "ID": "kdoor@470,500,5323",
         "Data": {
           "Angle X": -1
         }
@@ -413,7 +413,7 @@
       {
         "Operation": "modify",
         "DataBlock": "Doo0",
-        "ID": "kdoor@500.711181640625,500.19000244140625,5172.26708984375",
+        "ID": "kdoor@500,500,5172",
         "Data": {
           "Angle X": -1
         }
@@ -421,7 +421,7 @@
       {
         "Operation": "add",
         "DataBlock": "ACT0",
-        "data": {
+        "Data": {
           "Name": "Horse",
           "param": 328,
           "x": -1200.0,
@@ -477,12 +477,12 @@
   },
   {
     "description": "Add hint sign to Ordon Village and remove duplicate Beth and Malo",
-    "FilePath": "res/Stage/F_SP103/R01_00/dzr/room.dzr",
+    "FilePath": "res/Stage/F_SP103/R01_00",
     "Changes": [
       {
         "Operation": "add",
         "DataBlock": "ACTR",
-        "data": {
+        "Data": {
           "Name": "Obj_kn2",
           "param": 4294967295,
           "x": 687.8900146484375,
@@ -509,12 +509,12 @@
   // Faron Woods
   {
     "description": "Add epona actor to South Faron Woods",
-    "FilePath": "res/Stage/F_SP108/R00_00/dzr/room.dzr",
+    "FilePath": "res/Stage/F_SP108/R00_00",
     "Changes": [
       {
         "Operation": "add",
         "DataBlock": "ACTR",
-        "data": {
+        "Data": {
           "Name": "Horse",
           "param": 3853,
           "x": -1200.0,
@@ -530,7 +530,7 @@
   },
   {
     "description": "Change the flag for the gate by Coro",
-    "FilePath": "res/Stage/F_SP108/R03_00/dzr/room.dzr",
+    "FilePath": "res/Stage/F_SP108/R03_00",
     "Changes": [
       {
         "Operation": "modify",
@@ -552,12 +552,12 @@
   },
   {
     "description": "Add hint sign to Coro Area, adjust boulder rupee flags, and add Coro actor to twilight state",
-    "FilePath": "res/Stage/F_SP108/R04_00/dzr/room.dzr",
+    "FilePath": "res/Stage/F_SP108/R04_00",
     "Changes": [
       {
         "Operation": "add",
         "DataBlock": "ACTR",
-        "data": {
+        "Data": {
           "Name": "Obj_kn2",
           "param": 4294967295,
           "x": -12423.8466796875,
@@ -604,7 +604,7 @@
       {
         "Operation": "add",
         "DataBlock": "ACTe",
-        "data": {
+        "Data": {
           "Name": "Kkri",
           "param": 391053057,
           "x": -13505.0,
@@ -620,7 +620,7 @@
   },
   {
     "description": "Move player FT spawn and spawn Golden Wolf in Layer 3",
-    "FilePath": "res/Stage/F_SP108/R06_00/dzr/room.dzr",
+    "FilePath": "res/Stage/F_SP108/R06_00",
     "Changes": [
       {
         "Operation": "modify",
@@ -634,7 +634,7 @@
       {
         "Operation": "add",
         "DataBlock": "ACT3",
-        "data": {
+        "Data": {
           "Name": "GWolf",
           "param": 100598271,
           "x": -36714.90234375,
@@ -651,12 +651,12 @@
   // Kakariko Village
   {
     "description": "Add hint sign to Kakariko Village",
-    "FilePath": "res/Stage/F_SP109/R00_00/dzr/room.dzr",
+    "FilePath": "res/Stage/F_SP109/R00_00",
     "Changes": [
       {
         "Operation": "add",
         "DataBlock": "ACTR",
-        "data": {
+        "Data": {
           "Name": "Obj_kn2",
           "param": 4294967295,
           "x": -3347.52734,
@@ -697,12 +697,12 @@
   // Death Mountain
   {
     "description": "Add hint sign to Death Mountain",
-    "FilePath": "res/Stage/F_SP110/R03_00/dzr/room.dzr",
+    "FilePath": "res/Stage/F_SP110/R03_00",
     "Changes": [
       {
         "Operation": "add",
         "DataBlock": "ACTR",
-        "data": {
+        "Data": {
           "Name": "Obj_kn2",
           "param": 4294967295,
           "x": 920.5830688476562,
@@ -719,12 +719,12 @@
   // Kakariko Graveyard - Need to add rupee flags
   {
     "description": "Add hint sign to Kakariko Graveyard",
-    "FilePath": "res/Stage/F_SP111/R00_00/dzr/room.dzr",
+    "FilePath": "res/Stage/F_SP111/R00_00",
     "Changes": [
       {
         "Operation": "add",
         "DataBlock": "ACTR",
-        "data": {
+        "Data": {
           "Name": "Obj_kn2",
           "param": 4294967295,
           "x": 21765.986328125,
@@ -741,7 +741,7 @@
   // Zoras Domain
   {
     "description": "Adjust rupee flags for Throne Room",
-    "FilePath": "res/Stage/F_SP113/R00_00/dzr/room.dzr",
+    "FilePath": "res/Stage/F_SP113/R00_00",
     "Changes": [
       {
         "Operation": "modify",
@@ -779,12 +779,12 @@
   },
   {
     "description": "Add hint sign to Zoras Domain and adjust boulder rupee flags",
-    "FilePath": "res/Stage/F_SP113/R01_00/dzr/room.dzr",
+    "FilePath": "res/Stage/F_SP113/R01_00",
     "Changes": [
       {
         "Operation": "add",
         "DataBlock": "ACTR",
-        "data": {
+        "Data": {
           "Name": "Obj_kn2",
           "param": 4294967295,
           "x": -2964.848388671875,
@@ -905,12 +905,12 @@
   // Snowpeak Mountain
   {
     "description": "Add hint sign to Snowpeak and adjust tree poe to spawn all the time.",
-    "FilePath": "res/Stage/F_SP114/R00_00/dzr/room.dzr",
+    "FilePath": "res/Stage/F_SP114/R00_00",
     "Changes": [
       {
         "Operation": "add",
         "DataBlock": "ACTR",
-        "data": {
+        "Data": {
           "Name": "Obj_kn2",
           "param": 4294967295,
           "x": 15931.923828125,
@@ -934,7 +934,7 @@
   },
   {
     "description": "Add flags for snowboarding rupees and add shadow beast actors to layer 3",
-    "FilePath": "res/Stage/F_SP114/R01_00/dzr/room.dzr",
+    "FilePath": "res/Stage/F_SP114/R01_00",
     "Changes": [
       {
         "Operation": "modify",
@@ -1091,7 +1091,7 @@
       {
         "Operation": "add",
         "DataBlock": "ACT3",
-        "data": {
+        "Data": {
           "Name": "E_s1",
           "param": 369037056,
           "x": -11947.955078125,
@@ -1106,7 +1106,7 @@
       {
         "Operation": "add",
         "DataBlock": "ACT3",
-        "data": {
+        "Data": {
           "Name": "E_s1",
           "param": 369037056,
           "x": -11947.955078125,
@@ -1121,7 +1121,7 @@
       {
         "Operation": "add",
         "DataBlock": "ACT3",
-        "data": {
+        "Data": {
           "Name": "E_s1",
           "param": 369037056,
           "x": -11947.955078125,
@@ -1138,12 +1138,12 @@
   // Lake Hylia
   {
     "description": "Add hint sign to Lake Hylia and place custom rupee behind Fyer's hut and adjust boulder rupee flags",
-    "FilePath": "res/Stage/F_SP115/R00_00/dzr/room.dzr",
+    "FilePath": "res/Stage/F_SP115/R00_00",
     "Changes": [
       {
         "Operation": "add",
         "DataBlock": "ACTR",
-        "data": {
+        "Data": {
           "Name": "item",
           "param": 4093640452,
           "x": -108290.0859375,
@@ -1158,7 +1158,7 @@
       {
         "Operation": "add",
         "DataBlock": "ACTR",
-        "data": {
+        "Data": {
           "Name": "Obj_kn2",
           "param": 4294967295,
           "x": -109203.4609375,
@@ -1285,7 +1285,7 @@
       {
         "Operation": "add",
         "DataBlock": "ACTR",
-        "data": {
+        "Data": {
           "Name": "Rafrel",
           "param": 7425,
           "x": -116486.9453125,
@@ -1357,12 +1357,12 @@
   },
   {
     "description": "Add hint sign to Lanayru Spring and adjust boulder rupee flags",
-    "FilePath": "res/Stage/F_SP115/R01_00/dzr/room.dzr",
+    "FilePath": "res/Stage/F_SP115/R01_00",
     "Changes": [
       {
         "Operation": "add",
         "DataBlock": "ACTR",
-        "data": {
+        "Data": {
           "Name": "Obj_kn2",
           "param": 4294967295,
           "x": -309.9978332519531,
@@ -1435,12 +1435,12 @@
   // Castle Town
   {
     "description": "Add hint sign to Castle Town and patch shoe shiner params to always appear",
-    "FilePath": "res/Stage/F_SP116/R00_00/dzr/room.dzr",
+    "FilePath": "res/Stage/F_SP116/R00_00",
     "Changes": [
       {
         "Operation": "add",
         "DataBlock": "ACTR",
-        "data": {
+        "Data": {
           "Name": "Obj_kn2",
           "param": 4294967295,
           "x": 0.0,
@@ -1465,12 +1465,12 @@
   // Sacred Grove
   {
     "description": "Add hint sign to Sacred Grove, add MS sword actor, remove shadow beast gates, and adjust past door and statue flags to use custom flag",
-    "FilePath": "res/Stage/F_SP117/R01_00/dzr/room.dzr",
+    "FilePath": "res/Stage/F_SP117/R01_00",
     "Changes": [
       {
         "Operation": "add",
         "DataBlock": "ACTR",
-        "data": {
+        "Data": {
           "Name": "Obj_kn2",
           "param": 4294967295,
           "x": -1543.0,
@@ -1485,7 +1485,7 @@
       {
         "Operation": "add",
         "DataBlock": "ACTR",
-        "data": {
+        "Data": {
           "Name": "mstrsrd",
           "param": 131344,
           "x": 0.0,
@@ -1530,7 +1530,7 @@
   },
   {
     "description": "Adjust flag for lost woods skull kid chase walls and remove problematic invisible wall",
-    "FilePath": "res/Stage/F_SP117/R03_00/dzr/room.dzr",
+    "FilePath": "res/Stage/F_SP117/R03_00",
     "Changes": [
       {
         "Operation": "modify",
@@ -1550,7 +1550,7 @@
   // Bulblin Camp
   {
     "description": "Add hint sign to Bulblin Camp, move outside AG spawn and add flags to camp chests",
-    "FilePath": "res/Stage/F_SP118/R01_00/dzr/room.dzr",
+    "FilePath": "res/Stage/F_SP118/R01_00",
     "Changes": [
       {
         "Operation": "modify",
@@ -1563,7 +1563,7 @@
       {
         "Operation": "add",
         "DataBlock": "ACTR",
-        "data": {
+        "Data": {
           "Name": "Obj_kn2",
           "param": 4294967295,
           "x": -568.55615234375,
@@ -1596,13 +1596,13 @@
   },
   // Hyrule Field
   {
-    "description": "Add hint sign to Eldin Field, update rupee params, and add ganon barriers to twilight",
-    "FilePath": "res/Stage/F_SP121/R00_00/dzr/room.dzr",
+    "description": "Add hint sign to Eldin Field, update rupee params",
+    "FilePath": "res/Stage/F_SP121/R00_00",
     "Changes": [
       {
         "Operation": "add",
         "DataBlock": "ACTR",
-        "data": {
+        "Data": {
           "Name": "Obj_kn2",
           "param": 4294967295,
           "x": -12433.2744140625,
@@ -1629,62 +1629,17 @@
         "Data": {
           "param": 4084665859
         }
-      },
-      {
-        "Operation": "add",
-        "DataBlock": "ACTe",
-        "data": {
-          "Name": "Obj_gb",
-          "param": 2148468225,
-          "x": 10778.20703125,
-          "y": 306.82666015625,
-          "z": -62651.0078125,
-          "Angle X": -164,
-          "Angle Y": 16384,
-          "Angle Z": 0,
-          "EnemyNo": -1
-        }
-      },
-      {
-        "Operation": "add",
-        "DataBlock": "ACTe",
-        "data": {
-          "Name": "Obj_gb",
-          "param": 2148468225,
-          "x": 10778.20703125,
-          "y": 306.82666015625,
-          "z": -62951.0078125,
-          "Angle X": -164,
-          "Angle Y": 16384,
-          "Angle Z": 0,
-          "EnemyNo": -1
-        }
-      },
-      {
-        "Operation": "add",
-        "DataBlock": "ACTe",
-        "data": {
-          "Name": "Obj_gb",
-          "param": 2148468225,
-          "x": 10778.20703125,
-          "y": 306.82666015625,
-          "z": -63191.0078125,
-          "Angle X": -164,
-          "Angle Y": 16384,
-          "Angle Z": 0,
-          "EnemyNo": -1
-        }
       }
     ]
   },
   {
     "description": "Add hint sign to Kakariko Gorge, adjust rupee flags, and add horse jump to post MDH state.",
-    "FilePath": "res/Stage/F_SP121/R03_00/dzr/room.dzr",
+    "FilePath": "res/Stage/F_SP121/R03_00",
     "Changes": [
       {
         "Operation": "add",
         "DataBlock": "ACTR",
-        "data": {
+        "Data": {
           "Name": "Obj_kn2",
           "param": 4294967295,
           "x": -10116.021484375,
@@ -1755,7 +1710,7 @@
       {
         "Operation": "add",
         "DataBlock": "SCO6",
-        "data": {
+        "Data": {
           "Name": "Hjump",
           "param": 72351490,
           "x": 5600.0,
@@ -1775,7 +1730,7 @@
   },
   {
     "description": "Add hint sign to Faron field and move OCT - South -> Faron Field spawn to in front of rocks.",
-    "FilePath": "res/Stage/F_SP121/R06_00/dzr/room.dzr",
+    "FilePath": "res/Stage/F_SP121/R06_00",
     "Changes": [
       {
         "Operation": "modify",
@@ -1790,7 +1745,7 @@
       {
         "Operation": "add",
         "DataBlock": "ACTR",
-        "data": {
+        "Data": {
           "Name": "Obj_kn2",
           "param": 4294967295,
           "x": -46039.4921875,
@@ -1805,13 +1760,64 @@
     ]
   },
   {
+    "description": "Add ganon barriers to twilight",
+    "FilePath": "res/Stage/F_SP121/R07_00",
+    "Changes": [
+      {
+        "Operation": "add",
+        "DataBlock": "ACTe",
+        "Data": {
+          "Name": "Obj_gb",
+          "param": 2148468225,
+          "x": 10778.20703125,
+          "y": 306.82666015625,
+          "z": -62651.0078125,
+          "Angle X": -164,
+          "Angle Y": 16384,
+          "Angle Z": 0,
+          "EnemyNo": -1
+        }
+      },
+      {
+        "Operation": "add",
+        "DataBlock": "ACTe",
+        "Data": {
+          "Name": "Obj_gb",
+          "param": 2148468225,
+          "x": 10778.20703125,
+          "y": 306.82666015625,
+          "z": -62951.0078125,
+          "Angle X": -164,
+          "Angle Y": 16384,
+          "Angle Z": 0,
+          "EnemyNo": -1
+        }
+      },
+      {
+        "Operation": "add",
+        "DataBlock": "ACTe",
+        "Data": {
+          "Name": "Obj_gb",
+          "param": 2148468225,
+          "x": 10778.20703125,
+          "y": 306.82666015625,
+          "z": -63191.0078125,
+          "Angle X": -164,
+          "Angle Y": 16384,
+          "Angle Z": 0,
+          "EnemyNo": -1
+        }
+      }
+    ]
+  },
+  {
     "description": "Add hint sign to Lanayru Field and adjust rupee flags",
-    "FilePath": "res/Stage/F_SP121/R10_00/dzr/room.dzr",
+    "FilePath": "res/Stage/F_SP121/R10_00",
     "Changes": [
       {
         "Operation": "add",
         "DataBlock": "ACTR",
-        "data": {
+        "Data": {
           "Name": "Obj_kn2",
           "param": 4294967295,
           "x": -64943.7421875,
@@ -1899,7 +1905,7 @@
   },
   {
     "description": "Adjust south spinner alley rock rupee flags",
-    "FilePath": "res/Stage/F_SP121/R12_00/dzr/room.dzr",
+    "FilePath": "res/Stage/F_SP121/R12_00",
     "Changes": [
       {
         "Operation": "modify",
@@ -1929,12 +1935,12 @@
   },
   {
     "description": "Add hint sign to Lanayru Field and adjust rupee flags",
-    "FilePath": "res/Stage/F_SP121/R10_00/dzr/room.dzr",
+    "FilePath": "res/Stage/F_SP121/R10_00",
     "Changes": [
       {
         "Operation": "add",
         "DataBlock": "ACTR",
-        "data": {
+        "Data": {
           "Name": "Obj_kn2",
           "param": 4294967295,
           "x": -94678.8671875,
@@ -1983,12 +1989,12 @@
   // Outside Castle Town
   {
     "description": "Add hint sign to Outside Castle Town - West and adjust rupee flags",
-    "FilePath": "res/Stage/F_SP122/R08_00/dzr/room.dzr",
+    "FilePath": "res/Stage/F_SP122/R08_00",
     "Changes": [
       {
         "Operation": "add",
         "DataBlock": "ACTR",
-        "data": {
+        "Data": {
           "Name": "Obj_kn2",
           "param": 4294967295,
           "x": -80699.5,
@@ -2076,12 +2082,12 @@
   },
   {
     "description": "Add hint sign to Outside Castle Town - South, adjust Faron Field -> OCT spawn location and modify rupee flags",
-    "FilePath": "res/Stage/F_SP122/R16_00/dzr/room.dzr",
+    "FilePath": "res/Stage/F_SP122/R16_00",
     "Changes": [
       {
         "Operation": "add",
         "DataBlock": "ACTR",
-        "data": {
+        "Data": {
           "Name": "Obj_kn2",
           "param": 4294967295,
           "x": -51500.0,
@@ -2164,12 +2170,12 @@
   // Gerudo Desert
   {
     "description": "Add hint sign to Gerudo Desert",
-    "FilePath": "res/Stage/F_SP124/R00_00/dzr/room.dzr",
+    "FilePath": "res/Stage/F_SP124/R00_00",
     "Changes": [
       {
         "Operation": "add",
         "DataBlock": "ACTR",
-        "data": {
+        "Data": {
           "Name": "Obj_kn2",
           "param": 4294967295,
           "x": 20356.23046875,
@@ -2186,12 +2192,12 @@
   // Mirror Chamber
   {
     "description": "Add Ganon Barrier to Mirror Chamber Stallord Exit",
-    "FilePath": "res/Stage/F_SP125/R04_00/dzr/room.dzr",
+    "FilePath": "res/Stage/F_SP125/R04_00",
     "Changes": [
       {
         "Operation": "add",
         "DataBlock": "ACTR",
-        "data": {
+        "Data": {
           "Name": "Obj_gb",
           "param": 2148468225,
           "x": 1794.0,
@@ -2208,7 +2214,7 @@
   // Upper Zoras River
   {
     "description": "Adjust rupee flags",
-    "FilePath": "res/Stage/F_SP126/R00_00/dzr/room.dzr",
+    "FilePath": "res/Stage/F_SP126/R00_00",
     "Changes": [
       {
         "Operation": "modify",
@@ -2399,12 +2405,12 @@
   // Fishing Pond
   {
     "description": "Add hint sign to Fishing Pond",
-    "FilePath": "res/Stage/F_SP127/R00_00/dzr/room.dzr",
+    "FilePath": "res/Stage/F_SP127/R00_00",
     "Changes": [
       {
         "Operation": "add",
         "DataBlock": "ACTR",
-        "data": {
+        "Data": {
           "Name": "Obj_kn2",
           "param": 4294967295,
           "x": -2924.745849609375,
@@ -2421,12 +2427,12 @@
   // Hidden Village
   {
     "description": "Add hint sign to Hidden Village",
-    "FilePath": "res/Stage/F_SP128/R00_00/dzr/room.dzr",
+    "FilePath": "res/Stage/F_SP128/R00_00",
     "Changes": [
       {
         "Operation": "add",
         "DataBlock": "ACTR",
-        "data": {
+        "Data": {
           "Name": "Obj_kn2",
           "param": 4294967295,
           "x": 5161.02978515625,
@@ -2443,7 +2449,7 @@
   // Faron Interiors
   {
     "description": "Remove Coro actor from Twilight State",
-    "FilePath": "res/Stage/R_SP108/R00_00/dzr/room.dzr",
+    "FilePath": "res/Stage/R_SP108/R00_00",
     "Changes": [
       {
         "Operation": "remove",
@@ -2455,7 +2461,7 @@
   // Kakariko Interiors
   {
     "description": "Remove Colin and Luda dupe actors from Inn",
-    "FilePath": "res/Stage/R_SP109/R02_00/dzr/room.dzr",
+    "FilePath": "res/Stage/R_SP109/R02_00",
     "Changes": [
       {
         "Operation": "remove",
@@ -2471,12 +2477,12 @@
   },
   {
     "description": "Add and adjust shop items for Malo Mart",
-    "FilePath": "res/Stage/R_SP109/R03_00/dzr/room.dzr",
+    "FilePath": "res/Stage/R_SP109/R03_00",
     "Changes": [
       {
         "Operation": "add",
         "DataBlock": "ACTR",
-        "data": {
+        "Data": {
           "Name": "TGSPITM",
           "param": 50331647,
           "x": -650.0,
@@ -2566,12 +2572,12 @@
   // Castle Town Shops
   {
     "description": "Add Poe to Jovani's house global actr and remove mdh poe",
-    "FilePath": "res/Stage/R_SP160/R05_00/dzr/room.dzr",
+    "FilePath": "res/Stage/R_SP160/R05_00",
     "Changes": [
       {
         "Operation": "add",
         "DataBlock": "ACTR",
-        "data": {
+        "Data": {
           "Name": "E_hp",
           "param": 4278394624,
           "x": 4531.1904296875,
@@ -2592,7 +2598,7 @@
   },
   {
     "description": "Adjust CT Malo Mart Shop Items",
-    "FilePath": "res/Stage/R_SP160/R00_00/dzr/room.dzr",
+    "FilePath": "res/Stage/R_SP160/R00_00",
     "Changes": [
       {
         "Operation": "modify",
@@ -2711,12 +2717,12 @@
   // Sanctuary Basement
   {
     "description": "Add sign explaining Sky Cannon in rando",
-    "FilePath": "res/Stage/R_SP209/R07_00/dzr/room.dzr",
+    "FilePath": "res/Stage/R_SP209/R07_00",
     "Changes": [
       {
         "Operation": "add",
         "DataBlock": "ACTR",
-        "data": {
+        "Data": {
           "Name": "Obj_kn2",
           "param": 4294967295,
           "x": 440.0,

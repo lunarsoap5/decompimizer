@@ -10,12 +10,29 @@ public class DZX
 
     List<DZXDataBlock> dataBlocks { get; set; }
 
-    static readonly Dictionary<string, Type> TagTypes =
+    public static readonly Dictionary<string, Type> TagTypes =
         new()
         {
-            ["SCLS"] = typeof(SCLSEntry),
+            ["SCLS"] = typeof(SCLS),
+            ["FILI"] = typeof(FILI),
+            ["PLYR"] = typeof(PLYR),
+            ["Doo"] = typeof(Door), // Matches Door, Doo0, Doo1, Doo2, etc.
+            ["ACT"] = typeof(ACTR), // Matches ACTR, ACT0, ACT1, etc.
+            ["SCO"] = typeof(SCOB), // Matches SCOB, SCO0, SCO1, etc.
+            ["LGT"] = typeof(LGT0), // Matches LGT0, LGT1, LGT2, etc.
             // add as many as needed
         };
+
+    public static Type GetEntryType(string tag)
+    {
+        // Try exact match first
+        if (TagTypes.TryGetValue(tag, out Type type))
+            return type;
+
+        // Fall back to prefix match
+        var prefix = TagTypes.Keys.FirstOrDefault(k => tag.StartsWith(k));
+        return prefix != null ? TagTypes[prefix] : null;
+    }
 }
 
 public class DZXDataBlock
@@ -30,18 +47,8 @@ public class DZXDataBlock
     public List<JsonElement> Entries { get; set; }
 }
 
-public class SCLSEntry
+public class SCLS
 {
-    public SCLSEntry(string stg, int start, int room, int fieldA, int fieldB, int mWipe)
-    {
-        Stage = stg;
-        Start = start;
-        Room = room;
-        field_0xa = fieldA;
-        field_0xb = fieldB;
-        Wipe = mWipe;
-    }
-
     public string Stage { get; set; }
     public int Start { get; set; }
     public int Room { get; set; }
@@ -50,13 +57,100 @@ public class SCLSEntry
     public int Wipe { get; set; }
 }
 
+public class FILI
+{
+    public uint Parameters { get; set; }
+    public int Sea_Level { get; set; }
+    public int field_0x8 { get; set; }
+    public int field_0xc { get; set; }
+    public int[] field_0x10 { get; set; }
+    public int Default_Camera { get; set; }
+    public int BitSw { get; set; }
+    public int Msg { get; set; }
+}
+
+public class PLYR
+{
+    public string Name { get; set; }
+    public uint param { get; set; }
+    public float x { get; set; }
+    public float y { get; set; }
+    public float z { get; set; }
+    public int Angle_X { get; set; }
+    public int Angle_Y { get; set; }
+    public int Angle_Z { get; set; }
+    public int EnemyNo { get; set; }
+}
+
+public class Door
+{
+    public string Name { get; set; }
+    public uint param { get; set; }
+    public float x { get; set; }
+    public float y { get; set; }
+    public float z { get; set; }
+    public int Angle_X { get; set; }
+    public int Angle_Y { get; set; }
+    public int Angle_Z { get; set; }
+    public int EnemyNo { get; set; }
+    public int Scale_X { get; set; }
+    public int Scale_Y { get; set; }
+    public int Scale_Z { get; set; }
+    public int field_0x23 { get; set; }
+}
+
+public class SCOB
+{
+    public string Name { get; set; }
+    public uint param { get; set; }
+    public float x { get; set; }
+    public float y { get; set; }
+    public float z { get; set; }
+    public int Angle_X { get; set; }
+    public int Angle_Y { get; set; }
+    public int Angle_Z { get; set; }
+    public int EnemyNo { get; set; }
+    public int Scale_X { get; set; }
+    public int Scale_Y { get; set; }
+    public int Scale_Z { get; set; }
+    public int field_0x23 { get; set; }
+}
+
+public class ACTR
+{
+    public string Name { get; set; }
+    public uint param { get; set; }
+    public float x { get; set; }
+    public float y { get; set; }
+    public float z { get; set; }
+    public int Angle_X { get; set; }
+    public int Angle_Y { get; set; }
+    public int Angle_Z { get; set; }
+    public int EnemyNo { get; set; }
+}
+
+public class LGT0
+{
+    public float x { get; set; }
+    public float y { get; set; }
+    public float z { get; set; }
+    public float Radius { get; set; }
+    public float Direction_X { get; set; }
+    public float Direction_Y { get; set; }
+    public float Spotlight_Cutoff { get; set; }
+    public int field_0x1c { get; set; }
+    public int field_0x1d { get; set; }
+    public int field_0x1e { get; set; }
+    public int field_0x1f { get; set; }
+}
+
 public class DZXPatch
 {
     public string FilePath { get; set; }
-    public List<DZXChanges> Changes { get; set; }
+    public List<DZXChange> Changes { get; set; }
 }
 
-public class DZXChanges
+public class DZXChange
 {
     public string Operation { get; set; }
     public string DataBlock { get; set; }
@@ -66,7 +160,7 @@ public class DZXChanges
 
 public static class PatchFunctions
 {
-    static T ApplyChanges<T>(T target, JsonElement changes)
+    public static T ApplyChanges<T>(T target, JsonElement changes)
     {
         // Serialize the target to a JsonObject so we can mutate it
         var node = JsonSerializer.SerializeToNode(target).AsObject();
@@ -79,4 +173,23 @@ public static class PatchFunctions
 
         return node.Deserialize<T>();
     }
+
+    public static string AfterLast(string s, char c)
+    {
+        int i = s.LastIndexOf(c);
+        return i >= 0 ? s[(i + 1)..] : s;
+    }
+
+    public static string GetEntryID(JsonElement e) =>
+        $"{e.GetProperty("Name").GetString()}@"
+        + $"{(int)e.GetProperty("x").GetSingle()},"
+        + $"{(int)e.GetProperty("y").GetSingle()},"
+        + $"{(int)e.GetProperty("z").GetSingle()}";
+
+    public static string GetEntryParamID(JsonElement e) =>
+        $"{e.GetProperty("Name").GetString()}@"
+        + $"{(int)e.GetProperty("x").GetSingle()},"
+        + $"{(int)e.GetProperty("y").GetSingle()},"
+        + $"{(int)e.GetProperty("z").GetSingle()},"
+        + $"{e.GetProperty("param").GetUInt32()}";
 }

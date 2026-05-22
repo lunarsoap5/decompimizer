@@ -190,12 +190,6 @@ namespace RarcTools
             return BitConverter.ToUInt32(bytes, 0);
         }
 
-        static string AfterLast(string s, char c)
-        {
-            int i = s.LastIndexOf(c);
-            return i >= 0 ? s[(i + 1)..] : s;
-        }
-
         public static string DumpArchive(string args)
         {
             if (args.Length < 1 || !File.Exists(args))
@@ -210,7 +204,7 @@ namespace RarcTools
                 ReadFile(br, args);
             }
 
-            string subfolder = AfterLast(args, '\\');
+            string subfolder = PatchFunctions.AfterLast(args, '/');
 
             return args + "\\" + subfolder;
         }
