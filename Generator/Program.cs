@@ -21,7 +21,7 @@ foreach (var dzxPatch in dzxPatches)
         Yaz0dec.InitYaz0Decode(@"extractedISO/root/" + dzxPatch.FilePath + ".arc")
     );
 
-    Console.WriteLine("archive dir: " + archiveDirectory);
+    //Console.WriteLine("archive dir: " + archiveDirectory);
     // Read dzr file into a serialized var
     string filePath = "";
     if (dzxPatch.FilePath.Contains("STG_00"))
@@ -32,7 +32,7 @@ foreach (var dzxPatch in dzxPatches)
     {
         filePath = "/dzr/room.dzr";
     }
-    Console.WriteLine("File path: " + archiveDirectory + filePath);
+    //Console.WriteLine("File path: " + archiveDirectory + filePath);
     var dzxContents = JsonSerializer.Deserialize<List<DZXDataBlock>>(
         LibStage.ExtractDZX(archiveDirectory + filePath)
     );
@@ -48,11 +48,7 @@ foreach (var dzxPatch in dzxPatches)
             continue;
         }
         // Loop through all of the dataBlock entries until we find the tag that we want to match
-        foreach (DZXDataBlock s in dzxContents)
-        {
-            Console.WriteLine(s.Tag);
-        }
-        Console.WriteLine("looking for: " + DZXChange.DataBlock);
+        //Console.WriteLine("looking for: " + DZXChange.DataBlock);
         int sectionIndex = dzxContents.FindIndex(
             s => DZXChange.DataBlock != null && s.Tag == DZXChange.DataBlock
         );
@@ -152,7 +148,7 @@ var bmgPatches = JsonSerializer.Deserialize<List<BMGPatch>>(bmgPatchContents, op
 // Modify section
 foreach (var bmgPatch in bmgPatches)
 {
-    Console.WriteLine(bmgPatch.FilePath);
+    //Console.WriteLine(bmgPatch.FilePath);
     string archiveDirectory = RarcTools.RARCDump.DumpArchive(
         Yaz0dec.InitYaz0Decode(
             @"extractedISO/root/"
@@ -161,8 +157,8 @@ foreach (var bmgPatch in bmgPatches)
         )
     );
 
-    Console.WriteLine("archive dir: " + archiveDirectory);
-    Console.WriteLine("File path: " + bmgPatch.FilePath);
+    //Console.WriteLine("archive dir: " + archiveDirectory);
+    //Console.WriteLine("File path: " + bmgPatch.FilePath);
     List<BMGDataBlock> bmgContents = JsonSerializer.Deserialize<List<BMGDataBlock>>(
         BmgTools.DumpBmg(archiveDirectory + @"\" + PatchFunctions.AfterLast(bmgPatch.FilePath, '/'))
     );

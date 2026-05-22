@@ -204,12 +204,12 @@ public static class BmgTools
 
         if (encodingValue == 0x03000000)
         {
-            Console.WriteLine($"Got encoding value {encodingValue:x}, assuming Shift-JIS encoding");
+            //Console.WriteLine($"Got encoding value {encodingValue:x}, assuming Shift-JIS encoding");
             return Encoding.GetEncoding("shift-jis");
         }
         else
         {
-            Console.WriteLine($"Got encoding value {encodingValue:x}, assuming latin-1 encoding");
+            //Console.WriteLine($"Got encoding value {encodingValue:x}, assuming latin-1 encoding");
             return Encoding.GetEncoding("iso-8859-1");
         }
     }
@@ -237,9 +237,9 @@ public static class BmgTools
 
         byte[] padding = br.ReadBytes(0x0C);
 
-        Console.WriteLine(Encoding.ASCII.GetString(magic));
-        Console.WriteLine("filesize: " + fileSize.ToString("X"));
-        Console.WriteLine("sections: " + sectionCount);
+        //Console.WriteLine(Encoding.ASCII.GetString(magic));
+        //Console.WriteLine("filesize: " + fileSize.ToString("X"));
+        //Console.WriteLine("sections: " + sectionCount);
 
         List<(long Start, byte[] Magic, uint Size, byte[] Data)> sections =
             new List<(long, byte[], uint, byte[])>();
@@ -251,17 +251,17 @@ public static class BmgTools
             byte[] sectionMagic = br.ReadBytes(4);
             uint sectionSize = ReadUInt32BE(br);
 
-            Console.WriteLine(
+            /*Console.WriteLine(
                 $"found section {Encoding.ASCII.GetString(sectionMagic)} with size 0x{sectionSize:X}"
-            );
+            );*/
 
             byte[] data = br.ReadBytes((int)sectionSize - 8);
 
             sections.Add((sectionStart, sectionMagic, sectionSize, data));
         }
 
-        Console.WriteLine("reached end of file");
-        Console.WriteLine("0x" + br.BaseStream.Position.ToString("X"));
+        //Console.WriteLine("reached end of file");
+        //Console.WriteLine("0x" + br.BaseStream.Position.ToString("X"));
 
         var infSection = sections[0];
 
@@ -941,7 +941,7 @@ public static class BmgTools
         }
 
         //Console.WriteLine("input: " + input);
-        Console.WriteLine("output: " + output);
+        //Console.WriteLine("output: " + output);
 
         DumpBmgToJsonTxt(input, output);
 
@@ -967,8 +967,8 @@ public static class BmgTools
         }
 
         //Console.WriteLine("input: " + input);
-        Console.WriteLine("output: " + output);
-        Console.WriteLine("encoding: " + encoding);
+        //Console.WriteLine("output: " + output);
+        //Console.WriteLine("encoding: " + encoding);
         if (useFileStream)
         {
             using FileStream inputFile = new FileStream(input, FileMode.Open, FileAccess.Read);
@@ -998,7 +998,7 @@ public static class BmgTools
                 detectedEncoding = "utf-8";
             }
 
-            Console.WriteLine("Assuming encoding of input file: " + detectedEncoding);
+            //Console.WriteLine("Assuming encoding of input file: " + detectedEncoding);
 
             inputFile.Seek(0, SeekOrigin.Begin);
 
