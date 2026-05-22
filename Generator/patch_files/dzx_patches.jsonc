@@ -460,7 +460,7 @@
       {
         "Operation": "modify",
         "DataBlock": "ACT0",
-        "ID": "item@-4236,28,4208",
+        "ID": "item@-4326,28,4208",
         "Data": {
           "param": 335479809
         }
@@ -879,7 +879,7 @@
       {
         "Operation": "modify",
         "DataBlock": "ACT0",
-        "ID": "item@167,-8943,12821",
+        "ID": "item@167,-8493,12821",
         "Data": {
           "param": 322641666
         }
@@ -1393,7 +1393,7 @@
       {
         "Operation": "modify",
         "DataBlock": "ACTR",
-        "ID": "item@-357,-1594,-292",
+        "ID": "item@-657,-1594,-292",
         "Data": {
           "param": 320688897
         }
@@ -1409,7 +1409,7 @@
       {
         "Operation": "modify",
         "DataBlock": "ACTR",
-        "ID": "item@-1201,-110,1692",
+        "ID": "item@-1201,-1100,1692",
         "Data": {
           "param": 322524419
         }
@@ -1617,7 +1617,7 @@
       {
         "Operation": "modify",
         "DataBlock": "ACTR",
-        "ID": "item@34700,-39,40200",
+        "ID": "item@37400,-39,-40200",
         "Data": {
           "param": 4084665603
         }
@@ -1678,7 +1678,7 @@
       {
         "Operation": "modify",
         "DataBlock": "ACTR",
-        "ID": "item@-13912,-5696,45022",
+        "ID": "item@-13912,-4696,45022",
         "Data": {
           "param": 4084732419
         }
@@ -1735,7 +1735,7 @@
       {
         "Operation": "modify",
         "DataBlock": "PLYR",
-        "ID": "Link@-48296,-9428,53030",
+        "ID": "Link@-47839,-9337,52352",
         "Data": {
           "x": -48296.46875,
           "y": -9428.5810546875,
@@ -1934,8 +1934,8 @@
     ]
   },
   {
-    "description": "Add hint sign to Lanayru Field and adjust rupee flags",
-    "FilePath": "res/Stage/F_SP121/R10_00",
+    "description": "Add hint sign to Bridge of Hylia and adjust rupee flags",
+    "FilePath": "res/Stage/F_SP121/R13_00",
     "Changes": [
       {
         "Operation": "add",
@@ -2144,7 +2144,7 @@
       {
         "Operation": "modify",
         "DataBlock": "ACTR",
-        "ID": "item@-46596,-5826,26777",
+        "ID": "item@-46596,-5826,26277",
         "Data": {
           "param": 4081725953
         }
@@ -2243,7 +2243,7 @@
       {
         "Operation": "modify",
         "DataBlock": "ACTR",
-        "ID": "item@1349,-1874,-796",
+        "ID": "item@1346,-1874,-796",
         "Data": {
           "param": 325070594
         }
@@ -2515,7 +2515,7 @@
       {
         "Operation": "modify",
         "DataBlock": "ACT2",
-        "ID": "TGSPITM@-750,-450,500,67108863",
+        "ID": "TGSPITM@-750,450,-500,67108863",
         "Data": {
           "Angle Z": 1279
         }
@@ -2553,7 +2553,7 @@
       {
         "Operation": "modify",
         "DataBlock": "ACT2",
-        "ID": "TGSPITM@*750,450,-500,50382892",
+        "ID": "TGSPITM@-750,450,-500,50382892",
         "Data": {
           "param": 50972716
         }

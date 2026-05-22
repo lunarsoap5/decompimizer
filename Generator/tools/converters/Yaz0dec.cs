@@ -119,8 +119,8 @@ internal class Yaz0dec
 
             // Read uncompressed size (big-endian u32 at current position)
             uint size = SwapU32(BitConverter.ToUInt32(src, readBytes));
-            Console.WriteLine($"Writing {dstName}");
-            Console.WriteLine($"Writing 0x{size:X} bytes");
+            //Console.WriteLine($"Writing {dstName}");
+            //Console.WriteLine($"Writing 0x{size:X} bytes");
 
             readBytes += 12; // 4-byte size + 8 bytes unused
 
@@ -128,7 +128,7 @@ internal class Yaz0dec
             DecodeResult r = DecodeYaz0(src, readBytes, srcSize - readBytes, dst, (int)size);
             readBytes += r.SrcPos;
 
-            Console.WriteLine($"Read 0x{readBytes:X} bytes from input");
+            //Console.WriteLine($"Read 0x{readBytes:X} bytes from input");
 
             File.WriteAllBytes(dstName, dst[..r.DstPos]);
         }
@@ -147,7 +147,7 @@ internal class Yaz0dec
         }
 
         byte[] buffer = File.ReadAllBytes(filePath);
-        Console.WriteLine($"Input file size: 0x{buffer.Length:X}");
+        //Console.WriteLine($"Input file size: 0x{buffer.Length:X}");
 
         return DecodeAll(buffer, buffer.Length, filePath);
         ;

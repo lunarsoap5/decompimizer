@@ -40,6 +40,7 @@ foreach (var dzxPatch in dzxPatches)
     foreach (DZXChange DZXChange in dzxPatch.Changes)
     {
         bool didPatch = false;
+
         // Verify that we have a type mapping for the block we are wanting to replace
         Type entryType = DZX.GetEntryType(DZXChange.DataBlock);
         if (entryType == null)
@@ -47,6 +48,7 @@ foreach (var dzxPatch in dzxPatches)
             Console.WriteLine("No entry type defined for: " + DZXChange.DataBlock);
             continue;
         }
+
         // Loop through all of the dataBlock entries until we find the tag that we want to match
         //Console.WriteLine("looking for: " + DZXChange.DataBlock);
         int sectionIndex = dzxContents.FindIndex(
@@ -76,7 +78,7 @@ foreach (var dzxPatch in dzxPatches)
                     string sectionID = "";
 
                     // For Kak Malo Mart, the ID includes the param as multiple items can be in the same place.
-                    if (archiveDirectory.Contains(@"R_SP109\R03"))
+                    if (archiveDirectory.Contains(@"R_SP109/R03"))
                     {
                         sectionID = PatchFunctions.GetEntryParamID(
                             dzxContents[sectionIndex].Entries[i]
@@ -98,12 +100,14 @@ foreach (var dzxPatch in dzxPatches)
                         );
 
                         // Successfully patched the section, so break out.
+
                         Console.WriteLine(
                             "Successfully Applied Patch to: "
                                 + archiveDirectory
                                 + "-"
                                 + DZXChange.ID
                         );
+
                         didPatch = true;
                         break;
                     }
@@ -190,9 +194,21 @@ foreach (var bmgPatch in bmgPatches)
                 );
                 bmgContents[sectionIndex] = (BMGDataBlock)patched;
                 // Successfully patched the section, so break out.
-                Console.WriteLine(
-                    "Successfully Applied Patch to: " + archiveDirectory + "-" + bmgChange.Index
-                );
+                if (bmgChange.Index != null)
+                {
+                    Console.WriteLine(
+                        "Successfully Applied Patch to: " + archiveDirectory + "-" + bmgChange.Index
+                    );
+                }
+                else
+                {
+                    Console.WriteLine(
+                        "Successfully Applied Patch to: "
+                            + archiveDirectory
+                            + "-"
+                            + bmgChange.Section
+                    );
+                }
 
                 /*Console.WriteLine(
                     JsonSerializer.Serialize(
@@ -224,6 +240,23 @@ foreach (var bmgPatch in bmgPatches)
         true
     );
 }
+
+// Leaving this commented for now. Will be useful once we get to the point where the generator copies over custom files.
+/*
+//Move all of the new game files over to the extractedISO directory
+string[] movableFolders = Directory.GetDirectories(@"mod_assets\");
+if (movableFolders.Length != 0)
+{
+    Console.WriteLine("Copying new game files to game folder...");
+    foreach (string folder in movableFolders)
+    {
+        string gameFolder = folder.Substring(gameFiles.Length, (folder.Length - gameFiles.Length));
+        gameFolder = tempISOPath + @"\root" + gameFolder;
+        Console.WriteLine("Copied " + folder + " to game folder!");
+        CopyDirectory(folder, gameFolder, true);
+    }
+}
+*/
 
 RarcTools.GCRebuilder.GCRebuilder.RebuildISO(
     @"extractedISO\root\",

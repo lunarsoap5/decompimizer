@@ -26,7 +26,7 @@ public class DZX
     public static Type GetEntryType(string tag)
     {
         // Try exact match first
-        if (TagTypes.TryGetValue(tag, out Type type))
+        if (TagTypes.TryGetValue(tag, out Type? type))
             return type;
 
         // Fall back to prefix match
@@ -49,7 +49,7 @@ public class DZXDataBlock
 
 public class SCLS
 {
-    public string Stage { get; set; }
+    public string? Stage { get; set; }
     public int Start { get; set; }
     public int Room { get; set; }
     public int field_0xa { get; set; }
@@ -63,7 +63,7 @@ public class FILI
     public int Sea_Level { get; set; }
     public int field_0x8 { get; set; }
     public int field_0xc { get; set; }
-    public int[] field_0x10 { get; set; }
+    public int[]? field_0x10 { get; set; }
     public int Default_Camera { get; set; }
     public int BitSw { get; set; }
     public int Msg { get; set; }
@@ -71,27 +71,27 @@ public class FILI
 
 public class PLYR
 {
-    public string Name { get; set; }
+    public string? Name { get; set; }
     public uint param { get; set; }
     public float x { get; set; }
     public float y { get; set; }
     public float z { get; set; }
-    public int Angle_X { get; set; }
-    public int Angle_Y { get; set; }
-    public int Angle_Z { get; set; }
+    public short Angle_X { get; set; }
+    public short Angle_Y { get; set; }
+    public short Angle_Z { get; set; }
     public int EnemyNo { get; set; }
 }
 
 public class Door
 {
-    public string Name { get; set; }
+    public string? Name { get; set; }
     public uint param { get; set; }
     public float x { get; set; }
     public float y { get; set; }
     public float z { get; set; }
-    public int Angle_X { get; set; }
-    public int Angle_Y { get; set; }
-    public int Angle_Z { get; set; }
+    public short Angle_X { get; set; }
+    public short Angle_Y { get; set; }
+    public short Angle_Z { get; set; }
     public int EnemyNo { get; set; }
     public int Scale_X { get; set; }
     public int Scale_Y { get; set; }
@@ -101,14 +101,14 @@ public class Door
 
 public class SCOB
 {
-    public string Name { get; set; }
+    public string? Name { get; set; }
     public uint param { get; set; }
     public float x { get; set; }
     public float y { get; set; }
     public float z { get; set; }
-    public int Angle_X { get; set; }
-    public int Angle_Y { get; set; }
-    public int Angle_Z { get; set; }
+    public short Angle_X { get; set; }
+    public short Angle_Y { get; set; }
+    public short Angle_Z { get; set; }
     public int EnemyNo { get; set; }
     public int Scale_X { get; set; }
     public int Scale_Y { get; set; }
@@ -118,14 +118,14 @@ public class SCOB
 
 public class ACTR
 {
-    public string Name { get; set; }
+    public string? Name { get; set; }
     public uint param { get; set; }
     public float x { get; set; }
     public float y { get; set; }
     public float z { get; set; }
-    public int Angle_X { get; set; }
-    public int Angle_Y { get; set; }
-    public int Angle_Z { get; set; }
+    public short Angle_X { get; set; }
+    public short Angle_Y { get; set; }
+    public short Angle_Z { get; set; }
     public int EnemyNo { get; set; }
 }
 
@@ -146,15 +146,15 @@ public class LGT0
 
 public class DZXPatch
 {
-    public string FilePath { get; set; }
-    public List<DZXChange> Changes { get; set; }
+    public string? FilePath { get; set; }
+    public List<DZXChange>? Changes { get; set; }
 }
 
 public class DZXChange
 {
-    public string Operation { get; set; }
-    public string DataBlock { get; set; }
-    public string ID { get; set; }
+    public string? Operation { get; set; }
+    public string? DataBlock { get; set; }
+    public string? ID { get; set; }
     public JsonElement Data { get; set; }
 }
 
@@ -163,12 +163,12 @@ public static class PatchFunctions
     public static T ApplyChanges<T>(T target, JsonElement changes)
     {
         // Serialize the target to a JsonObject so we can mutate it
-        var node = JsonSerializer.SerializeToNode(target).AsObject();
+        var node = JsonSerializer.SerializeToNode(target)?.AsObject();
 
         // Overwrite matching properties from changes
         foreach (var prop in changes.EnumerateObject())
         {
-            node[prop.Name] = prop.Value.Deserialize<JsonNode>();
+            node?[prop.Name] = prop.Value.Deserialize<JsonNode>();
         }
 
         return node.Deserialize<T>();

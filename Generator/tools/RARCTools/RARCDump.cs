@@ -121,7 +121,7 @@ namespace RarcTools
                         curr.FilenameOffset + h.StringTableOffset + 0x20
                     );
 
-                    Console.WriteLine($"{nodeName}/{currName}");
+                    //Console.WriteLine($"{nodeName}/{currName}");
 
                     string filePath = Path.Combine(nodeDirectory, currName);
                     using (FileStream fs = new FileStream(filePath, FileMode.Create))
