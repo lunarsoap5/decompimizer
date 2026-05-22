@@ -24,6 +24,7 @@ The project can target the following supported versions:
 - `ShieldD`: Nvidia Shield - China (Debug Version)
 
 <!--ts-->
+
 - [Dependencies](#dependencies)
 - [Building](#building)
 - [Diffing](#diffing)
@@ -50,6 +51,8 @@ On Windows, it's **highly recommended** to use native tooling. WSL or msys2 are 
   ```
   pip install "gclib[speedups] @ git+https://github.com/LagoLunatic/gclib.git"
   ```
+
+- Install the latest version of [.NET](https://dotnet.microsoft.com/en-us/download)
 - Download [ninja](https://github.com/ninja-build/ninja/releases) and add it to `%PATH%`.
   - Quick install via pip: `pip install ninja`
 
@@ -67,6 +70,8 @@ On Windows, it's **highly recommended** to use native tooling. WSL or msys2 are 
   pip install "gclib[speedups] @ git+https://github.com/LagoLunatic/gclib.git"
   ```
 
+- Install the latest version of [.NET](https://dotnet.microsoft.com/en-us/download)
+
 [wibo](https://github.com/decompals/wibo), a minimal 32-bit Windows binary wrapper, will be automatically downloaded and used.
 
 ### Linux
@@ -77,8 +82,11 @@ On Windows, it's **highly recommended** to use native tooling. WSL or msys2 are 
   ```
   pip install "gclib[speedups] @ git+https://github.com/LagoLunatic/gclib.git"
   ```
-- For non-x86(_64) platforms: Install wine from your package manager.
-  - For x86(_64), [wibo](https://github.com/decompals/wibo), a minimal 32-bit Windows binary wrapper, will be automatically downloaded and used.
+
+- For non-x86(\_64) platforms: Install wine from your package manager.
+  - For x86(\_64), [wibo](https://github.com/decompals/wibo), a minimal 32-bit Windows binary wrapper, will be automatically downloaded and used.
+
+- Install the latest version of [.NET](https://dotnet.microsoft.com/en-us/download)
 
 ## Building
 
@@ -93,6 +101,7 @@ On Windows, it's **highly recommended** to use native tooling. WSL or msys2 are 
   - This is used for both asset extraction and rebuilding the final ISO.
 
 - Configure and build:
+  - To build an ISO with custom code changes, run:
 
   ```sh
   python configure.py -v GZ2E01
@@ -101,6 +110,11 @@ On Windows, it's **highly recommended** to use native tooling. WSL or msys2 are 
 
   - Replace `GZ2E01` with your desired version (e.g., `GZ2P01` for PAL)
   - Currently supported versions: `GZ2E01`, `GZ2P01`, `GZ2J01`
+  - To build an ISO with custom archive changes, run:
+
+  ```sh
+  dotnet run --project ./Generator/Generator.csproj
+  ```
 
 ## Adding Custom Code
 
