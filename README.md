@@ -38,6 +38,7 @@ You will need the following dependencies:
 - git
 - ninja
 - python3
+- .NET
 - clang-format (optional)
 
 ### Windows

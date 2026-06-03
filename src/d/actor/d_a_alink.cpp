@@ -1506,6 +1506,8 @@ static f32 l_ladderAnmBaseTransY = 102.00054168701172f;
 
 #include "d/actor/d_a_alink_whistle.inc"
 
+#include "d/actor/d_a_alink_fairy.inc"
+
 static dCcD_SrcCyl l_cylSrc = {
     {
         {0, {{AT_TYPE_WOLF_ATTACK, 3, 0x1A}, {0xD8FFFDFF, 5}, 0x73}},
@@ -4300,6 +4302,17 @@ int daAlink_c::createHeap() {
         }
     }
 
+    // Fairy setup
+    {
+        J3DModelData* modelData = (J3DModelData*)dComIfG_getObjectRes("Always", 0x21);
+        J3DAnmTransform* bck = (J3DAnmTransform*)dComIfG_getObjectRes("Always", 0xF);
+        mFairy.mpAnmModel = new mDoExt_McaMorfSO(modelData, NULL, NULL, bck, J3DFrameCtrl::EMode_LOOP, 0.4f, 0, -1, NULL, 0x80000, 0x11000084);
+
+        if (mFairy.mpAnmModel == NULL || mFairy.mpAnmModel->getModel() == NULL) {
+            OS_REPORT("daAlink_c::createHeap(): Error creating fairy !!");
+        }
+    }
+
     return 1;
 }
 
@@ -4925,6 +4938,16 @@ int daAlink_c::create() {
         field_0x317c = dComIfGp_getPlayerCameraID(0);
 
         playerInit();
+
+        createFairy();
+        {
+            // init fairy position
+            cXyz fairyPos;
+            cXyz offset(-40.0f, 190.0f, -30.0f);
+            cLib_offsetPos(&fairyPos, &current.pos, current.angle.y, &offset);
+            mFairy.mPosition = fairyPos;
+        }
+
         bgWaitFlg = TRUE;
 
         if (checkCanoeStart()) {
@@ -18724,6 +18747,8 @@ int daAlink_c::execute() {
         shape_angle.y = mCargoCarryAcKeep.getActor()->shape_angle.y;
     }
 
+     executeFairy();
+
     #if DEBUG
     if (checkModeFlg(2)) {
         f32 var_f27 = current.pos.y - mLastJumpPos.y;
@@ -19246,6 +19271,7 @@ int daAlink_c::draw() {
         g_env_light.settingTevStruct(10, &current.pos, &tevStr);
     }
 
+    drawFairy();
     initTevCustomColor();
 
     if (mSight.getDrawFlg() && !checkEventRun()) {
@@ -19618,6 +19644,11 @@ daAlink_c::~daAlink_c() {
     }
 
     dKy_plight_cut(&mMagneBootsPlight);
+
+    if (mFairy.mpAnmModel != NULL) {
+        mFairy.mpAnmModel->stopZelAnime();
+        mFairy.mpAnmModel = NULL;
+    }
 
     dComIfGp_setPlayer(0, NULL);
     dComIfGp_setLinkPlayer(NULL);
