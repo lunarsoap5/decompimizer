@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Nodes;
@@ -218,7 +219,10 @@ internal class LibStage
                 new JsonObject
                 {
                     ["Name"] = ReadAscii(d, offset, 8),
-                    ["param"] = (long)ReadU32(d, offset + 8),
+                    ["param_0"] = d[offset + 8],
+                    ["param_1"] = d[offset + 9],
+                    ["param_2"] = d[offset + 10],
+                    ["param_3"] = d[offset + 11],
                     ["x"] = ReadF32(d, offset + 12),
                     ["y"] = ReadF32(d, offset + 16),
                     ["z"] = ReadF32(d, offset + 20),
@@ -1168,7 +1172,10 @@ internal class LibStage
         foreach (var e in entries.AsArray())
         {
             WriteAscii(buf, e!["Name"]!.GetValue<string>(), 8);
-            WriteU32(buf, (uint)e["param"]!.GetValue<long>());
+            WriteU8(buf, (byte)e["param_0"]!.GetValue<int>());
+            WriteU8(buf, (byte)e["param_1"]!.GetValue<int>());
+            WriteU8(buf, (byte)e["param_2"]!.GetValue<int>());
+            WriteU8(buf, (byte)e["param_3"]!.GetValue<int>());
             WriteF32(buf, e["x"]!.GetValue<float>());
             WriteF32(buf, e["y"]!.GetValue<float>());
             WriteF32(buf, e["z"]!.GetValue<float>());

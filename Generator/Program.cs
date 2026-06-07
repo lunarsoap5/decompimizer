@@ -88,7 +88,7 @@ foreach (var dzxPatch in dzxPatches)
                     {
                         sectionID = PatchFunctions.GetEntryID(dzxContents[sectionIndex].Entries[i]);
                     }
-                    Console.WriteLine(sectionID);
+                    // Console.WriteLine(sectionID);
                     if (sectionID == DZXChange.ID)
                     {
                         var patched = PatchFunctions.ApplyChanges(

@@ -72,7 +72,10 @@ public class FILI
 public class PLYR
 {
     public string? Name { get; set; }
-    public uint param { get; set; }
+    public byte param_0 { get; set; }
+    public byte param_1 { get; set; }
+    public byte param_2 { get; set; }
+    public byte param_3 { get; set; }
     public float x { get; set; }
     public float y { get; set; }
     public float z { get; set; }
@@ -119,7 +122,10 @@ public class SCOB
 public class ACTR
 {
     public string? Name { get; set; }
-    public uint param { get; set; }
+    public byte param_0 { get; set; }
+    public byte param_1 { get; set; }
+    public byte param_2 { get; set; }
+    public byte param_3 { get; set; }
     public float x { get; set; }
     public float y { get; set; }
     public float z { get; set; }
@@ -191,5 +197,5 @@ public static class PatchFunctions
         + $"{(int)e.GetProperty("x").GetSingle()},"
         + $"{(int)e.GetProperty("y").GetSingle()},"
         + $"{(int)e.GetProperty("z").GetSingle()},"
-        + $"{e.GetProperty("param").GetUInt32()}";
+        + $"{e.GetProperty("param_0").GetUInt32() + e.GetProperty("param_1").GetUInt32() + e.GetProperty("param_2").GetUInt32() + e.GetProperty("param_3").GetUInt32()}";
 }
