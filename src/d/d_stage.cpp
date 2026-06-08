@@ -1649,12 +1649,24 @@ static int dStage_playerInit(dStage_dt_c* i_stage, void* i_data, int num, void* 
 
             case 0xD0:
             {
-                // If we are entering lake hylia from the Kak graveyard entrance and the twilight hasn't been cleared yet.
-                if (daAlink_c::checkStageName(allStages[Lake_Hylia]) && !dComIfGs_isEventBit(CLEARED_LANAYRU_TWILIGHT))
+                // If we are going through a "swimming" entrance during lanaryu twilight, change it to "normal" to prevent a hard lock.
+                if (!dComIfGs_isEventBit(CLEARED_LANAYRU_TWILIGHT))
                 {
-                    *entranceType = 0x50;
+                    switch (getCurrentStageID())
+                    {
+                        case Lake_Hylia:
+                        case Hyrule_Field:
+                        {
+                             *entranceType = 0x50;
+                             break;
+                        }
+
+                        default:
+                        {
+                            break;
+                        }
+                    }
                 }
-                break;
             }
             default:
                 break;
