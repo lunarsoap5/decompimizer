@@ -179,37 +179,5 @@ void customMenuRing_c::handleItemWheelMenu(dMenu_Ring_c* dMenuRingPtr)
         windowPosYOffset += 25.f;
     }
 
-    /*
-    // Draw Forest Icons
-    g_randoInfo.getBigKeyIconPtr()->draw(ringPosX + windowPosXOffset + 150.f, ringPosY + windowPosYOffset + 25.f, 30.f, 30.f, false, false, false);
-    g_randoInfo.getDunMapIconPtr()->draw(ringPosX + windowPosXOffset + 185.f, ringPosY + windowPosYOffset + 25.f, 30.f, 30.f, false, false, false);
-    g_randoInfo.getDunCompassIconPtr()->draw(ringPosX + windowPosXOffset + 220.f, ringPosY + windowPosYOffset + 25.f, 30.f, 30.f, false, false, false);
-
-    // Draw Mines Icons
-    g_randoInfo.getBigKeyIconPtr()->draw(ringPosX + windowPosXOffset + 150.f, ringPosY + windowPosYOffset + 55.f, 30.f, 30.f, false, false, false);
-    g_randoInfo.getDunMapIconPtr()->draw(ringPosX + windowPosXOffset + 185.f, ringPosY + windowPosYOffset + 55.f, 30.f, 30.f, false, false, false);
-    g_randoInfo.getDunCompassIconPtr()->draw(ringPosX + windowPosXOffset + 220.f, ringPosY + windowPosYOffset + 55.f, 30.f, 30.f, false, false, false);
-
-    // Draw Lakebed Icons
-    g_randoInfo.getBigKeyIconPtr()->draw(ringPosX + windowPosXOffset + 150.f, ringPosY + windowPosYOffset + 85.f, 30.f, 30.f, false, false, false);
-    g_randoInfo.getDunMapIconPtr()->draw(ringPosX + windowPosXOffset + 185.f, ringPosY + windowPosYOffset + 85.f, 30.f, 30.f, false, false, false);
-    g_randoInfo.getDunCompassIconPtr()->draw(ringPosX + windowPosXOffset + 220.f, ringPosY + windowPosYOffset + 85.f, 30.f, 30.f, false, false, false);
-
-    // Draw Arbiters Icons
-    g_randoInfo.getBigKeyIconPtr()->draw(ringPosX + windowPosXOffset + 150.f, ringPosY + windowPosYOffset + 115.f, 30.f, 30.f, false, false, false);
-    g_randoInfo.getDunMapIconPtr()->draw(ringPosX + windowPosXOffset + 185.f, ringPosY + windowPosYOffset + 115.f, 30.f, 30.f, false, false, false);
-    g_randoInfo.getDunCompassIconPtr()->draw(ringPosX + windowPosXOffset + 220.f, ringPosY + windowPosYOffset + 115.f, 30.f, 30.f, false, false, false);
-
-    // Draw Snowpeak Icons
-    g_randoInfo.getBigKeyIconPtr()->draw(ringPosX + windowPosXOffset + 150.f, ringPosY + windowPosYOffset + 145.f, 30.f, 30.f, false, false, false);
-    g_randoInfo.getDunMapIconPtr()->draw(ringPosX + windowPosXOffset + 185.f, ringPosY + windowPosYOffset + 145.f, 30.f, 30.f, false, false, false);
-    g_randoInfo.getDunCompassIconPtr()->draw(ringPosX + windowPosXOffset + 220.f, ringPosY + windowPosYOffset + 145.f, 30.f, 30.f, false, false, false);
-
-    // Draw ToT Icons
-    g_randoInfo.getBigKeyIconPtr()->draw(ringPosX + windowPosXOffset + 150.f, ringPosY + windowPosYOffset + 5.f, 30.f, 30.f, false, false, false);
-    g_randoInfo.getDunMapIconPtr()->draw(ringPosX + windowPosXOffset + 185.f, ringPosY + windowPosYOffset + 55.f, 30.f, 30.f, false, false, false);
-    g_randoInfo.getDunCompassIconPtr()->draw(ringPosX + windowPosXOffset + 220.f, ringPosY + windowPosYOffset + 55.f, 30.f, 30.f, false, false, false);
-    */
-
     return;
 }

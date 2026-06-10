@@ -228,10 +228,7 @@
         "DataBlock": "ACTR",
         "ID": "TGSPITM@60,200,-430",
         "Data": {
-          "param_0": 1,
-          "param_1": 28,
-          "param_2": 10,
-          "param_3": 10
+          "param_1": 28
         }
       },
       {
@@ -239,10 +236,7 @@
         "DataBlock": "ACTR",
         "ID": "TGSPITM@340,200,-430",
         "Data": {
-          "param_0": 2,
-          "param_1": 30,
-          "param_2": 10,
-          "param_3": 16
+          "param_1": 30
         }
       },
       {
@@ -250,10 +244,7 @@
         "DataBlock": "ACTR",
         "ID": "TGSPITM@60,140,-305",
         "Data": {
-          "param_0": 3,
-          "param_1": 29,
-          "param_2": 10,
-          "param_3": 97
+          "param_1": 29
         }
       },
       {
@@ -261,10 +252,7 @@
         "DataBlock": "ACTR",
         "ID": "TGSPITM@200,140,-305",
         "Data": {
-          "param_0": 4,
-          "param_1": 31,
-          "param_2": 10,
-          "param_3": 99
+          "param_1": 31
         }
       },
       {
@@ -272,10 +260,7 @@
         "DataBlock": "ACTR",
         "ID": "TGSPITM@340,140,-305",
         "Data": {
-          "param_0": 5,
-          "param_1": 32,
-          "param_2": 10,
-          "param_3": 102
+          "param_1": 32
         }
       }
     ]
@@ -289,10 +274,7 @@
         "DataBlock": "ACTR",
         "ID": "Savmem@-15044,0,-11283",
         "Data": {
-          "param_0": 0,
-          "param_1": 0,
-          "param_2": 0,
-          "param_3": 3
+          "param_2": 0
         }
       }
     ]
@@ -606,9 +588,6 @@
         "DataBlock": "ACT1",
         "ID": "K_Gate@-17520,200,-11195",
         "Data": {
-          "param_0": 15,
-          "param_1": 240,
-          "param_2": 255,
           "param_3": 12
         }
       },
@@ -617,9 +596,6 @@
         "DataBlock": "ACT5",
         "ID": "K_Gate@-17520,200,-11195",
         "Data": {
-          "param_0": 15,
-          "param_1": 240,
-          "param_2": 255,
           "param_3": 12
         }
       }
@@ -760,10 +736,7 @@
         "DataBlock": "ACT3",
         "ID": "TGSPITM@-1450,100,-3175",
         "Data": {
-          "param_0": 1,
-          "param_1": 11,
-          "param_2": 20,
-          "param_3": 102
+          "param_1": 11
         }
       },
       {
@@ -771,10 +744,7 @@
         "DataBlock": "ACT3",
         "ID": "TGSPITM@-1450,100,-3250",
         "Data": {
-          "param_0": 2,
-          "param_1": 12,
-          "param_2": 30,
-          "param_3": 97
+          "param_1": 12
         }
       },
       {
@@ -782,10 +752,7 @@
         "DataBlock": "ACT3",
         "ID": "TGSPITM@-1450,100,-3325",
         "Data": {
-          "param_0": 3,
-          "param_1": 13,
-          "param_2": 100,
-          "param_3": 99
+          "param_1": 13
         }
       }
     ]
@@ -1589,8 +1556,6 @@
         "DataBlock": "ACT0",
         "ID": "shoe@1031,-181,2604",
         "Data": {
-          "param_0": 4,
-          "param_1": 52,
           "param_2": 240,
           "param_3": 0
         }
@@ -1643,10 +1608,7 @@
         "DataBlock": "ACTR",
         "ID": "smgdoor@0,1725,6900",
         "Data": {
-          "param_0": 6,
-          "param_1": 48,
-          "param_2": 16,
-          "param_3": 255
+          "param_1": 48
         }
       },
       {
@@ -1659,9 +1621,6 @@
         "DataBlock": "ACT2",
         "ID": "Sekizoa@0,1725,7020",
         "Data": {
-          "param_0": 48,
-          "param_1": 0,
-          "param_2": 238,
           "param_3": 99
         }
       },
@@ -1684,10 +1643,7 @@
         "DataBlock": "ACT2",
         "ID": "sm_door@-8530,2000,4600",
         "Data": {
-          "param_0": 0,
-          "param_1": 0,
-          "param_2": 105,
-          "param_3": 1
+          "param_2": 105
         }
       },
       {
@@ -2689,10 +2645,7 @@
         "DataBlock": "ACT2",
         "ID": "TGSPITM@-650,450,-500,95",
         "Data": {
-          "param_0": 2,
           "param_1": 8,
-          "param_2": 50,
-          "param_3": 43,
           "Angle Z": -251
         }
       },
@@ -2718,10 +2671,7 @@
         "DataBlock": "ACT2",
         "ID": "TGSPITM@-531,410,-875,808",
         "Data": {
-          "param_0": 255,
-          "param_1": 8,
-          "param_2": 255,
-          "param_3": 43
+          "param_1": 8
         }
       },
       {
@@ -2729,10 +2679,7 @@
         "DataBlock": "ACT2",
         "ID": "TGSPITM@-550,450,-500,25",
         "Data": {
-          "param_0": 1,
-          "param_1": 6,
-          "param_2": 10,
-          "param_3": 15
+          "param_1": 6
         }
       },
       {
@@ -2745,10 +2692,7 @@
         "DataBlock": "ACT2",
         "ID": "TGSPITM@-550,450,-500,163",
         "Data": {
-          "param_0": 1,
           "param_1": 7,
-          "param_2": 100,
-          "param_3": 62,
           "Angle Z": 15933
         }
       },
@@ -2757,10 +2701,7 @@
         "DataBlock": "ACT2",
         "ID": "TGSPITM@-750,450,-500,247",
         "Data": {
-          "param_0": 3,
-          "param_1": 9,
-          "param_2": 200,
-          "param_3": 44
+          "param_1": 9
         }
       },
       {
@@ -2768,10 +2709,7 @@
         "DataBlock": "ACT2",
         "ID": "TGSPITM@-750,450,-500,130",
         "Data": {
-          "param_0": 3,
           "param_1": 10,
-          "param_2": 30,
-          "param_3": 97,
           "Angle Z": 14596
         }
       }
@@ -2816,10 +2754,7 @@
         "DataBlock": "ACT0",
         "ID": "TGSPITM@1440,-10,3646",
         "Data": {
-          "param_0": 5,
-          "param_1": 25,
-          "param_2": 10,
-          "param_3": 113
+          "param_1": 25
         }
       },
       {
@@ -2827,10 +2762,7 @@
         "DataBlock": "ACT0",
         "ID": "TGSPITM@1516,-10,3600",
         "Data": {
-          "param_0": 4,
-          "param_1": 24,
-          "param_2": 10,
-          "param_3": 10
+          "param_1": 24
         }
       },
       {
@@ -2838,10 +2770,7 @@
         "DataBlock": "ACT0",
         "ID": "TGSPITM@1336,-100,3637",
         "Data": {
-          "param_0": 3,
-          "param_1": 21,
-          "param_2": 10,
-          "param_3": 97
+          "param_1": 21
         }
       },
       {
@@ -2849,10 +2778,7 @@
         "DataBlock": "ACT0",
         "ID": "TGSPITM@1413,-100,3594",
         "Data": {
-          "param_0": 2,
-          "param_1": 22,
-          "param_2": 10,
-          "param_3": 99
+          "param_1": 22
         }
       },
       {
@@ -2860,10 +2786,7 @@
         "DataBlock": "ACT0",
         "ID": "TGSPITM@1487,-100,3549",
         "Data": {
-          "param_0": 1,
-          "param_1": 23,
-          "param_2": 10,
-          "param_3": 14
+          "param_1": 23
         }
       },
       {
@@ -2871,10 +2794,7 @@
         "DataBlock": "ACT0",
         "ID": "TGSPITM@1364,-10,3690",
         "Data": {
-          "param_0": 6,
-          "param_1": 26,
-          "param_2": 10,
-          "param_3": 114
+          "param_1": 26
         }
       },
       {
@@ -2882,10 +2802,7 @@
         "DataBlock": "ACT0",
         "ID": "TGSPITM@1261,-100,3680",
         "Data": {
-          "param_0": 7,
-          "param_1": 27,
-          "param_2": 10,
-          "param_3": 48
+          "param_1": 27
         }
       },
       {
@@ -2893,10 +2810,7 @@
         "DataBlock": "ACT1",
         "ID": "TGSPITM@1440,-10,3646",
         "Data": {
-          "param_0": 5,
-          "param_1": 25,
-          "param_2": 10,
-          "param_3": 161
+          "param_1": 25
         }
       },
       {
@@ -2904,10 +2818,7 @@
         "DataBlock": "ACT1",
         "ID": "TGSPITM@1516,-10,3600",
         "Data": {
-          "param_0": 4,
-          "param_1": 24,
-          "param_2": 10,
-          "param_3": 10
+          "param_1": 24
         }
       },
       {
@@ -2915,10 +2826,7 @@
         "DataBlock": "ACT1",
         "ID": "TGSPITM@1336,-100,3637",
         "Data": {
-          "param_0": 3,
-          "param_1": 21,
-          "param_2": 10,
-          "param_3": 97
+          "param_1": 21
         }
       },
       {
@@ -2926,10 +2834,7 @@
         "DataBlock": "ACT1",
         "ID": "TGSPITM@1413,-100,3594",
         "Data": {
-          "param_0": 2,
-          "param_1": 22,
-          "param_2": 10,
-          "param_3": 99
+          "param_1": 22
         }
       },
       {
@@ -2937,10 +2842,7 @@
         "DataBlock": "ACT1",
         "ID": "TGSPITM@1487,-100,3549",
         "Data": {
-          "param_0": 1,
-          "param_1": 23,
-          "param_2": 10,
-          "param_3": 14
+          "param_1": 23
         }
       },
       {
@@ -2948,10 +2850,7 @@
         "DataBlock": "ACT1",
         "ID": "TGSPITM@1364,-10,3690",
         "Data": {
-          "param_0": 6,
-          "param_1": 26,
-          "param_2": 10,
-          "param_3": 114
+          "param_1": 26
         }
       },
       {
@@ -2959,10 +2858,7 @@
         "DataBlock": "ACT1",
         "ID": "TGSPITM@1261,-100,3680",
         "Data": {
-          "param_0": 7,
-          "param_1": 27,
-          "param_2": 10,
-          "param_3": 48
+          "param_1": 27
         }
       }
     ]
