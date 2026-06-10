@@ -405,13 +405,85 @@ public static class BmgTools
 
         foreach (var section in additionalSections)
         {
-            messagesJson.Add(
-                new Dictionary<string, object>
-                {
-                    { "Section", Encoding.ASCII.GetString(section.Magic) },
-                    { "Data", PrettyHexNoSpace(section.Data) }
-                }
-            );
+            byte[] data = section.Data.ToArray();
+            if (Encoding.ASCII.GetString(section.Magic).Contains("FLW"))
+            {
+                ushort flwTableCount = BitConverter.ToUInt16(
+                    data.Skip(0).Take(2).Reverse().ToArray(),
+                    0
+                );
+                ushort flwIndexCount = BitConverter.ToUInt16(
+                    data.Skip(2).Take(2).Reverse().ToArray(),
+                    0
+                );
+                // bytes 4-7 are padding, skip them
+
+                int flwTableOffset = 8;
+                int flwIndexOffset = flwTableOffset + flwTableCount * 8;
+
+                string[] flwTable = Enumerable
+                    .Range(0, flwTableCount)
+                    .Select(
+                        i =>
+                            string.Concat(
+                                data.Skip(flwTableOffset + i * 8)
+                                    .Take(8)
+                                    .Select(b => b.ToString("X2"))
+                            )
+                    )
+                    .ToArray();
+
+                string[] flwIndexTable = Enumerable
+                    .Range(0, flwIndexCount)
+                    .Select(
+                        i =>
+                            string.Concat(
+                                data.Skip(flwIndexOffset + i * 2)
+                                    .Take(2)
+                                    .Select(b => b.ToString("X2"))
+                            )
+                    )
+                    .ToArray();
+
+                messagesJson.Add(
+                    new Dictionary<string, object>
+                    {
+                        { "Section", Encoding.ASCII.GetString(section.Magic) },
+                        {
+                            "Data",
+                            new Dictionary<string, object>
+                            {
+                                { "flwTable", flwTable },
+                                { "flwIndexTable", flwIndexTable }
+                            }
+                        }
+                    }
+                );
+            }
+            else
+            {
+                int chunkSize = 8;
+
+                string[] dataArray = Enumerable
+                    .Range(0, (data.Length + chunkSize - 1) / chunkSize)
+                    .Select(
+                        i =>
+                            string.Concat(
+                                data.Skip(i * chunkSize)
+                                    .Take(chunkSize)
+                                    .Select(b => b.ToString("X2"))
+                            )
+                    )
+                    .ToArray();
+
+                messagesJson.Add(
+                    new Dictionary<string, object>
+                    {
+                        { "Section", Encoding.ASCII.GetString(section.Magic) },
+                        { "RawData", dataArray }
+                    }
+                );
+            }
         }
 
         JsonSerializerOptions options = new JsonSerializerOptions
@@ -490,13 +562,19 @@ public static class BmgTools
             else
             {
                 string sectionName = sectionElement.GetString()!;
-                string dataHex = message.GetProperty("Data").GetString()!;
+                JsonElement dataArray = message.GetProperty("Data");
 
                 Section section = new Section(Encoding.ASCII.GetBytes(sectionName));
 
-                byte[] data = Enumerable
-                    .Range(0, dataHex.Length / 2)
-                    .Select(i => Convert.ToByte(dataHex.Substring(i * 2, 2), 16))
+                byte[] data = dataArray
+                    .EnumerateArray()
+                    .SelectMany(element =>
+                    {
+                        string hex = element.GetString()!;
+                        return Enumerable
+                            .Range(0, hex.Length / 2)
+                            .Select(i => Convert.ToByte(hex.Substring(i * 2, 2), 16));
+                    })
                     .ToArray();
 
                 section.Data.Write(data, 0, data.Length);
@@ -735,16 +813,60 @@ public static class BmgTools
             else
             {
                 string sectionName = sectionElement.GetString()!;
-                string dataHex = message.GetProperty("Data").GetString()!;
-
                 Section section = new Section(Encoding.ASCII.GetBytes(sectionName));
+                if (sectionName.Contains("FLW"))
+                {
+                    byte[] HexToBytes(string hex) =>
+                        Enumerable
+                            .Range(0, hex.Length / 2)
+                            .Select(i => Convert.ToByte(hex.Substring(i * 2, 2), 16))
+                            .ToArray();
 
-                byte[] data = Enumerable
-                    .Range(0, dataHex.Length / 2)
-                    .Select(i => Convert.ToByte(dataHex.Substring(i * 2, 2), 16))
-                    .ToArray();
+                    JsonElement dataObj = message.GetProperty("Data");
 
-                section.Data.Write(data, 0, data.Length);
+                    JsonElement flwTable = dataObj.GetProperty("flwTable");
+                    JsonElement flwIndexTable = dataObj.GetProperty("flwIndexTable");
+
+                    ushort flwTableCount = (ushort)flwTable.GetArrayLength();
+                    ushort flwIndexCount = (ushort)flwIndexTable.GetArrayLength();
+
+                    section.Data.Write(
+                        BitConverter.GetBytes(flwTableCount).Reverse().ToArray(),
+                        0,
+                        2
+                    );
+                    section.Data.Write(
+                        BitConverter.GetBytes(flwIndexCount).Reverse().ToArray(),
+                        0,
+                        2
+                    );
+                    section.Data.Write(new byte[4], 0, 4);
+
+                    foreach (JsonElement entry in dataObj.GetProperty("flwTable").EnumerateArray())
+                        section.Data.Write(HexToBytes(entry.GetString()!), 0, 8);
+
+                    foreach (
+                        JsonElement entry in dataObj.GetProperty("flwIndexTable").EnumerateArray()
+                    )
+                        section.Data.Write(HexToBytes(entry.GetString()!), 0, 2);
+                }
+                else
+                {
+                    JsonElement dataArray = message.GetProperty("RawData");
+
+                    byte[] data = dataArray
+                        .EnumerateArray()
+                        .SelectMany(element =>
+                        {
+                            string hex = element.GetString()!;
+                            return Enumerable
+                                .Range(0, hex.Length / 2)
+                                .Select(i => Convert.ToByte(hex.Substring(i * 2, 2), 16));
+                        })
+                        .ToArray();
+
+                    section.Data.Write(data, 0, data.Length);
+                }
 
                 additionalSections.Add(section);
             }

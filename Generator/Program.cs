@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+﻿using System.Runtime.InteropServices.Marshalling;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 using RarcTools;
 
@@ -173,10 +174,10 @@ foreach (var bmgPatch in bmgPatches)
         // Loop through all of the dataBlock entries until we find the tag that we want to match
         //Console.WriteLine("looking for: " + bmgChange.Index);
         int sectionIndex = bmgContents.FindIndex(
-            s =>
-                (bmgChange.Index != null && s.index?.ToLower() == bmgChange.Index.ToLower())
-                || (bmgChange.Section != null && s.Section == bmgChange.Section)
-        );
+    s =>
+        (bmgChange.Section != null && s.Section == bmgChange.Section)
+        || (bmgChange.Index != null && bmgChange.Section == null && s.index?.ToLower() == bmgChange.Index.ToLower())
+);
 
         if (sectionIndex == -1)
         {
@@ -188,6 +189,47 @@ foreach (var bmgPatch in bmgPatches)
         {
             case "modify":
             {
+                if (bmgChange.Section != null)
+                {
+                    if (bmgChange.Section.Contains("FLW1") && bmgChange.Index != null)
+                    {
+                        int index = Convert.ToInt32(bmgChange.Index, 16);
+                        BMGDataBlock target = bmgContents[sectionIndex];
+
+                        BMGDataBlock changeData = JsonSerializer.Deserialize<BMGDataBlock>(
+                            JsonSerializer.Serialize(bmgChange.ChangeData)
+                        )!;
+
+                        if (changeData.Data?.flwIndexTable is not null)
+                            target.Data!.flwIndexTable![index] = changeData.Data.flwIndexTable[0];
+
+                        if (changeData.Data?.flwTable is not null)
+                            target.Data!.flwTable![index] = changeData.Data.flwTable[0];
+
+                        Console.WriteLine(
+                            "Successfully Applied Patch to: " + archiveDirectory + "-" + bmgChange.Section + "-" + bmgChange.Index
+                        );
+                    }
+                    else if (bmgChange.Section == "FLI1" && bmgChange.Index != null)
+                    {
+                        int index = Convert.ToInt32(bmgChange.Index, 16);
+                        BMGDataBlock target = bmgContents[sectionIndex];
+                        BMGDataBlock changeData = JsonSerializer.Deserialize<BMGDataBlock>(
+                                            JsonSerializer.Serialize(bmgChange.ChangeData)
+                                        )!;
+
+                        if (changeData.RawData is not null)
+                            target.RawData![index] = changeData.RawData[0];
+
+                        Console.WriteLine(
+                            "Successfully Applied Patch to: " + archiveDirectory + "-"+ bmgChange.Section + "-" + bmgChange.Index
+                        );
+                    }
+                }
+                else
+                {
+                    
+                
                 var patched = PatchFunctions.ApplyChanges(
                     bmgContents[sectionIndex],
                     bmgChange.ChangeData
@@ -209,6 +251,7 @@ foreach (var bmgPatch in bmgPatches)
                             + bmgChange.Section
                     );
                 }
+                }
 
                 /*Console.WriteLine(
                     JsonSerializer.Serialize(
@@ -216,6 +259,33 @@ foreach (var bmgPatch in bmgPatches)
                         new JsonSerializerOptions { WriteIndented = true }
                     )
                 );*/
+                break;
+            }
+
+            case "add":
+            {
+                BMGDataBlock addition = JsonSerializer.Deserialize<BMGDataBlock>(
+                    JsonSerializer.Serialize(bmgChange.ChangeData)
+                )!;
+
+                BMGDataBlock target = bmgContents[sectionIndex];
+
+                if (addition.Data?.flwTable is not null)
+                {
+                    target.Data!.flwTable ??= [];
+                    target.Data.flwTable.AddRange(addition.Data.flwTable);
+                    target.Data.flwTableCount = target.Data.flwTable.Count;
+                }
+
+                if (addition.Data?.flwIndexTable is not null)
+                {
+                    target.Data!.flwIndexTable ??= [];
+                    target.Data.flwIndexTable.AddRange(addition.Data.flwIndexTable);
+                    target.Data.flwIndexCount = target.Data.flwIndexTable.Count;
+                }
+                Console.WriteLine(
+                            "Successfully Added Patch to: " + archiveDirectory + "-"+ bmgChange.Section
+                        );
                 break;
             }
         }

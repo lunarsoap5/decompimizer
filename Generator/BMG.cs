@@ -14,9 +14,18 @@ public class BMGDataBlock
     public string? attributes { get; set; }
     public List<string>? text { get; set; }
     public string? Section { get; set; }
-    public string? Data { get; set; }
+    public BMGData? Data { get; set; }
+    public string[]? RawData { get; set; }
     public int Attribute_Length { get; set; }
     public string? Unknown_MID1_Value { get; set; }
+}
+
+public class BMGData
+{
+    public int flwTableCount { get; set; }
+    public int flwIndexCount { get; set; }
+    public List<string>? flwTable { get; set; }
+    public List<string>? flwIndexTable { get; set; }
 }
 
 public class BMGPatch
