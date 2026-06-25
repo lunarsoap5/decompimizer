@@ -129,7 +129,7 @@ void daOptiLift_c::lightSet() {
     color->r = rgbColor.r;
     color->g = rgbColor.g;
     color->b = rgbColor.b;
-    *//
+    */
 }
 
 void daOptiLift_c::rideCallBack(dBgW* i_bgw, fopAc_ac_c* i_this, fopAc_ac_c* i_rideActor) {

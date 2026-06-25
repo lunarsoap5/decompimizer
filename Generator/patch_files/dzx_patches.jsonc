@@ -445,6 +445,13 @@
     "FilePath": "res/Stage/F_SP103/R00_00",
     "Changes": [
       {
+        // Remove duplicate Bo to prevent confusion and odd interaction with Goats
+        "Operation": "remove",
+        "DataBlock": "ACT0",
+        "ID": "Bou@-526,300,5333"
+      },
+      {
+        // Patch Door so it can be used with no interruptions.
         "Operation": "modify",
         "DataBlock": "Doo0",
         "ID": "kdoor@470,500,5323",
@@ -453,6 +460,7 @@
         }
       },
       {
+        // Patch Door so it can be used with no interruptions.
         "Operation": "modify",
         "DataBlock": "Doo0",
         "ID": "kdoor@500,500,5172",
@@ -461,6 +469,7 @@
         }
       },
       {
+        // Add Epona actor to global Actor list to prevent softlocks.
         "Operation": "add",
         "DataBlock": "ACT0",
         "Data": {

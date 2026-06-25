@@ -20,6 +20,7 @@ public class DZX
             ["ACT"] = typeof(ACTR), // Matches ACTR, ACT0, ACT1, etc.
             ["SCO"] = typeof(SCOB), // Matches SCOB, SCO0, SCO1, etc.
             ["LGT"] = typeof(LGT0), // Matches LGT0, LGT1, LGT2, etc.
+            ["TRES"] = typeof(TRES), // Matches TRES, TRE0, TRE1, etc.
             // add as many as needed
         };
 
@@ -146,6 +147,24 @@ public class LGT0
     public float Spotlight_Cutoff { get; set; }
     public int field_0x1c { get; set; }
     public int field_0x1d { get; set; }
+    public int field_0x1e { get; set; }
+    public int field_0x1f { get; set; }
+}
+
+public class TRES
+{
+    public string Name { get; set; }
+    public int field_0x8 { get; set; }
+    public int Type_Flag { get; set; }
+    public int field_0xa { get; set; }
+    public int Appear_Type { get; set; }
+    public float x { get; set; }
+    public float y { get; set; }
+    public float z { get; set; }
+    public short Room_No { get; set; }
+    public short Rotation { get; set; }
+    public int Item { get; set; }
+    public int Flag_ID { get; set; }
     public int field_0x1e { get; set; }
     public int field_0x1f { get; set; }
 }

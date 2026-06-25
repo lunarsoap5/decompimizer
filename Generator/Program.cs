@@ -5,6 +5,8 @@ using RarcTools;
 
 Console.WriteLine("Hello, World!");
 
+bool show_debug = false;
+
 // Open ISO Image
 RarcTools.GCRebuilder.GCRebuilder.ExtractISO(@"decompimizer-GZ2E01.iso", @"extractedISO/");
 
@@ -101,13 +103,15 @@ foreach (var dzxPatch in dzxPatches)
                         );
 
                         // Successfully patched the section, so break out.
-
+                        if (show_debug)
+                        {
                         Console.WriteLine(
                             "Successfully Applied Patch to: "
                                 + archiveDirectory
                                 + "-"
                                 + DZXChange.ID
                         );
+                        }
 
                         didPatch = true;
                         break;
@@ -206,9 +210,12 @@ foreach (var bmgPatch in bmgPatches)
                         if (changeData.Data?.flwTable is not null)
                             target.Data!.flwTable![index] = changeData.Data.flwTable[0];
 
+                        if (show_debug)
+                        {
                         Console.WriteLine(
                             "Successfully Applied Patch to: " + archiveDirectory + "-" + bmgChange.Section + "-" + bmgChange.Index
                         );
+                        }
                     }
                     else if (bmgChange.Section == "FLI1" && bmgChange.Index != null)
                     {
@@ -221,9 +228,12 @@ foreach (var bmgPatch in bmgPatches)
                         if (changeData.RawData is not null)
                             target.RawData![index] = changeData.RawData[0];
 
+                        if (show_debug)
+                        {
                         Console.WriteLine(
                             "Successfully Applied Patch to: " + archiveDirectory + "-"+ bmgChange.Section + "-" + bmgChange.Index
                         );
+                        }
                     }
                 }
                 else
@@ -236,6 +246,8 @@ foreach (var bmgPatch in bmgPatches)
                 );
                 bmgContents[sectionIndex] = (BMGDataBlock)patched;
                 // Successfully patched the section, so break out.
+                if (show_debug)
+                {
                 if (bmgChange.Index != null)
                 {
                     Console.WriteLine(
@@ -250,6 +262,7 @@ foreach (var bmgPatch in bmgPatches)
                             + "-"
                             + bmgChange.Section
                     );
+                }
                 }
                 }
 
@@ -283,9 +296,12 @@ foreach (var bmgPatch in bmgPatches)
                     target.Data.flwIndexTable.AddRange(addition.Data.flwIndexTable);
                     target.Data.flwIndexCount = target.Data.flwIndexTable.Count;
                 }
+                if (show_debug)
+                {
                 Console.WriteLine(
                             "Successfully Added Patch to: " + archiveDirectory + "-"+ bmgChange.Section
                         );
+                }
                 break;
             }
         }

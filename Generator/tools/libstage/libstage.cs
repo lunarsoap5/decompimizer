@@ -655,9 +655,9 @@ internal class LibStage
                     ["Type_Flag"] = d[offset + 9],
                     ["field_0xa"] = d[offset + 10],
                     ["Appear_Type"] = d[offset + 11],
-                    ["Position_X"] = ReadF32(d, offset + 12),
-                    ["Position_Y"] = ReadF32(d, offset + 16),
-                    ["Position_Z"] = ReadF32(d, offset + 20),
+                    ["x"] = ReadF32(d, offset + 12),
+                    ["y"] = ReadF32(d, offset + 16),
+                    ["z"] = ReadF32(d, offset + 20),
                     ["Room_No"] = ReadS16(d, offset + 24),
                     ["Rotation"] = ReadS16(d, offset + 26),
                     ["Item"] = d[offset + 28],
@@ -684,9 +684,9 @@ internal class LibStage
                     ["Room_Number"] = (sbyte)d[offset + 1],
                     ["Status"] = d[offset + 2],
                     ["Argument_1"] = d[offset + 3],
-                    ["Position_X"] = ReadF32(d, offset + 4),
-                    ["Position_Y"] = ReadF32(d, offset + 8),
-                    ["Position_Z"] = ReadF32(d, offset + 12),
+                    ["x"] = ReadF32(d, offset + 4),
+                    ["y"] = ReadF32(d, offset + 8),
+                    ["z"] = ReadF32(d, offset + 12),
                     ["Sw_Bit"] = d[offset + 16],
                     ["Type"] = d[offset + 17],
                     ["Argument_2"] = d[offset + 18],
@@ -1217,9 +1217,9 @@ internal class LibStage
             WriteU8(buf, (byte)e["Type_Flag"]!.GetValue<int>());
             WriteU8(buf, (byte)e["field_0xa"]!.GetValue<int>());
             WriteU8(buf, (byte)e["Appear_Type"]!.GetValue<int>());
-            WriteF32(buf, e["Position_X"]!.GetValue<float>());
-            WriteF32(buf, e["Position_Y"]!.GetValue<float>());
-            WriteF32(buf, e["Position_Z"]!.GetValue<float>());
+            WriteF32(buf, e["x"]!.GetValue<float>());
+            WriteF32(buf, e["y"]!.GetValue<float>());
+            WriteF32(buf, e["z"]!.GetValue<float>());
             WriteS16(buf, (short)e["Room_No"]!.GetValue<int>());
             WriteS16(buf, (short)e["Rotation"]!.GetValue<int>());
             WriteU8(buf, (byte)e["Item"]!.GetValue<int>());
@@ -1239,9 +1239,9 @@ internal class LibStage
             WriteS8(buf, (sbyte)e["Room_Number"]!.GetValue<int>());
             WriteU8(buf, (byte)e["Status"]!.GetValue<int>());
             WriteU8(buf, (byte)e["Argument_1"]!.GetValue<int>());
-            WriteF32(buf, e["Position_X"]!.GetValue<float>());
-            WriteF32(buf, e["Position_Y"]!.GetValue<float>());
-            WriteF32(buf, e["Position_Z"]!.GetValue<float>());
+            WriteF32(buf, e["x"]!.GetValue<float>());
+            WriteF32(buf, e["y"]!.GetValue<float>());
+            WriteF32(buf, e["z"]!.GetValue<float>());
             WriteU8(buf, (byte)e["Sw_Bit"]!.GetValue<int>());
             WriteU8(buf, (byte)e["Type"]!.GetValue<int>());
             WriteU8(buf, (byte)e["Argument_2"]!.GetValue<int>());
