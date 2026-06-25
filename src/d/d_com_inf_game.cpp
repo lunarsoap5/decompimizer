@@ -186,7 +186,7 @@ int dComIfG_play_c::getLayerNo_common_common(const char* i_stageName, int i_room
                 case Faron_Woods:
                 case Faron_Woods_Interiors:
                 {
-                    if ((i_roomNo == 5) || (i_roomNo == 6)) // North Faron or Mist Area
+                    if ((i_roomNo == 5) || (i_roomNo == 6) || (i_roomNo == 11)) // North Faron or Mist Area
                     {
                         condition = dComIfGs_isEventBit(ORDON_DAY_2_OVER); // Talo Saved
                         if (condition)
@@ -2341,7 +2341,7 @@ void dComIfGs_gameStart() {
         g_dComIfG_gameInfo.info.getPlayer().getPlayerReturnPlace().getName(),
         g_dComIfG_gameInfo.info.getPlayer().getPlayerReturnPlace().getPlayerStatus(),
         g_dComIfG_gameInfo.info.getPlayer().getPlayerReturnPlace().getRoomNo(),
-        -1, 0.0f, 0, 1, 0, 0, 0, 0
+        g_dComIfG_gameInfo.info.getPlayer().getPlayerReturnPlace().getLayer(), 0.0f, 0, 1, 0, 0, 0, 0
     );
 }
 
@@ -2694,9 +2694,31 @@ void dComIfGs_setKeyNum(int i_stageNo, u8 i_keyNum) {
     g_dComIfG_gameInfo.info.getSavedata().getSave(i_stageNo).getBit().setKeyNum(i_keyNum);
 }
 
+void dComIfGs_setTotalKeyNum(int i_stageNo, u8 i_keyNum) {
+    if (dComIfGp_getStageStagInfo()) {
+        if (i_stageNo == dStage_stagInfo_GetSaveTbl(dComIfGp_getStageStagInfo())) {
+            dComIfGs_setTotalKeyNum(i_keyNum);
+        }
+    }
+
+    g_dComIfG_gameInfo.info.getSavedata().getSave(i_stageNo).getBit().setTotalKeyNum(i_keyNum);
+}
+
 // Rando-added function
 u8 dComIfGs_getKeyNum(int i_stageNo) {
+    if (i_stageNo == dStage_stagInfo_GetSaveTbl(dComIfGp_getStageStagInfo())) {
+        return dComIfGs_getKeyNum();
+    }
+
     return g_dComIfG_gameInfo.info.getSavedata().getSave(i_stageNo).getBit().getKeyNum();
+}
+
+u8 dComIfGs_getTotalKeyNum(int i_stageNo) {
+    if (i_stageNo == dStage_stagInfo_GetSaveTbl(dComIfGp_getStageStagInfo())) {
+        return dComIfGs_getTotalKeyNum();
+    }
+
+    return g_dComIfG_gameInfo.info.getSavedata().getSave(i_stageNo).getBit().getTotalKeyNum();
 }
 
 static void dComIfGs_setWarpItemData(int param_0, char const* i_stage, cXyz i_pos, s16 i_angle, s8 i_roomNo,

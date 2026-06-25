@@ -3,6 +3,7 @@
 
 #include "dolphin/types.h"
 #include "rando/seed/seedData.h"
+#include "rando/returnPlaces.h"
 #include <string>
 
 enum SeedEnabledFlag
@@ -91,6 +92,7 @@ public:
     uint getLanternColor() const { return lanternColor; }
     u8* getLanternColorPtr() const { return (u8*)&lanternColor; }
     EntranceInfo getSpawnInfo() const { return spawnInfo; }
+    u16 getReturnPlaceSectionOffset() const {return returnPlaceSectionOffset; }
 
     //const EntryInfo* getVolatilePatchInfoPtr() const { return &volatilePatchInfo; }
     //const EntryInfo* getOneTimePatchInfoPtr() const { return &oneTimePatchInfo; }
@@ -103,6 +105,7 @@ public:
     const EntryInfo* getBugRewardCheckInfoPtr() const { return &bugRewardCheckInfo; }
     const EntryInfo* getEventItemCheckInfoPtr() const { return &eventItemCheckInfo; }
     const EntryInfo* getStartingItemCheckInfoPtr() const { return &startingItemInfo; }
+    const EntryInfo* getShopItemCheckInfoPtr() const { return &shopItemCheckInfo; }
     
     /* 0x00 */ char magic[3]; // Not null terminated, should always be TPR
     /* 0x03 */ char seedName[33];
@@ -159,8 +162,10 @@ public:
     /* 0x94 */ GXColor wolfDomeAttackWave1Color;
     /* 0x98 */ GXColor wolfDomeAttackWave2Color;
     /* 0x9C */ GXColor lightSwordGlowColor;
-    /* 0x100 */ uint lanternColor;
-    /* 0x104 */ EntranceInfo spawnInfo;
+    /* 0xA0 */ uint lanternColor;
+    /* 0xA4 */ EntranceInfo spawnInfo;
+    /* 0xA8 */ EntryInfo shopItemCheckInfo;
+    /* 0xAC */ u16 returnPlaceSectionOffset;
 };
 
 class seedInfo_c {
@@ -179,7 +184,7 @@ class seedInfo_c {
         const BugReward* getBugRewardChecksPtr() const { return m_BugRewardChecks; }
         const PoeReward* getPoeRewardsPtr() const { return m_PoeRewards; }
         const EventItem* getEventChecksPtr() const { return m_EventChecks; }
-
+        const ReturnPlaceSection* getReturnPlaceSectionPtr() const { return m_ReturnPlaceSection;}
         const RawRGBTable* getRawRGBTablePtr() const { return m_RawRGBTable; }
 
         bool flagBitfieldFlagIsEnabled(uint flag) const;
@@ -228,7 +233,7 @@ class seedInfo_c {
         const BugReward* m_BugRewardChecks;
         const PoeReward* m_PoeRewards;
         const EventItem* m_EventChecks;
-
+        const ReturnPlaceSection* m_ReturnPlaceSection;
         const RawRGBTable* m_RawRGBTable;
     };
 

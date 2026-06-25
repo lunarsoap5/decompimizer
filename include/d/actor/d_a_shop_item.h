@@ -11,6 +11,10 @@ inline u8 getGroup(daShopItem_c* i_this) {
 inline u8 getItemNo(daShopItem_c* i_this) {
     return fopAcM_GetParam(i_this) & 0xFF;
 }
+
+inline u8 getShopItemNo(daShopItem_c* i_this) {
+    return ((fopAcM_GetParam(i_this)  >> 16) & 0xFF);
+}
 }  // namespace dahopItem_prm
 
 #endif /* D_A_SHOP_ITEM_H */

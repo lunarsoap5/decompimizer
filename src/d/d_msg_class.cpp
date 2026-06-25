@@ -1431,6 +1431,24 @@ bool jmessage_tMeasureProcessor::do_tag(u32 i_tag, void const* i_data, u32 i_siz
         case MSGTAG_POE_NUM:
             dMsgUnit_setTag(12, getPohNum(), buffer);
             break;
+        case MSGTAG_POE_TOTAL:
+            dMsgUnit_setTag(20, dComIfGs_getPohSpiritNum() + 1, buffer);
+            break;
+        case MSGTAG_S_WALLET_MAX:
+            dMsgUnit_setTag(16, g_seedInfo.getHeaderPtr()->getSmallWalletMax(), buffer);
+            break;
+        case MSGTAG_M_WALLET_MAX:
+            dMsgUnit_setTag(17, g_seedInfo.getHeaderPtr()->getBigWalletMax(), buffer);
+            break;
+        case MSGTAG_L_WALLET_MAX:
+            dMsgUnit_setTag(18, g_seedInfo.getHeaderPtr()->getGiantWalletMax(), buffer);
+            break;
+        case MSGTAG_SKY_LETTER_NUM:
+            dMsgUnit_setTag(19, dComIfGs_getAncientDocumentNum(), buffer);
+            break;
+        case MSGTAG_SKY_LETTER_NUM_1:
+            dMsgUnit_setTag(21, dComIfGs_getAncientDocumentNum() + 1, buffer);
+            break;
         case MSGTAG_BALLOON_SCORE: {
             int number;
             u8 type = *(u8*)i_data & 0xFF;
@@ -1945,9 +1963,10 @@ void jmessage_tSequenceProcessor::do_end() {
     } else {
         if (pReference->getSelectNum() == 3) {
             if (pReference->getSelectType() == 0) {
-                if (!pReference->isMidona()) {
+                // Skip isMidona check so 3-option midna menus work past the initial one
+                //if (!pReference->isMidona()) {
                     pReference->setStopFlag(3);
-                }
+                //}
             } else {
                 pReference->setStopFlag(5);
             }
@@ -2474,6 +2493,12 @@ bool jmessage_tSequenceProcessor::do_tag(u32 i_tag, void const* i_data, u32 i_si
         case MSGTAG_BALLOON_SCORE:
         case MSGTAG_FISH_COUNT:
         case MSGTAG_ROLLGOAL_LV:
+        case MSGTAG_S_WALLET_MAX:
+        case MSGTAG_M_WALLET_MAX:
+        case MSGTAG_L_WALLET_MAX:
+        case MSGTAG_SKY_LETTER_NUM:
+        case MSGTAG_SKY_LETTER_NUM_1:
+        case MSGTAG_POE_TOTAL:
             push_word();
             ret = true;
         break;
@@ -3198,6 +3223,12 @@ bool jmessage_tRenderingProcessor::do_tag(u32 i_tag, void const* i_data, u32 i_s
         case MSGTAG_BALLOON_SCORE:
         case MSGTAG_FISH_COUNT:
         case MSGTAG_ROLLGOAL_LV:
+        case MSGTAG_S_WALLET_MAX:
+        case MSGTAG_M_WALLET_MAX:
+        case MSGTAG_L_WALLET_MAX:
+        case MSGTAG_SKY_LETTER_NUM:
+        case MSGTAG_SKY_LETTER_NUM_1:
+        case MSGTAG_POE_TOTAL:
             push_word();
             return 1;
         }
@@ -4244,6 +4275,24 @@ bool jmessage_string_tMeasureProcessor::do_tag(u32 i_tag, void const* i_data, u3
         case MSGTAG_POE_NUM:
             dMsgUnit_setTag(0xc, getPohNum(), buffer);
             break;
+        case MSGTAG_POE_TOTAL:
+            dMsgUnit_setTag(20, dComIfGs_getPohSpiritNum(), buffer);
+            break;
+        case MSGTAG_S_WALLET_MAX:
+            dMsgUnit_setTag(16, g_seedInfo.getHeaderPtr()->getSmallWalletMax(), buffer);
+            break;
+        case MSGTAG_M_WALLET_MAX:
+            dMsgUnit_setTag(17, g_seedInfo.getHeaderPtr()->getBigWalletMax(), buffer);
+            break;
+        case MSGTAG_L_WALLET_MAX:
+            dMsgUnit_setTag(18, g_seedInfo.getHeaderPtr()->getGiantWalletMax(), buffer);
+            break;
+        case MSGTAG_SKY_LETTER_NUM:
+            dMsgUnit_setTag(19, dComIfGs_getAncientDocumentNum(), buffer);
+            break;
+        case MSGTAG_SKY_LETTER_NUM_1:
+            dMsgUnit_setTag(21, dComIfGs_getAncientDocumentNum() + 1, buffer);
+            break;
         case MSGTAG_BALLOON_SCORE: {
             int local_15c;
             if (*(u8*)i_data == 0) {
@@ -4853,6 +4902,24 @@ bool jmessage_string_tRenderingProcessor::do_tag(u32 i_tag, void const* i_data, 
             break;
         case MSGTAG_POE_NUM:
             dMsgUnit_setTag(0xc, getPohNum(), buffer);
+            break;
+        case MSGTAG_POE_TOTAL:
+            dMsgUnit_setTag(20, dComIfGs_getPohSpiritNum(), buffer);
+            break;
+        case MSGTAG_S_WALLET_MAX:
+            dMsgUnit_setTag(16, g_seedInfo.getHeaderPtr()->getSmallWalletMax(), buffer);
+            break;
+        case MSGTAG_M_WALLET_MAX:
+            dMsgUnit_setTag(17, g_seedInfo.getHeaderPtr()->getBigWalletMax(), buffer);
+            break;
+        case MSGTAG_L_WALLET_MAX:
+            dMsgUnit_setTag(18, g_seedInfo.getHeaderPtr()->getGiantWalletMax(), buffer);
+            break;
+        case MSGTAG_SKY_LETTER_NUM:
+            dMsgUnit_setTag(19, dComIfGs_getAncientDocumentNum(), buffer);
+            break;
+        case MSGTAG_SKY_LETTER_NUM_1:
+            dMsgUnit_setTag(21, dComIfGs_getAncientDocumentNum() + 1, buffer);
             break;
         case MSGTAG_BALLOON_SCORE:{
             int local_15c;

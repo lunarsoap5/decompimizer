@@ -18,6 +18,7 @@
 #include "m_Do/m_Do_graphic.h"
 #include "m_Do/m_Do_machine.h"
 #include "rando/rando.h"
+#include "rando/tools/tools.h"
 
 #if PLATFORM_WII
 #include "d/d_cursor_mng.h"

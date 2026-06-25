@@ -35,6 +35,8 @@
 #include "d/d_menu_window.h"
 #include "JSystem/J3DGraphBase/J3DMaterial.h"
 #include "rando/rando.h"
+#include "rando/seed/seed.h"
+#include "rando/tools/verifyItemFunctions.h"
 
 typedef void (dMenu_Collect2D_c::*initFunc)();
 static initFunc init[] = {
@@ -508,9 +510,9 @@ void dMenu_Collect2D_c::screenSet() {
     field_0x184[4][2] = 0x196;
     field_0x184[5][2] = 0x195;
     field_0x184[6][2] = 0;
-    if (dComIfGs_getRupeeMax() == g_randoInfo.smallWalletMax) {
+    if (!haveItem(fpcNm_ITEM_WALLET_LV2)) {
         field_0x184[0][3] = 0x199;
-    } else if (dComIfGs_getRupeeMax() == g_randoInfo.bigWalletMax) {
+    } else if (!haveItem(fpcNm_ITEM_WALLET_LV3)) {
         field_0x184[0][3] = 0x19a;
     } else {
         field_0x184[0][3] = 0x19b;
@@ -1149,22 +1151,24 @@ void dMenu_Collect2D_c::setArrowMaxNum(u8 param_0) {
 }
 
 void dMenu_Collect2D_c::setWalletMaxNum(u16 i_walletSize) {
-    switch (i_walletSize) {
-    case 300:
+    
+    if (!haveItem(fpcNm_ITEM_WALLET_LV2))
+    {
         mpScreen->search('item_1_0')->show();
         mpScreen->search('item_1_1')->hide();
         mpScreen->search('item_1_2')->hide();
-        break;
-    case 600:
+    }
+    else if (!haveItem(fpcNm_ITEM_WALLET_LV3))
+    {
         mpScreen->search('item_1_0')->hide();
         mpScreen->search('item_1_1')->show();
         mpScreen->search('item_1_2')->hide();
-        break;
-    case 1000:
+    }
+    else
+    {
         mpScreen->search('item_1_0')->hide();
         mpScreen->search('item_1_1')->hide();
         mpScreen->search('item_1_2')->show();
-        break;
     }
 }
 

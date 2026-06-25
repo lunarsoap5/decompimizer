@@ -9,6 +9,7 @@
 #include "d/actor/d_a_player.h"
 #include "d/d_com_inf_game.h"
 #include "d/d_item_data.h"
+#include "rando/rando.h"
 
 static cull_box l_cull_box = {{-200.0f, 0.0f, -200.0f}, {200.0f, 100.0f, 200.0f}};
 
@@ -36,7 +37,7 @@ int daObjSword_c::Create() {
 
 cPhs_Step daObjSword_c::create() {
     fopAcM_ct(this, daObjSword_c);
-    m_itemNo = 0x28;
+    m_itemNo = g_randoInfo.getEventItem(fpcNm_ITEM_SWORD); // Search for rando check first
     if (fopAcM_isItem(this, getItemBit())) {
         return cPhs_ERROR_e;
     }

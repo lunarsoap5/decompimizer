@@ -10,6 +10,7 @@
 #include "d/d_bg_w.h"
 #include "d/d_com_inf_game.h"
 #include "d/d_path.h"
+#include "rando/rando.h"
 
 daOptiLift_HIO_c::daOptiLift_HIO_c() {
     mStopDisappearTime = 30;
@@ -121,6 +122,14 @@ void daOptiLift_c::lightSet() {
     mLight.mColor.b = l_HIO.mLightColorB;
     mLight.mPow = l_HIO.mLightRadius;
     mLight.mFluctuation = 1.0f;
+    /*
+    -- Made this for fun, but if we want RGB platforms, the code is below:
+    J3DGXColor* color = mpModel->getModelData()->getMaterialNodePointer(0)->getTevKColor(1);
+    GXColor rgbColor = g_randoInfo.getGlobalRGB();
+    color->r = rgbColor.r;
+    color->g = rgbColor.g;
+    color->b = rgbColor.b;
+    *//
 }
 
 void daOptiLift_c::rideCallBack(dBgW* i_bgw, fopAc_ac_c* i_this, fopAc_ac_c* i_rideActor) {

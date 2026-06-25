@@ -241,6 +241,8 @@ public:
     char* getName() { return mName; }
     u8 getPlayerStatus() const { return mPlayerStatus; }
     s8 getRoomNo() const { return mRoomNo; }
+    void setLayer(u8 layer) {unk10 = layer; }
+    u8 getLayer() const {return unk10; }
 
 private:
     /* 0x00 */ char mName[8];
@@ -408,6 +410,8 @@ public:
             mPohNum += 1;
         }
     };
+    u8 getCollectCrystal() { return mCrystal;}
+    u8 getCollectMirror() { return mMirror;}
 
 private:
     /* 0x0 */ u8 mItem[8];
@@ -636,6 +640,8 @@ public:
 
     u8 getKeyNum() { return mKeyNum; }
     void setKeyNum(u8 i_keyNum) { mKeyNum = i_keyNum; }
+    u8 getTotalKeyNum() { return mTotalKeyNum; }
+    void setTotalKeyNum(u8 i_keyNum) { mTotalKeyNum = i_keyNum; }
     void onDungeonItemMap() { onDungeonItem(MAP); }
     void offDungeonItemMap() { offDungeonItem(MAP); }
     s32 isDungeonItemMap() const { return isDungeonItem(MAP); }
@@ -670,6 +676,7 @@ private:
     /* 0x18 */ u32 mItem[1];
     /* 0x1C */ u8 mKeyNum;
     /* 0x1D */ u8 mDungeonItem;
+    /* 0x1E */ u8 mTotalKeyNum;
 };  // Size: 0x20
 
 class dSv_event_c {

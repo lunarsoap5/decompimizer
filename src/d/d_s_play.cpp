@@ -28,6 +28,8 @@
 #include "d/actor/d_a_ykgr.h"
 #include "rando/tools/tools.h"
 #include "rando/rando.h"
+#include "rando/seed/seed.h"
+#include "rando/data/stages.h"
 
 #if PLATFORM_WII
 #include "d/d_cursor_mng.h"
@@ -518,6 +520,23 @@ static int phase_1(dScnPly_c* i_this) {
     dComIfGp_setStatus(0);
     if (dComIfG_syncStageRes("Stg_00") < 0) {
         dComIfG_setStageRes("Stg_00", NULL);
+    }
+
+    // If we are loading in after a void or game over, don't try to handle special spawns
+    if(!daPy_py_c::checkRoomRestartStart())
+    {
+        // Check if where we are loading in has a mapping specified in the seedData. For example, mapping bosses to
+        // dungeons, handling warp portals, disabling ones which are invalid or lead to crashes/softlocks, etc.
+        u8 stageIdx = getCurrentStageID();
+        const ReturnPlace* returnPlace = g_seedInfo.getReturnPlaceSectionPtr()->getReturnPlace(stageIdx,
+                                                                                            dComIfGp_getStartStageRoomNo(),
+                                                                                            dComIfGp_getStartStagePoint(),
+                                                                                            dComIfGp_getStartStageLayer());
+
+        if ((returnPlace != NULL) && (returnPlace->getStageIDX() != 0xFF))
+        {
+            g_randoInfo.lastSavableStart.set(allStages[returnPlace->getStageIDX()], returnPlace->getRoomNo(), returnPlace->getPoint(), returnPlace->getLayer());
+        } 
     }
     return cPhs_NEXT_e;
 }

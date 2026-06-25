@@ -14,6 +14,10 @@
 #include "f_op/f_op_actor_mng.h"
 #include "m_Do/m_Do_controller_pad.h"
 #include "dolphin/dvd.h"
+#include "JSystem/JKernel/JKRExpHeap.h"
+
+static JKRExpHeap* s_randoHeap = NULL;
+static const u32 RANDO_HEAP_SIZE = 0xC0000;  // 768KB
 
 bool playerIsInRoomStage(s32 room, const char* stage)
 {
@@ -144,6 +148,11 @@ bool checkButtonComboAnalog(uint combo)
 bool checkButtonsHeld(u32 buttons)
 {
     return (mDoCPd_c::getHold(PAD_1) & buttons) == buttons;
+}
+
+bool checkButtonsPressedThisFrame(u32 buttons)
+{
+    return mDoCPd_c::getTrig(PAD_1) & buttons;
 }
 
 void handleQuickTransform()
@@ -363,9 +372,8 @@ GXColor getRainbowRGB(f32 amplitude)
     return rgbColor;
 }
 
-void adjustMidnaHairColor()
+void adjustMidnaHairColor(GXColor rgbColor)
 {
-    GXColor rgbColor = getRainbowRGB(127.5f);
     if (daPy_py_c::getMidnaActor())
     {
         u8 tip_color = 200;
@@ -398,9 +406,8 @@ void replaceEquipItemColor(GXColor wave1RGBA, GXColor wave2RGBA)
     
 }
 
-void replaceEquipItemColor()
+void replaceEquipItemColor(GXColor rgbColor)
 {
-    GXColor rgbColor = getRainbowRGB(127.5f);
     const u8 domeWaveRGBA[3] = {rgbColor.r, rgbColor.g, rgbColor.b};
     u8** chromaRegisterTable = (u8**)(daAlink_getAlinkActorClass()->getDomeLockChromaTable());
 
@@ -446,4 +453,40 @@ int getCurrentStageID()
 
     // Didn't find the current stage for some reason
     return -1;
+}
+
+
+void randoCreateHeap() {
+    if (s_randoHeap != NULL) return;
+
+    JKRExpHeap* archiveHeap = (JKRExpHeap*)mDoExt_getArchiveHeap();
+    s_randoHeap = JKRExpHeap::create(RANDO_HEAP_SIZE, archiveHeap, true);
+}
+
+JKRHeap* getRandoHeap() {
+    return s_randoHeap;
+}
+
+
+J2DPicture* randoCopyItemArchiveTexture(JKRArchive* arc, const char* name, JKRHeap* heap, J2DPicture* picture, ResTIMG* buffer) {
+    ResTIMG* tex = (ResTIMG*)arc->getResource('TIMG', name);;
+    
+    if (tex != NULL) {
+        u32 imgSize = GXGetTexBufferSize(tex->width, tex->height, tex->format,
+                                            tex->mipmapEnabled, tex->mipmapCount);
+        u32 totalSize = tex->imageOffset + imgSize;
+        if (tex->indexTexture && tex->numColors > 0) {
+            u32 palEnd = tex->paletteOffset + tex->numColors * 2;
+            if (palEnd > totalSize) {
+                totalSize = palEnd;
+            }
+        }
+        buffer = (ResTIMG*)heap->alloc(totalSize, 32);
+        if (buffer != NULL) {
+            memcpy(buffer, tex, totalSize);
+            DCStoreRangeNoSync(buffer, totalSize);
+            picture = new (heap, 4) J2DPicture(buffer);
+        }
+    }
+    return picture;
 }

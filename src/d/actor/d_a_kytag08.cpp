@@ -88,7 +88,8 @@ static int daKytag08_Execute(kytag08_class* i_this) {
         }
     }
 
-    if ((daPy_getPlayerActorClass()->checkKandelaarSwing(TRUE) && i_this->mSizeTimer < 100) ||
+    // We don't want to rely on the lantern swing animation to keep the fog away in Faron Woods
+    if ((/*daPy_getPlayerActorClass()->checkKandelaarSwing(TRUE) &&*/ i_this->mSizeTimer < 100) ||
         dComIfGs_BossLife_public_Get() == 1)
     {
         dComIfGs_BossLife_public_Set(0);

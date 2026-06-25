@@ -1,0 +1,1205 @@
+[
+  {
+    "FilePath": "res/Msgus/Bmgres/zel_00.bmg",
+    "Changes": [
+      {
+        "Operation": "modify",
+        "Index": "0x96",
+        "ChangeData": {
+          "text": [
+            "{1a05000002}You got the {1a06ff000001}Shadow Crystal{1a06ff000000}!",
+            "This is a dark manifestation",
+            "of {1a06ff000001}Zant's {1a06ff000000}power that allows",
+            "you to transform at will!"
+          ]
+        }
+      },
+      {
+        "Operation": "modify",
+        "Index": "0x99",
+        "ChangeData": {
+          "text": [
+            "{1a05000001}You got the {1a06ff000001}big wallet{1a06ff000000}!{1a05000002}",
+            "{1a07000007000a}You can now hold up to",
+            "{1a06ff000006}{1a05050010} Rupees{1a06ff000000}!"
+          ]
+        }
+      },
+      {
+        "Operation": "modify",
+        "Index": "0x9a",
+        "ChangeData": {
+          "text": [
+            "{1a05000001}You got the {1a06ff000001}giant wallet{1a06ff000000}!{1a05000002}",
+            "{1a07000007000a}It's a symbol of a distinguished",
+            "citizen in the insect kingdom.",
+            "{1a07000007000a}It can hold up to {1a06ff000006}{1a05050011} Rupees{1a06ff000000}!"
+          ]
+        }
+      },
+      {
+        "Operation": "modify",
+        "Index": "0xb0",
+        "ChangeData": {
+          "text": [
+            "{1a05000001}Power has been restored to",
+            "the {1a06ff000001}Dominion Rod{1a06ff000000}! Now it can",
+            "be used to imbue statues",
+            "with life in the present!"
+          ]
+        }
+      },
+      {
+        "Operation": "modify",
+
+        "Index": "0xe9",
+        "ChangeData": {
+          "text": [
+            "{1a05000001}You got a {1a06ff000001}small key{1a06ff000000} for the",
+            "{1a06ff000002}Forest Temple{1a06ff000000}!"
+          ]
+        }
+      },
+      {
+        "Operation": "modify",
+
+        "Index": "0xea",
+        "ChangeData": {
+          "text": [
+            "{1a05000001}You got a {1a06ff000001}small key{1a06ff000000} for",
+            "{1a06ff000001}Goron Mines{1a06ff000000}!"
+          ]
+        }
+      },
+      {
+        "Operation": "modify",
+
+        "Index": "0xeb",
+        "ChangeData": {
+          "text": [
+            "{1a05000001}You got a {1a06ff000001}small key{1a06ff000000} for the",
+            "{1a06ff00000a}Lakebed Temple{1a06ff000000}!"
+          ]
+        }
+      },
+      {
+        "Operation": "modify",
+
+        "Index": "0xec",
+        "ChangeData": {
+          "text": [
+            "{1a05000001}You got a {1a06ff000001}small key{1a06ff000000} for",
+            "{1a06ff000008}Arbiters Grounds{1a06ff000000}!"
+          ]
+        }
+      },
+      {
+        "Operation": "modify",
+
+        "Index": "0xed",
+        "ChangeData": {
+          "text": [
+            "{1a05000001}You got a {1a06ff000001}small key{1a06ff000000} for",
+            "{1a06ff000003}Snowpeak Ruins{1a06ff000000}!"
+          ]
+        }
+      },
+      {
+        "Operation": "modify",
+
+        "Index": "0xee",
+        "ChangeData": {
+          "text": [
+            "{1a05000001}You got a {1a06ff000001}small key{1a06ff000000} for the",
+            "{1a06ff000009}Temple of Time{1a06ff000000}!"
+          ]
+        }
+      },
+      {
+        "Operation": "modify",
+
+        "Index": "0xef",
+        "ChangeData": {
+          "text": [
+            "{1a05000001}You got the {1a06ff000001}small key{1a06ff000000} for the",
+            "{1a06ff000004}City in the Sky{1a06ff000000}!"
+          ]
+        }
+      },
+      {
+        "Operation": "modify",
+
+        "Index": "0xf0",
+        "ChangeData": {
+          "text": [
+            "{1a05000001}You got a {1a06ff000001}small key{1a06ff000000} for the",
+            "{1a06ff000006}Palace of Twilight{1a06ff000000}!"
+          ]
+        }
+      },
+      {
+        "Operation": "modify",
+
+        "Index": "0xf1",
+        "ChangeData": {
+          "text": [
+            "{1a05000001}You got a {1a06ff000001}small key{1a06ff000000} for",
+            "{1a06ff00000b}Hyrule Castle{1a06ff000000}!"
+          ]
+        }
+      },
+      {
+        "Operation": "modify",
+
+        "Index": "0xf2",
+        "ChangeData": {
+          "text": [
+            "{1a05000001}You got the {1a06ff000001}small key{1a06ff000000} for the",
+            "{1a06ff000008}Bulblin Camp{1a06ff000000}!"
+          ]
+        }
+      },
+      {
+        "Operation": "modify",
+
+        "Index": "0xf6",
+        "ChangeData": {
+          "text": [
+            "{1a05000001}You got {1a06ff000001}the big key{1a06ff000000} for the",
+            "{1a06ff000002}Forest Temple{1a06ff000000}!"
+          ]
+        }
+      },
+      {
+        "Operation": "modify",
+
+        "Index": "0xf7",
+        "ChangeData": {
+          "text": [
+            "{1a05000001}You got {1a06ff00000a}the big key{1a06ff000000} for the",
+            "{1a06ff00000a}Lakebed Temple{1a06ff000000}!"
+          ]
+        }
+      },
+      {
+        "Operation": "modify",
+
+        "Index": "0xf8",
+        "ChangeData": {
+          "text": [
+            "{1a05000001}You got {1a06ff000001}the big key{1a06ff000000} for",
+            "{1a06ff000008}Arbiters Grounds{1a06ff000000}!"
+          ]
+        }
+      },
+      {
+        "Operation": "modify",
+
+        "Index": "0xf9",
+        "ChangeData": {
+          "text": [
+            "{1a05000001}You got {1a06ff000001}the big key{1a06ff000000} for the",
+            "{1a06ff000009}Temple of Time{1a06ff000000}!"
+          ]
+        }
+      },
+      {
+        "Operation": "modify",
+
+        "Index": "0xfa",
+        "ChangeData": {
+          "text": [
+            "{1a05000001}You got {1a06ff000001}the big key{1a06ff000000} for the",
+            "{1a06ff000004}City in the Sky{1a06ff000000}!"
+          ]
+        }
+      },
+      {
+        "Operation": "modify",
+
+        "Index": "0xfb",
+        "ChangeData": {
+          "text": [
+            "{1a05000001}You got {1a06ff000001}the big key{1a06ff000000} for the",
+            "{1a06ff000006}Palace of Twilight{1a06ff000000}!"
+          ]
+        }
+      },
+      {
+        "Operation": "modify",
+
+        "Index": "0xfc",
+        "ChangeData": {
+          "text": [
+            "{1a05000001}You got {1a06ff000001}the big key{1a06ff000000} for",
+            "{1a06ff00000b}Hyrule Castle{1a06ff000000}!"
+          ]
+        }
+      },
+      {
+        "Operation": "modify",
+
+        "Index": "0xfd",
+        "ChangeData": {
+          "text": [
+            "{1a05000001}You got {1a06ff000001}the compass{1a06ff000000} for the",
+            "{1a06ff000002}Forest Temple{1a06ff000000}!"
+          ]
+        }
+      },
+      {
+        "Operation": "modify",
+
+        "Index": "0xfe",
+        "ChangeData": {
+          "text": [
+            "{1a05000001}You got {1a06ff000001}the compass{1a06ff000000} for",
+            "{1a06ff000001}Goron Mines{1a06ff000000}!"
+          ]
+        }
+      },
+      {
+        "Operation": "modify",
+
+        "Index": "0xff",
+        "ChangeData": {
+          "text": [
+            "{1a05000001}You got {1a06ff000001}the compass{1a06ff000000} for the",
+            "{1a06ff00000a}Lakebed Temple{1a06ff000000}!"
+          ]
+        }
+      },
+      {
+        "Operation": "modify",
+
+        "Index": "0x109",
+        "ChangeData": {
+          "text": [
+            "{1a05000001}You got the second shard of",
+            "the {1a06ff000001}Mirror of Twilight{1a06ff000000}! It",
+            "has a beautiful shine to it",
+            "and feels slightly {1a06ff000003}cold{1a06ff000000}.."
+          ]
+        }
+      },
+      {
+        "Operation": "modify",
+
+        "Index": "0x10a",
+        "ChangeData": {
+          "text": [
+            "{1a05000001}You got the third shard of",
+            "the {1a06ff000001}Mirror of Twilight{1a06ff000000}! It",
+            "is covered in dirt and",
+            "{1a06ff000009}webs{1a06ff000000}.."
+          ]
+        }
+      },
+      {
+        "Operation": "modify",
+
+        "Index": "0x10b",
+        "ChangeData": {
+          "text": [
+            "{1a05000001}You got the final shard of",
+            "the {1a06ff000001}Mirror of Twilight{1a06ff000000}! It",
+            "feels lighter than {1a06ff000004}air{1a06ff000000}.."
+          ]
+        }
+      },
+      {
+        "Operation": "modify",
+
+        "Index": "0x10c",
+        "ChangeData": {
+          "text": [
+            "{1a05000001}You got {1a06ff000001}the compass{1a06ff000000} for",
+            "{1a06ff000008}Arbiters Grounds{1a06ff000000}!"
+          ]
+        }
+      },
+      {
+        "Operation": "modify",
+
+        "Index": "0x10d",
+        "ChangeData": {
+          "text": [
+            "{1a05000001}You got {1a06ff000001}the compass{1a06ff000000} for",
+            "{1a06ff000003}Snowpeak Ruins{1a06ff000000}!"
+          ]
+        }
+      },
+      {
+        "Operation": "modify",
+
+        "Index": "0x10e",
+        "ChangeData": {
+          "text": [
+            "{1a05000001}You got {1a06ff000001}the compass{1a06ff000000} for the",
+            "{1a06ff000009}Temple of Time{1a06ff000000}!"
+          ]
+        }
+      },
+      {
+        "Operation": "modify",
+
+        "Index": "0x10f",
+        "ChangeData": {
+          "text": [
+            "{1a05000001}You got {1a06ff000001}the compass{1a06ff000000} for the",
+            "{1a06ff000004}City in the Sky{1a06ff000000}!"
+          ]
+        }
+      },
+      {
+        "Operation": "modify",
+
+        "Index": "0x1110",
+        "ChangeData": {
+          "text": [
+            "{1a05000001}You got {1a06ff000001}the compass{1a06ff000000} for the",
+            "{1a06ff000006}Palace of Twilight{1a06ff000000}!"
+          ]
+        }
+      },
+      {
+        "Operation": "modify",
+
+        "Index": "0x111",
+        "ChangeData": {
+          "text": [
+            "{1a05000001}You got {1a06ff000001}the compass{1a06ff000000} for",
+            "{1a06ff00000b}Hyrule Castle{1a06ff000000}!"
+          ]
+        }
+      },
+      {
+        "Operation": "modify",
+
+        "Index": "0x11a",
+        "ChangeData": {
+          "text": [
+            "{1a05000001}You got {1a06ff000001}the dungeon map{1a06ff000000} for the",
+            "{1a06ff000002}Forest Temple{1a06ff000000}!"
+          ]
+        }
+      },
+      {
+        "Operation": "modify",
+
+        "Index": "0x11b",
+        "ChangeData": {
+          "text": [
+            "{1a05000001}You got {1a06ff000001}the dungeon map{1a06ff000000} for",
+            "{1a06ff000001}Goron Mines{1a06ff000000}!"
+          ]
+        }
+      },
+      {
+        "Operation": "modify",
+
+        "Index": "0x11c",
+        "ChangeData": {
+          "text": [
+            "{1a05000001}You got {1a06ff000001}the dungeon map{1a06ff000000} for the",
+            "{1a06ff00000a}Lakebed Temple{1a06ff000000}!"
+          ]
+        }
+      },
+      {
+        "Operation": "modify",
+
+        "Index": "0x11d",
+        "ChangeData": {
+          "text": [
+            "{1a05000001}You got {1a06ff000001}the dungeon map{1a06ff000000} for",
+            "{1a06ff000008}Arbiters Grounds{1a06ff000000}!"
+          ]
+        }
+      },
+      {
+        "Operation": "modify",
+
+        "Index": "0x11e",
+        "ChangeData": {
+          "text": [
+            "{1a05000001}You got {1a06ff000001}the dungeon map{1a06ff000000} for",
+            "{1a06ff000003}Snowpeak Ruins{1a06ff000000}!"
+          ]
+        }
+      },
+      {
+        "Operation": "modify",
+
+        "Index": "0x11f",
+        "ChangeData": {
+          "text": [
+            "{1a05000001}You got {1a06ff000001}the dungeon map{1a06ff000000} for the",
+            "{1a06ff000009}Temple of Time{1a06ff000000}!"
+          ]
+        }
+      },
+      {
+        "Operation": "modify",
+
+        "Index": "0x120",
+        "ChangeData": {
+          "text": [
+            "{1a05000001}You got {1a06ff000001}the dungeon map{1a06ff000000} for the",
+            "{1a06ff000004}City in the Sky{1a06ff000000}!"
+          ]
+        }
+      },
+      {
+        "Operation": "modify",
+
+        "Index": "0x121",
+        "ChangeData": {
+          "text": [
+            "{1a05000001}You got {1a06ff000001}the dungeon map{1a06ff000000} for the",
+            "{1a06ff000006}Palace of Twilight{1a06ff000000}!"
+          ]
+        }
+      },
+      {
+        "Operation": "modify",
+
+        "Index": "0x122",
+        "ChangeData": {
+          "text": [
+            "{1a05000001}You got {1a06ff000001}the dungeon map{1a06ff000000} for",
+            "{1a06ff00000b}Hyrule Castle{1a06ff000000}!"
+          ]
+        }
+      },
+      {
+        "Operation": "modify",
+
+        "Index": "0x13c",
+        "ChangeData": {
+          "text": [
+            "{1a05000001}You got a {1a06ff000001}Fused Shadow{1a06ff000000}!",
+            "It seems to have some {1a06ff000002}moss{1a06ff000000}",
+            "growing on it.."
+          ]
+        }
+      },
+      {
+        "Operation": "modify",
+
+        "Index": "0x13d",
+        "ChangeData": {
+          "text": [
+            "{1a05000001}You got a {1a06ff000001}Fused Shadow{1a06ff000000}!",
+            "It feels {1a06ff000001}warm{1a06ff000000} to",
+            "the touch.."
+          ]
+        }
+      },
+      {
+        "Operation": "modify",
+
+        "Index": "0x13e",
+        "ChangeData": {
+          "text": [
+            "{1a05000001}You got a {1a06ff000001}Fused Shadow{1a06ff000000}!",
+            "It feels {1a06ff00000a}wet{1a06ff000000} and",
+            "smells like fish.."
+          ]
+        }
+      },
+      {
+        "Operation": "modify",
+
+        "Index": "0x13f",
+        "ChangeData": {
+          "text": [
+            "{1a05000001}You got the first shard of",
+            "the {1a06ff000001}Mirror of Twilight{1a06ff000000}! It",
+            "is covered in{1a06ff000008}sand{1a06ff000000}.."
+          ]
+        }
+      },
+      {
+        "Operation": "modify",
+
+        "Index": "0x144",
+        "ChangeData": {
+          "text": [
+            "{1a05000001}You got the {1a06ff000001}Poe's soul{1a06ff000000}!",
+            "You've collected {1a06ff000001}{1a05050013}{1a06ff000000} so far."
+          ]
+        }
+      },
+      {
+        "Operation": "modify",
+
+        "Index": "0x145",
+        "ChangeData": {
+          "text": [
+            "{1a05000001}You learned the {1a06ff000001}Ending Blow{1a06ff000000}!"
+          ]
+        }
+      },
+      {
+        "Operation": "modify",
+
+        "Index": "0x146",
+        "ChangeData": {
+          "text": [
+            "{1a05000001}You learned the {1a06ff000001}Shield Attack{1a06ff000000}!"
+          ]
+        }
+      },
+      {
+        "Operation": "modify",
+
+        "Index": "0x147",
+        "ChangeData": {
+          "text": [
+            "{1a05000001}You learned the {1a06ff000001}Back Slice{1a06ff000000}!"
+          ]
+        }
+      },
+      {
+        "Operation": "modify",
+
+        "Index": "0x148",
+        "ChangeData": {
+          "text": [
+            "{1a05000001}You learned the {1a06ff000001}Helm Splitter{1a06ff000000}!"
+          ]
+        }
+      },
+      {
+        "Operation": "modify",
+
+        "Index": "0x149",
+        "ChangeData": {
+          "text": [
+            "{1a05000001}You learned the {1a06ff000001}Mortal Draw{1a06ff000000}!"
+          ]
+        }
+      },
+      {
+        "Operation": "modify",
+
+        "Index": "0x14a",
+        "ChangeData": {
+          "text": [
+            "{1a05000001}You learned the {1a06ff000001}Jump Strike{1a06ff000000}!"
+          ]
+        }
+      },
+      {
+        "Operation": "modify",
+
+        "Index": "0x14b",
+        "ChangeData": {
+          "text": [
+            "{1a05000001}You learned the {1a06ff000001}Great Spin{1a06ff000000}!"
+          ]
+        }
+      },
+      {
+        "Operation": "modify",
+
+        "Index": "0x14e",
+        "ChangeData": {
+          "text": [
+            "{1a05000001}You got a {1a06ff000001}Sky character{1a06ff000000}!",
+            "You've collected {1a05000001}{1a05050014}{1a06ff000000} so far."
+          ]
+        }
+      },
+      {
+        "Operation": "modify",
+
+        "Index": "0x298",
+        "ChangeData": {
+          "text": [
+            "A wallet from your childhood.",
+            "It holds up to {1a0505000f} Rupees."
+          ]
+        }
+      },
+      {
+        "Operation": "modify",
+
+        "Index": "0x299",
+        "ChangeData": {
+          "text": [
+            "The wallet given to you by Agitha,",
+            "princess of the insect kingdom.",
+            "It can hold {1a05050010} Rupees."
+          ]
+        }
+      },
+      {
+        "Operation": "modify",
+
+        "Index": "0x298",
+        "ChangeData": {
+          "text": [
+            "The wallet given by Agitha to",
+            "benefactors of the insect kingdom.",
+            "It can hold up to {1a05050011} Rupees."
+          ]
+        }
+      },
+      {
+        "Operation": "modify",
+        "Index": "0x34d",
+        "ChangeData": {
+          "text": [
+            "{1a0903000000000d0e}A book written in the ancient Sky language.",
+            "Characters are missing in areas.",
+            "",
+            "You've collected {1a06ff000001}{1a05050012}{1a06ff000000} character(s) so far."
+          ]
+        }
+      },
+      {
+        "Operation": "modify",
+
+        "Index": "0xfac",
+        "ChangeData": {
+          "attributes": "07290000150d0100ff000d001f1f0400",
+          "text": ["Need something?{1a05000020}"]
+        }
+      },
+      {
+        "Operation": "modify",
+
+        "Index": "0xfad",
+        "ChangeData": {
+          "attributes": "072a000015000000ff00000000000400",
+          "text": [
+            "{1a0600000902}Hints",
+            "{1a0600000901}Change time of day",
+            "{1a0600000903}Return to spawn"
+          ]
+        }
+      },
+      {
+        "Operation": "modify",
+
+        "Index": "0xfae",
+        "ChangeData": {
+          "attributes": "072b000015000000ff00000000000400",
+          "text": ["{1a0600000801}Hints", "{1a0600000802}Return to spawn"]
+        }
+      },
+      {
+        "Operation": "modify",
+
+        "Index": "0xfaf",
+        "ChangeData": {
+          "attributes": "072c0000150d0100ff000d001f1f0400",
+          "text": [
+            "I'll get you out of here. Where do you want to go?{1a05000020}?"
+          ]
+        }
+      },
+      {
+        "Operation": "modify",
+
+        "Index": "0xfb0",
+        "ChangeData": {
+          "attributes": "072d000015000000ff00000000000400",
+          "text": [
+            "{1a0600000902}Dungeon entrance",
+            "{1a0600000901}Nevermind",
+            "{1a0600000903}Spawn"
+          ]
+        }
+      },
+      {
+        "Operation": "modify",
+
+        "Index": "0xfb1",
+        "ChangeData": {
+          "attributes": "072e0000150d0100ff000d001f1f0400",
+          "text": ["I'll get you out of here. Are you ready to go?{1a05000020}"]
+        }
+      },
+      {
+        "Operation": "modify",
+
+        "Index": "0xfb2",
+        "ChangeData": {
+          "attributes": "072f000015000000ff00000000000400",
+          "text": ["{1a0600000801}Not yet", "{1a0600000802}I'm ready"]
+        }
+      },
+      {
+        "Operation": "modify",
+
+        "Index": "0xfb3",
+        "ChangeData": {
+          "text": ["This is a test hint."]
+        }
+      },
+      {
+        "Operation": "add",
+        "Section": "FLW1",
+        "ChangeData": {
+          "Data": {
+            "flwTable": [
+              "030D01B300000004",
+              "030D01B400000003",
+              "01000FAC021D0000",
+              "01000FAD021E0000",
+              "02040024000001A2",
+              "01000FAC02200000",
+              "01000FAE02210000",
+              "02030023000001A6",
+              "032C01A500000000",
+              "02030037000001A9",
+              "030D01B500000004",
+              "01000FAF02260000",
+              "01000FB002270000",
+              "02040024000001AC",
+              "032D01A500000001",
+              "032D01A500000000",
+              "030D01B600000003",
+              "01000FB1022C0000",
+              "01000FB2022D0000",
+              "02030023000001B0",
+              "02020036000001A0",
+              "01000FB3FFFFFF00"
+            ],
+            "flwIndexTable": [
+              "021a",
+              "021b",
+              "022f",
+              "0222",
+              "0223",
+              "ffff",
+              "022f",
+              "0223",
+              "ffff",
+              "0224",
+              "022a",
+              "0229",
+              "0228",
+              "ffff",
+              "0229",
+              "ffff",
+              "ffff",
+              "0229",
+              "ffff",
+              "021c",
+              "021f",
+              "0225",
+              "022b"
+            ]
+          }
+        }
+      },
+      {
+        "Operation": "modify",
+        "Section": "FLI1",
+        "Index": "0x01",
+        "ChangeData": {
+          "RawData": ["0BB80000022E0000"]
+        }
+      }
+    ]
+  },
+  {
+    "FilePath": "res/Msgus/Bmgres1/zel_01.bmg",
+    "Changes": [
+      {
+        "Operation": "modify",
+        "Section": "FLW1",
+        "Index": "0x8F",
+        "ChangeData": {
+          "Data": {
+            "flwTable": ["020200350000004B"]
+          }
+        }
+      },
+      {
+        "Operation": "modify",
+        "Section": "FLW1",
+        "Index": "0x6E7",
+        "ChangeData": {
+          "Data": {
+            "flwTable": ["020200010088044E"]
+          }
+        }
+      }
+    ]
+  },
+  {
+    "FilePath": "res/Msgus/Bmgres2/zel_02.bmg",
+    "Changes": [
+      {
+        "Operation": "modify",
+        "Section": "FLW1",
+        "Index": "0x413",
+        "ChangeData": {
+          "Data": {
+            "flwTable": ["02020035000102CD"]
+          }
+        }
+      },
+      {
+        "Operation": "modify",
+        "Section": "FLW1",
+        "Index": "0x41A",
+        "ChangeData": {
+          "Data": {
+            "flwTable": ["02020035000102D1"]
+          }
+        }
+      },
+      {
+        "Operation": "modify",
+        "Section": "FLW1",
+        "Index": "0x43F",
+        "ChangeData": {
+          "Data": {
+            "flwTable": ["02020035000002EA"]
+          }
+        }
+      },
+      {
+        "Operation": "modify",
+        "Section": "FLW1",
+        "Index": "0x946",
+        "ChangeData": {
+          "Data": {
+            "flwTable": ["030008D803330000"]
+          }
+        }
+      },
+      {
+        "Operation": "modify",
+        "Section": "FLW1",
+        "Index": "0x94C",
+        "ChangeData": {
+          "Data": {
+            "flwTable": ["031108C700020000"]
+          }
+        }
+      }
+    ]
+  },
+  {
+    "FilePath": "res/Msgus/Bmgres4/zel_04.bmg",
+    "Changes": [
+      {
+        "Operation": "modify",
+        "Section": "FLW1",
+        "Index": "0x34A",
+        "ChangeData": {
+          "Data": {
+            "flwTable": ["0202000600640222"]
+          }
+        }
+      },
+      {
+        "Operation": "modify",
+        "Section": "FLW1",
+        "Index": "0x34E",
+        "ChangeData": {
+          "Data": {
+            "flwTable": ["0329022600000064"]
+          }
+        }
+      },
+      {
+        "Operation": "modify",
+        "Section": "FLW1",
+        "Index": "0x357",
+        "ChangeData": {
+          "Data": {
+            "flwTable": ["0303022B00000064"]
+          }
+        }
+      },
+      {
+        "Operation": "modify",
+        "Section": "FLW1",
+        "Index": "0x833",
+        "ChangeData": {
+          "Data": {
+            "flwTable": ["0202003500000765"]
+          }
+        }
+      },
+      {
+        "Operation": "modify",
+        "Section": "FLW1",
+        "Index": "0x97C",
+        "ChangeData": {
+          "Data": {
+            "flwTable": ["0202000103310824"]
+          }
+        }
+      },
+      {
+        "Operation": "modify",
+        "Section": "FLW1",
+        "Index": "0x97D",
+        "ChangeData": {
+          "Data": {
+            "flwTable": ["0300082603310000"]
+          }
+        }
+      },
+      {
+        "Operation": "modify",
+        "Section": "FLW1",
+        "Index": "0x97F",
+        "ChangeData": {
+          "Data": {
+            "flwTable": ["02020006001E0827"]
+          }
+        }
+      },
+      {
+        "Operation": "modify",
+        "Section": "FLW1",
+        "Index": "0x9AB",
+        "ChangeData": {
+          "Data": {
+            "flwTable": ["0202000600280845"]
+          }
+        }
+      },
+      {
+        "Operation": "modify",
+        "Section": "FLW1",
+        "Index": "0x9BD",
+        "ChangeData": {
+          "Data": {
+            "flwTable": ["0300085103300000"]
+          }
+        }
+      },
+      {
+        "Operation": "modify",
+        "Section": "FLW1",
+        "Index": "0x9BF",
+        "ChangeData": {
+          "Data": {
+            "flwTable": ["0202000103300853"]
+          }
+        }
+      },
+      {
+        "Operation": "modify",
+        "Section": "FLW1",
+        "Index": "0x9C1",
+        "ChangeData": {
+          "Data": {
+            "flwTable": ["0202000103320856"]
+          }
+        }
+      },
+      {
+        "Operation": "modify",
+        "Section": "FLW1",
+        "Index": "0x9C7",
+        "ChangeData": {
+          "Data": {
+            "flwTable": ["020200060028085E"]
+          }
+        }
+      },
+      {
+        "Operation": "modify",
+        "Section": "FLW1",
+        "Index": "0x9C9",
+        "ChangeData": {
+          "Data": {
+            "flwTable": ["0202000103320862"]
+          }
+        }
+      },
+      {
+        "Operation": "modify",
+        "Section": "FLW1",
+        "Index": "0x9FC",
+        "ChangeData": {
+          "Data": {
+            "flwTable": ["0300088703320000"]
+          }
+        }
+      },
+      {
+        "Operation": "modify",
+        "Section": "FLW1",
+        "Index": "0xA16",
+        "ChangeData": {
+          "Data": {
+            "flwTable": ["02020001032F0899"]
+          }
+        }
+      },
+      {
+        "Operation": "modify",
+        "Section": "FLW1",
+        "Index": "0xA1C",
+        "ChangeData": {
+          "Data": {
+            "flwTable": ["0300089D032F0000"]
+          }
+        }
+      },
+      {
+        "Operation": "modify",
+        "Section": "FLW1",
+        "Index": "0xA1D",
+        "ChangeData": {
+          "Data": {
+            "flwTable": ["02020001032F089E"]
+          }
+        }
+      }
+    ]
+  },
+  {
+    "FilePath": "res/Msgus/Bmgres5/zel_05.bmg",
+    "Changes": [
+      {
+        "Operation": "modify",
+        "Section": "FLW1",
+        "Index": "0x5",
+        "ChangeData": {
+          "Data": {
+            "flwTable": ["0202003500010002"]
+          }
+        }
+      },
+      {
+        "Operation": "modify",
+        "Section": "FLW1",
+        "Index": "0x8",
+        "ChangeData": {
+          "Data": {
+            "flwTable": ["0202003500010007"]
+          }
+        }
+      },
+      {
+        "Operation": "modify",
+        "Section": "FLW1",
+        "Index": "0x258",
+        "ChangeData": {
+          "Data": {
+            "flwTable": ["031101AC00000001"]
+          }
+        }
+      }
+    ]
+  },
+  {
+    "FilePath": "res/Msgus/Bmgres6/zel_06.bmg",
+    "Changes": [
+      {
+        "Operation": "modify",
+        "Section": "FLW1",
+        "Index": "0x4F",
+        "ChangeData": {
+          "Data": {
+            "flwTable": ["020200010080013B"]
+          }
+        }
+      },
+      {
+        "Operation": "modify",
+        "Section": "FLW1",
+        "Index": "0xA5",
+        "ChangeData": {
+          "Data": {
+            "flwTable": ["010000C500B40000"]
+          }
+        }
+      },
+      {
+        "Operation": "modify",
+        "Section": "FLW1",
+        "Index": "0xEE",
+        "ChangeData": {
+          "Data": {
+            "flwTable": ["020200010080013B"]
+          }
+        }
+      },
+      {
+        "Operation": "modify",
+        "Section": "FLW1",
+        "Index": "0xFF",
+        "ChangeData": {
+          "Data": {
+            "flwTable": ["020200010080013B"]
+          }
+        }
+      },
+      {
+        "Operation": "modify",
+        "Section": "FLW1",
+        "Index": "0x1A4",
+        "ChangeData": {
+          "Data": {
+            "flwTable": ["010000C200A10000"]
+          }
+        }
+      },
+      {
+        "Operation": "modify",
+        "Section": "FLW1",
+        "Index": "0x1A9",
+        "ChangeData": {
+          "Data": {
+            "flwTable": ["0300013800800000"]
+          }
+        }
+      },
+      {
+        "Operation": "modify",
+        "Section": "FLW1",
+        "Index": "0x1AA",
+        "ChangeData": {
+          "Data": {
+            "flwTable": ["0100012501A60000"]
+          }
+        }
+      },
+      {
+        "Operation": "modify",
+        "Section": "FLW1",
+        "Index": "0x1B3",
+        "ChangeData": {
+          "Data": {
+            "flwTable": ["0202000C00320139"]
+          }
+        }
+      },
+      {
+        "Operation": "modify",
+        "Section": "FLW1",
+        "Index": "0x1C2",
+        "ChangeData": {
+          "Data": {
+            "flwTable": ["020200010080013B"]
+          }
+        }
+      },
+      {
+        "Operation": "modify",
+        "Section": "FLW1",
+        "Index": "0x1C4",
+        "ChangeData": {
+          "Data": {
+            "flwTable": ["0202000100DA00D8"]
+          }
+        }
+      }
+    ]
+  }
+]

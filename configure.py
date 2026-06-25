@@ -804,7 +804,7 @@ config.libs = [
             Object(MatchingFor(ALL_GCN), "d/d_ky_thunder.cpp"),
             Object(MatchingFor(ALL_GCN), "d/d_kantera_icon_meter.cpp"),
             Object(MatchingFor(ALL_GCN), "d/d_menu_calibration.cpp"),
-            Object(NonMatching, "d/d_menu_collect.cpp"), # weak func order (dMenu_Collect2D_c::draw())
+            Object(MatchingFor(ALL_GCN), "d/d_menu_collect.cpp"), # weak func order (dMenu_Collect2D_c::draw())
             Object(MatchingFor(ALL_GCN), "d/d_menu_dmap.cpp"),
             Object(MatchingFor(ALL_GCN), "d/d_menu_dmap_map.cpp"),
             Object(MatchingFor(ALL_GCN), "d/d_menu_map_common.cpp"),
@@ -833,7 +833,7 @@ config.libs = [
             Object(MatchingFor(ALL_GCN), "d/d_meter2.cpp"),
             Object(MatchingFor(ALL_GCN), "d/d_msg_out_font.cpp"),
             Object(MatchingFor(ALL_GCN), "d/d_msg_class.cpp"),
-            Object(Equivalent, "d/d_msg_object.cpp"), # weak func order
+            Object(MatchingFor(ALL_GCN), "d/d_msg_object.cpp"), # weak func order
             Object(MatchingFor(ALL_GCN), "d/d_msg_unit.cpp"),
             Object(MatchingFor(ALL_GCN), "d/d_msg_scrn_3select.cpp"),
             Object(MatchingFor(ALL_GCN), "d/d_msg_scrn_arrow.cpp"),
@@ -2919,11 +2919,13 @@ config.libs = [
         "objects": [
             Object(Custom, "rando/rando.cpp"),
             Object(Custom, "rando/tools/tools.cpp"),
+            Object(Custom, "rando/tools/draw.cpp"),
             Object(Custom, "rando/tools/verifyItemFunctions.cpp"),
             Object(Custom, "rando/itemWheelMenu.cpp"),
             Object(Custom, "rando/seed/seed.cpp"),
             Object(Custom, "rando/tools/memory.cpp"),
             Object(Custom, "rando/data/stages.cpp"),
+            Object(Custom, "rando/returnPlaces.cpp"),
         ],
     },
 ]
@@ -2995,11 +2997,13 @@ def link_order_callback(module_id: int, objects: List[str]) -> List[str]:
         return objects + [
             "rando/rando.cpp",
             "rando/tools/tools.cpp",
+            "rando/tools/draw.cpp",
             "rando/tools/verifyItemFunctions.cpp",
             "rando/itemWheelMenu.cpp",
             "rando/seed/seed.cpp",
             "rando/tools/memory.cpp",
             "rando/data/stages.cpp",
+            "rando/returnPlaces.cpp"
         ]
     return objects
 

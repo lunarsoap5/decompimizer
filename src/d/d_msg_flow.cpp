@@ -1760,6 +1760,7 @@ u16 dMsgFlow_c::query054(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_spea
     return i_flowNode_p->param;
 }
 
+// Can change time of day
 u16 dMsgFlow_c::query055(mesg_flow_node_branch*, fopAc_ac_c*, int) {
     // This function is based on query044 which is used to determine whether to show the Midna menu which includes
     // "Warp" or not. We also add a check to ensure the current environment is not twilight. "R_SP161" is STAR tent.
@@ -1777,15 +1778,13 @@ u16 dMsgFlow_c::query056(mesg_flow_node_branch*, fopAc_ac_c*, int) {
     uint8_t stageIDX = getCurrentStageID();
     if (stageIDX <= 29)
     {
-        /* // Commenting out until re figure out the return to spawn stuff
+        // Commenting out until re figure out the return to spawn stuff
         // In a Dungeon or (mini)boss room.
-        const rando::ReturnPlace* returnPlace =
-            rando::gRandomizer->getSeedPtr()->getReturnPlaceSectionPtr()->getReturnPlace(stageIDX, -1, -1, -1);
-        if (returnPlace != nullptr && returnPlace->getStageIDX() != 0xFF)
+        const ReturnPlace* returnPlace = g_seedInfo.getReturnPlaceSectionPtr()->getReturnPlace(stageIDX, -1, -1, -1);
+        if (returnPlace != NULL && returnPlace->getStageIDX() != 0xFF)
             return 0;
         else
             return 1;
-        */
     }
     return 2;
 }
@@ -2648,6 +2647,7 @@ int dMsgFlow_c::event043(mesg_flow_node_event* i_flowNode_p, fopAc_ac_c* i_speak
     return 1;
 }
 
+// Handle ToD change
 int dMsgFlow_c::event044(mesg_flow_node_event* i_flowNode_p, fopAc_ac_c* i_speaker_p) {
     if (daPy_py_c::checkNowWolf())
     {

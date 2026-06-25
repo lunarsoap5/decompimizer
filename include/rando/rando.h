@@ -3,6 +3,10 @@
 #define EVENT_ITEM_QUEUE_SIZE 0x10
 
 #include "dolphin/types.h"
+#include "JSystem/J2DGraph/J2DTextbox.h"
+#include "JSystem/J2DGraph/J2DPicture.h"
+#include "dolphin/gx/GXStruct.h"
+#include "d/d_stage.h"
 
 enum TimeChange
 {
@@ -45,6 +49,12 @@ public:
     u8 getTimeChange() { return mTimeChange; }
     bool getRoomReloadingState() { return roomReloadingState; }
     bool getHasPendingToDChange() { return hasPendingToDChange; }
+    J2DPicture* getDPadIconPtr() { return dPadIconPtr;}
+    J2DPicture* getBigKeyIconPtr() { return bigKeyIconPtr;}
+    J2DPicture* getDunMapIconPtr() { return dunMapIconPtr;}
+    J2DPicture* getDunCompassIconPtr() { return dunCompassIconPtr;}
+    bool getDrawBigKey() { return drawBigKey;}
+    GXColor getGlobalRGB() { return globalRGB;}
     
     void setGiveItemToPlayerStatus(u8 status) { eventItemStatus = status;}
     void setLastButtonInput(u16 buttonInput) { m_LastButtonInput = buttonInput;}
@@ -52,6 +62,11 @@ public:
     void setHasPendingToDChange(bool hasPending) { hasPendingToDChange = hasPending; }
     void setTimeChange(u8 newTimeChange) { mTimeChange = newTimeChange; }
     void setRoomReloadingState(bool newState) { roomReloadingState = newState; }
+    void setDPadIconPtr(J2DPicture* ptr) { dPadIconPtr = ptr;}
+    void setBigKeyIconPtr(J2DPicture* ptr) { bigKeyIconPtr = ptr;}
+    void setDunMapIconPtr(J2DPicture* ptr) { dunMapIconPtr = ptr;}
+    void setDunCompassIconPtr(J2DPicture* ptr) { dunCompassIconPtr = ptr;}
+    void setDrawBigKey(bool val) { drawBigKey = val; }
 
     bool mInitialized;
     u8 eventItemStatus;
@@ -64,6 +79,24 @@ public:
     u8 mTimeChange;
     u8 eventItemQueue[EVENT_ITEM_QUEUE_SIZE];
     bool roomReloadingState;
+    J2DPicture* dPadIconPtr;
+    J2DPicture* bigKeyIconPtr;
+    J2DPicture* dunMapIconPtr;
+    J2DPicture* dunCompassIconPtr;
+    J2DPicture* cheeseIconPtr;
+    J2DPicture* pumpkinIconPtr;
+    J2DPicture* bedKeyIconPtr;
+    J2DPicture* gmKeyIconPtr;
+    ResTIMG* bigKeyIconBuf;
+    ResTIMG* dunMapIconBuf;
+    ResTIMG* dunCompassIconBuf;
+    ResTIMG* cheeseIconBuf;
+    ResTIMG* pumpkinIconBuf;
+    ResTIMG* bedKeyIconBuf;
+    ResTIMG* gmKeyIconBuf;
+    bool drawBigKey;
+    dStage_startStage_c lastSavableStart;
+    GXColor globalRGB;
 };
 
 void checkSetHCBkFlag(u8 req, u8 currentCount);

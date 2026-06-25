@@ -12,6 +12,13 @@
 #include "d/d_meter2_info.h"
 #include "d/d_meter2_draw.h"
 #include "m_Do/m_Do_controller_pad.h"
+#include "JSystem/J2DGraph/J2DPrint.h"
+#include "JSystem/J2DGraph/J2DTextBox.h"
+#include "JSystem/J2DGraph/J2DOrthoGraph.h"
+#include "JSystem/J2DGraph/J2DScreen.h"
+#include "rando/tools/draw.h"
+#include "m_Do/m_Do_ext.h"
+#include <cstdio>
 
 randoInfo_c g_randoInfo;
 
@@ -22,8 +29,158 @@ int randoInfo_c::_create() {
     rainbowPhaseAngle = 0.f;
     eventItemStatus = QUEUE_EMPTY;
     hasPendingToDChange = false;
+    
+    randoCreateHeap();
     g_customMenuRing._initialize();
     g_seedInfo._create();
+
+    // Initialize custom icons we will use
+    ResTIMG const* dpadIcon = (ResTIMG const*)dComIfGp_getMain2DArchive()->getResource(0x54494D47, "font_51.bti");
+            
+    if (dpadIcon)
+        g_randoInfo.setDPadIconPtr(new (getRandoHeap(), 4) J2DPicture(dpadIcon));
+
+    JKRHeap* heap = getRandoHeap();
+    ResTIMG* tex = (ResTIMG*)dComIfGp_getItemIconArchive()->getResource('TIMG', "im_item_icon_boss_key_48.bti");;
+    
+    if (tex != NULL) {
+        u32 imgSize = GXGetTexBufferSize(tex->width, tex->height, tex->format,
+                                            tex->mipmapEnabled, tex->mipmapCount);
+        u32 totalSize = tex->imageOffset + imgSize;
+        if (tex->indexTexture && tex->numColors > 0) {
+            u32 palEnd = tex->paletteOffset + tex->numColors * 2;
+            if (palEnd > totalSize) {
+                totalSize = palEnd;
+            }
+        }
+        bigKeyIconBuf = (ResTIMG*)heap->alloc(totalSize, 32);
+        if (bigKeyIconBuf != NULL) {
+            memcpy(bigKeyIconBuf, tex, totalSize);
+            DCStoreRangeNoSync(bigKeyIconBuf, totalSize);
+            bigKeyIconPtr = new (heap, 4) J2DPicture(bigKeyIconBuf);
+        }
+    }
+
+    tex = (ResTIMG*)dComIfGp_getItemIconArchive()->getResource('TIMG', "tt_map_48.bti");;
+    
+    if (tex != NULL) {
+        u32 imgSize = GXGetTexBufferSize(tex->width, tex->height, tex->format,
+                                            tex->mipmapEnabled, tex->mipmapCount);
+        u32 totalSize = tex->imageOffset + imgSize;
+        if (tex->indexTexture && tex->numColors > 0) {
+            u32 palEnd = tex->paletteOffset + tex->numColors * 2;
+            if (palEnd > totalSize) {
+                totalSize = palEnd;
+            }
+        }
+        dunMapIconBuf = (ResTIMG*)heap->alloc(totalSize, 32);
+        if (dunMapIconBuf != NULL) {
+            memcpy(dunMapIconBuf, tex, totalSize);
+            DCStoreRangeNoSync(dunMapIconBuf, totalSize);
+            dunMapIconPtr = new (heap, 4) J2DPicture(dunMapIconBuf);
+        }
+    }
+
+    tex = (ResTIMG*)dComIfGp_getItemIconArchive()->getResource('TIMG', "tt_kmps_48.bti");;
+    
+    if (tex != NULL) {
+        u32 imgSize = GXGetTexBufferSize(tex->width, tex->height, tex->format,
+                                            tex->mipmapEnabled, tex->mipmapCount);
+        u32 totalSize = tex->imageOffset + imgSize;
+        if (tex->indexTexture && tex->numColors > 0) {
+            u32 palEnd = tex->paletteOffset + tex->numColors * 2;
+            if (palEnd > totalSize) {
+                totalSize = palEnd;
+            }
+        }
+        dunCompassIconBuf = (ResTIMG*)heap->alloc(totalSize, 32);
+        if (dunCompassIconBuf != NULL) {
+            memcpy(dunCompassIconBuf, tex, totalSize);
+            DCStoreRangeNoSync(dunCompassIconBuf, totalSize);
+            dunCompassIconPtr = new (heap, 4) J2DPicture(dunCompassIconBuf);
+        }
+    }
+
+    tex = (ResTIMG*)dComIfGp_getItemIconArchive()->getResource('TIMG', "im_pumpkin_48.bti");;
+    
+    if (tex != NULL) {
+        u32 imgSize = GXGetTexBufferSize(tex->width, tex->height, tex->format,
+                                            tex->mipmapEnabled, tex->mipmapCount);
+        u32 totalSize = tex->imageOffset + imgSize;
+        if (tex->indexTexture && tex->numColors > 0) {
+            u32 palEnd = tex->paletteOffset + tex->numColors * 2;
+            if (palEnd > totalSize) {
+                totalSize = palEnd;
+            }
+        }
+        pumpkinIconBuf = (ResTIMG*)heap->alloc(totalSize, 32);
+        if (pumpkinIconBuf != NULL) {
+            memcpy(pumpkinIconBuf, tex, totalSize);
+            DCStoreRangeNoSync(pumpkinIconBuf, totalSize);
+            pumpkinIconPtr = new (heap, 4) J2DPicture(pumpkinIconBuf);
+        }
+    }
+
+    tex = (ResTIMG*)dComIfGp_getItemIconArchive()->getResource('TIMG', "im_cheese_48.bti");;
+    
+    if (tex != NULL) {
+        u32 imgSize = GXGetTexBufferSize(tex->width, tex->height, tex->format,
+                                            tex->mipmapEnabled, tex->mipmapCount);
+        u32 totalSize = tex->imageOffset + imgSize;
+        if (tex->indexTexture && tex->numColors > 0) {
+            u32 palEnd = tex->paletteOffset + tex->numColors * 2;
+            if (palEnd > totalSize) {
+                totalSize = palEnd;
+            }
+        }
+        cheeseIconBuf = (ResTIMG*)heap->alloc(totalSize, 32);
+        if (cheeseIconBuf != NULL) {
+            memcpy(cheeseIconBuf, tex, totalSize);
+            DCStoreRangeNoSync(cheeseIconBuf, totalSize);
+            cheeseIconPtr = new (heap, 4) J2DPicture(cheeseIconBuf);
+        }
+    }
+
+    tex = (ResTIMG*)dComIfGp_getItemIconArchive()->getResource('TIMG', "ni_mkey_parts3_get_47_56.bti");;
+    
+    if (tex != NULL) {
+        u32 imgSize = GXGetTexBufferSize(tex->width, tex->height, tex->format,
+                                            tex->mipmapEnabled, tex->mipmapCount);
+        u32 totalSize = tex->imageOffset + imgSize;
+        if (tex->indexTexture && tex->numColors > 0) {
+            u32 palEnd = tex->paletteOffset + tex->numColors * 2;
+            if (palEnd > totalSize) {
+                totalSize = palEnd;
+            }
+        }
+        gmKeyIconBuf = (ResTIMG*)heap->alloc(totalSize, 32);
+        if (gmKeyIconBuf != NULL) {
+            memcpy(gmKeyIconBuf, tex, totalSize);
+            DCStoreRangeNoSync(gmKeyIconBuf, totalSize);
+            gmKeyIconPtr = new (heap, 4) J2DPicture(gmKeyIconBuf);
+        }
+    }
+
+    tex = (ResTIMG*)dComIfGp_getItemIconArchive()->getResource('TIMG', "ni_key_shinshitu_48.bti");;
+    
+    if (tex != NULL) {
+        u32 imgSize = GXGetTexBufferSize(tex->width, tex->height, tex->format,
+                                            tex->mipmapEnabled, tex->mipmapCount);
+        u32 totalSize = tex->imageOffset + imgSize;
+        if (tex->indexTexture && tex->numColors > 0) {
+            u32 palEnd = tex->paletteOffset + tex->numColors * 2;
+            if (palEnd > totalSize) {
+                totalSize = palEnd;
+            }
+        }
+        bedKeyIconBuf = (ResTIMG*)heap->alloc(totalSize, 32);
+        if (bedKeyIconBuf != NULL) {
+            memcpy(bedKeyIconBuf, tex, totalSize);
+            DCStoreRangeNoSync(bedKeyIconBuf, totalSize);
+            bedKeyIconPtr = new (heap, 4) J2DPicture(bedKeyIconBuf);
+        }
+    }
+
     return 1;
 }
 
@@ -36,6 +193,11 @@ int randoInfo_c::execute() {
     if (!mInitialized) {
         return 0;
     }
+
+    g_customMenuRing.resetRingDrawnThisFrame();
+    g_customMenuRing.changeQuestItem(true);
+    globalRGB = getRainbowRGB(127.5f);
+
     const uint currentButtons = mDoCPd_c::getHold(PAD_1);
 
     if (currentButtons != getLastButtonInput())
@@ -63,13 +225,7 @@ int randoInfo_c::execute() {
         }
     }
 
-    // Every 300 frames, set rupees to a random value
-    mFrameCounter++;
-    if (mFrameCounter >= 300) {
-        mFrameCounter = 0;
-        u16 randomRupees = (u16)cM_rndF(1000.0f);
-        dComIfGs_setRupee(randomRupees);
-    }
+    
 
     // Always check for and handle time of day changes
     if (getTimeChange() != NO_CHANGE)
@@ -83,11 +239,11 @@ int randoInfo_c::execute() {
     {
         if (g_seedInfo.isMidnaHairRainbow())
         {
-            adjustMidnaHairColor();
+            adjustMidnaHairColor(globalRGB);
         }
         if (g_seedInfo.isWolfDomeRainbow() && daAlink_getAlinkActorClass()->checkWolfLockAttackChargeState() && isWolfDomeDrawn)
         {
-            replaceEquipItemColor();
+            replaceEquipItemColor(globalRGB);
         }
         currentReloadingState = daAlink_getAlinkActorClass()->checkRestartRoom();
         // Handle giving item to the player at any time.
@@ -120,6 +276,36 @@ int randoInfo_c::execute() {
 }
 
 int randoInfo_c::draw() {
+
+    if (dComIfGs_isDungeonItemBossKey() && getDrawBigKey() && daAlink_getAlinkActorClass() && !daAlink_getAlinkActorClass()->checkEventRun())
+    {
+        f32 keyYPos = 340.f;
+        if (dComIfGs_getKeyNum() == 0)
+        {
+            keyYPos += 20.f;
+        }
+
+        switch(getCurrentStageID())
+        {
+            case Goron_Mines:
+            {
+                gmKeyIconPtr->draw(535.f, keyYPos, 30.f, 30.f, false, false, false);
+                break;
+            }
+
+            case Snowpeak_Ruins:
+            {
+                bedKeyIconPtr->draw(535.f, keyYPos, 30.f, 30.f, false, false, false);
+                break;
+            }
+
+            default:
+            {
+                getBigKeyIconPtr()->draw(535.f, keyYPos, 30.f, 30.f, false, false, false);
+                break;
+            }
+        }
+    }
     return 1;
 }
 
@@ -178,14 +364,14 @@ u8 randoInfo_c::getPoeItem(u8 bitSw)
     /*
     Once the infrastructure is built the code will look like the following:
     u8 item = replacePoeReward(); we will probably build the functionality out instead of calling another func though.
-    */
+    */ 
     return fpcNm_ITEM_POU_SPIRIT;
 }
 
 void randoInfo_c::handlePoeItem(u8 bitSw)
 {
     u8 item = getPoeItem(bitSw);
-    // addItemToEventQueue(item);
+    addItemToEventQueue(item);
     daAlink_getAlinkActorClass()->procWolfAtnActorMoveInit();
 }
 

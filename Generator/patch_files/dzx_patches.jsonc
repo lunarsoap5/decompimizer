@@ -1,0 +1,2891 @@
+[
+  // Lakebed Temple
+  {
+    "description": "Move the LBT entrance scene change to be closer to the player so they can leave without IB/ZA",
+    "FilePath": "res/Stage/D_MN01/R00_00",
+    "Changes": [
+      {
+        "Operation": "modify",
+        "DataBlock": "SCOB",
+        "ID": "scnChg@-11,180,25730",
+        "Data": {
+          "z": 25000.0
+        }
+      }
+    ]
+  },
+  {
+    "description": "Add hint sign to Lakebed Temple",
+    "FilePath": "res/Stage/D_MN01/R03_00",
+    "Changes": [
+      {
+        "Operation": "add",
+        "DataBlock": "ACTR",
+        "Data": {
+          "Name": "Obj_kn2",
+          "param_0": 255,
+          "param_1": 255,
+          "param_2": 255,
+          "param_3": 255,
+          "x": -4765.38037109375,
+          "y": -1.2100000381469727,
+          "z": 272.1922607421875,
+          "Angle X": -2,
+          "Angle Y": 18105,
+          "Angle Z": 0,
+          "EnemyNo": -1
+        }
+      }
+    ]
+  },
+  // Goron Mines
+  {
+    "description": "Add hint sign to Goron Mines",
+    "FilePath": "res/Stage/D_MN04/R17_00",
+    "Changes": [
+      {
+        "Operation": "add",
+        "DataBlock": "ACTR",
+        "Data": {
+          "Name": "Obj_kn2",
+          "param_0": 255,
+          "param_1": 255,
+          "param_2": 255,
+          "param_3": 255,
+          "x": 11394.185546875,
+          "y": 2878.64990234375,
+          "z": -17913.05078125,
+          "Angle X": -2,
+          "Angle Y": -10922,
+          "Angle Z": 0,
+          "EnemyNo": -1
+        }
+      }
+    ]
+  },
+  // Forest Temple
+  {
+    "description": "Add hint sign to Forest Temple",
+    "FilePath": "res/Stage/D_MN05/R00_00",
+    "Changes": [
+      {
+        "Operation": "add",
+        "DataBlock": "ACTR",
+        "Data": {
+          "Name": "Obj_kn2",
+          "param_0": 255,
+          "param_1": 255,
+          "param_2": 255,
+          "param_3": 255,
+          "x": -1972.1168212890625,
+          "y": 3150.0,
+          "z": 7610.97509765625,
+          "Angle X": -2,
+          "Angle Y": 24576,
+          "Angle Z": 0,
+          "EnemyNo": -1
+        }
+      }
+    ]
+  },
+  // Temple of Time
+  {
+    "description": "Add hint sign to Temple of Time",
+    "FilePath": "res/Stage/D_MN06/R00_00",
+    "Changes": [
+      {
+        "Operation": "add",
+        "DataBlock": "ACTR",
+        "Data": {
+          "Name": "Obj_kn2",
+          "param_0": 255,
+          "param_1": 255,
+          "param_2": 255,
+          "param_3": 255,
+          "x": -618.9334716796875,
+          "y": 725.0,
+          "z": 3112.199951171875,
+          "Angle X": -2,
+          "Angle Y": -32768,
+          "Angle Z": 0,
+          "EnemyNo": -1
+        }
+      }
+    ]
+  },
+  {
+    "description": "Add hint sign to Temple of Time",
+    "FilePath": "res/Stage/D_MN06/R04_00",
+    "Changes": [
+      {
+        "Operation": "add",
+        "DataBlock": "ACTR",
+        "Data": {
+          "Name": "Obj_kn2",
+          "param_0": 255,
+          "param_1": 255,
+          "param_2": 255,
+          "param_3": 255,
+          "x": -3885.2158203125,
+          "y": 4450.0,
+          "z": -6353.38134765625,
+          "Angle X": -2,
+          "Angle Y": 8192,
+          "Angle Z": 0,
+          "EnemyNo": -1
+        }
+      }
+    ]
+  },
+  // City in the Sky
+  {
+    "description": "Add hint sign to City in the Sky and scene change to get back to Lake Hylia",
+    "FilePath": "res/Stage/D_MN07/R00_00",
+    "Changes": [
+      {
+        "Operation": "add",
+        "DataBlock": "ACTR",
+        "Data": {
+          "Name": "Obj_kn2",
+          "param_0": 255,
+          "param_1": 255,
+          "param_2": 255,
+          "param_3": 255,
+          "x": 0.0,
+          "y": -200.0,
+          "z": 11915.0,
+          "Angle X": -2,
+          "Angle Y": -32768,
+          "Angle Z": 0,
+          "EnemyNo": -1
+        }
+      },
+      {
+        "Operation": "add",
+        "DataBlock": "SCOB",
+        "Data": {
+          "Name": "scnChg",
+          "param_0": 255,
+          "param_1": 255,
+          "param_2": 0,
+          "param_3": 1,
+          "x": -3176.0,
+          "y": -600.0,
+          "z": 5480.0,
+          "Angle X": 4095,
+          "Angle Y": 0,
+          "Angle Z": 4095,
+          "EnemyNo": -1,
+          "Scale X": 20,
+          "Scale Y": 67,
+          "Scale Z": 54,
+          "field_0x23": 255
+        }
+      }
+    ]
+  },
+  {
+    "description": "Add hint sign to City in the Sky",
+    "FilePath": "res/Stage/D_MN07/R02_00",
+    "Changes": [
+      {
+        "Operation": "add",
+        "DataBlock": "ACTR",
+        "Data": {
+          "Name": "Obj_kn2",
+          "param_0": 255,
+          "param_1": 255,
+          "param_2": 255,
+          "param_3": 255,
+          "x": 3376.5400390625,
+          "y": 0.0,
+          "z": -12709.03515625,
+          "Angle X": -2,
+          "Angle Y": 14266,
+          "Angle Z": 0,
+          "EnemyNo": -1
+        }
+      }
+    ]
+  },
+  {
+    "description": "Remove Argorok Actor to prevent bridge breaking",
+    "FilePath": "res/Stage/D_MN07/R06_00",
+    "Changes": [
+      {
+        "Operation": "remove",
+        "DataBlock": "ACTR",
+        "ID": "dr@-7075,-200,-11809"
+      }
+    ]
+  },
+  {
+    "description": "Adjust Cits shop item flags",
+    "FilePath": "res/Stage/D_MN07/R16_00",
+    "Changes": [
+      {
+        "Operation": "modify",
+        "DataBlock": "ACTR",
+        "ID": "TGSPITM@60,200,-430",
+        "Data": {
+          "param_1": 28
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACTR",
+        "ID": "TGSPITM@340,200,-430",
+        "Data": {
+          "param_1": 30
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACTR",
+        "ID": "TGSPITM@60,140,-305",
+        "Data": {
+          "param_1": 29
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACTR",
+        "ID": "TGSPITM@200,140,-305",
+        "Data": {
+          "param_1": 31
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACTR",
+        "ID": "TGSPITM@340,140,-305",
+        "Data": {
+          "param_1": 32
+        }
+      }
+    ]
+  },
+  {
+    "description": "Modify savemem actor to prevent save warping to west wing",
+    "FilePath": "res/Stage/D_MN07/STG_00",
+    "Changes": [
+      {
+        "Operation": "modify",
+        "DataBlock": "ACTR",
+        "ID": "Savmem@-15044,0,-11283",
+        "Data": {
+          "param_2": 0
+        }
+      }
+    ]
+  },
+  // Palace of Twilight
+  {
+    "description": "Add hint sign to Palace of Twilight, remove TagYami that prevents player from going north before sols are collected",
+    "FilePath": "res/Stage/D_MN08/R00_00",
+    "Changes": [
+      {
+        "Operation": "add",
+        "DataBlock": "ACTe",
+        "Data": {
+          "Name": "Obj_kn2",
+          "param_0": 255,
+          "param_1": 255,
+          "param_2": 255,
+          "param_3": 255,
+          "x": 679.0,
+          "y": -200.0,
+          "z": 9311.0,
+          "Angle X": -2,
+          "Angle Y": 0,
+          "Angle Z": 0,
+          "EnemyNo": -1
+        }
+      },
+      {
+        "Operation": "remove",
+        "DataBlock": "SCOe",
+        "ID": "TagYami@250,800,5800"
+      },
+      {
+        "Operation": "remove",
+        "DataBlock": "SCOe",
+        "ID": "ClearB@255,1600,2560"
+      }
+    ]
+  },
+  // Hyrule Castle
+  {
+    "description": "Add hint sign to Hyrule Castle",
+    "FilePath": "res/Stage/D_MN09/R11_00",
+    "Changes": [
+      {
+        "Operation": "add",
+        "DataBlock": "ACT0",
+        "Data": {
+          "Name": "Obj_kn2",
+          "param_0": 255,
+          "param_1": 255,
+          "param_2": 255,
+          "param_3": 255,
+          "x": 0.0,
+          "y": 25.0,
+          "z": 11625.0,
+          "Angle X": -2,
+          "Angle Y": 0,
+          "Angle Z": 0,
+          "EnemyNo": -1
+        }
+      }
+    ]
+  },
+  // Arbiters Grounds
+  {
+    "description": "Add hint sign to Arbiters Grounds",
+    "FilePath": "res/Stage/D_MN10/R02_00",
+    "Changes": [
+      {
+        "Operation": "add",
+        "DataBlock": "ACTR",
+        "Data": {
+          "Name": "Obj_kn2",
+          "param_0": 255,
+          "param_1": 255,
+          "param_2": 255,
+          "param_3": 255,
+          "x": -349.4043884277344,
+          "y": 450.0,
+          "z": -2876.90771484375,
+          "Angle X": -2,
+          "Angle Y": 0,
+          "Angle Z": 0,
+          "EnemyNo": -1
+        }
+      }
+    ]
+  },
+  // Snowpeak Ruins
+  {
+    "description": "Add hint sign to Snowpeak Ruins",
+    "FilePath": "res/Stage/D_MN11/R01_00",
+    "Changes": [
+      {
+        "Operation": "add",
+        "DataBlock": "ACTR",
+        "Data": {
+          "Name": "Obj_kn2",
+          "param_0": 255,
+          "param_1": 255,
+          "param_2": 255,
+          "param_3": 255,
+          "x": -530.0,
+          "y": 0.0,
+          "z": -669.6900024414062,
+          "Angle X": -2,
+          "Angle Y": 0,
+          "Angle Z": 0,
+          "EnemyNo": -1
+        }
+      }
+    ]
+  },
+  // Cave of Ordeals
+  {
+    "description": "Add hint sign to Cave of Ordeals",
+    "FilePath": "res/Stage/D_SB01/R00_00",
+    "Changes": [
+      {
+        "Operation": "add",
+        "DataBlock": "ACTR",
+        "Data": {
+          "Name": "Obj_kn2",
+          "param_0": 255,
+          "param_1": 255,
+          "param_2": 255,
+          "param_3": 255,
+          "x": -1191.4200439453125,
+          "y": 1100.0,
+          "z": -260.6499938964844,
+          "Angle X": -2,
+          "Angle Y": -7037,
+          "Angle Z": 0,
+          "EnemyNo": -1
+        }
+      }
+    ]
+  },
+  // Lake Hylia Long Cave
+  {
+    "description": "Add hint sign to Lake Hylia Long Cave",
+    "FilePath": "res/Stage/D_SB03/R00_00",
+    "Changes": [
+      {
+        "Operation": "add",
+        "DataBlock": "ACTR",
+        "Data": {
+          "Name": "Obj_kn2",
+          "param_0": 255,
+          "param_1": 255,
+          "param_2": 255,
+          "param_3": 255,
+          "x": -2987.38671875,
+          "y": -1636.68994140625,
+          "z": -17674.869140625,
+          "Angle X": -2,
+          "Angle Y": 15905,
+          "Angle Z": 0,
+          "EnemyNo": -1
+        }
+      }
+    ]
+  },
+  // Ordon Village
+  {
+    "description": "Patch Bo Doors, add Epona actor, and modify freestanding rupee flags",
+    "FilePath": "res/Stage/F_SP103/R00_00",
+    "Changes": [
+      {
+        "Operation": "modify",
+        "DataBlock": "Doo0",
+        "ID": "kdoor@470,500,5323",
+        "Data": {
+          "Angle X": -1
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "Doo0",
+        "ID": "kdoor@500,500,5172",
+        "Data": {
+          "Angle X": -1
+        }
+      },
+      {
+        "Operation": "add",
+        "DataBlock": "ACT0",
+        "Data": {
+          "Name": "Horse",
+          "param_0": 0,
+          "param_1": 0,
+          "param_2": 1,
+          "param_3": 72,
+          "x": -1200.0,
+          "y": 367.0,
+          "z": 6100.0,
+          "Angle X": 0,
+          "Angle Y": -180,
+          "Angle Z": 0,
+          "EnemyNo": -1
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACT0",
+        "ID": "item@-1819,984,1665",
+        "Data": {
+          "param_2": 16
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACT0",
+        "ID": "item@-4739,1155,2239",
+        "Data": {
+          "param_2": 17
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACT0",
+        "ID": "item@590,1158,5215",
+        "Data": {
+          "param_2": 11
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACT0",
+        "ID": "item@-4326,28,4208",
+        "Data": {
+          "param_2": 4
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACT5",
+        "ID": "item@-4739,1155,2239",
+        "Data": {
+          "param_2": 17
+        }
+      }
+    ]
+  },
+  {
+    "description": "Add hint sign to Ordon Village and remove duplicate Beth and Malo",
+    "FilePath": "res/Stage/F_SP103/R01_00",
+    "Changes": [
+      {
+        "Operation": "add",
+        "DataBlock": "ACTR",
+        "Data": {
+          "Name": "Obj_kn2",
+          "param_0": 255,
+          "param_1": 255,
+          "param_2": 255,
+          "param_3": 255,
+          "x": 687.8900146484375,
+          "y": 800.0,
+          "z": -1424.1600341796875,
+          "Angle X": -2,
+          "Angle Y": -24551,
+          "Angle Z": 0,
+          "EnemyNo": -1
+        }
+      },
+      {
+        "Operation": "remove",
+        "DataBlock": "ACT4",
+        "ID": "Besu@907,800,-1572"
+      },
+      {
+        "Operation": "remove",
+        "DataBlock": "ACT4",
+        "ID": "Maro@847,800,-1500"
+      }
+    ]
+  },
+  // Faron Woods
+  {
+    "description": "Add epona actor to South Faron Woods",
+    "FilePath": "res/Stage/F_SP108/R00_00",
+    "Changes": [
+      {
+        "Operation": "add",
+        "DataBlock": "ACTR",
+        "Data": {
+          "Name": "Horse",
+          "param_0": 0,
+          "param_1": 0,
+          "param_2": 15,
+          "param_3": 13,
+          "x": -1200.0,
+          "y": 367.0,
+          "z": 6100.0,
+          "Angle X": 0,
+          "Angle Y": -180,
+          "Angle Z": 0,
+          "EnemyNo": -1
+        }
+      }
+    ]
+  },
+  {
+    "description": "Change the flag for the gate by Coro",
+    "FilePath": "res/Stage/F_SP108/R03_00",
+    "Changes": [
+      {
+        "Operation": "modify",
+        "DataBlock": "ACT1",
+        "ID": "K_Gate@-17520,200,-11195",
+        "Data": {
+          "param_3": 12
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACT5",
+        "ID": "K_Gate@-17520,200,-11195",
+        "Data": {
+          "param_3": 12
+        }
+      }
+    ]
+  },
+  {
+    "description": "Add hint sign to Coro Area, adjust boulder rupee flags, and add Coro actor to twilight state",
+    "FilePath": "res/Stage/F_SP108/R04_00",
+    "Changes": [
+      {
+        "Operation": "add",
+        "DataBlock": "ACTR",
+        "Data": {
+          "Name": "Obj_kn2",
+          "param_0": 255,
+          "param_1": 255,
+          "param_2": 255,
+          "param_3": 255,
+          "x": -12423.8466796875,
+          "y": 273.2779846191406,
+          "z": -11518.9580078125,
+          "Angle X": -2,
+          "Angle Y": -28120,
+          "Angle Z": 0,
+          "EnemyNo": -1
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACTR",
+        "ID": "item@-14761,-167,-17239",
+        "Data": {
+          "param_2": 0
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACTR",
+        "ID": "item@-14823,-207,-17239",
+        "Data": {
+          "param_2": 1
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACTR",
+        "ID": "item@-14708,65,-17336",
+        "Data": {
+          "param_2": 2
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACTR",
+        "ID": "item@-14725,-29,-17190",
+        "Data": {
+          "param_2": 3
+        }
+      },
+      {
+        "Operation": "add",
+        "DataBlock": "ACTe",
+        "Data": {
+          "Name": "Kkri",
+          "param_0": 23,
+          "param_1": 78,
+          "param_2": 255,
+          "param_3": 1,
+          "x": -13505.0,
+          "y": 250.0,
+          "z": -14405.0,
+          "Angle X": 101,
+          "Angle Y": -14199,
+          "Angle Z": 0,
+          "EnemyNo": -1
+        }
+      }
+    ]
+  },
+  {
+    "description": "Move player FT spawn and spawn Golden Wolf in Layer 3",
+    "FilePath": "res/Stage/F_SP108/R06_00",
+    "Changes": [
+      {
+        "Operation": "modify",
+        "DataBlock": "PLYR",
+        "ID": "Link@-39538,1100,-29643",
+        "Data": {
+          "x": -39535.0,
+          "z": -29055.0
+        }
+      },
+      {
+        "Operation": "add",
+        "DataBlock": "ACT3",
+        "Data": {
+          "Name": "GWolf",
+          "param_0": 5,
+          "param_1": 255,
+          "param_2": 1,
+          "param_3": 255,
+          "x": -36714.90234375,
+          "y": 424.0389404296875,
+          "z": -23698.02734375,
+          "Angle X": 0,
+          "Angle Y": 0,
+          "Angle Z": -1,
+          "EnemyNo": -1
+        }
+      }
+    ]
+  },
+  // Kakariko Village
+  {
+    "description": "Add hint sign to Kakariko Village",
+    "FilePath": "res/Stage/F_SP109/R00_00",
+    "Changes": [
+      {
+        "Operation": "add",
+        "DataBlock": "ACTR",
+        "Data": {
+          "Name": "Obj_kn2",
+          "param_0": 255,
+          "param_1": 255,
+          "param_2": 255,
+          "param_3": 255,
+          "x": -3347.52734,
+          "y": 2999.16138,
+          "z": -2865.99341,
+          "Angle X": -2,
+          "Angle Y": 0,
+          "Angle Z": 0,
+          "EnemyNo": -1
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACT3",
+        "ID": "TGSPITM@-1450,100,-3175",
+        "Data": {
+          "param_1": 11
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACT3",
+        "ID": "TGSPITM@-1450,100,-3250",
+        "Data": {
+          "param_1": 12
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACT3",
+        "ID": "TGSPITM@-1450,100,-3325",
+        "Data": {
+          "param_1": 13
+        }
+      }
+    ]
+  },
+  // Death Mountain
+  {
+    "description": "Add hint sign to Death Mountain",
+    "FilePath": "res/Stage/F_SP110/R03_00",
+    "Changes": [
+      {
+        "Operation": "add",
+        "DataBlock": "ACTR",
+        "Data": {
+          "Name": "Obj_kn2",
+          "param_0": 255,
+          "param_1": 255,
+          "param_2": 255,
+          "param_3": 255,
+          "x": 920.5830688476562,
+          "y": 0.7459850907325745,
+          "z": 1227.3997802734375,
+          "Angle X": -2,
+          "Angle Y": 13733,
+          "Angle Z": 0,
+          "EnemyNo": -1
+        }
+      }
+    ]
+  },
+  // Kakariko Graveyard - Need to add rupee flags
+  {
+    "description": "Add hint sign to Kakariko Graveyard",
+    "FilePath": "res/Stage/F_SP111/R00_00",
+    "Changes": [
+      {
+        "Operation": "add",
+        "DataBlock": "ACTR",
+        "Data": {
+          "Name": "Obj_kn2",
+          "param_0": 255,
+          "param_1": 255,
+          "param_2": 255,
+          "param_3": 255,
+          "x": 21765.986328125,
+          "y": 500.0,
+          "z": -62.24700164794922,
+          "Angle X": -2,
+          "Angle Y": -16384,
+          "Angle Z": 0,
+          "EnemyNo": -1
+        }
+      }
+    ]
+  },
+  // Zoras Domain
+  {
+    "description": "Adjust rupee flags for Throne Room",
+    "FilePath": "res/Stage/F_SP113/R00_00",
+    "Changes": [
+      {
+        "Operation": "modify",
+        "DataBlock": "ACT0",
+        "ID": "item@-414,-1080,-203",
+        "Data": {
+          "param_2": 40
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACT0",
+        "ID": "item@-463,-1115,-125",
+        "Data": {
+          "param_2": 41
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACT0",
+        "ID": "item@640,-1058,-185",
+        "Data": {
+          "param_2": 42
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACT0",
+        "ID": "item@591,-1124,-107",
+        "Data": {
+          "param_2": 43
+        }
+      }
+    ]
+  },
+  {
+    "description": "Add hint sign to Zoras Domain and adjust boulder rupee flags",
+    "FilePath": "res/Stage/F_SP113/R01_00",
+    "Changes": [
+      {
+        "Operation": "add",
+        "DataBlock": "ACTR",
+        "Data": {
+          "Name": "Obj_kn2",
+          "param_0": 255,
+          "param_1": 255,
+          "param_2": 255,
+          "param_3": 255,
+          "x": -2964.848388671875,
+          "y": -2500.0,
+          "z": 17146.267578125,
+          "Angle X": -2,
+          "Angle Y": -20727,
+          "Angle Z": 0,
+          "EnemyNo": -1
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACTR",
+        "ID": "item@-3756,-551,6694",
+        "Data": {
+          "param_2": 34
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACTR",
+        "ID": "item@-4708,-1097,6647",
+        "Data": {
+          "param_2": 37
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACTR",
+        "ID": "item@-3769,-614,6888",
+        "Data": {
+          "param_2": 35
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACTR",
+        "ID": "item@-4733,-1215,6784",
+        "Data": {
+          "param_2": 38
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACTR",
+        "ID": "item@-3786,-693,6765",
+        "Data": {
+          "param_2": 36
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACTR",
+        "ID": "item@-4717,-1214,6721",
+        "Data": {
+          "param_2": 39
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACT0",
+        "ID": "item@7,-8762,8355",
+        "Data": {
+          "param_2": 27
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACT0",
+        "ID": "item@141,-8844,8355",
+        "Data": {
+          "param_2": 28
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACT0",
+        "ID": "item@15,-8880,8404",
+        "Data": {
+          "param_2": 29
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACT0",
+        "ID": "item@244,-8445,12791",
+        "Data": {
+          "param_2": 30
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACT0",
+        "ID": "item@167,-8493,12821",
+        "Data": {
+          "param_2": 31
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACT0",
+        "ID": "item@191,-8528,12747",
+        "Data": {
+          "param_2": 32
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACT0",
+        "ID": "item@192,-8430,12866",
+        "Data": {
+          "param_2": 33
+        }
+      }
+    ]
+  },
+  // Snowpeak Mountain
+  {
+    "description": "Add hint sign to Snowpeak and adjust tree poe to spawn all the time.",
+    "FilePath": "res/Stage/F_SP114/R00_00",
+    "Changes": [
+      {
+        "Operation": "add",
+        "DataBlock": "ACTR",
+        "Data": {
+          "Name": "Obj_kn2",
+          "param_0": 255,
+          "param_1": 255,
+          "param_2": 255,
+          "param_3": 255,
+          "x": 15931.923828125,
+          "y": -14389.4912109375,
+          "z": -17388.19921875,
+          "Angle X": -2,
+          "Angle Y": 11354,
+          "Angle Z": 0,
+          "EnemyNo": -1
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACTR",
+        "ID": "E_hp@-4700,-4444,-18470",
+        "Data": {
+          "Angle Z": 0
+        }
+      }
+    ]
+  },
+  {
+    "description": "Add flags for snowboarding rupees and add shadow beast actors to layer 3",
+    "FilePath": "res/Stage/F_SP114/R01_00",
+    "Changes": [
+      {
+        "Operation": "modify",
+        "DataBlock": "ACTR",
+        "ID": "item@-49256,0,27146",
+        "Data": {
+          "param_2": 7
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACTR",
+        "ID": "item@-46534,11544,-8413",
+        "Data": {
+          "param_2": 3
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACTR",
+        "ID": "item@-48119,0,-2599",
+        "Data": {
+          "param_2": 4
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACTR",
+        "ID": "item@-43177,15660,-9569",
+        "Data": {
+          "param_2": 2
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACTR",
+        "ID": "item@-43814,0,55098",
+        "Data": {
+          "param_2": 15
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACTR",
+        "ID": "item@-43624,0,57275",
+        "Data": {
+          "param_2": 16
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACTR",
+        "ID": "item@-43662,0,59659",
+        "Data": {
+          "param_2": 17
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACTR",
+        "ID": "item@-44480,0,51324",
+        "Data": {
+          "param_2": 14
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACTR",
+        "ID": "item@-44645,0,50150",
+        "Data": {
+          "param_2": 13
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACTR",
+        "ID": "item@-44649,0,48967",
+        "Data": {
+          "param_2": 12
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACTR",
+        "ID": "item@-49091,0,25205",
+        "Data": {
+          "param_2": 6
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACTR",
+        "ID": "item@-48988,-27072,22625",
+        "Data": {
+          "param_2": 5
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACTR",
+        "ID": "item@-33332,15760,-5062",
+        "Data": {
+          "param_2": 0
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACTR",
+        "ID": "item@-36254,15760,-13958",
+        "Data": {
+          "param_2": 1
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACTR",
+        "ID": "item@-47645,0,39380",
+        "Data": {
+          "param_2": 8
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACTR",
+        "ID": "item@-44606,0,48379",
+        "Data": {
+          "param_2": 11
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACTR",
+        "ID": "item@-44577,0,47715",
+        "Data": {
+          "param_2": 10
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACTR",
+        "ID": "item@-46933,0,40671",
+        "Data": {
+          "param_2": 9
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACTR",
+        "ID": "item@-44644,0,62885",
+        "Data": {
+          "param_2": 18
+        }
+      },
+      {
+        "Operation": "add",
+        "DataBlock": "ACT3",
+        "Data": {
+          "Name": "E_s1",
+          "param_0": 21,
+          "param_1": 255,
+          "param_2": 15,
+          "param_3": 0,
+          "x": -11947.955078125,
+          "y": 900.0,
+          "z": -9894.2177734375,
+          "Angle X": 0,
+          "Angle Y": 8009,
+          "Angle Z": 5,
+          "EnemyNo": -1
+        }
+      },
+      {
+        "Operation": "add",
+        "DataBlock": "ACT3",
+        "Data": {
+          "Name": "E_s1",
+          "param_0": 21,
+          "param_1": 255,
+          "param_2": 15,
+          "param_3": 0,
+          "x": -11947.955078125,
+          "y": 900.0,
+          "z": -9894.2177734375,
+          "Angle X": 0,
+          "Angle Y": 8009,
+          "Angle Z": 5,
+          "EnemyNo": -1
+        }
+      },
+      {
+        "Operation": "add",
+        "DataBlock": "ACT3",
+        "Data": {
+          "Name": "E_s1",
+          "param_0": 21,
+          "param_1": 255,
+          "param_2": 15,
+          "param_3": 0,
+          "x": -11947.955078125,
+          "y": 900.0,
+          "z": -9894.2177734375,
+          "Angle X": 0,
+          "Angle Y": 8009,
+          "Angle Z": 5,
+          "EnemyNo": -1
+        }
+      }
+    ]
+  },
+  // Lake Hylia
+  {
+    "description": "Add hint sign to Lake Hylia and place custom rupee behind Fyer's hut and adjust boulder rupee flags",
+    "FilePath": "res/Stage/F_SP115/R00_00",
+    "Changes": [
+      {
+        "Operation": "add",
+        "DataBlock": "ACTR",
+        "Data": {
+          "Name": "item",
+          "param_0": 243,
+          "param_1": 255,
+          "param_2": 255,
+          "param_3": 4,
+          "x": -108290.0859375,
+          "y": -8654.748046875,
+          "z": 45935.296875,
+          "Angle X": 0,
+          "Angle Y": 1,
+          "Angle Z": 63,
+          "EnemyNo": -1
+        }
+      },
+      {
+        "Operation": "add",
+        "DataBlock": "ACTR",
+        "Data": {
+          "Name": "Obj_kn2",
+          "param_0": 255,
+          "param_1": 255,
+          "param_2": 255,
+          "param_3": 255,
+          "x": -109203.4609375,
+          "y": -7220.0,
+          "z": 33083.734375,
+          "Angle X": -2,
+          "Angle Y": 25781,
+          "Angle Z": 0,
+          "EnemyNo": -1
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACT1",
+        "ID": "item@-92246,-31720,41678",
+        "Data": {
+          "param_2": 67
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACT1",
+        "ID": "item@-92077,-31720,41800",
+        "Data": {
+          "param_2": 68
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACT1",
+        "ID": "item@-92156,-31720,41553",
+        "Data": {
+          "param_2": 69
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACT1",
+        "ID": "item@-94876,-32004,40183",
+        "Data": {
+          "param_2": 73
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACT1",
+        "ID": "item@-94707,-32004,40305",
+        "Data": {
+          "param_2": 74
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACT1",
+        "ID": "item@-94790,-32004,40022",
+        "Data": {
+          "param_2": 75
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACT1",
+        "ID": "item@-94650,-31915,40132",
+        "Data": {
+          "param_2": 76
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACT2",
+        "ID": "item@-92246,-31720,41678",
+        "Data": {
+          "param_2": 67
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACT2",
+        "ID": "item@-92077,-31720,41800",
+        "Data": {
+          "param_2": 68
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACT2",
+        "ID": "item@-92156,-31720,41553",
+        "Data": {
+          "param_2": 69
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACT2",
+        "ID": "item@-94876,-32004,40183",
+        "Data": {
+          "param_2": 73
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACT2",
+        "ID": "item@-94707,-32004,40305",
+        "Data": {
+          "param_2": 74
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACT2",
+        "ID": "item@-94790,-32004,40022",
+        "Data": {
+          "param_2": 75
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACT2",
+        "ID": "item@-94650,-31915,40132",
+        "Data": {
+          "param_2": 76
+        }
+      },
+      {
+        "Operation": "add",
+        "DataBlock": "ACTR",
+        "Data": {
+          "Name": "Rafrel",
+          "param_0": 0,
+          "param_1": 0,
+          "param_2": 29,
+          "param_3": 1,
+          "x": -116486.9453125,
+          "y": -13860.0,
+          "z": 58533.0078125,
+          "Angle X": 0,
+          "Angle Y": -13107,
+          "Angle Z": 0,
+          "EnemyNo": -1
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACT3",
+        "ID": "item@-92246,-31720,41678",
+        "Data": {
+          "param_2": 67
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACT3",
+        "ID": "item@-92077,-31720,41800",
+        "Data": {
+          "param_2": 68
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACT3",
+        "ID": "item@-92156,-31720,41553",
+        "Data": {
+          "param_2": 69
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACT3",
+        "ID": "item@-94876,-32004,40183",
+        "Data": {
+          "param_2": 73
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACT3",
+        "ID": "item@-94707,-32004,40305",
+        "Data": {
+          "param_2": 74
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACT3",
+        "ID": "item@-94790,-32004,40022",
+        "Data": {
+          "param_2": 75
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACT3",
+        "ID": "item@-94650,-31915,40132",
+        "Data": {
+          "param_2": 76
+        }
+      }
+    ]
+  },
+  {
+    "description": "Add hint sign to Lanayru Spring and adjust boulder rupee flags",
+    "FilePath": "res/Stage/F_SP115/R01_00",
+    "Changes": [
+      {
+        "Operation": "add",
+        "DataBlock": "ACTR",
+        "Data": {
+          "Name": "Obj_kn2",
+          "param_0": 255,
+          "param_1": 255,
+          "param_2": 255,
+          "param_3": 255,
+          "x": -309.9978332519531,
+          "y": -1614.82177734375,
+          "z": 157.97079467773438,
+          "Angle X": -2,
+          "Angle Y": -32768,
+          "Angle Z": 0,
+          "EnemyNo": -1
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACTR",
+        "ID": "item@-770,-1573,-357",
+        "Data": {
+          "param_2": 81
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACTR",
+        "ID": "item@-740,-1604,-263",
+        "Data": {
+          "param_2": 82
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACTR",
+        "ID": "item@-657,-1594,-292",
+        "Data": {
+          "param_2": 83
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACTR",
+        "ID": "item@-787,-1514,-297",
+        "Data": {
+          "param_2": 84
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACTR",
+        "ID": "item@-1201,-1100,1692",
+        "Data": {
+          "param_2": 85
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACTR",
+        "ID": "item@-1157,-1148,1796",
+        "Data": {
+          "param_2": 86
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACTR",
+        "ID": "item@-1095,-1106,1748",
+        "Data": {
+          "param_2": 87
+        }
+      }
+    ]
+  },
+  // Castle Town
+  {
+    "description": "Add hint sign to Castle Town and patch shoe shiner params to always appear",
+    "FilePath": "res/Stage/F_SP116/R00_00",
+    "Changes": [
+      {
+        "Operation": "add",
+        "DataBlock": "ACTR",
+        "Data": {
+          "Name": "Obj_kn2",
+          "param_0": 255,
+          "param_1": 255,
+          "param_2": 255,
+          "param_3": 255,
+          "x": 0.0,
+          "y": -200.0,
+          "z": 835.0,
+          "Angle X": -2,
+          "Angle Y": 0,
+          "Angle Z": 0,
+          "EnemyNo": -1
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACT0",
+        "ID": "shoe@1031,-181,2604",
+        "Data": {
+          "param_2": 240,
+          "param_3": 0
+        }
+      }
+    ]
+  },
+  // Sacred Grove
+  {
+    "description": "Add hint sign to Sacred Grove, add MS sword actor, remove shadow beast gates, and adjust past door and statue flags to use custom flag",
+    "FilePath": "res/Stage/F_SP117/R01_00",
+    "Changes": [
+      {
+        "Operation": "add",
+        "DataBlock": "ACTR",
+        "Data": {
+          "Name": "Obj_kn2",
+          "param_0": 255,
+          "param_1": 255,
+          "param_2": 255,
+          "param_3": 255,
+          "x": -1543.0,
+          "y": 1725.0,
+          "z": 7964.85498046875,
+          "Angle X": -2,
+          "Angle Y": 16384,
+          "Angle Z": 0,
+          "EnemyNo": -1
+        }
+      },
+      {
+        "Operation": "add",
+        "DataBlock": "ACTR",
+        "Data": {
+          "Name": "mstrsrd",
+          "param_0": 0,
+          "param_1": 2,
+          "param_2": 1,
+          "param_3": 16,
+          "x": 0.0,
+          "y": 1700.0,
+          "z": -5435.0,
+          "Angle X": 327,
+          "Angle Y": 0,
+          "Angle Z": 0,
+          "EnemyNo": -1
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACTR",
+        "ID": "smgdoor@0,1725,6900",
+        "Data": {
+          "param_1": 48
+        }
+      },
+      {
+        "Operation": "remove",
+        "DataBlock": "ACT2",
+        "ID": "Obj_tp@1445,3895,-3593"
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACT2",
+        "ID": "Sekizoa@0,1725,7020",
+        "Data": {
+          "param_3": 99
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "SCO2",
+        "ID": "KMsg@0,1700,-5435",
+        "Data": {
+          "Angle X": -32513
+        }
+      }
+    ]
+  },
+  {
+    "description": "Adjust flag for lost woods skull kid chase walls and remove problematic invisible wall",
+    "FilePath": "res/Stage/F_SP117/R03_00",
+    "Changes": [
+      {
+        "Operation": "modify",
+        "DataBlock": "ACT2",
+        "ID": "sm_door@-8530,2000,4600",
+        "Data": {
+          "param_2": 105
+        }
+      },
+      {
+        "Operation": "remove",
+        "DataBlock": "ACT2",
+        "ID": "sm_door@-8170,2000,4600"
+      }
+    ]
+  },
+  // Bulblin Camp
+  {
+    "description": "Add hint sign to Bulblin Camp, move outside AG spawn and add flags to camp chests",
+    "FilePath": "res/Stage/F_SP118/R01_00",
+    "Changes": [
+      {
+        "Operation": "modify",
+        "DataBlock": "PLYR",
+        "ID": "Link@1813,0,-3701",
+        "Data": {
+          "z": -1182.6722412109375
+        }
+      },
+      {
+        "Operation": "add",
+        "DataBlock": "ACTR",
+        "Data": {
+          "Name": "Obj_kn2",
+          "param_0": 255,
+          "param_1": 255,
+          "param_2": 255,
+          "param_3": 255,
+          "x": -568.55615234375,
+          "y": 260.0,
+          "z": -3969.31005859375,
+          "Angle X": -2,
+          "Angle Y": 0,
+          "Angle Z": 0,
+          "EnemyNo": -1
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "TRES",
+        "ID": "tboxA0@4761,0,1580",
+        "Data": {
+          "field_0xa": 247
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "TRES",
+        "ID": "tboxA0@2389,260,-1473",
+        "Data": {
+          "field_0xa": 247,
+          "Appear Type": 128
+        }
+      }
+    ]
+  },
+  // Hyrule Field
+  {
+    "description": "Add hint sign to Eldin Field, update rupee params",
+    "FilePath": "res/Stage/F_SP121/R00_00",
+    "Changes": [
+      {
+        "Operation": "add",
+        "DataBlock": "ACTR",
+        "Data": {
+          "Name": "Obj_kn2",
+          "param_0": 255,
+          "param_1": 255,
+          "param_2": 255,
+          "param_3": 255,
+          "x": -12433.2744140625,
+          "y": -1075.2218017578125,
+          "z": 20885.712890625,
+          "Angle X": -2,
+          "Angle Y": -32768,
+          "Angle Z": 0,
+          "EnemyNo": -1
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACTR",
+        "ID": "item@37400,-39,-40200",
+        "Data": {
+          "param_2": 13
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACTR",
+        "ID": "item@37500,-91,-39900",
+        "Data": {
+          "param_2": 14
+        }
+      }
+    ]
+  },
+  {
+    "description": "Add hint sign to Kakariko Gorge, adjust rupee flags, and add horse jump to post MDH state.",
+    "FilePath": "res/Stage/F_SP121/R03_00",
+    "Changes": [
+      {
+        "Operation": "add",
+        "DataBlock": "ACTR",
+        "Data": {
+          "Name": "Obj_kn2",
+          "param_0": 255,
+          "param_1": 255,
+          "param_2": 255,
+          "param_3": 255,
+          "x": -10116.021484375,
+          "y": -4923.4619140625,
+          "z": 43064.4375,
+          "Angle X": -2,
+          "Angle Y": 1929,
+          "Angle Z": 0,
+          "EnemyNo": -1
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACTR",
+        "ID": "item@-25742,-5147,55865",
+        "Data": {
+          "param_2": 15
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACTR",
+        "ID": "item@-25811,-5130,56205",
+        "Data": {
+          "param_2": 16
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACTR",
+        "ID": "item@-25676,-5174,56052",
+        "Data": {
+          "param_2": 17
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACTR",
+        "ID": "item@-13912,-4696,45022",
+        "Data": {
+          "param_2": 18
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACTR",
+        "ID": "item@-13793,-4736,45056",
+        "Data": {
+          "param_2": 19
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACTR",
+        "ID": "item@-13833,-4700,45221",
+        "Data": {
+          "param_2": 20
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACTR",
+        "ID": "item@-13939,-4664,45198",
+        "Data": {
+          "param_2": 21
+        }
+      },
+      {
+        "Operation": "add",
+        "DataBlock": "SCO6",
+        "Data": {
+          "Name": "Hjump",
+          "param": 72351490,
+          "x": 5600.0,
+          "y": -5680.0,
+          "z": 52055.0,
+          "Angle X": 0,
+          "Angle Y": 16384,
+          "Angle Z": 0,
+          "EnemyNo": -1,
+          "Scale X": 32,
+          "Scale Y": 45,
+          "Scale Z": 45,
+          "field_0x23": 255
+        }
+      }
+    ]
+  },
+  {
+    "description": "Add hint sign to Faron field and move OCT - South -> Faron Field spawn to in front of rocks.",
+    "FilePath": "res/Stage/F_SP121/R06_00",
+    "Changes": [
+      {
+        "Operation": "modify",
+        "DataBlock": "PLYR",
+        "ID": "Link@-47839,-9337,52352",
+        "Data": {
+          "x": -48296.46875,
+          "y": -9428.5810546875,
+          "z": 53030.3203125
+        }
+      },
+      {
+        "Operation": "add",
+        "DataBlock": "ACTR",
+        "Data": {
+          "Name": "Obj_kn2",
+          "param_0": 255,
+          "param_1": 255,
+          "param_2": 255,
+          "param_3": 255,
+          "x": -46039.4921875,
+          "y": -9250.0,
+          "z": 81859.2890625,
+          "Angle X": -2,
+          "Angle Y": -32768,
+          "Angle Z": 0,
+          "EnemyNo": -1
+        }
+      }
+    ]
+  },
+  {
+    "description": "Add ganon barriers to twilight",
+    "FilePath": "res/Stage/F_SP121/R07_00",
+    "Changes": [
+      {
+        "Operation": "add",
+        "DataBlock": "ACTe",
+        "Data": {
+          "Name": "Obj_gb",
+          "param_0": 128,
+          "param_1": 15,
+          "param_2": 6,
+          "param_3": 1,
+          "x": 10778.20703125,
+          "y": 306.82666015625,
+          "z": -62651.0078125,
+          "Angle X": -164,
+          "Angle Y": 16384,
+          "Angle Z": 0,
+          "EnemyNo": -1
+        }
+      },
+      {
+        "Operation": "add",
+        "DataBlock": "ACTe",
+        "Data": {
+          "Name": "Obj_gb",
+          "param_0": 128,
+          "param_1": 15,
+          "param_2": 6,
+          "param_3": 1,
+          "x": 10778.20703125,
+          "y": 306.82666015625,
+          "z": -62951.0078125,
+          "Angle X": -164,
+          "Angle Y": 16384,
+          "Angle Z": 0,
+          "EnemyNo": -1
+        }
+      },
+      {
+        "Operation": "add",
+        "DataBlock": "ACTe",
+        "Data": {
+          "Name": "Obj_gb",
+          "param_0": 128,
+          "param_1": 15,
+          "param_2": 6,
+          "param_3": 1,
+          "x": 10778.20703125,
+          "y": 306.82666015625,
+          "z": -63191.0078125,
+          "Angle X": -164,
+          "Angle Y": 16384,
+          "Angle Z": 0,
+          "EnemyNo": -1
+        }
+      }
+    ]
+  },
+  {
+    "description": "Add hint sign to Lanayru Field and adjust rupee flags",
+    "FilePath": "res/Stage/F_SP121/R10_00",
+    "Changes": [
+      {
+        "Operation": "add",
+        "DataBlock": "ACTR",
+        "Data": {
+          "Name": "Obj_kn2",
+          "param_0": 255,
+          "param_1": 255,
+          "param_2": 255,
+          "param_3": 255,
+          "x": -64943.7421875,
+          "y": -1359.6671142578125,
+          "z": -31897.8828125,
+          "Angle X": -2,
+          "Angle Y": -7645,
+          "Angle Z": 0,
+          "EnemyNo": -1
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACTR",
+        "ID": "item@-44868,-4623,-29872",
+        "Data": {
+          "param_2": 22
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACTR",
+        "ID": "item@-44725,-4658,-29682",
+        "Data": {
+          "param_2": 23
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACTR",
+        "ID": "item@-44813,-4589,-29537",
+        "Data": {
+          "param_2": 24
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACTR",
+        "ID": "item@-44999,-4675,-29785",
+        "Data": {
+          "param_2": 25
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACTR",
+        "ID": "item@-45478,-3763,-40783",
+        "Data": {
+          "param_2": 26
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACTR",
+        "ID": "item@-45517,-3607,-40587",
+        "Data": {
+          "param_2": 27
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACTR",
+        "ID": "item@-76250,750,-32100",
+        "Data": {
+          "param_2": 28
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACTR",
+        "ID": "item@-75500,700,-31700",
+        "Data": {
+          "param_2": 29
+        }
+      }
+    ]
+  },
+  {
+    "description": "Adjust south spinner alley rock rupee flags",
+    "FilePath": "res/Stage/F_SP121/R12_00",
+    "Changes": [
+      {
+        "Operation": "modify",
+        "DataBlock": "ACTR",
+        "ID": "item@-93650,-2800,5000",
+        "Data": {
+          "param_2": 30
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACTR",
+        "ID": "item@-93400,-2850,4850",
+        "Data": {
+          "param_2": 31
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACTR",
+        "ID": "item@-93900,-2800,4750",
+        "Data": {
+          "param_2": 32
+        }
+      }
+    ]
+  },
+  {
+    "description": "Add hint sign to Bridge of Hylia and adjust rupee flags",
+    "FilePath": "res/Stage/F_SP121/R13_00",
+    "Changes": [
+      {
+        "Operation": "add",
+        "DataBlock": "ACTR",
+        "Data": {
+          "Name": "Obj_kn2",
+          "param_0": 255,
+          "param_1": 255,
+          "param_2": 255,
+          "param_3": 255,
+          "x": -94678.8671875,
+          "y": -3900.0,
+          "z": 18410.54296875,
+          "Angle X": -2,
+          "Angle Y": 0,
+          "Angle Z": 0,
+          "EnemyNo": -1
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACTR",
+        "ID": "item@-89951,-5034,22045",
+        "Data": {
+          "param_2": 33
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACTR",
+        "ID": "item@-89746,-4973,21901",
+        "Data": {
+          "param_2": 34
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACTR",
+        "ID": "item@-89632,-5076,22065",
+        "Data": {
+          "param_2": 35
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACTR",
+        "ID": "item@-78532,-7388,58735",
+        "Data": {
+          "param_2": 36
+        }
+      }
+    ]
+  },
+  // Outside Castle Town
+  {
+    "description": "Add hint sign to Outside Castle Town - West and adjust rupee flags",
+    "FilePath": "res/Stage/F_SP122/R08_00",
+    "Changes": [
+      {
+        "Operation": "add",
+        "DataBlock": "ACTR",
+        "Data": {
+          "Name": "Obj_kn2",
+          "param_0": 255,
+          "param_1": 255,
+          "param_2": 255,
+          "param_3": 255,
+          "x": -80699.5,
+          "y": -765.583740234375,
+          "z": 1903.6146240234375,
+          "Angle X": -2,
+          "Angle Y": 9655,
+          "Angle Z": 0,
+          "EnemyNo": -1
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACTR",
+        "ID": "item@-71091,-1082,-7070",
+        "Data": {
+          "param_2": 37
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACTR",
+        "ID": "item@-71149,-1131,-6873",
+        "Data": {
+          "param_2": 38
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACTR",
+        "ID": "item@-71028,-1086,-6809",
+        "Data": {
+          "param_2": 39
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACTR",
+        "ID": "item@-70900,-1007,-6860",
+        "Data": {
+          "param_2": 40
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACTR",
+        "ID": "item@-70951,-1090,-7000",
+        "Data": {
+          "param_2": 41
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACTR",
+        "ID": "item@-71926,-1947,-542",
+        "Data": {
+          "param_2": 42
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACTR",
+        "ID": "item@-71791,-1996,-319",
+        "Data": {
+          "param_2": 43
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACTR",
+        "ID": "item@-71668,-1902,-393",
+        "Data": {
+          "param_2": 44
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACTR",
+        "ID": "item@-71758,-1955,-564",
+        "Data": {
+          "param_2": 45
+        }
+      }
+    ]
+  },
+  {
+    "description": "Add hint sign to Outside Castle Town - South, adjust Faron Field -> OCT spawn location and modify rupee flags",
+    "FilePath": "res/Stage/F_SP122/R16_00",
+    "Changes": [
+      {
+        "Operation": "add",
+        "DataBlock": "ACTR",
+        "Data": {
+          "Name": "Obj_kn2",
+          "param_0": 255,
+          "param_1": 255,
+          "param_2": 255,
+          "param_3": 255,
+          "x": -51500.0,
+          "y": -5500.0,
+          "z": 27368.30859375,
+          "Angle X": -2,
+          "Angle Y": 0,
+          "Angle Z": 0,
+          "EnemyNo": -1
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "PLYR",
+        "ID": "Link@-50958,-7010,38985",
+        "Data": {
+          "x": -51369.37109375,
+          "y": -6698.830078125,
+          "z": 37038.19140625
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACTR",
+        "ID": "item@-46317,-5826,26138",
+        "Data": {
+          "param_2": 46
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACTR",
+        "ID": "item@-46178,-5826,26267",
+        "Data": {
+          "param_2": 47
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACTR",
+        "ID": "item@-46278,-5826,26476",
+        "Data": {
+          "param_2": 48
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACTR",
+        "ID": "item@-46576,-5826,26486",
+        "Data": {
+          "param_2": 49
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACTR",
+        "ID": "item@-46596,-5826,26277",
+        "Data": {
+          "param_2": 50
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACTR",
+        "ID": "item@-46377,-5826,26357",
+        "Data": {
+          "param_2": 51
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACTR",
+        "ID": "item@-46359,-5826,26254",
+        "Data": {
+          "param_2": 52
+        }
+      }
+    ]
+  },
+  // Gerudo Desert
+  {
+    "description": "Add hint sign to Gerudo Desert",
+    "FilePath": "res/Stage/F_SP124/R00_00",
+    "Changes": [
+      {
+        "Operation": "add",
+        "DataBlock": "ACTR",
+        "Data": {
+          "Name": "Obj_kn2",
+          "param_0": 255,
+          "param_1": 255,
+          "param_2": 255,
+          "param_3": 255,
+          "x": 20356.23046875,
+          "y": 556.7000122070312,
+          "z": 38694.8046875,
+          "Angle X": -2,
+          "Angle Y": 153,
+          "Angle Z": 0,
+          "EnemyNo": -1
+        }
+      }
+    ]
+  },
+  // Mirror Chamber
+  {
+    "description": "Add Ganon Barrier to Mirror Chamber Stallord Exit",
+    "FilePath": "res/Stage/F_SP125/R04_00",
+    "Changes": [
+      {
+        "Operation": "add",
+        "DataBlock": "ACTR",
+        "Data": {
+          "Name": "Obj_gb",
+          "param_0": 128,
+          "param_1": 15,
+          "param_2": 6,
+          "param_3": 1,
+          "x": 1794.0,
+          "y": 2523.0,
+          "z": -17400.0,
+          "Angle X": -129,
+          "Angle Y": 0,
+          "Angle Z": 0,
+          "EnemyNo": -1
+        }
+      }
+    ]
+  },
+  // Upper Zoras River
+  {
+    "description": "Adjust rupee flags",
+    "FilePath": "res/Stage/F_SP126/R00_00",
+    "Changes": [
+      {
+        "Operation": "modify",
+        "DataBlock": "ACTR",
+        "ID": "item@1391,-1868,-1002",
+        "Data": {
+          "param_2": 44
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACTR",
+        "ID": "item@1533,-1853,-1013",
+        "Data": {
+          "param_2": 45
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACTR",
+        "ID": "item@1491,-1934,-802",
+        "Data": {
+          "param_2": 46
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACTR",
+        "ID": "item@1346,-1874,-796",
+        "Data": {
+          "param_2": 47
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACTR",
+        "ID": "item@1465,-1776,-915",
+        "Data": {
+          "param_2": 48
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACTR",
+        "ID": "item@-909,-1426,1181",
+        "Data": {
+          "param_2": 49
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACTR",
+        "ID": "item@-767,-1410,1171",
+        "Data": {
+          "param_2": 50
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACTR",
+        "ID": "item@-810,-1491,1381",
+        "Data": {
+          "param_2": 51
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACTR",
+        "ID": "item@-955,-1432,1388",
+        "Data": {
+          "param_2": 52
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACTR",
+        "ID": "item@-836,-1334,1269",
+        "Data": {
+          "param_2": 53
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACTR",
+        "ID": "item@-853,-1491,1502",
+        "Data": {
+          "param_2": 54
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACTR",
+        "ID": "item@-605,-1410,1397",
+        "Data": {
+          "param_2": 55
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACTR",
+        "ID": "item@-648,-1410,1270",
+        "Data": {
+          "param_2": 56
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACTR",
+        "ID": "item@3496,-1016,4005",
+        "Data": {
+          "param_2": 57
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACTR",
+        "ID": "item@3637,-1000,3995",
+        "Data": {
+          "param_2": 58
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACTR",
+        "ID": "item@3595,-1081,4205",
+        "Data": {
+          "param_2": 59
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACTR",
+        "ID": "item@3450,-1022,4212",
+        "Data": {
+          "param_2": 60
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACTR",
+        "ID": "item@3569,-924,4092",
+        "Data": {
+          "param_2": 61
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACTR",
+        "ID": "item@-84,495,-3272",
+        "Data": {
+          "param_2": 62
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACTR",
+        "ID": "item@57,511,-3282",
+        "Data": {
+          "param_2": 63
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACTR",
+        "ID": "item@15,430,-3072",
+        "Data": {
+          "param_2": 64
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACTR",
+        "ID": "item@-129,489,-3065",
+        "Data": {
+          "param_2": 65
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACTR",
+        "ID": "item@-11,587,-3185",
+        "Data": {
+          "param_2": 66
+        }
+      }
+    ]
+  },
+  // Fishing Pond
+  {
+    "description": "Add hint sign to Fishing Pond",
+    "FilePath": "res/Stage/F_SP127/R00_00",
+    "Changes": [
+      {
+        "Operation": "add",
+        "DataBlock": "ACTR",
+        "Data": {
+          "Name": "Obj_kn2",
+          "param_0": 255,
+          "param_1": 255,
+          "param_2": 255,
+          "param_3": 255,
+          "x": -2924.745849609375,
+          "y": 35.0,
+          "z": 8386.2890625,
+          "Angle X": -2,
+          "Angle Y": -32768,
+          "Angle Z": 0,
+          "EnemyNo": -1
+        }
+      }
+    ]
+  },
+  // Hidden Village
+  {
+    "description": "Add hint sign to Hidden Village",
+    "FilePath": "res/Stage/F_SP128/R00_00",
+    "Changes": [
+      {
+        "Operation": "add",
+        "DataBlock": "ACTR",
+        "Data": {
+          "Name": "Obj_kn2",
+          "param_0": 255,
+          "param_1": 255,
+          "param_2": 255,
+          "param_3": 255,
+          "x": 5161.02978515625,
+          "y": 0.0,
+          "z": -5264.330078125,
+          "Angle X": -2,
+          "Angle Y": 0,
+          "Angle Z": 0,
+          "EnemyNo": -1
+        }
+      }
+    ]
+  },
+  // Faron Interiors
+  {
+    "description": "Remove Coro actor from Twilight State",
+    "FilePath": "res/Stage/R_SP108/R00_00",
+    "Changes": [
+      {
+        "Operation": "remove",
+        "DataBlock": "ACTe",
+        "ID": "Kkri@477,150,378"
+      }
+    ]
+  },
+  // Kakariko Interiors
+  {
+    "description": "Remove Colin and Luda dupe actors from Inn",
+    "FilePath": "res/Stage/R_SP109/R02_00",
+    "Changes": [
+      {
+        "Operation": "remove",
+        "DataBlock": "ACT2",
+        "ID": "Lud@-1350,0,-900"
+      },
+      {
+        "Operation": "remove",
+        "DataBlock": "ACT2",
+        "ID": "Kolin@-1150,0,-800"
+      }
+    ]
+  },
+  {
+    "description": "Add and adjust shop items for Malo Mart",
+    "FilePath": "res/Stage/R_SP109/R03_00",
+    "Changes": [
+      {
+        "Operation": "add",
+        "DataBlock": "ACTR",
+        "Data": {
+          "Name": "TGSPITM",
+          "param_0": 2,
+          "param_1": 255,
+          "param_2": 255,
+          "param_3": 255,
+          "x": -650.0,
+          "y": 450.0,
+          "z": -500.0,
+          "Angle X": 327,
+          "Angle Y": -32768,
+          "Angle Z": 1535,
+          "EnemyNo": -1
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACT2",
+        "ID": "TGSPITM@-650,450,-500,95",
+        "Data": {
+          "param_1": 8,
+          "Angle Z": -251
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACT2",
+        "ID": "TGSPITM@-550,450,-500,766",
+        "Data": {
+          "Angle X": 327,
+          "Angle Z": 13311
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACT2",
+        "ID": "TGSPITM@-750,450,-500,768",
+        "Data": {
+          "Angle Z": 1279
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACT2",
+        "ID": "TGSPITM@-531,410,-875,808",
+        "Data": {
+          "param_1": 8
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACT2",
+        "ID": "TGSPITM@-550,450,-500,25",
+        "Data": {
+          "param_1": 6
+        }
+      },
+      {
+        "Operation": "remove",
+        "DataBlock": "ACT2",
+        "ID": "TGSPITM@-550,450,-500,128"
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACT2",
+        "ID": "TGSPITM@-550,450,-500,163",
+        "Data": {
+          "param_1": 7,
+          "Angle Z": 15933
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACT2",
+        "ID": "TGSPITM@-750,450,-500,247",
+        "Data": {
+          "param_1": 9
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACT2",
+        "ID": "TGSPITM@-750,450,-500,130",
+        "Data": {
+          "param_1": 10,
+          "Angle Z": 14596
+        }
+      }
+    ]
+  },
+  // Castle Town Shops
+  {
+    "description": "Add Poe to Jovani's house global actr and remove mdh poe",
+    "FilePath": "res/Stage/R_SP160/R05_00",
+    "Changes": [
+      {
+        "Operation": "add",
+        "DataBlock": "ACTR",
+        "Data": {
+          "Name": "E_hp",
+          "param_0": 255,
+          "param_1": 3,
+          "param_2": 31,
+          "param_3": 0,
+          "x": 4531.1904296875,
+          "y": -30.0,
+          "z": 2631.960693359375,
+          "Angle X": 0,
+          "Angle Y": 0,
+          "Angle Z": 0,
+          "EnemyNo": -1
+        }
+      },
+      {
+        "Operation": "remove",
+        "DataBlock": "ACT1",
+        "ID": "E_hp@4531,-30,2631"
+      }
+    ]
+  },
+  {
+    "description": "Adjust CT Malo Mart Shop Items",
+    "FilePath": "res/Stage/R_SP160/R00_00",
+    "Changes": [
+      {
+        "Operation": "modify",
+        "DataBlock": "ACT0",
+        "ID": "TGSPITM@1440,-10,3646",
+        "Data": {
+          "param_1": 25
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACT0",
+        "ID": "TGSPITM@1516,-10,3600",
+        "Data": {
+          "param_1": 24
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACT0",
+        "ID": "TGSPITM@1336,-100,3637",
+        "Data": {
+          "param_1": 21
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACT0",
+        "ID": "TGSPITM@1413,-100,3594",
+        "Data": {
+          "param_1": 22
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACT0",
+        "ID": "TGSPITM@1487,-100,3549",
+        "Data": {
+          "param_1": 23
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACT0",
+        "ID": "TGSPITM@1364,-10,3690",
+        "Data": {
+          "param_1": 26
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACT0",
+        "ID": "TGSPITM@1261,-100,3680",
+        "Data": {
+          "param_1": 27
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACT1",
+        "ID": "TGSPITM@1440,-10,3646",
+        "Data": {
+          "param_1": 25
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACT1",
+        "ID": "TGSPITM@1516,-10,3600",
+        "Data": {
+          "param_1": 24
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACT1",
+        "ID": "TGSPITM@1336,-100,3637",
+        "Data": {
+          "param_1": 21
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACT1",
+        "ID": "TGSPITM@1413,-100,3594",
+        "Data": {
+          "param_1": 22
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACT1",
+        "ID": "TGSPITM@1487,-100,3549",
+        "Data": {
+          "param_1": 23
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACT1",
+        "ID": "TGSPITM@1364,-10,3690",
+        "Data": {
+          "param_1": 26
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACT1",
+        "ID": "TGSPITM@1261,-100,3680",
+        "Data": {
+          "param_1": 27
+        }
+      }
+    ]
+  },
+  // Sanctuary Basement
+  {
+    "description": "Add sign explaining Sky Cannon in rando",
+    "FilePath": "res/Stage/R_SP209/R07_00",
+    "Changes": [
+      {
+        "Operation": "add",
+        "DataBlock": "ACTR",
+        "Data": {
+          "Name": "Obj_kn2",
+          "param_0": 255,
+          "param_1": 255,
+          "param_2": 255,
+          "param_3": 255,
+          "x": 440.0,
+          "y": -770.0,
+          "z": -3250.0,
+          "Angle X": -2,
+          "Angle Y": -8192,
+          "Angle Z": 0,
+          "EnemyNo": -1
+        }
+      }
+    ]
+  }
+]

@@ -1097,7 +1097,9 @@ void dComIfGs_setSelectEquipClothes(u8 i_itemNo);
 void dComIfGs_setSelectEquipSword(u8 i_itemNo);
 void dComIfGs_setSelectEquipShield(u8 i_itemNo);
 void dComIfGs_setKeyNum(int i_stageNo, u8 i_keyNum);
+void dComIfGs_setTotalKeyNum(int i_stageNo, u8 i_keyNum);
 u8 dComIfGs_getKeyNum(int i_stageNo);
+u8 dComIfGs_getTotalKeyNum(int i_stageNo);
 void dComIfGs_setWarpItemData(char const* stage, cXyz pos, s16 angle, s8 roomNo, u8 param_4,
                               u8 param_5);
 void dComIfGs_setLastWarpMarkItemData(const char* stage, cXyz pos, s16 angle, s8 roomNo, u8, u8);
@@ -1664,12 +1666,20 @@ inline bool dComIfGs_isCollectCrystal(u8 i_item) {
     return g_dComIfG_gameInfo.info.getPlayer().getCollect().isCollectCrystal(i_item);
 }
 
+inline u8 dComIfGs_getCollectCrystal() {
+    return g_dComIfG_gameInfo.info.getPlayer().getCollect().getCollectCrystal();
+}
+
 inline void dComIfGs_onCollectMirror(u8 i_item) {
     g_dComIfG_gameInfo.info.getPlayer().getCollect().onCollectMirror(i_item);
 }
 
 inline bool dComIfGs_isCollectMirror(u8 i_item) {
-    return g_dComIfG_gameInfo.info.getPlayer().getCollect().isCollectMirror(i_item);
+    return g_dComIfG_gameInfo.info.getPlayer().getCollect().isCollectMirror(i_item); // test
+}
+
+inline u8 dComIfGs_getCollectMirror() {
+    return g_dComIfG_gameInfo.info.getPlayer().getCollect().getCollectMirror();
 }
 
 inline void dComIfGs_setLightDropNum(u8 i_level, u8 i_num) {
@@ -1913,8 +1923,16 @@ inline u8 dComIfGs_getKeyNum() {
     return g_dComIfG_gameInfo.info.getMemory().getBit().getKeyNum();
 }
 
+inline u8 dComIfGs_getTotalKeyNum() {
+    return g_dComIfG_gameInfo.info.getMemory().getBit().getTotalKeyNum();
+}
+
 inline void dComIfGs_setKeyNum(u8 i_keyNum) {
     g_dComIfG_gameInfo.info.getMemory().getBit().setKeyNum(i_keyNum);
+}
+
+inline void dComIfGs_setTotalKeyNum(u8 i_keyNum) {
+    g_dComIfG_gameInfo.info.getMemory().getBit().setTotalKeyNum(i_keyNum);
 }
 
 inline void dComIfGs_onDungeonItemMap() {

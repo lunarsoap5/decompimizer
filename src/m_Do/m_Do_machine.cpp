@@ -533,7 +533,8 @@ void myExceptionCallback(u16, OSContext*, u32, u32) {
                 OSEnableInterrupts();
                 // "Accepting Key input\n"
                 OSReport("キー入力を受け付けています\n");
-                while (mDoMain::developmentMode == 0) {
+                // Enable crash screen
+                /*while (mDoMain::developmentMode == 0) {
                     exceptionReadPad(&btnTrig, &btnHold);
                     developKeyCheck(btnTrig, btnHold);
                     JUTException::waitTime(30);
@@ -553,7 +554,7 @@ void myExceptionCallback(u16, OSContext*, u32, u32) {
 #endif
                     }
 #endif
-                }
+                }*/
                 // "JUTAssertion is visible\n"
                 OSReport("JUTAssertionを可視化しました\n");
                 JUTAssertion::setVisible(true);

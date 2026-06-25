@@ -11,6 +11,7 @@
 #include "d/d_com_inf_game.h"
 #include "d/d_cc_d.h"
 #include "d/d_item_data.h"
+#include "rando/rando.h"
 #include <cmath>
 
 const static dCcD_SrcCyl l_cyl_src = {
@@ -64,7 +65,7 @@ void daItemShield_c::setBaseMtx() {
     rotation.x = field_0x944.x * cM_scos(mRotAngleCoeff * 2000) - field_0x944.x;
     rotation.z = field_0x944.z * cM_scos(2000 * (mRotAngleCoeff + 8)) - field_0x944.z;
     mDoMtx_stack_c::transS(current.pos.x, current.pos.y, current.pos.z);
-    mDoMtx_stack_c::ZXYrotM(shape_angle.x, shape_angle.y, shape_angle.z);
+    // mDoMtx_stack_c::ZXYrotM(shape_angle.x, shape_angle.y, shape_angle.z); - prevent modification of the hanging item Y rot.
     if (fopAcM_GetGravity(this) == 0.0f) {
         mDoMtx_stack_c::transM(-20.0f, 0.0f, -15.0f);
         mDoMtx_stack_c::YrotM(field_0x950);
@@ -108,7 +109,7 @@ int daItemShield_c::__CreateHeap() {
 
 int daItemShield_c::create() {
     fopAcM_ct(this, daItemShield_c);
-    m_itemNo = fpcNm_ITEM_WOOD_SHIELD;
+    m_itemNo = g_randoInfo.getEventItem(fpcNm_ITEM_SHIELD); // Search for rando check first
     if (fopAcM_isSwitch(this, getSwBit2())) {
         OS_REPORT("木の盾：もう取ったので出ません\n");
         return cPhs_ERROR_e;

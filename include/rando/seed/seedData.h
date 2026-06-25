@@ -240,3 +240,18 @@ class EntranceInfo
     u8 mSpawn;
     u8 mState;
 };
+
+class ShopCheck
+{
+    public:
+    ShopCheck() {}
+    ~ShopCheck() {}
+
+    u8 getShopItemID() const { return shopItemID; }
+    u8 getReplacementItemID() const { return replacementItemID; }
+
+    private:
+    u8 shopItemID;        // target item id
+    u8 replacementItemID; // replacement item id
+    u8 padding[2];
+};

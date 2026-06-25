@@ -80,6 +80,8 @@ public:
 
     void drawFlag0() { mDrawFlag = 0; }
     void setStatus(u8 i_status) { mStatus = i_status; }
+    f32 getXPos() { return mCenterPosX;}
+    f32 getYPos() { return mCenterPosY;}
 
 private:
     /* 0x004 */ JKRExpHeap* mpHeap;

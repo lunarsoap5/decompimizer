@@ -8,6 +8,8 @@
 #include "d/d_save.h"
 #include "d/d_com_inf_game.h"
 #include "d/actor/d_a_alink.h"
+#include "d/d_a_shop_item_static.h"
+#include "d/d_item_data.h"
 
 seedInfo_c g_seedInfo;
 
@@ -42,6 +44,10 @@ int seedInfo_c::_create() {
     m_GCIData = gciDataPtr;
 
     memcpy((u8*)gciDataPtr, &data[headerPtr->getHeaderSize()], dataSize);
+
+    u32 returnPlaceSectionOffset = headerPtr->getReturnPlaceSectionOffset();
+    ReturnPlaceSection* returnPlaceSectionPtr = (ReturnPlaceSection*)(gciDataPtr + returnPlaceSectionOffset);
+    m_ReturnPlaceSection = returnPlaceSectionPtr;
 
     delete[] data;
 
@@ -198,6 +204,9 @@ void seedInfo_c::setStaticGameValues()
     {
         *heavyStateSpeedPtr = 1.f;
     }
+
+    // Modify shop models as needed
+    loadShopModels();
 }
 
 void seedInfo_c::handleReturnToLocation(bool isReturnToDungeonEntrance)
@@ -240,13 +249,12 @@ void seedInfo_c::handleReturnToLocation(bool isReturnToDungeonEntrance)
         // Turn the player back into Link if they are currently wolf
         dComIfGs_setTransformStatus(0);
     }
-    /*else  // Commenting out until we figure out how we want to do this in the future. 
+    else 
     {
         // Return to dungeon entrance
-        uint8_t stageIdx = rando::gRandomizer->getSeedPtr()->getStageIDX();
-        const rando::ReturnPlace* returnPlace =
-            rando::gRandomizer->getSeedPtr()->getReturnPlaceSectionPtr()->getReturnPlace(stageIdx, -1, -1, -1);
-        if (returnPlace == nullptr || returnPlace->getStageIDX() == 0xFF)
+        uint8_t stageIdx = getCurrentStageID();
+        const ReturnPlace* returnPlace = g_seedInfo.getReturnPlaceSectionPtr()->getReturnPlace(stageIdx, -1, -1, -1);
+        if (returnPlace == NULL || returnPlace->getStageIDX() == 0xFF)
         {
             // If failed to find valid mapping for some reason, return without doing anything.
             return;
@@ -256,21 +264,21 @@ void seedInfo_c::handleReturnToLocation(bool isReturnToDungeonEntrance)
         newRoomNo = returnPlace->getRoomNo();
         newLayer = returnPlace->getLayer();
         // Get point as u16 so we overwrite both bytes in struct's point when it was previously negative.
-        newPoint = static_cast<uint16_t>(returnPlace->getPoint());
+        newPoint = (u16)(returnPlace->getPoint());
 
         // If return is LBT entrance, then put us on land if transforming is unlocked like vanilla.
-        if (newStageIdx == libtp::data::stage::StageIDs::Lakebed_Temple && newRoomNo == 0 &&
-            libtp::tp::d_com_inf_game::dComIfGs_isEventBit(libtp::data::flags::TRANSFORMING_UNLOCKED))
+        if ((newStageIdx == Lakebed_Temple) && (newRoomNo == 0) && dComIfGs_isEventBit(TRANSFORMING_UNLOCKED))
+        {
             newPoint = 2;
+        }
     }
-    */
 
     // Clear the lastMode value in case the player was previously riding Epona or swimming.
     dComIfGs_setLastSceneMode(0);
     dComIfGs_setStartPoint(newPoint);
 
     dStage_nextStage_c* nextStagePtr = dComIfGp_getNextStagePtr();
-    strncpy(nextStagePtr->getName(), allStages[newStageIdx], sizeof(nextStagePtr->getName()) - 1);
+    strncpy(nextStagePtr->getName(), allStages[newStageIdx], sizeof(char[8]) - 1);
     nextStagePtr->setRoomNo(newRoomNo);
     nextStagePtr->setPoint(newPoint);
     nextStagePtr->setLayer(newLayer);
@@ -301,5 +309,82 @@ void seedInfo_c::loadBugRewards()
 
         memcpy(globalBugCheck, currentBugCheck, sizeof(BugReward));
         j++;
+    }
+}
+
+void seedInfo_c::loadShopModels()
+{
+    // Note for future me in case I worry about this again:
+    // Going this route and making the list dynamic works because we don't have to worry about modifying the models of items we won't be replacing.
+    const EntryInfo* shopItemCheckInfoPtr = m_Header->getShopItemCheckInfoPtr();
+    const u32 num_shopItems = shopItemCheckInfoPtr->getNumEntries();
+    const u32 gci_offset = shopItemCheckInfoPtr->getDataOffset();
+
+    // Set the pointer as offset into our buffer
+    const ShopCheck* allSHOP = (const ShopCheck*)(&m_GCIData[gci_offset]);
+
+    for (uint32_t i = 0; i < num_shopItems; i++)
+    {
+        const ShopCheck* currentShopCheck = &allSHOP[i];
+
+        const u32 replacementItem = verifyProgressiveItem(currentShopCheck->getReplacementItemID());
+
+        const u32 shopItem = currentShopCheck->getShopItemID();
+        ResourceData* currentShopItemDataPtr = &daShopItem_c::mData[shopItem];
+
+
+        currentShopItemDataPtr->mArcName = dItem_data::getArcName(replacementItem);
+        currentShopItemDataPtr->mBmdName = dItem_data::getBmdName(replacementItem);
+        currentShopItemDataPtr->mBtkName = dItem_data::getBtkName(replacementItem);
+        currentShopItemDataPtr->mBckName = dItem_data::getBckName(replacementItem);
+        currentShopItemDataPtr->mBrkName = dItem_data::getBrkName(replacementItem);
+        currentShopItemDataPtr->mBtpName = dItem_data::getBtpName(replacementItem);
+        currentShopItemDataPtr->mTevFrm = dItem_data::getTevFrm(replacementItem);
+
+        // Handle height
+        if (shopItem == 0x13) // Magic Armor
+        {
+            switch (replacementItem)
+            {
+                case fpcNm_ITEM_GREEN_RUPEE:
+                case fpcNm_ITEM_BLUE_RUPEE:
+                case fpcNm_ITEM_YELLOW_RUPEE:
+                case fpcNm_ITEM_RED_RUPEE:
+                case fpcNm_ITEM_PURPLE_RUPEE:
+                case fpcNm_ITEM_ORANGE_RUPEE:
+                case fpcNm_ITEM_SILVER_RUPEE:
+                case fpcNm_ITEM_LINKS_SAVINGS:
+                {
+                    currentShopItemDataPtr->mOffsetY = 65.f;
+                    break;
+                }
+                default:
+                {
+                    currentShopItemDataPtr->mOffsetY = 60.f;
+                    break;
+                }
+            }
+        }
+        else
+        {
+            currentShopItemDataPtr->mOffsetY = 15.f;
+        }
+        // Handle scale
+        switch(replacementItem)
+        {
+            case fpcNm_ITEM_MASTER_SWORD:
+            case fpcNm_ITEM_LIGHT_SWORD:
+            {
+                currentShopItemDataPtr->mScale = 0.35f;
+                break;
+            }
+            default:
+            {
+                break;
+            }
+        }
+
+        currentShopItemDataPtr->mBtpFrm = 0xFF;
+        currentShopItemDataPtr->mFlag = 0xFFFFFFFF;
     }
 }

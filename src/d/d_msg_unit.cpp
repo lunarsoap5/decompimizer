@@ -120,7 +120,7 @@ void dMsgUnit_c::setTag(int i_type, int i_value, char* o_buffer, bool param_4) {
         u32 filesize = pHeader->size;
         bmg_section_t* pSection = (bmg_section_t*)(((u8*)pHeader) + filepos);
 
-        for (; filepos < filesize; filepos += pSection->size) {
+        while (filepos < filesize) {
             switch(pSection->magic) {
                 case 'FLW1':
                     break;
@@ -136,6 +136,8 @@ void dMsgUnit_c::setTag(int i_type, int i_value, char* o_buffer, bool param_4) {
                     pStrAttributeBlock = (str1_section_t*)pSection;
                     break;
             }
+            // Patch a vanilla bug in filePos calculation that causes some interactions to freeze
+            filepos += pSection->size;
             pSection = (bmg_section_t*)((u8*)pSection + pSection->size);
         }
 

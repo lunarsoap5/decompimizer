@@ -16,6 +16,8 @@ orig/*/*
 *.o
 *.map
 *.MAP
+*.dzr
+*.dzs
 
 # Build files
 build/
@@ -33,6 +35,7 @@ compile_commands.json
 # Miscellaneous
 /*.txt
 *.exe
+*.bmg
 
 # MacOS
 .DS_Store
@@ -54,3 +57,14 @@ CLAUDE.md
 
 # Local test scripts
 test*.py
+
+# Ignore local project testing files
+**/.vscode
+**/.vs
+**/bin
+**/obj
+**/.config
+
+# Ignore sln files that VSCode might auto-generate
+*.sln
+*.slnx
