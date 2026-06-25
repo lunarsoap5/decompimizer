@@ -65,7 +65,7 @@ void daItemShield_c::setBaseMtx() {
     rotation.x = field_0x944.x * cM_scos(mRotAngleCoeff * 2000) - field_0x944.x;
     rotation.z = field_0x944.z * cM_scos(2000 * (mRotAngleCoeff + 8)) - field_0x944.z;
     mDoMtx_stack_c::transS(current.pos.x, current.pos.y, current.pos.z);
-    mDoMtx_stack_c::ZXYrotM(shape_angle.x, shape_angle.y, shape_angle.z);
+    // mDoMtx_stack_c::ZXYrotM(shape_angle.x, shape_angle.y, shape_angle.z); - prevent modification of the hanging item Y rot.
     if (fopAcM_GetGravity(this) == 0.0f) {
         mDoMtx_stack_c::transM(-20.0f, 0.0f, -15.0f);
         mDoMtx_stack_c::YrotM(field_0x950);

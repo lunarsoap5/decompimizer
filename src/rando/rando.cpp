@@ -196,6 +196,7 @@ int randoInfo_c::execute() {
 
     g_customMenuRing.resetRingDrawnThisFrame();
     g_customMenuRing.changeQuestItem(true);
+    globalRGB = getRainbowRGB(127.5f);
 
     const uint currentButtons = mDoCPd_c::getHold(PAD_1);
 
@@ -238,11 +239,11 @@ int randoInfo_c::execute() {
     {
         if (g_seedInfo.isMidnaHairRainbow())
         {
-            adjustMidnaHairColor();
+            adjustMidnaHairColor(globalRGB);
         }
         if (g_seedInfo.isWolfDomeRainbow() && daAlink_getAlinkActorClass()->checkWolfLockAttackChargeState() && isWolfDomeDrawn)
         {
-            replaceEquipItemColor();
+            replaceEquipItemColor(globalRGB);
         }
         currentReloadingState = daAlink_getAlinkActorClass()->checkRestartRoom();
         // Handle giving item to the player at any time.

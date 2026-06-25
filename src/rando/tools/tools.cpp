@@ -372,9 +372,8 @@ GXColor getRainbowRGB(f32 amplitude)
     return rgbColor;
 }
 
-void adjustMidnaHairColor()
+void adjustMidnaHairColor(GXColor rgbColor)
 {
-    GXColor rgbColor = getRainbowRGB(127.5f);
     if (daPy_py_c::getMidnaActor())
     {
         u8 tip_color = 200;
@@ -407,9 +406,8 @@ void replaceEquipItemColor(GXColor wave1RGBA, GXColor wave2RGBA)
     
 }
 
-void replaceEquipItemColor()
+void replaceEquipItemColor(GXColor rgbColor)
 {
-    GXColor rgbColor = getRainbowRGB(127.5f);
     const u8 domeWaveRGBA[3] = {rgbColor.r, rgbColor.g, rgbColor.b};
     u8** chromaRegisterTable = (u8**)(daAlink_getAlinkActorClass()->getDomeLockChromaTable());
 

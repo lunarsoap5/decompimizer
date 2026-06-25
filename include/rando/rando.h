@@ -5,6 +5,7 @@
 #include "dolphin/types.h"
 #include "JSystem/J2DGraph/J2DTextbox.h"
 #include "JSystem/J2DGraph/J2DPicture.h"
+#include "dolphin/gx/GXStruct.h"
 #include "d/d_stage.h"
 
 enum TimeChange
@@ -53,6 +54,7 @@ public:
     J2DPicture* getDunMapIconPtr() { return dunMapIconPtr;}
     J2DPicture* getDunCompassIconPtr() { return dunCompassIconPtr;}
     bool getDrawBigKey() { return drawBigKey;}
+    GXColor getGlobalRGB() { return globalRGB;}
     
     void setGiveItemToPlayerStatus(u8 status) { eventItemStatus = status;}
     void setLastButtonInput(u16 buttonInput) { m_LastButtonInput = buttonInput;}
@@ -94,6 +96,7 @@ public:
     ResTIMG* gmKeyIconBuf;
     bool drawBigKey;
     dStage_startStage_c lastSavableStart;
+    GXColor globalRGB;
 };
 
 void checkSetHCBkFlag(u8 req, u8 currentCount);
