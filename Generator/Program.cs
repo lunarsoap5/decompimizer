@@ -327,22 +327,66 @@ foreach (var bmgPatch in bmgPatches)
     );
 }
 
-// Leaving this commented for now. Will be useful once we get to the point where the generator copies over custom files.
-/*
-//Move all of the new game files over to the extractedISO directory
-string[] movableFolders = Directory.GetDirectories(@"mod_assets\");
-if (movableFolders.Length != 0)
+// Copy over custom files
+// Deserialize asset manifest file:
+string assetManifestContents = File.ReadAllText(Path.Combine("mod_assets","manifest.jsonc"));
+var assetPatches = JsonSerializer.Deserialize<List<AssetPatch>>(assetManifestContents, options);
+
+// Loop through all manifest items and apply them appropriately
+foreach(var assetPatch in assetPatches)
 {
-    Console.WriteLine("Copying new game files to game folder...");
-    foreach (string folder in movableFolders)
+    switch(assetPatch.Operation)
     {
-        string gameFolder = folder.Substring(gameFiles.Length, (folder.Length - gameFiles.Length));
-        gameFolder = tempISOPath + @"\root" + gameFolder;
-        Console.WriteLine("Copied " + folder + " to game folder!");
-        CopyDirectory(folder, gameFolder, true);
+        case "add":
+        case "modify":
+            {
+                // If the manifest source directory contains an archive, we need to extract it before we modify it.
+                if (assetPatch.Directory.Contains(".arc"))
+                {
+                    string archiveDirectory = Tools.GetSubstringFromMarker(assetPatch.Directory, ".arc");
+                    string extractedDirectory = RARCDump.DumpArchive(
+                        Yaz0dec.InitYaz0Decode(@"extractedISO/root/" + archiveDirectory), false);
+                    string fileDirectory = @"archive/" + Tools.GetSuperstringAfterMarker(assetPatch.Directory,@".arc/");
+                    string newDirectory =  Path.Combine(extractedDirectory,fileDirectory,assetPatch.FileName);
+                    Console.WriteLine(extractedDirectory);
+                    File.Copy(Path.Combine("mod_assets", assetPatch.FileName), newDirectory, true);
+                    
+                    Console.WriteLine($"Successfully copied file: {assetPatch.FileName} to directory: {newDirectory}");
+
+                    RARCPacker.PackArchive(
+                        Path.Combine(extractedDirectory,"archive"),
+                        extractedDirectory + ".arc",
+                        true
+                    );
+                }
+                // Otherwise, just move the custom file over, replacing anything as needed. 
+                else
+                {
+                    string newDirectory = Path.Combine(@"extractedISO/root/",assetPatch.Directory, assetPatch.FileName);
+                    Directory.CreateDirectory(Path.Combine(@"extractedISO/root/",assetPatch.Directory));
+                    File.Copy(Path.Combine("mod_assets", assetPatch.FileName),  newDirectory, true);
+                
+                    Console.WriteLine($"Successfully copied file: {assetPatch.FileName} to directory: {newDirectory}");
+                }
+                break;
+            }
+        default:
+        {
+            Console.WriteLine($"Error: no valid operation for: {assetPatch.Operation}");
+            break;
+        }
     }
 }
-*/
+
+// Clean up any empty directories that are left over. 
+foreach (string directory in Directory.GetDirectories("extractedISO", "*", SearchOption.AllDirectories)
+                                          .OrderByDescending(d => d.Length))
+{
+    if (!Directory.EnumerateFileSystemEntries(directory).Any())
+    {
+        Directory.Delete(directory);
+    }
+}
 
 RarcTools.GCRebuilder.GCRebuilder.RebuildISO(
     @"extractedISO\root\",

@@ -117,6 +117,7 @@ namespace RarcTools
 
             //Get the total number of subdirectories and files
             string[] allFiles = Directory.GetFiles(srcDir, "*", SearchOption.AllDirectories);
+            Array.Sort(allFiles, StringComparer.Ordinal);
             int numOfFilesAndDirs = allFiles.Length + allDirectories.Length;
             //Now set up an array of FileEntrys(Taking into account the "." and ".." file entries for each folder
             fileEntries = new FileEntry[numOfFilesAndDirs + (allDirectories.Length * 2) + 2];
@@ -383,6 +384,7 @@ namespace RarcTools
         {
             //Create FileEntry for each file
             string[] files = Directory.GetFiles(args, "*", SearchOption.TopDirectoryOnly);
+            Array.Sort(files, StringComparer.Ordinal);
             bool isFiles = true;
             if (files.Length > 0)
                 CreateFileEntries(files, isFiles);

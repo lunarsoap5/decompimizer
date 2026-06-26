@@ -162,22 +162,22 @@ if __name__ == "__main__":
         # Copy the map file to the specified location
         shutil.copy(decomp_build_path / "framework.elf.MAP", args.map)
 
-        logging.info("Adding custom files")
-        mod_assets_dir = Path('mod_assets')
-        mod_assets_dir.mkdir(exist_ok=True)
+        #logging.info("Adding custom files")
+        #mod_assets_dir = Path('mod_assets')
+        #mod_assets_dir.mkdir(exist_ok=True)
 
-        replace_paths, add_paths = gcm.collect_files_to_replace_and_add_from_disk(mod_assets_dir, gcm.dirs_by_path_lowercase["files"])
+        #replace_paths, add_paths = gcm.collect_files_to_replace_and_add_from_disk(mod_assets_dir, gcm.dirs_by_path_lowercase["files"])
 
-        for (file_path, gcm_file_path) in add_paths:
-            if os.path.isfile(file_path):
-                try:
-                    with open(file_path, "rb") as f:
-                        gcm.add_new_file(gcm_file_path, BytesIO(f.read()))
-                        logging.info("Added custom file: %s" % gcm_file_path)
-                except Exception as e:
-                    logging.error(f"Couldn't add file: {file_path}")
-            else:
-                raise Exception("File appears to have been deleted or moved: %s" % gcm_file_path)
+        # for (file_path, gcm_file_path) in add_paths:
+        #     if os.path.isfile(file_path):
+        #         try:
+        #             with open(file_path, "rb") as f:
+        #                 gcm.add_new_file(gcm_file_path, BytesIO(f.read()))
+        #                 logging.info("Added custom file: %s" % gcm_file_path)
+        #         except Exception as e:
+        #             logging.error(f"Couldn't add file: {file_path}")
+        #     else:
+        #         raise Exception("File appears to have been deleted or moved: %s" % gcm_file_path)
 
         # Export the modified ISO
         for _ in gcm.export_disc_to_iso_with_changed_files(args.output_iso_path):
