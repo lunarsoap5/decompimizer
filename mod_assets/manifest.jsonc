@@ -6,6 +6,12 @@
     "Directory": "res/Layout/itemicon.arc/timg"
   },
   {
+    // Custom Mirror Shard icon
+    "FileName": "zz_01_mirror_shard.bti",
+    "Operation": "add",
+    "Directory": "res/Layout/itemicon.arc/timg"
+  },
+  {
     // Seed file that has settings/dynamic replacements
     "FileName": "seed.bin",
     "Operation": "add",
