@@ -533,7 +533,14 @@ static int phase_1(dScnPly_c* i_this) {
                                                                                             dComIfGp_getStartStagePoint(),
                                                                                             dComIfGp_getStartStageLayer());
 
-        if ((returnPlace != NULL) && (returnPlace->getStageIDX() != 0xFF))
+        if (returnPlace == NULL)
+        {
+            if (dComIfGp_getStartStagePoint() >= 0)
+            {
+                g_randoInfo.lastSavableStart.set(dComIfGp_getStartStageName(), dComIfGp_getStartStageRoomNo(), dComIfGp_getStartStagePoint(), dComIfGp_getStartStageLayer());
+            }
+        }
+        else if (returnPlace->getStageIDX() != 0xFF)
         {
             g_randoInfo.lastSavableStart.set(allStages[returnPlace->getStageIDX()], returnPlace->getRoomNo(), returnPlace->getPoint(), returnPlace->getLayer());
         } 

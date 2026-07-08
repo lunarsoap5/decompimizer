@@ -2067,6 +2067,10 @@ inline dSv_memBit_c* dComIfGs_getSaveBit(int i_stageNo) {
     return &g_dComIfG_gameInfo.info.getSavedata().getSave(i_stageNo).getBit();
 }
 
+inline s8 dComIfGs_getDunStage() {
+    return g_dComIfG_gameInfo.info.getDan().getStageNo();
+}
+
 inline void dComIfGs_onSaveDunSwitch(int i_swNo) {
     g_dComIfG_gameInfo.info.getDan().onSwitch(i_swNo);
 }

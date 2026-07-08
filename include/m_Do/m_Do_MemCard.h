@@ -5,7 +5,7 @@
 #include <dolphin/os.h>
 #include "global.h"
 
-#define SAVEDATA_SIZE      0xE14    // Size of 1 Quest Log
+#define SAVEDATA_SIZE      0xE94    // Size of 1 Quest Log
 #define SAVEDATA_NUM       3        // Max number of Quest Logs
 #define SECTOR_SIZE        0x2000   // MemCard sector size
 #define CARD_FILE_SIZE     0x8000   // MemCard file size
@@ -124,9 +124,9 @@ public:
     /* 0x1FEC */ s32 mNandState;
     /* 0x1FF0 */ u64 mSerialNo;
     /* 0x1FF8 */ u32 mDataVersion;
-};  // Size: 0x2A80 - vanilla is 0x2000
+};  // Size: 0x2C00 - vanilla is 0x2000
 
-//STATIC_ASSERT(sizeof(mDoMemCd_Ctrl_c) == 0x2A80);
+//STATIC_ASSERT(sizeof(mDoMemCd_Ctrl_c) == 0x2C00);
 
 static int mDoMemCd_main(void*);
 

@@ -495,6 +495,7 @@
           "param_2": 16
         }
       },
+      // Update flag for Yellow Rupee on Rusl's house
       {
         "Operation": "modify",
         "DataBlock": "ACT0",
@@ -519,9 +520,19 @@
           "param_2": 4
         }
       },
+      // Update flag for Yellow Rupee on Rusl's house
       {
         "Operation": "modify",
         "DataBlock": "ACT5",
+        "ID": "item@-4739,1155,2239",
+        "Data": {
+          "param_2": 17
+        }
+      },
+      // Update flag for Yellow Rupee on Rusl's house
+      {
+        "Operation": "modify",
+        "DataBlock": "ACT6",
         "ID": "item@-4739,1155,2239",
         "Data": {
           "param_2": 17
