@@ -378,6 +378,18 @@ foreach(var assetPatch in assetPatches)
     }
 }
 
+// Update the game code to the rando code
+// Path to the file
+        string rawFilePath = @"extractedISO/root/&&systemdata/ISO.hdr";
+
+        // Read the file into a byte array
+        byte[] data = File.ReadAllBytes(rawFilePath);
+        data[0x4] = 0x39;
+        data[0x5] = 0x39;
+
+        // Write the modified bytes back to the file
+        File.WriteAllBytes(rawFilePath, data);
+
 // Clean up any empty directories that are left over. 
 foreach (string directory in Directory.GetDirectories("extractedISO", "*", SearchOption.AllDirectories)
                                           .OrderByDescending(d => d.Length))
@@ -390,7 +402,7 @@ foreach (string directory in Directory.GetDirectories("extractedISO", "*", Searc
 
 RarcTools.GCRebuilder.GCRebuilder.RebuildISO(
     @"extractedISO\root\",
-    "decompimizer-GZ2E01.iso",
+    "decompimizer-GZ2E99.iso",
     false
 );
 System.IO.Directory.Delete(@"extractedISO\", true); // delete the temp ISO directory once we are done with it.

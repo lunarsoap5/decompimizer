@@ -17,7 +17,7 @@
 #define HEADER_TITLE   "The Legend of Zelda: TP"
 #define HEADER_COMMENT "%d/%d Save Data"
 #else
-#define HEADER_TITLE   "Zelda: Twilight Princess"
+#define HEADER_TITLE   "Twilight Princess Randomizer"
 #define HEADER_COMMENT "%d/%d Save Data"
 #endif
 
