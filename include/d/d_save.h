@@ -28,7 +28,8 @@ static const int SWITCH_ZONE_MAX = 0x20;
 static const int SWITCH_ONE_ZONE_MAX = 0x10;
 static const int ITEM_ZONE_MAX = 0x20;
 static const int ITEM_ONE_ZONE_MAX = 0x10;
-static const int QUEST_LOG_SIZE = 0xA94;
+static const int QUEST_LOG_SIZE = 0xE14; // Vanilla is 0xA94. It is increased by 0x380 to allow for custom rupee/wonder item flag bitfield
+static const int SAVE_CLASS_SIZE = 0xCD8; // Vanilla is 0x958
 static const int QUIVER_MAX = 30;
 static const int BIG_QUIVER_MAX = 60;
 static const int GIANT_QUIVER_MAX = 100;
@@ -918,6 +919,7 @@ public:
 
     static const int STAGE_MAX = 32;
     static const int STAGE2_MAX = 64;
+    static const int RUPEE_STAGE_MAX = 0x1C;
 
     // private:
     /* 0x000 */ dSv_player_c mPlayer;
@@ -926,7 +928,8 @@ public:
     /* 0x7F0 */ dSv_event_c mEvent;
     /* 0x8F0 */ dSv_reserve_c reserve;
     /* 0x940 */ dSv_MiniGame_c mMiniGame;
-};  // Size: 0x958
+    /* 0x958 */ u8 mRupee[RUPEE_STAGE_MAX][0x20]; // Custom - Added for randomizer. Holds flags for rupees/wonder items
+};  // Size: 0xCD8
 
 class flagFile_c : public JORReflexible {
 public:

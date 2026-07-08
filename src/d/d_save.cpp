@@ -2017,7 +2017,7 @@ int dSv_info_c::memory_to_card(char* card_ptr, int dataNum) {
     savedata->getPlayer().getPlayerStatusB().setDateIpl(OSGetTime());
 
     memcpy(card_ptr, savedata, sizeof(dSv_save_c));
-    card_ptr += 0x958;
+    card_ptr += SAVE_CLASS_SIZE;
     OS_REPORT("(dSv_player_c) size %d\n", sizeof(dSv_player_c));
     OS_REPORT("(dSv_memory_c) size %d(%d)\n", sizeof(dSv_memory_c));
     OS_REPORT("(dSv_memory2_c) size %d(%d)\n", sizeof(dSv_memory2_c));
