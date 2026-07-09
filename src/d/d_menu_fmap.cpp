@@ -522,6 +522,13 @@ void dMenu_Fmap_c::_move() {
         }
         mpDraw2DBack->setSpotTextureFadeAlpha(mSpotTextureFadeAlpha);
     }
+
+    u8 region = mpDraw2DBack->getSelectRegion();
+    if (region != 0xFF && mpDraw2DBack->isShowRegion(region)) {
+        mpDraw2DTop->mSelectRegionNo = region;
+    } else {
+        mpDraw2DTop->mSelectRegionNo = 0xFF;
+    }
 }
 
 void dMenu_Fmap_c::_draw() {

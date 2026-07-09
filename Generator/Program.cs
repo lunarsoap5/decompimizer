@@ -379,16 +379,17 @@ foreach(var assetPatch in assetPatches)
 }
 
 // Update the game code to the rando code
-// Path to the file
-        string rawFilePath = @"extractedISO/root/&&systemdata/ISO.hdr";
 
-        // Read the file into a byte array
-        byte[] data = File.ReadAllBytes(rawFilePath);
-        data[0x4] = 0x39;
-        data[0x5] = 0x39;
+string rawFilePath = @"extractedISO/root/&&systemdata/ISO.hdr";
 
-        // Write the modified bytes back to the file
-        File.WriteAllBytes(rawFilePath, data);
+// Read the file into a byte array
+byte[] data = File.ReadAllBytes(rawFilePath);
+data[0x4] = 0x39;
+data[0x5] = 0x39;
+
+// Write the modified bytes back to the file
+File.WriteAllBytes(rawFilePath, data);
+Console.WriteLine("Converted Game code to: GZ2E99");
 
 // Clean up any empty directories that are left over. 
 foreach (string directory in Directory.GetDirectories("extractedISO", "*", SearchOption.AllDirectories)

@@ -175,6 +175,9 @@ public:
     /* 0xDD8 */ u8 field_0xdd8;
     /* 0xDD9 */ u8 field_0xdd9;
     /* 0xDDA */ u8 field_0xdda;
+
+    J2DTextBox* mpPoeCountPane;
+    J2DPicture* mpPoeCountIcon;
 };
 
 class dMenu_Dmap_c {
