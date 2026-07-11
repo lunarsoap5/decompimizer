@@ -358,7 +358,15 @@ namespace RarcTools
 
             if (deleteDirectory)
             {
-                Directory.Delete(srcDir, true);
+                // If the archive is a root directory then we want to remove only it. Otherwise we want to remove the parent directory.
+                if (Directory.GetDirectories(srcDir).Any())
+                {
+                    Directory.Delete(Path.GetDirectoryName(srcDir), true);
+                }
+                else
+                {
+                    Directory.Delete(srcDir, true);
+                }
             }
 
             Console.WriteLine("Wrote Packaged Archive to: " + dstDir);

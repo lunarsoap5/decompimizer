@@ -335,48 +335,109 @@ var assetPatches = JsonSerializer.Deserialize<List<AssetPatch>>(assetManifestCon
 // Loop through all manifest items and apply them appropriately
 foreach(var assetPatch in assetPatches)
 {
-    switch(assetPatch.Operation)
+    // If the manifest source directory contains an archive, we need to extract it before we modify it.
+    if (assetPatch.Directory.Contains(".arc"))
     {
-        case "add":
-        case "modify":
-            {
-                // If the manifest source directory contains an archive, we need to extract it before we modify it.
-                if (assetPatch.Directory.Contains(".arc"))
-                {
-                    string archiveDirectory = Tools.GetSubstringFromMarker(assetPatch.Directory, ".arc");
-                    string extractedDirectory = RARCDump.DumpArchive(
-                        Yaz0dec.InitYaz0Decode(@"extractedISO/root/" + archiveDirectory), false);
-                    string fileDirectory = @"archive/" + Tools.GetSuperstringAfterMarker(assetPatch.Directory,@".arc/");
-                    string newDirectory =  Path.Combine(extractedDirectory,fileDirectory,assetPatch.FileName);
-                    Console.WriteLine(extractedDirectory);
-                    File.Copy(Path.Combine("mod_assets", assetPatch.FileName), newDirectory, true);
-                    
-                    Console.WriteLine($"Successfully copied file: {assetPatch.FileName} to directory: {newDirectory}");
-
-                    RARCPacker.PackArchive(
-                        Path.Combine(extractedDirectory,"archive"),
-                        extractedDirectory + ".arc",
-                        true
-                    );
-                }
-                // Otherwise, just move the custom file over, replacing anything as needed. 
-                else
-                {
-                    string newDirectory = Path.Combine(@"extractedISO/root/",assetPatch.Directory, assetPatch.FileName);
-                    Directory.CreateDirectory(Path.Combine(@"extractedISO/root/",assetPatch.Directory));
-                    File.Copy(Path.Combine("mod_assets", assetPatch.FileName),  newDirectory, true);
-                
-                    Console.WriteLine($"Successfully copied file: {assetPatch.FileName} to directory: {newDirectory}");
-                }
-                break;
-            }
-        default:
+        string archiveDirectory = Tools.GetSubstringFromMarker(assetPatch.Directory, ".arc");
+            string extractedDirectory = RARCDump.DumpArchive(
+                Yaz0dec.InitYaz0Decode(@"extractedISO/root/" + archiveDirectory), false);
+        foreach (AssetFiles file in assetPatch.Files)
         {
-            Console.WriteLine($"Error: no valid operation for: {assetPatch.Operation}");
-            break;
+            
+            string newDirectory =  Path.Combine(extractedDirectory,file.Subdirectory,file.FileName);
+            //Console.WriteLine(extractedDirectory);
+            File.Copy(Path.Combine("mod_assets", file.FileName), newDirectory, true);
+            
+            Console.WriteLine($"Successfully copied file: {file.FileName} to directory: {newDirectory}");
+
+            
+        }
+
+
+        // If there is only one item and it is a directory,
+        // treat it as an archive wrapper folder
+        string[] contents = Directory.GetDirectories(extractedDirectory);
+
+        // Only flatten if there is exactly one directory
+        if (contents.Length == 1 && Directory.GetFileSystemEntries(extractedDirectory).Length == 1)
+        {
+            string wrapperFolder = contents[0];
+
+            // Temporarily rename wrapper folder to avoid name collisions
+            string tempWrapper = Path.Combine(
+                extractedDirectory,
+                "_temp_" + Guid.NewGuid().ToString()
+            );
+
+            Directory.Move(wrapperFolder, tempWrapper);
+
+            // Move contents up
+            foreach (string item in Directory.GetFileSystemEntries(tempWrapper))
+            {
+                string destination = Path.Combine(
+                    extractedDirectory,
+                    Path.GetFileName(item)
+                );
+
+                if (File.Exists(item))
+                {
+                    File.Move(item, destination);
+                }
+                else if (Directory.Exists(item))
+                {
+                    Directory.Move(item, destination);
+                }
+            }
+
+            // Remove empty temporary wrapper
+            Directory.Delete(tempWrapper);
+        }
+            
+        RARCPacker.PackArchive(
+                extractedDirectory,
+                extractedDirectory + ".arc",
+                true
+            );
+    }
+    // Otherwise, just move the custom file over, replacing anything as needed. 
+    else
+    {
+        foreach (AssetFiles file in assetPatch.Files)
+        {
+            string newDirectory = Path.Combine(@"extractedISO/root/",assetPatch.Directory, file.FileName);
+            Directory.CreateDirectory(Path.Combine(@"extractedISO/root/",assetPatch.Directory));
+            File.Copy(Path.Combine("mod_assets", file.FileName),  newDirectory, true);
+        
+            Console.WriteLine($"Successfully copied file: {file.FileName} to directory: {newDirectory}");
         }
     }
+    
 }
+
+string testDirectory = @"extractedISO/root/res/Object/Title";
+string bmdDirectory = RARCDump.DumpArchive(
+                        Yaz0dec.InitYaz0Decode(testDirectory + @".arc"), false);
+
+var bmd = new BmdFile(@"extractedISO/root/res/Object/Title/title/bmdr/titlelogo_r.bmd");
+
+// See what textures exist
+foreach (var tex in bmd.Textures)
+    Console.WriteLine($"{tex.Name}  {tex.Width}x{tex.Height}");
+
+// Pull out a texture as a standalone .bti file for external editing
+//bmd.Textures[5].ExportBtiFile("TwilightPrincess.bti");
+
+// After editing eye.bti externally (e.g. with GCFT or your own BTI tool):
+bmd.Textures[5].ImportBtiFile(Path.Combine("mod_assets", "TwilightPrincess.bti"));
+
+// Repack the BMD with the modified texture
+bmd.Save(@"extractedISO/root/res/Object/Title/title/bmdr/titlelogo_r.bmd");
+
+RARCPacker.PackArchive(
+                Path.Combine(testDirectory, "title"),
+                testDirectory + ".arc",
+                true
+            );
 
 // Update the game code to the rando code
 
@@ -406,4 +467,5 @@ RarcTools.GCRebuilder.GCRebuilder.RebuildISO(
     "decompimizer-GZ2E99.iso",
     false
 );
+
 System.IO.Directory.Delete(@"extractedISO\", true); // delete the temp ISO directory once we are done with it.

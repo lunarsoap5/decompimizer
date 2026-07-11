@@ -1,26 +1,50 @@
 [
   {
-    // Custom Shadow Crystal icon created by MelonSpeedruns
-    "FileName": "zz_00_shadow_crystal.bti",
-    "Operation": "add",
-    "Directory": "res/Layout/itemicon.arc/timg"
+    "Directory": "res/Layout/itemicon.arc/",
+    "Files": [
+      {
+        // Custom Shadow Crystal icon created by MelonSpeedruns
+        "FileName": "zz_00_shadow_crystal.bti",
+        "Subdirectory": "archive/timg/"
+      },
+      {
+        // Custom Mirror Shard icon
+        "FileName": "zz_01_mirror_shard.bti",
+        "Subdirectory": "archive/timg/"
+      }
+    ]
   },
   {
-    // Custom Mirror Shard icon
-    "FileName": "zz_01_mirror_shard.bti",
-    "Operation": "add",
-    "Directory": "res/Layout/itemicon.arc/timg"
+    "Directory": "mod",
+    "Files": [
+      {
+        // Seed file that has settings/dynamic replacements
+        "FileName": "seed.bin"
+      }
+    ]
   },
   {
-    // Seed file that has settings/dynamic replacements
-    "FileName": "seed.bin",
-    "Operation": "add",
-    "Directory": "mod"
+    "Directory": "res/Object",
+    "Files": [
+      {
+        // Custom Forest Temple Small Key created by Skilar
+        "FileName": "T_gD_Fkey.arc"
+      }
+    ]
   },
   {
-    // Custom Forest Temple Small Key created by Skilar
-    "FileName": "T_gD_Fkey.arc",
-    "Operation": "add",
-    "Directory": "res/Object"
+    "Directory": "res/CardIcon/cardicon.arc/",
+    "Files": [
+      {
+        // Custom Memory Card Banner created by Isaac
+        "FileName": "zelda2_gc_banner.bti",
+        "Subdirectory": "cardicon/"
+      },
+      {
+        // Custom Memory Card Banner created by Isaac
+        "FileName": "zelda2_gc_icon.bti",
+        "Subdirectory": "cardicon/"
+      }
+    ]
   }
 ]
