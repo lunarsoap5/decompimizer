@@ -339,8 +339,12 @@ foreach(var assetPatch in assetPatches)
     if (assetPatch.Directory.Contains(".arc"))
     {
         string archiveDirectory = Tools.GetSubstringFromMarker(assetPatch.Directory, ".arc");
-            string extractedDirectory = RARCDump.DumpArchive(
+        string extractedDirectory = RARCDump.DumpArchive(
                 Yaz0dec.InitYaz0Decode(@"extractedISO/root/" + archiveDirectory), false);
+        
+        // We want to clean up the directories of the extracted archives since by default the RARCDump functionality is generic and we don't want to have special handling of the various archives. (i.e nested vs static directories, etc.).
+        Tools.CleanUpExtractedArchive(extractedDirectory);
+
         foreach (AssetFiles file in assetPatch.Files)
         {
             
@@ -351,46 +355,6 @@ foreach(var assetPatch in assetPatches)
             Console.WriteLine($"Successfully copied file: {file.FileName} to directory: {newDirectory}");
 
             
-        }
-
-
-        // If there is only one item and it is a directory,
-        // treat it as an archive wrapper folder
-        string[] contents = Directory.GetDirectories(extractedDirectory);
-
-        // Only flatten if there is exactly one directory
-        if (contents.Length == 1 && Directory.GetFileSystemEntries(extractedDirectory).Length == 1)
-        {
-            string wrapperFolder = contents[0];
-
-            // Temporarily rename wrapper folder to avoid name collisions
-            string tempWrapper = Path.Combine(
-                extractedDirectory,
-                "_temp_" + Guid.NewGuid().ToString()
-            );
-
-            Directory.Move(wrapperFolder, tempWrapper);
-
-            // Move contents up
-            foreach (string item in Directory.GetFileSystemEntries(tempWrapper))
-            {
-                string destination = Path.Combine(
-                    extractedDirectory,
-                    Path.GetFileName(item)
-                );
-
-                if (File.Exists(item))
-                {
-                    File.Move(item, destination);
-                }
-                else if (Directory.Exists(item))
-                {
-                    Directory.Move(item, destination);
-                }
-            }
-
-            // Remove empty temporary wrapper
-            Directory.Delete(tempWrapper);
         }
             
         RARCPacker.PackArchive(
@@ -427,7 +391,7 @@ foreach (var tex in bmd.Textures)
 // Pull out a texture as a standalone .bti file for external editing
 //bmd.Textures[5].ExportBtiFile("TwilightPrincess.bti");
 
-// After editing eye.bti externally (e.g. with GCFT or your own BTI tool):
+// After editing .bti file externally (e.g. with GCFT or your own BTI tool):
 bmd.Textures[5].ImportBtiFile(Path.Combine("mod_assets", "TwilightPrincess.bti"));
 
 // Repack the BMD with the modified texture

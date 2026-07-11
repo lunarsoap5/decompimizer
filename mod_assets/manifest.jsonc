@@ -5,12 +5,12 @@
       {
         // Custom Shadow Crystal icon created by MelonSpeedruns
         "FileName": "zz_00_shadow_crystal.bti",
-        "Subdirectory": "archive/timg/"
+        "Subdirectory": "timg/"
       },
       {
         // Custom Mirror Shard icon
         "FileName": "zz_01_mirror_shard.bti",
-        "Subdirectory": "archive/timg/"
+        "Subdirectory": "timg/"
       }
     ]
   },
@@ -38,12 +38,12 @@
       {
         // Custom Memory Card Banner created by Isaac
         "FileName": "zelda2_gc_banner.bti",
-        "Subdirectory": "cardicon/"
+        "Subdirectory": ""
       },
       {
         // Custom Memory Card Banner created by Isaac
         "FileName": "zelda2_gc_icon.bti",
-        "Subdirectory": "cardicon/"
+        "Subdirectory": ""
       }
     ]
   }
