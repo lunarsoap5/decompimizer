@@ -1,9 +1,67 @@
 // Based on various public resources and SuperBMD created by Sage-of-Mirrors
 
+/* Usage:
+
+// Recoloring via greyscale
+var testBmd = new BmdFile("al.bmd");
+foreach (var tex in testBmd.Textures)
+    Console.WriteLine($"{tex.Name}  {tex.Width}x{tex.Height}");
+var upTex = testBmd.Textures[0];
+   upTex.TintGrayscale(new RgbaColor(0xab,0x70,0x6e,255));
+   testBmd.Save("al_new.bmd");
+
+// Recoloring via hue
+/ Test texture recoloring
+var testBmd = new BmdFile("ml.bmd");
+foreach (var tex in testBmd.Textures)
+    Console.WriteLine($"{tex.Name}  {tex.Width}x{tex.Height}");
+var upTex = testBmd.Textures[0];
+   upTex.RecolorByHue(
+    targetColor:  new RgbaColor(180, 30, 30, 255), // roughly red
+    replacementColor: new RgbaColor(212, 175, 55, 255),   // roughly gold
+    hueToleranceDegrees: 25);
+   testBmd.Save("ml_new.bmd");
+*/
+
+/* Notes / caveats:
+   - IA8 byte order and RGBA32 plane order follow a common GC/Wii
+     convention; decode/encode are a matched pair so round-tripping
+     is internally consistent even if this differs from another tool.
+   - CMPR re-encoding uses a simple min/max-luminance endpoint pick.
+     Fine for flat color swaps, lossy for gradients/dithering.
+   - Recolor() maps colors 1:1; changing palette *size* (NumColors)
+     is a bigger change not covered here (would require re-checking
+     index bounds in paletted ImageData).
+*/
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+
+public struct RgbaColor : IEquatable<RgbaColor>
+{
+    public byte R,
+        G,
+        B,
+        A;
+
+    public RgbaColor(byte r, byte g, byte b, byte a)
+    {
+        R = r;
+        G = g;
+        B = b;
+        A = a;
+    }
+
+    public override string ToString() => $"({R},{G},{B},{A})";
+
+    public bool Equals(RgbaColor other) =>
+        R == other.R && G == other.G && B == other.B && A == other.A;
+
+    public override bool Equals(object obj) => obj is RgbaColor c && Equals(c);
+
+    public override int GetHashCode() => (R << 24) | (G << 16) | (B << 8) | A;
+}
 
 public class BmdFile
 {
@@ -97,7 +155,7 @@ public class BmdFile
     //   0x0C  u32      offset to BTI header table  (from chunk start)
     //   0x10  u32      offset to string table       (from chunk start)
     //   0x14..0x1F     padding
-    //   [btiTblOffset] array of texCount × 0x20-byte BTI headers
+    //   [btiTblOffset] array of texCount x 0x20-byte BTI headers
     //
     // Within each BTI header:
     //   palette_data_offset (0x0C) and image_data_offset (0x1C) are
@@ -124,7 +182,7 @@ public class BmdFile
     //
     // Write order (matches SuperBMD TEX1.cs exactly):
     //   1. Chunk header          (0x20 bytes, size/strTblOffset patched later)
-    //   2. BTI headers           (texCount × 0x20, pal/img offsets patched later)
+    //   2. BTI headers           (texCount x 0x20, pal/img offsets patched later)
     //   3. Palette data          (one blob per unique name, each 0x20-padded)
     //   4. Image data            (one blob per unique name, no extra padding needed)
     //   5. String table          (patched offset written back to header at 0x10)
@@ -140,27 +198,14 @@ public class BmdFile
         int texCount = Textures.Count;
         int btiTblStart = 0x20; // always 0x20 from chunk start (SuperBMD hardcodes 32)
 
-        // ---- 1. Chunk header placeholder ----
+        // Chunk header
         ms.Write(new byte[0x20], 0, 0x20);
 
-        // ---- 2. BTI header placeholders ----
+        // BTI header
         long headerBlockStart = ms.Position; // == btiTblStart
         ms.Write(new byte[texCount * 0x20], 0, texCount * 0x20);
 
-        // ---- 3 & 4. Palette then image data, deduplicating by name ----
-        // Collect unique names in encounter order
-        var seen = new Dictionary<string, (int palOff, int imgOff)>();
-        var paletteOffsets = new int[texCount]; // from chunk start
-        var imageOffsets = new int[texCount]; // from chunk start
-
-        // --- palette data first ---
-        foreach (var tex in Textures)
-        {
-            if (!seen.ContainsKey(tex.Name))
-                seen[tex.Name] = (-1, -1); // placeholder; fill below
-        }
-
-        // Two-pass: palette pass then image pass (mirrors SuperBMD)
+        // Pallete and image data
         var uniqueNames = new List<string>();
         var uniqueTexByName = new Dictionary<string, BmdTexture>();
         foreach (var tex in Textures)
@@ -183,7 +228,6 @@ public class BmdFile
                 ms.Write(tex.PaletteData, 0, tex.PaletteData.Length);
                 PadStream(ms, 32);
             }
-            // If no palette data the offset is still recorded (will be 0-relative, unused)
         }
 
         // Image pass
@@ -195,7 +239,7 @@ public class BmdFile
             ms.Write(tex.ImageData, 0, tex.ImageData.Length);
         }
 
-        // ---- 5. String table ----
+        // String table
         long strTblChunkOffset = ms.Position;
         byte[] strTbl = BuildStringTable(Textures);
         ms.Write(strTbl, 0, strTbl.Length);
@@ -203,7 +247,7 @@ public class BmdFile
 
         long chunkSize = ms.Position;
 
-        // ---- Patch chunk header ----
+        // Patching the chunk header
         byte[] chunk = ms.ToArray();
         Encoding.ASCII.GetBytes("TEX1").CopyTo(chunk, 0);
         WriteU32(chunk, 0x04, (uint)chunkSize);
@@ -213,8 +257,7 @@ public class BmdFile
         WriteU32(chunk, 0x0C, (uint)btiTblStart);
         WriteU32(chunk, 0x10, (uint)strTblChunkOffset);
 
-        // ---- Patch per-header palette and image offsets ----
-        // SuperBMD: offset = chunkOffset - headerOffsetFromChunkStart
+        // Patch pallete and image offsets
         for (int i = 0; i < texCount; i++)
         {
             int headerChunkOffset = btiTblStart + i * 0x20; // from chunk start
@@ -223,11 +266,9 @@ public class BmdFile
             int palChunkOff = palChunkOffsets[name];
             int imgChunkOff = imgChunkOffsets[name];
 
-            // Relative to this header's position
             int relPal = Textures[i].PaletteData.Length > 0 ? palChunkOff - headerChunkOffset : 0;
             int relImg = imgChunkOff - headerChunkOffset;
 
-            // Write the full BTI header now that we know the offsets
             Textures[i].WriteBtiHeader(chunk, headerChunkOffset, (uint)relImg, (uint)relPal);
         }
 
@@ -250,7 +291,6 @@ public class BmdFile
         int count = textures.Count;
         int entryHeaderSize = 4 + count * 4; // 4-byte preamble + 4 bytes per entry
 
-        // Compute string area: pack all names
         var stringArea = new List<byte>();
         var stringOffsets = new int[count];
         for (int i = 0; i < count; i++)
@@ -261,7 +301,6 @@ public class BmdFile
             stringArea.Add(0); // null terminator
         }
 
-        // Write header
         WriteU16ToStream(ms, (ushort)count);
         WriteU16ToStream(ms, 0xFFFF);
         for (int i = 0; i < count; i++)
@@ -334,10 +373,7 @@ public class BmdFile
     }
 }
 
-// ============================================================
-//  BmdTexture – one BTI texture embedded inside a BMD TEX1 chunk
-// ============================================================
-public class BmdTexture
+public partial class BmdTexture
 {
     public string Name { get; set; }
 
@@ -434,7 +470,7 @@ public class BmdTexture
         buf[headerOffset + 0x09] = PaletteFormat;
         WriteU16(buf, headerOffset + 0x0A, NumColors);
         WriteU32(buf, headerOffset + 0x0C, relPaletteOffset);
-        // 0x10..0x13 — unknown, leave zero
+        // 0x10..0x13 - unknown, leave zero
         buf[headerOffset + 0x14] = MinFilter;
         buf[headerOffset + 0x15] = MagFilter;
         buf[headerOffset + 0x16] = MinLod;
@@ -450,9 +486,6 @@ public class BmdTexture
     // ----------------------------------------------------------
     public byte[] ExportBtiBytes()
     {
-        // Standalone BTI: header at 0, image data at 0x20,
-        // palette data (if any) immediately after image data.
-        // Offsets in header are relative to header start (= file start).
         uint imgOff = 0x20;
         uint palOff = PaletteData.Length > 0 ? (uint)(0x20 + ImageData.Length) : 0;
 
@@ -467,9 +500,6 @@ public class BmdTexture
 
     public void ExportBtiFile(string path) => File.WriteAllBytes(path, ExportBtiBytes());
 
-    // ----------------------------------------------------------
-    // Import from standalone .bti file
-    // ----------------------------------------------------------
     public void ImportBtiBytes(byte[] bti)
     {
         if (bti.Length < 0x20)
@@ -515,9 +545,6 @@ public class BmdTexture
 
     public void ImportBtiFile(string path) => ImportBtiBytes(File.ReadAllBytes(path));
 
-    // ----------------------------------------------------------
-    // Compute total image data size across all mipmaps
-    // ----------------------------------------------------------
     private int ComputeImageDataSize()
     {
         int blockW = GetBlockWidth();
@@ -537,7 +564,7 @@ public class BmdTexture
         return total;
     }
 
-    // Block geometry — matches gclib BLOCK_WIDTHS / BLOCK_HEIGHTS / BLOCK_DATA_SIZES
+    // Block geometry - matches gclib BLOCK_WIDTHS / BLOCK_HEIGHTS / BLOCK_DATA_SIZES
     private int GetBlockWidth() =>
         ImageFormat switch
         {
@@ -624,5 +651,1043 @@ public class BmdTexture
         var result = new byte[length];
         Array.Copy(d, offset, result, 0, length);
         return result;
+    }
+}
+
+public partial class BmdTexture
+{
+    // PaletteFormat values (from header byte 0x09):
+    //   0 = IA8, 1 = RGB565, 2 = RGB5A3
+
+    public List<RgbaColor> GetPaletteColors()
+    {
+        var colors = new List<RgbaColor>();
+        if (PaletteData.Length == 0)
+            return colors;
+
+        int count = PaletteData.Length / 2;
+        for (int i = 0; i < count; i++)
+        {
+            ushort raw = (ushort)((PaletteData[i * 2] << 8) | PaletteData[i * 2 + 1]);
+            colors.Add(DecodePaletteEntry(raw, PaletteFormat));
+        }
+        return colors;
+    }
+
+    public void SetPaletteColors(List<RgbaColor> colors)
+    {
+        if (colors.Count * 2 != PaletteData.Length)
+            throw new ArgumentException(
+                $"Color count ({colors.Count}) must match existing palette size ({PaletteData.Length / 2})."
+                    + " Palette entry count can't change without also updating NumColors and re-checking index bounds against ImageData."
+            );
+
+        byte[] newData = new byte[PaletteData.Length];
+        for (int i = 0; i < colors.Count; i++)
+        {
+            ushort raw = EncodePaletteEntry(colors[i], PaletteFormat);
+            newData[i * 2] = (byte)(raw >> 8);
+            newData[i * 2 + 1] = (byte)raw;
+        }
+        PaletteData = newData;
+    }
+
+    public void SetPaletteColor(int index, RgbaColor color)
+    {
+        if (index < 0 || index * 2 + 1 >= PaletteData.Length)
+            throw new ArgumentOutOfRangeException(nameof(index));
+
+        ushort raw = EncodePaletteEntry(color, PaletteFormat);
+        PaletteData[index * 2] = (byte)(raw >> 8);
+        PaletteData[index * 2 + 1] = (byte)raw;
+    }
+
+    private static RgbaColor DecodePaletteEntry(ushort raw, byte format)
+    {
+        switch (format)
+        {
+            case 0: // IA8: high byte = intensity, low byte = alpha
+            {
+                byte i = (byte)(raw >> 8);
+                byte a = (byte)raw;
+                return new RgbaColor(i, i, i, a);
+            }
+            case 1: // RGB565
+                return DecodeRgb565(raw);
+            case 2: // RGB5A3
+                return DecodeRgb5A3(raw);
+            default:
+                throw new NotSupportedException($"Unknown palette format {format}");
+        }
+    }
+
+    private static ushort EncodePaletteEntry(RgbaColor c, byte format)
+    {
+        switch (format)
+        {
+            case 0: // IA8
+            {
+                byte intensity = (byte)((c.R + c.G + c.B) / 3);
+                return (ushort)((intensity << 8) | c.A);
+            }
+            case 1: // RGB565
+                return EncodeRgb565(c);
+            case 2: // RGB5A3
+                return EncodeRgb5A3(c);
+            default:
+                throw new NotSupportedException($"Unknown palette format {format}");
+        }
+    }
+}
+
+public partial class BmdTexture
+{
+    public void Recolor(Dictionary<RgbaColor, RgbaColor> colorMap, int tolerance = 0)
+    {
+        bool isPaletted = ImageFormat == 0x08 || ImageFormat == 0x09 || ImageFormat == 0x0A;
+
+        if (isPaletted)
+        {
+            var palette = GetPaletteColors();
+            for (int i = 0; i < palette.Count; i++)
+            {
+                if (TryFindMatch(palette[i], colorMap, tolerance, out var replacement))
+                    palette[i] = replacement;
+            }
+            SetPaletteColors(palette);
+            // Palette-indexed pixel data is untouched; no mip regen needed.
+        }
+        else
+        {
+            var pixels = GetPixelColors();
+            int w = pixels.GetLength(0),
+                h = pixels.GetLength(1);
+            for (int y = 0; y < h; y++)
+                for (int x = 0; x < w; x++)
+                {
+                    if (TryFindMatch(pixels[x, y], colorMap, tolerance, out var replacement))
+                        pixels[x, y] = replacement;
+                }
+            SetPixelColorsAndRegenerateMips(pixels);
+        }
+    }
+
+    private static bool TryFindMatch(
+        RgbaColor c,
+        Dictionary<RgbaColor, RgbaColor> map,
+        int tolerance,
+        out RgbaColor replacement
+    )
+    {
+        if (tolerance == 0)
+            return map.TryGetValue(c, out replacement);
+
+        foreach (var kv in map)
+        {
+            if (
+                Math.Abs(c.R - kv.Key.R) <= tolerance
+                && Math.Abs(c.G - kv.Key.G) <= tolerance
+                && Math.Abs(c.B - kv.Key.B) <= tolerance
+                && Math.Abs(c.A - kv.Key.A) <= tolerance
+            )
+            {
+                replacement = kv.Value;
+                return true;
+            }
+        }
+        replacement = default;
+        return false;
+    }
+
+    public RgbaColor[,] GetPixelColors()
+    {
+        var pixels = new RgbaColor[Width, Height];
+        var palette =
+            (ImageFormat == 0x08 || ImageFormat == 0x09 || ImageFormat == 0x0A)
+                ? GetPaletteColors()
+                : null;
+
+        int blockW = GetBlockWidthPublic();
+        int blockH = GetBlockHeightPublic();
+
+        int pos = 0;
+        for (int by = 0; by < Height; by += blockH)
+            for (int bx = 0; bx < Width; bx += blockW)
+            {
+                pos = DecodeBlock(ImageData, pos, bx, by, blockW, blockH, palette, pixels);
+            }
+
+        return pixels;
+    }
+
+    public void SetPixelColors(RgbaColor[,] pixels)
+    {
+        if (pixels.GetLength(0) != Width || pixels.GetLength(1) != Height)
+            throw new ArgumentException("Pixel grid dimensions must match texture Width/Height.");
+
+        byte[] mip0 = EncodeLevel(pixels, Width, Height);
+
+        int mip0Size = mip0.Length;
+        if (ImageData.Length >= mip0Size)
+        {
+            Array.Copy(mip0, 0, ImageData, 0, mip0Size);
+        }
+        else
+        {
+            ImageData = mip0; // single-mip texture, or size mismatch fallback
+        }
+    }
+
+    public void SetPixelColorsAndRegenerateMips(RgbaColor[,] basePixels)
+    {
+        if (basePixels.GetLength(0) != Width || basePixels.GetLength(1) != Height)
+            throw new ArgumentException("Pixel grid dimensions must match texture Width/Height.");
+
+        using var ms = new MemoryStream();
+
+        var currentLevel = basePixels;
+        int w = Width,
+            h = Height;
+
+        int levels = MipmapCount > 0 ? MipmapCount : 1;
+        for (int m = 0; m < levels; m++)
+        {
+            byte[] encoded = EncodeLevel(currentLevel, w, h);
+            ms.Write(encoded, 0, encoded.Length);
+
+            int nextW = Math.Max(1, w / 2);
+            int nextH = Math.Max(1, h / 2);
+            if (m < levels - 1)
+                currentLevel = BoxDownsample(currentLevel, w, h, nextW, nextH);
+
+            w = nextW;
+            h = nextH;
+        }
+
+        ImageData = ms.ToArray();
+    }
+
+    private static RgbaColor[,] BoxDownsample(
+        RgbaColor[,] src,
+        int srcW,
+        int srcH,
+        int dstW,
+        int dstH
+    )
+    {
+        var dst = new RgbaColor[dstW, dstH];
+        double scaleX = (double)srcW / dstW;
+        double scaleY = (double)srcH / dstH;
+
+        for (int dy = 0; dy < dstH; dy++)
+            for (int dx = 0; dx < dstW; dx++)
+            {
+                int sx0 = (int)(dx * scaleX);
+                int sy0 = (int)(dy * scaleY);
+                int sx1 = Math.Min(srcW, (int)((dx + 1) * scaleX));
+                int sy1 = Math.Min(srcH, (int)((dy + 1) * scaleY));
+                sx1 = Math.Max(sx1, sx0 + 1);
+                sy1 = Math.Max(sy1, sy0 + 1);
+
+                int sumR = 0,
+                    sumG = 0,
+                    sumB = 0,
+                    sumA = 0,
+                    count = 0;
+                for (int sy = sy0; sy < sy1; sy++)
+                    for (int sx = sx0; sx < sx1; sx++)
+                    {
+                        var c = src[sx, sy];
+                        sumR += c.R;
+                        sumG += c.G;
+                        sumB += c.B;
+                        sumA += c.A;
+                        count++;
+                    }
+
+                dst[dx, dy] = new RgbaColor(
+                    (byte)(sumR / count),
+                    (byte)(sumG / count),
+                    (byte)(sumB / count),
+                    (byte)(sumA / count)
+                );
+            }
+
+        return dst;
+    }
+
+    private byte[] EncodeLevel(RgbaColor[,] pixels, int w, int h)
+    {
+        int blockW = GetBlockWidthPublic();
+        int blockH = GetBlockHeightPublic();
+        int blockBytes = GetBlockDataSizePublic();
+
+        int bwCount = (w + blockW - 1) / blockW;
+        int bhCount = (h + blockH - 1) / blockH;
+        byte[] data = new byte[bwCount * bhCount * blockBytes];
+
+        int pos = 0;
+        for (int by = 0; by < h; by += blockH)
+            for (int bx = 0; bx < w; bx += blockW)
+            {
+                pos = EncodeBlock(data, pos, bx, by, blockW, blockH, pixels, w, h);
+            }
+
+        return data;
+    }
+
+    // Expose block-geometry helpers
+    private int GetBlockWidthPublic() =>
+        ImageFormat switch
+        {
+            0x00 => 8,
+            0x01 => 8,
+            0x02 => 8,
+            0x03 => 4,
+            0x04 => 4,
+            0x05 => 4,
+            0x06 => 4,
+            0x08 => 8,
+            0x09 => 8,
+            0x0A => 4,
+            0x0E => 8,
+            _ => throw new NotSupportedException()
+        };
+
+    private int GetBlockHeightPublic() =>
+        ImageFormat switch
+        {
+            0x00 => 8,
+            0x01 => 4,
+            0x02 => 4,
+            0x03 => 4,
+            0x04 => 4,
+            0x05 => 4,
+            0x06 => 4,
+            0x08 => 8,
+            0x09 => 4,
+            0x0A => 4,
+            0x0E => 8,
+            _ => throw new NotSupportedException()
+        };
+
+    private int GetBlockDataSizePublic() =>
+        ImageFormat switch
+        {
+            0x00 => 32,
+            0x01 => 32,
+            0x02 => 32,
+            0x03 => 32,
+            0x04 => 32,
+            0x05 => 32,
+            0x06 => 64,
+            0x08 => 32,
+            0x09 => 32,
+            0x0A => 32,
+            0x0E => 32,
+            _ => throw new NotSupportedException()
+        };
+
+    private int DecodeBlock(
+        byte[] data,
+        int pos,
+        int bx,
+        int by,
+        int bw,
+        int bh,
+        List<RgbaColor> palette,
+        RgbaColor[,] outPixels
+    )
+    {
+        switch (ImageFormat)
+        {
+            case 0x00: // I4
+                for (int y = 0; y < bh; y++)
+                    for (int x = 0; x < bw; x += 2)
+                    {
+                        byte b = data[pos++];
+                        SetPixel(outPixels, bx + x, by + y, IntensityColor((byte)((b >> 4) * 17)));
+                        if (bx + x + 1 < Width)
+                            SetPixel(
+                                outPixels,
+                                bx + x + 1,
+                                by + y,
+                                IntensityColor((byte)((b & 0xF) * 17))
+                            );
+                    }
+                break;
+
+            case 0x01: // I8
+                for (int y = 0; y < bh; y++)
+                    for (int x = 0; x < bw; x++)
+                        SetPixel(outPixels, bx + x, by + y, IntensityColor(data[pos++]));
+                break;
+
+            case 0x02: // IA4
+                for (int y = 0; y < bh; y++)
+                    for (int x = 0; x < bw; x++)
+                    {
+                        byte b = data[pos++];
+                        byte i = (byte)((b >> 4) * 17);
+                        byte a = (byte)((b & 0xF) * 17);
+                        SetPixel(outPixels, bx + x, by + y, new RgbaColor(i, i, i, a));
+                    }
+                break;
+
+            case 0x03: // IA8
+                for (int y = 0; y < bh; y++)
+                    for (int x = 0; x < bw; x++)
+                    {
+                        byte a = data[pos++];
+                        byte i = data[pos++];
+                        SetPixel(outPixels, bx + x, by + y, new RgbaColor(i, i, i, a));
+                    }
+                break;
+
+            case 0x04: // RGB565
+                for (int y = 0; y < bh; y++)
+                    for (int x = 0; x < bw; x++)
+                    {
+                        ushort raw = (ushort)((data[pos] << 8) | data[pos + 1]);
+                        pos += 2;
+                        SetPixel(outPixels, bx + x, by + y, DecodeRgb565(raw));
+                    }
+                break;
+
+            case 0x05: // RGB5A3
+                for (int y = 0; y < bh; y++)
+                    for (int x = 0; x < bw; x++)
+                    {
+                        ushort raw = (ushort)((data[pos] << 8) | data[pos + 1]);
+                        pos += 2;
+                        SetPixel(outPixels, bx + x, by + y, DecodeRgb5A3(raw));
+                    }
+                break;
+
+            case 0x06: // RGBA32
+
+                {
+                    var buf = new RgbaColor[16];
+                    for (int i = 0; i < 16; i++)
+                    {
+                        buf[i].A = data[pos++];
+                        buf[i].R = data[pos++];
+                    }
+                    for (int i = 0; i < 16; i++)
+                    {
+                        buf[i].G = data[pos++];
+                        buf[i].B = data[pos++];
+                    }
+                    int idx = 0;
+                    for (int y = 0; y < bh; y++)
+                        for (int x = 0; x < bw; x++)
+                            SetPixel(outPixels, bx + x, by + y, buf[idx++]);
+                }
+                break;
+
+            case 0x08: // C4
+                for (int y = 0; y < bh; y++)
+                    for (int x = 0; x < bw; x += 2)
+                    {
+                        byte b = data[pos++];
+                        int hi = b >> 4;
+                        int lo = b & 0xF;
+                        SetPixel(outPixels, bx + x, by + y, PaletteLookup(palette, hi));
+                        if (bx + x + 1 < Width)
+                            SetPixel(outPixels, bx + x + 1, by + y, PaletteLookup(palette, lo));
+                    }
+                break;
+
+            case 0x09: // C8
+                for (int y = 0; y < bh; y++)
+                    for (int x = 0; x < bw; x++)
+                    {
+                        int idx = data[pos++];
+                        SetPixel(outPixels, bx + x, by + y, PaletteLookup(palette, idx));
+                    }
+                break;
+
+            case 0x0A: // C14X2
+                for (int y = 0; y < bh; y++)
+                    for (int x = 0; x < bw; x++)
+                    {
+                        ushort raw = (ushort)((data[pos] << 8) | data[pos + 1]);
+                        pos += 2;
+                        int idx = raw & 0x3FFF;
+                        SetPixel(outPixels, bx + x, by + y, PaletteLookup(palette, idx));
+                    }
+                break;
+
+            case 0x0E: // CMPR
+
+                {
+                    int[] subX = { 0, 4, 0, 4 };
+                    int[] subY = { 0, 0, 4, 4 };
+                    for (int s = 0; s < 4; s++)
+                        pos = DecodeDxt1Block(data, pos, bx + subX[s], by + subY[s], outPixels);
+                }
+                break;
+
+            default:
+                throw new NotSupportedException(
+                    $"Format 0x{ImageFormat:X2} not implemented for pixel decode."
+                );
+        }
+        return pos;
+    }
+
+    private static RgbaColor PaletteLookup(List<RgbaColor> palette, int index)
+    {
+        if (palette == null || index < 0 || index >= palette.Count)
+            return default;
+        return palette[index];
+    }
+
+    private int DecodeDxt1Block(byte[] data, int pos, int bx, int by, RgbaColor[,] outPixels)
+    {
+        ushort c0raw = (ushort)((data[pos] << 8) | data[pos + 1]);
+        pos += 2;
+        ushort c1raw = (ushort)((data[pos] << 8) | data[pos + 1]);
+        pos += 2;
+        uint idxBits = (uint)(
+            (data[pos] << 24) | (data[pos + 1] << 16) | (data[pos + 2] << 8) | data[pos + 3]
+        );
+        pos += 4;
+
+        var c0 = DecodeRgb565(c0raw);
+        var c1 = DecodeRgb565(c1raw);
+        var palette4 = new RgbaColor[4];
+        palette4[0] = c0;
+        palette4[1] = c1;
+        if (c0raw > c1raw)
+        {
+            palette4[2] = Lerp(c0, c1, 1, 3);
+            palette4[3] = Lerp(c0, c1, 2, 3);
+        }
+        else
+        {
+            palette4[2] = Lerp(c0, c1, 1, 2);
+            palette4[3] = new RgbaColor(0, 0, 0, 0); // transparent
+        }
+
+        for (int i = 0; i < 16; i++)
+        {
+            int shift = 30 - i * 2;
+            int sel = (int)((idxBits >> shift) & 0x3);
+            int x = i % 4,
+                y = i / 4;
+            SetPixel(outPixels, bx + x, by + y, palette4[sel]);
+        }
+        return pos;
+    }
+
+    private static RgbaColor Lerp(RgbaColor a, RgbaColor b, int num, int den) =>
+        new RgbaColor(
+            (byte)((a.R * (den - num) + b.R * num) / den),
+            (byte)((a.G * (den - num) + b.G * num) / den),
+            (byte)((a.B * (den - num) + b.B * num) / den),
+            255
+        );
+
+    private void SetPixel(RgbaColor[,] grid, int x, int y, RgbaColor c)
+    {
+        if (x < Width && y < Height)
+            grid[x, y] = c;
+    }
+
+    private static RgbaColor IntensityColor(byte i) => new RgbaColor(i, i, i, 255);
+
+    private static RgbaColor DecodeRgb565(ushort raw)
+    {
+        int r = (raw >> 11) & 0x1F,
+            g = (raw >> 5) & 0x3F,
+            b = raw & 0x1F;
+        return new RgbaColor(
+            (byte)((r << 3) | (r >> 2)),
+            (byte)((g << 2) | (g >> 4)),
+            (byte)((b << 3) | (b >> 2)),
+            255
+        );
+    }
+
+    private static RgbaColor DecodeRgb5A3(ushort raw)
+    {
+        if ((raw & 0x8000) != 0)
+        {
+            int r = (raw >> 10) & 0x1F,
+                g = (raw >> 5) & 0x1F,
+                b = raw & 0x1F;
+            return new RgbaColor(
+                (byte)((r << 3) | (r >> 2)),
+                (byte)((g << 3) | (g >> 2)),
+                (byte)((b << 3) | (b >> 2)),
+                255
+            );
+        }
+        int a = (raw >> 12) & 0x7,
+            rr = (raw >> 8) & 0xF,
+            gg = (raw >> 4) & 0xF,
+            bb = raw & 0xF;
+        return new RgbaColor(
+            (byte)((rr << 4) | rr),
+            (byte)((gg << 4) | gg),
+            (byte)((bb << 4) | bb),
+            (byte)((a << 5) | (a << 2) | (a >> 1))
+        );
+    }
+
+    private int EncodeBlock(
+        byte[] data,
+        int pos,
+        int bx,
+        int by,
+        int bw,
+        int bh,
+        RgbaColor[,] pixels,
+        int w,
+        int h
+    )
+    {
+        switch (ImageFormat)
+        {
+            case 0x00: // I4
+                for (int y = 0; y < bh; y++)
+                    for (int x = 0; x < bw; x += 2)
+                    {
+                        byte hi = (byte)(GetPix(pixels, bx + x, by + y, w, h).R / 17);
+                        byte lo =
+                            (bx + x + 1 < w)
+                                ? (byte)(GetPix(pixels, bx + x + 1, by + y, w, h).R / 17)
+                                : (byte)0;
+                        data[pos++] = (byte)((hi << 4) | lo);
+                    }
+                break;
+
+            case 0x01: // I8
+                for (int y = 0; y < bh; y++)
+                    for (int x = 0; x < bw; x++)
+                        data[pos++] = GetPix(pixels, bx + x, by + y, w, h).R;
+                break;
+
+            case 0x02: // IA4
+                for (int y = 0; y < bh; y++)
+                    for (int x = 0; x < bw; x++)
+                    {
+                        var c = GetPix(pixels, bx + x, by + y, w, h);
+                        data[pos++] = (byte)(((c.R / 17) << 4) | (c.A / 17));
+                    }
+                break;
+
+            case 0x03: // IA8
+                for (int y = 0; y < bh; y++)
+                    for (int x = 0; x < bw; x++)
+                    {
+                        var c = GetPix(pixels, bx + x, by + y, w, h);
+                        data[pos++] = c.A;
+                        data[pos++] = c.R;
+                    }
+                break;
+
+            case 0x04: // RGB565
+                for (int y = 0; y < bh; y++)
+                    for (int x = 0; x < bw; x++)
+                    {
+                        ushort raw = EncodeRgb565(GetPix(pixels, bx + x, by + y, w, h));
+                        data[pos++] = (byte)(raw >> 8);
+                        data[pos++] = (byte)raw;
+                    }
+                break;
+
+            case 0x05: // RGB5A3
+                for (int y = 0; y < bh; y++)
+                    for (int x = 0; x < bw; x++)
+                    {
+                        ushort raw = EncodeRgb5A3(GetPix(pixels, bx + x, by + y, w, h));
+                        data[pos++] = (byte)(raw >> 8);
+                        data[pos++] = (byte)raw;
+                    }
+                break;
+
+            case 0x06: // RGBA32
+
+                {
+                    var buf = new RgbaColor[16];
+                    int idx = 0;
+                    for (int y = 0; y < bh; y++)
+                        for (int x = 0; x < bw; x++)
+                            buf[idx++] = GetPix(pixels, bx + x, by + y, w, h);
+                    foreach (var c in buf)
+                    {
+                        data[pos++] = c.A;
+                        data[pos++] = c.R;
+                    }
+                    foreach (var c in buf)
+                    {
+                        data[pos++] = c.G;
+                        data[pos++] = c.B;
+                    }
+                }
+                break;
+
+            case 0x0E: // CMPR
+
+                {
+                    int[] subX = { 0, 4, 0, 4 };
+                    int[] subY = { 0, 0, 4, 4 };
+                    for (int s = 0; s < 4; s++)
+                        pos = EncodeDxt1Block(data, pos, bx + subX[s], by + subY[s], pixels, w, h);
+                }
+                break;
+
+            default:
+                throw new NotSupportedException(
+                    $"Format 0x{ImageFormat:X2} not implemented for pixel encode."
+                );
+        }
+        return pos;
+    }
+
+    private int EncodeDxt1Block(
+        byte[] data,
+        int pos,
+        int bx,
+        int by,
+        RgbaColor[,] pixels,
+        int w,
+        int h
+    )
+    {
+        RgbaColor min = new RgbaColor(255, 255, 255, 255),
+            max = new RgbaColor(0, 0, 0, 0);
+        for (int y = 0; y < 4; y++)
+            for (int x = 0; x < 4; x++)
+            {
+                var c = GetPix(pixels, bx + x, by + y, w, h);
+                int lum = c.R + c.G + c.B;
+                if (lum < min.R + min.G + min.B)
+                    min = c;
+                if (lum > max.R + max.G + max.B)
+                    max = c;
+            }
+
+        ushort c0 = EncodeRgb565(max);
+        ushort c1 = EncodeRgb565(min);
+        if (c0 == c1 && c0 != 0)
+            c1 = (ushort)(c0 - 1); // avoid degenerate 1-bit-alpha mode
+
+        var palette4 = new RgbaColor[4];
+        var d0 = DecodeRgb565(c0);
+        var d1 = DecodeRgb565(c1);
+        palette4[0] = d0;
+        palette4[1] = d1;
+        palette4[2] = Lerp(d0, d1, 1, 3);
+        palette4[3] = Lerp(d0, d1, 2, 3);
+
+        data[pos++] = (byte)(c0 >> 8);
+        data[pos++] = (byte)c0;
+        data[pos++] = (byte)(c1 >> 8);
+        data[pos++] = (byte)c1;
+
+        uint idxBits = 0;
+        for (int i = 0; i < 16; i++)
+        {
+            int x = i % 4,
+                y = i / 4;
+            var c = GetPix(pixels, bx + x, by + y, w, h);
+            int best = 0;
+            int bestDist = int.MaxValue;
+            for (int p = 0; p < 4; p++)
+            {
+                int dr = c.R - palette4[p].R,
+                    dg = c.G - palette4[p].G,
+                    db = c.B - palette4[p].B;
+                int dist = dr * dr + dg * dg + db * db;
+                if (dist < bestDist)
+                {
+                    bestDist = dist;
+                    best = p;
+                }
+            }
+            idxBits |= (uint)best << (30 - i * 2);
+        }
+        data[pos++] = (byte)(idxBits >> 24);
+        data[pos++] = (byte)(idxBits >> 16);
+        data[pos++] = (byte)(idxBits >> 8);
+        data[pos++] = (byte)idxBits;
+        return pos;
+    }
+
+    private RgbaColor GetPix(RgbaColor[,] grid, int x, int y, int w, int h) =>
+        (x < w && y < h) ? grid[x, y] : default;
+
+    private static ushort EncodeRgb565(RgbaColor c) =>
+        (ushort)(((c.R >> 3) << 11) | ((c.G >> 2) << 5) | (c.B >> 3));
+
+    private static ushort EncodeRgb5A3(RgbaColor c)
+    {
+        if (c.A >= 224)
+            return (ushort)(0x8000 | ((c.R >> 3) << 10) | ((c.G >> 3) << 5) | (c.B >> 3));
+        return (ushort)(((c.A >> 5) << 12) | ((c.R >> 4) << 8) | ((c.G >> 4) << 4) | (c.B >> 4));
+    }
+}
+
+public partial class BmdTexture
+{
+    public void Grayscale()
+    {
+        bool isPaletted = ImageFormat == 0x08 || ImageFormat == 0x09 || ImageFormat == 0x0A;
+
+        if (isPaletted)
+        {
+            var palette = GetPaletteColors();
+            for (int i = 0; i < palette.Count; i++)
+                palette[i] = ToGrayscale(palette[i]);
+            SetPaletteColors(palette);
+        }
+        else
+        {
+            var pixels = GetPixelColors();
+            int w = pixels.GetLength(0),
+                h = pixels.GetLength(1);
+            for (int y = 0; y < h; y++)
+                for (int x = 0; x < w; x++)
+                    pixels[x, y] = ToGrayscale(pixels[x, y]);
+            SetPixelColorsAndRegenerateMips(pixels);
+        }
+    }
+
+    private static RgbaColor ToGrayscale(RgbaColor c)
+    {
+        byte lum = (byte)(0.299 * c.R + 0.587 * c.G + 0.114 * c.B);
+        return new RgbaColor(lum, lum, lum, c.A);
+    }
+
+    public void RecolorByHue(
+        RgbaColor targetColor,
+        RgbaColor replacementColor,
+        double hueToleranceDegrees = 25,
+        double minSaturation = 0.15,
+        bool preserveBrightness = true
+    )
+    {
+        var (targetHue, targetSat, _) = RgbToHsv(targetColor);
+        var (replHue, replSat, replVal) = RgbToHsv(replacementColor);
+
+        bool isPaletted = ImageFormat == 0x08 || ImageFormat == 0x09 || ImageFormat == 0x0A;
+
+        RgbaColor Remap(RgbaColor c)
+        {
+            var (h, s, v) = RgbToHsv(c);
+            if (s < minSaturation)
+                return c; // neutral/grayscale pixel, leave alone
+
+            double diff = Math.Abs(h - targetHue);
+            diff = Math.Min(diff, 360 - diff); // wrap-around distance on the hue wheel
+            if (diff > hueToleranceDegrees)
+                return c; // not the material we're targeting
+
+            // Swap hue/saturation to the replacement color, but keep
+            // this pixel's own brightness so existing shading/highlights
+            // on the material are preserved instead of flattened.
+            double newV = preserveBrightness ? v : replVal;
+            return HsvToRgb(replHue, replSat, newV, c.A);
+        }
+
+        if (isPaletted)
+        {
+            var palette = GetPaletteColors();
+            for (int i = 0; i < palette.Count; i++)
+                palette[i] = Remap(palette[i]);
+            SetPaletteColors(palette);
+        }
+        else
+        {
+            var pixels = GetPixelColors();
+            int w = pixels.GetLength(0),
+                h2 = pixels.GetLength(1);
+            for (int y = 0; y < h2; y++)
+                for (int x = 0; x < w; x++)
+                    pixels[x, y] = Remap(pixels[x, y]);
+            SetPixelColorsAndRegenerateMips(pixels);
+        }
+    }
+
+    public void RecolorByHueMulti(
+        List<(RgbaColor target, RgbaColor replacement, double hueTolerance)> swaps,
+        double minSaturation = 0.15,
+        bool preserveBrightness = true
+    )
+    {
+        bool isPaletted = ImageFormat == 0x08 || ImageFormat == 0x09 || ImageFormat == 0x0A;
+
+        var prepared =
+            new List<(double hue, double sat, double replHue, double replSat, double replVal, double tol)>();
+        foreach (var (target, replacement, tol) in swaps)
+        {
+            var (th, ts, _) = RgbToHsv(target);
+            var (rh, rs, rv) = RgbToHsv(replacement);
+            prepared.Add((th, ts, rh, rs, rv, tol));
+        }
+
+        RgbaColor Remap(RgbaColor c)
+        {
+            var (h, s, v) = RgbToHsv(c);
+            if (s < minSaturation)
+                return c;
+
+            foreach (var (targetHue, _, replHue, replSat, replVal, tol) in prepared)
+            {
+                double diff = Math.Abs(h - targetHue);
+                diff = Math.Min(diff, 360 - diff);
+                if (diff <= tol)
+                {
+                    double newV = preserveBrightness ? v : replVal;
+                    return HsvToRgb(replHue, replSat, newV, c.A);
+                }
+            }
+            return c; // no swap matched
+        }
+
+        if (isPaletted)
+        {
+            var palette = GetPaletteColors();
+            for (int i = 0; i < palette.Count; i++)
+                palette[i] = Remap(palette[i]);
+            SetPaletteColors(palette);
+        }
+        else
+        {
+            var pixels = GetPixelColors();
+            int w = pixels.GetLength(0),
+                h = pixels.GetLength(1);
+            for (int y = 0; y < h; y++)
+                for (int x = 0; x < w; x++)
+                    pixels[x, y] = Remap(pixels[x, y]);
+            SetPixelColorsAndRegenerateMips(pixels);
+        }
+    }
+
+    private static (double h, double s, double v) RgbToHsv(RgbaColor c)
+    {
+        double r = c.R / 255.0,
+            g = c.G / 255.0,
+            b = c.B / 255.0;
+        double max = Math.Max(r, Math.Max(g, b));
+        double min = Math.Min(r, Math.Min(g, b));
+        double delta = max - min;
+
+        double h = 0;
+        if (delta > 0.00001)
+        {
+            if (max == r)
+                h = 60 * (((g - b) / delta) % 6);
+            else if (max == g)
+                h = 60 * (((b - r) / delta) + 2);
+            else
+                h = 60 * (((r - g) / delta) + 4);
+        }
+        if (h < 0)
+            h += 360;
+
+        double s = max <= 0.00001 ? 0 : delta / max;
+        double v = max;
+        return (h, s, v);
+    }
+
+    private static RgbaColor HsvToRgb(double h, double s, double v, byte alpha)
+    {
+        double c = v * s;
+        double x = c * (1 - Math.Abs((h / 60) % 2 - 1));
+        double m = v - c;
+
+        double r = 0,
+            g = 0,
+            b = 0;
+        if (h < 60)
+        {
+            r = c;
+            g = x;
+            b = 0;
+        }
+        else if (h < 120)
+        {
+            r = x;
+            g = c;
+            b = 0;
+        }
+        else if (h < 180)
+        {
+            r = 0;
+            g = c;
+            b = x;
+        }
+        else if (h < 240)
+        {
+            r = 0;
+            g = x;
+            b = c;
+        }
+        else if (h < 300)
+        {
+            r = x;
+            g = 0;
+            b = c;
+        }
+        else
+        {
+            r = c;
+            g = 0;
+            b = x;
+        }
+
+        return new RgbaColor(
+            (byte)Math.Round((r + m) * 255),
+            (byte)Math.Round((g + m) * 255),
+            (byte)Math.Round((b + m) * 255),
+            alpha
+        );
+    }
+
+    public void TintGrayscale(RgbaColor tintColor, double strength = 1.0)
+    {
+        var (tintHue, tintSat, _) = RgbToHsv(tintColor);
+        strength = Math.Clamp(strength, 0.0, 1.0);
+
+        RgbaColor Apply(RgbaColor c)
+        {
+            double lum = (0.299 * c.R + 0.587 * c.G + 0.114 * c.B) / 255.0;
+            var tinted = HsvToRgb(tintHue, tintSat, lum, c.A);
+
+            if (strength >= 0.999)
+                return tinted;
+
+            byte grayVal = (byte)Math.Round(lum * 255);
+            return new RgbaColor(
+                (byte)Math.Round(grayVal + (tinted.R - grayVal) * strength),
+                (byte)Math.Round(grayVal + (tinted.G - grayVal) * strength),
+                (byte)Math.Round(grayVal + (tinted.B - grayVal) * strength),
+                c.A
+            );
+        }
+
+        bool isPaletted = ImageFormat == 0x08 || ImageFormat == 0x09 || ImageFormat == 0x0A;
+
+        if (isPaletted)
+        {
+            var palette = GetPaletteColors();
+            for (int i = 0; i < palette.Count; i++)
+                palette[i] = Apply(palette[i]);
+            SetPaletteColors(palette);
+        }
+        else
+        {
+            var pixels = GetPixelColors();
+            int w = pixels.GetLength(0),
+                h = pixels.GetLength(1);
+            for (int y = 0; y < h; y++)
+                for (int x = 0; x < w; x++)
+                    pixels[x, y] = Apply(pixels[x, y]);
+            SetPixelColorsAndRegenerateMips(pixels);
+        }
     }
 }
