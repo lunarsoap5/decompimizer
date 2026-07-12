@@ -7,11 +7,13 @@ Console.WriteLine("Hello, World!");
 
 bool show_debug = false;
 
+//==============================================================================================
 // Open ISO Image
 RarcTools.GCRebuilder.GCRebuilder.ExtractISO(@"decompimizer-GZ2E01.iso", @"extractedISO/");
 
 var options = new JsonSerializerOptions { ReadCommentHandling = JsonCommentHandling.Skip };
 
+//==============================================================================================
 // Apply DZX Patches first
 // Deserialize DZX Patches file:
 string dzxPatchContents = File.ReadAllText(@"Generator/patch_files/dzx_patches.jsonc");
@@ -144,11 +146,12 @@ foreach (var dzxPatch in dzxPatches)
     LibStage.PackageDZX(dzxString, archiveDirectory + filePath, false);
     RarcTools.RARCPacker.PackArchive(
         archiveDirectory,
-        archiveDirectory[..archiveDirectory.LastIndexOf("\\")] + ".arc",
+        archiveDirectory + ".arc",
         true
     );
 }
 
+//==============================================================================================
 // Apply BMG Patches
 // Deserialize BMG Patches file:
 string bmgPatchContents = File.ReadAllText(@"Generator/patch_files/bmg_patches.jsonc");
@@ -322,11 +325,12 @@ foreach (var bmgPatch in bmgPatches)
     );
     RarcTools.RARCPacker.PackArchive(
         archiveDirectory,
-        archiveDirectory[..archiveDirectory.LastIndexOf("\\")] + ".arc",
+        archiveDirectory + ".arc",
         true
     );
 }
 
+//==============================================================================================
 // Copy over custom files
 // Deserialize asset manifest file:
 string assetManifestContents = File.ReadAllText(Path.Combine("mod_assets","manifest.jsonc"));
@@ -340,10 +344,8 @@ foreach(var assetPatch in assetPatches)
     {
         string archiveDirectory = Tools.GetSubstringFromMarker(assetPatch.Directory, ".arc");
         string extractedDirectory = RARCDump.DumpArchive(
-                Yaz0dec.InitYaz0Decode(@"extractedISO/root/" + archiveDirectory), false);
+                Yaz0dec.InitYaz0Decode(@"extractedISO/root/" + archiveDirectory));
         
-        // We want to clean up the directories of the extracted archives since by default the RARCDump functionality is generic and we don't want to have special handling of the various archives. (i.e nested vs static directories, etc.).
-        Tools.CleanUpExtractedArchive(extractedDirectory);
 
         foreach (AssetFiles file in assetPatch.Files)
         {
@@ -378,15 +380,17 @@ foreach(var assetPatch in assetPatches)
     
 }
 
+//==============================================================================================
+// Copy over custom Title screen logo - note: I don't have a framework set up for replacing textures yet, but soontm.
 string testDirectory = @"extractedISO/root/res/Object/Title";
 string bmdDirectory = RARCDump.DumpArchive(
-                        Yaz0dec.InitYaz0Decode(testDirectory + @".arc"), false);
+                        Yaz0dec.InitYaz0Decode(testDirectory + @".arc"));
 
-var bmd = new BmdFile(@"extractedISO/root/res/Object/Title/title/bmdr/titlelogo_r.bmd");
+var bmd = new BmdFile(@"extractedISO/root/res/Object/Title/bmdr/titlelogo_r.bmd");
 
 // See what textures exist
-foreach (var tex in bmd.Textures)
-    Console.WriteLine($"{tex.Name}  {tex.Width}x{tex.Height}");
+//foreach (var tex in bmd.Textures)
+//    Console.WriteLine($"{tex.Name}  {tex.Width}x{tex.Height}");
 
 // Pull out a texture as a standalone .bti file for external editing
 //bmd.Textures[5].ExportBtiFile("TwilightPrincess.bti");
@@ -395,15 +399,72 @@ foreach (var tex in bmd.Textures)
 bmd.Textures[5].ImportBtiFile(Path.Combine("mod_assets", "TwilightPrincess.bti"));
 
 // Repack the BMD with the modified texture
-bmd.Save(@"extractedISO/root/res/Object/Title/title/bmdr/titlelogo_r.bmd");
+bmd.Save(@"extractedISO/root/res/Object/Title/bmdr/titlelogo_r.bmd");
 
 RARCPacker.PackArchive(
-                Path.Combine(testDirectory, "title"),
+                testDirectory,
                 testDirectory + ".arc",
                 true
             );
 
-// Update the game code to the rando code
+//==============================================================================================
+// Generate Cosmetic Changes (i.e texture recoloring)
+List<TextureRecolor> textureRecolors = CosmeticFunctions.GenerateTextureCosmetics();
+foreach (TextureRecolor texRecolor in textureRecolors)
+{
+    // Dump the archive
+    string texArchiveDirectory = RARCDump.DumpArchive(
+                        Yaz0dec.InitYaz0Decode(texRecolor.ArchiveDirectory));
+
+    foreach(TextureRecolorOptions texOptions in texRecolor.TextureOptions)
+    {
+        var texBmd = new BmdFile(Path.Combine(texArchiveDirectory,texOptions.FileName));
+        var textureToModify = texBmd.Textures[texOptions.TextureIndex];
+        switch(texOptions.RecolorType)
+        {
+            case TextureRecolorType.Greyscale:
+                {
+                    textureToModify.TintGrayscale(texOptions.NewColor);
+                    break;
+                }
+            
+            case TextureRecolorType.Palette:
+                {
+                    var map = new Dictionary<RgbaColor, RgbaColor>
+                    {
+                        {texOptions.OldColor, texOptions.NewColor}
+                    };
+                    textureToModify.Recolor(map, texOptions.Tolerance);
+                    break;
+                }
+            
+            case TextureRecolorType.Hue:
+                {
+                    textureToModify.RecolorByHue(
+                        targetColor:  texOptions.OldColor,
+                        replacementColor: texOptions.NewColor,
+                        hueToleranceDegrees: texOptions.Tolerance);
+                    break;
+                }
+            default:
+                {
+                    Console.WriteLine($"No recolor definition defined for type {texOptions.RecolorType}");
+                    break;
+                }
+        }
+
+        texBmd.Save(Path.Combine(texArchiveDirectory,texOptions.FileName));
+        Console.WriteLine($"Modified texture: {texBmd.Textures[texOptions.TextureIndex].Name} in model {texOptions.FileName}");
+    }
+
+    RARCPacker.PackArchive(
+                texArchiveDirectory,
+                texArchiveDirectory + ".arc",
+                true
+            );
+}
+//==============================================================================================
+// Update the game code to the rando code - GZ2*99
 
 string rawFilePath = @"extractedISO/root/&&systemdata/ISO.hdr";
 
@@ -416,6 +477,7 @@ data[0x5] = 0x39;
 File.WriteAllBytes(rawFilePath, data);
 Console.WriteLine("Converted Game code to: GZ2E99");
 
+//==============================================================================================
 // Clean up any empty directories that are left over. 
 foreach (string directory in Directory.GetDirectories("extractedISO", "*", SearchOption.AllDirectories)
                                           .OrderByDescending(d => d.Length))
@@ -426,6 +488,7 @@ foreach (string directory in Directory.GetDirectories("extractedISO", "*", Searc
     }
 }
 
+//==============================================================================================
 RarcTools.GCRebuilder.GCRebuilder.RebuildISO(
     @"extractedISO\root\",
     "decompimizer-GZ2E99.iso",

@@ -69,6 +69,7 @@ namespace RarcTools
 
         public static void PackArchive(string srcDir, string dstDir, bool deleteDirectory)
         {
+            string rootDir = srcDir;
             //This is a hack to enable debugging
             //args = new string[1];
             //args[0] = @"H:\Games\NGC\fsa root\GC4Sword\Boss\boss010.arc_dir\boss010";
@@ -358,15 +359,7 @@ namespace RarcTools
 
             if (deleteDirectory)
             {
-                // If the archive is a root directory then we want to remove only it. Otherwise we want to remove the parent directory.
-                if (Directory.GetDirectories(srcDir).Any())
-                {
-                    Directory.Delete(Path.GetDirectoryName(srcDir), true);
-                }
-                else
-                {
-                    Directory.Delete(srcDir, true);
-                }
+                Directory.Delete(rootDir, true);
             }
 
             Console.WriteLine("Wrote Packaged Archive to: " + dstDir);

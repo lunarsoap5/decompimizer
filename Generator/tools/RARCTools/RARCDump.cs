@@ -190,7 +190,7 @@ namespace RarcTools
             return BitConverter.ToUInt32(bytes, 0);
         }
 
-        public static string DumpArchive(string args, bool includeSubfolder = true)
+        public static string DumpArchive(string args)
         {
             if (args.Length < 1 || !File.Exists(args))
             {
@@ -204,16 +204,9 @@ namespace RarcTools
                 ReadFile(br, args);
             }
 
-            string subfolder = PatchFunctions.AfterLast(args, '/');
+            Tools.CleanUpExtractedArchive(args);
 
-            if (includeSubfolder)
-            {
-                return args + "\\" + subfolder;
-            }
-            else
-            {
-                return args;
-            }
+            return args;
         }
     }
 }
