@@ -85,6 +85,34 @@ public static class CosmeticFunctions
                         ),
                     ]
                 ),
+                // Wmdl - Wolf Link and Midna on Back
+                new TextureRecolor(
+                    @"extractedISO/root/res/Object/Wmdl.arc",
+                    [
+                        new TextureRecolorOptions(
+                            @"bmwr/wl.bmd",
+                            0,
+                            TextureRecolorType.Greyscale,
+                            new RgbaColor(96, 93, 84, 255),
+                            new RgbaColor(0x9b, 0x6e, 0xab, 255),
+                            25
+                        ),
+                    ]
+                ),
+                // HyShd - Hylian shield
+                new TextureRecolor(
+                    @"extractedISO/root/res/Object/HyShd.arc",
+                    [
+                        new TextureRecolorOptions(
+                            @"bmwr/al_sha.bmd",
+                            0,
+                            TextureRecolorType.Hue,
+                            new RgbaColor(33, 44, 66, 255), // Blue background
+                            new RgbaColor(0x9b, 0x6e, 0xab, 255),
+                            25
+                        ),
+                    ]
+                ),
             ];
         return recolorOptions;
     }

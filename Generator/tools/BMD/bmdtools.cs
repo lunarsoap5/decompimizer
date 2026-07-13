@@ -198,14 +198,14 @@ public class BmdFile
         int texCount = Textures.Count;
         int btiTblStart = 0x20; // always 0x20 from chunk start (SuperBMD hardcodes 32)
 
-        // Chunk header
+        // ---- 1. Chunk header placeholder ----
         ms.Write(new byte[0x20], 0, 0x20);
 
-        // BTI header
+        // ---- 2. BTI header placeholders ----
         long headerBlockStart = ms.Position; // == btiTblStart
         ms.Write(new byte[texCount * 0x20], 0, texCount * 0x20);
 
-        // Pallete and image data
+        // ---- 3 & 4. Palette then image data, deduplicating by name ----
         var uniqueNames = new List<string>();
         var uniqueTexByName = new Dictionary<string, BmdTexture>();
         foreach (var tex in Textures)
@@ -239,7 +239,7 @@ public class BmdFile
             ms.Write(tex.ImageData, 0, tex.ImageData.Length);
         }
 
-        // String table
+        // ---- 5. String table ----
         long strTblChunkOffset = ms.Position;
         byte[] strTbl = BuildStringTable(Textures);
         ms.Write(strTbl, 0, strTbl.Length);
@@ -247,7 +247,7 @@ public class BmdFile
 
         long chunkSize = ms.Position;
 
-        // Patching the chunk header
+        // ---- Patch chunk header ----
         byte[] chunk = ms.ToArray();
         Encoding.ASCII.GetBytes("TEX1").CopyTo(chunk, 0);
         WriteU32(chunk, 0x04, (uint)chunkSize);
@@ -257,7 +257,7 @@ public class BmdFile
         WriteU32(chunk, 0x0C, (uint)btiTblStart);
         WriteU32(chunk, 0x10, (uint)strTblChunkOffset);
 
-        // Patch pallete and image offsets
+        // ---- Patch per-header palette and image offsets ----
         for (int i = 0; i < texCount; i++)
         {
             int headerChunkOffset = btiTblStart + i * 0x20; // from chunk start
@@ -1347,6 +1347,8 @@ public partial class BmdTexture
         return pos;
     }
 
+    private const byte Dxt1AlphaThreshold = 128;
+
     private int EncodeDxt1Block(
         byte[] data,
         int pos,
@@ -1357,55 +1359,140 @@ public partial class BmdTexture
         int h
     )
     {
-        RgbaColor min = new RgbaColor(255, 255, 255, 255),
-            max = new RgbaColor(0, 0, 0, 0);
-        for (int y = 0; y < 4; y++)
-            for (int x = 0; x < 4; x++)
+        var block = new RgbaColor[16];
+        for (int i = 0; i < 16; i++)
+        {
+            int x = i % 4,
+                y = i / 4;
+            block[i] = GetPix(pixels, bx + x, by + y, w, h);
+        }
+
+        bool needsAlpha = false;
+        foreach (var p in block)
+        {
+            if (p.A < Dxt1AlphaThreshold)
             {
-                var c = GetPix(pixels, bx + x, by + y, w, h);
-                int lum = c.R + c.G + c.B;
-                if (lum < min.R + min.G + min.B)
-                    min = c;
-                if (lum > max.R + max.G + max.B)
-                    max = c;
+                needsAlpha = true;
+                break;
             }
+        }
 
-        ushort c0 = EncodeRgb565(max);
-        ushort c1 = EncodeRgb565(min);
-        if (c0 == c1 && c0 != 0)
-            c1 = (ushort)(c0 - 1); // avoid degenerate 1-bit-alpha mode
+        byte minR = 255,
+            minG = 255,
+            minB = 255,
+            maxR = 0,
+            maxG = 0,
+            maxB = 0;
+        bool any = false;
+        foreach (var p in block)
+        {
+            if (needsAlpha && p.A < Dxt1AlphaThreshold)
+                continue;
+            any = true;
+            if (p.R < minR)
+                minR = p.R;
+            if (p.G < minG)
+                minG = p.G;
+            if (p.B < minB)
+                minB = p.B;
+            if (p.R > maxR)
+                maxR = p.R;
+            if (p.G > maxG)
+                maxG = p.G;
+            if (p.B > maxB)
+                maxB = p.B;
+        }
+        if (!any)
+        {
+            // Entire block is transparent - endpoints don't matter,
+            // every pixel will be forced to the transparent index.
+            minR = minG = minB = maxR = maxG = maxB = 0;
+        }
 
-        var palette4 = new RgbaColor[4];
+        var lo = new RgbaColor(minR, minG, minB, 255);
+        var hi = new RgbaColor(maxR, maxG, maxB, 255);
+
+        ushort c0,
+            c1;
+        if (needsAlpha)
+        {
+            ushort ca = EncodeRgb565(hi);
+            ushort cb = EncodeRgb565(lo);
+            // Alpha mode requires c0 <= c1 (equality is fine); order by
+            // raw value rather than by which was "hi"/"lo" in RGB terms.
+            if (ca <= cb)
+            {
+                c0 = ca;
+                c1 = cb;
+            }
+            else
+            {
+                c0 = cb;
+                c1 = ca;
+            }
+        }
+        else
+        {
+            c0 = EncodeRgb565(hi);
+            c1 = EncodeRgb565(lo);
+            // Opaque mode requires c0 > c1 strictly, or the block is
+            // misinterpreted as alpha mode on decode.
+            if (c0 <= c1)
+            {
+                if (c1 > 0)
+                    c1 = (ushort)(c1 - 1);
+                else
+                    c0 = (ushort)(c0 + 1);
+            }
+        }
+
         var d0 = DecodeRgb565(c0);
         var d1 = DecodeRgb565(c1);
+        var palette4 = new RgbaColor[4];
         palette4[0] = d0;
         palette4[1] = d1;
-        palette4[2] = Lerp(d0, d1, 1, 3);
-        palette4[3] = Lerp(d0, d1, 2, 3);
+        if (needsAlpha)
+        {
+            palette4[2] = Lerp(d0, d1, 1, 2); // average - 3-color mode
+            palette4[3] = new RgbaColor(0, 0, 0, 0); // reserved: transparent
+        }
+        else
+        {
+            palette4[2] = Lerp(d0, d1, 1, 3);
+            palette4[3] = Lerp(d0, d1, 2, 3);
+        }
 
         data[pos++] = (byte)(c0 >> 8);
         data[pos++] = (byte)c0;
         data[pos++] = (byte)(c1 >> 8);
         data[pos++] = (byte)c1;
 
+        int matchLimit = needsAlpha ? 3 : 4; // don't nearest-match against the transparent slot
         uint idxBits = 0;
         for (int i = 0; i < 16; i++)
         {
-            int x = i % 4,
-                y = i / 4;
-            var c = GetPix(pixels, bx + x, by + y, w, h);
-            int best = 0;
-            int bestDist = int.MaxValue;
-            for (int p = 0; p < 4; p++)
+            var c = block[i];
+
+            int best;
+            if (needsAlpha && c.A < Dxt1AlphaThreshold)
             {
-                int dr = c.R - palette4[p].R,
-                    dg = c.G - palette4[p].G,
-                    db = c.B - palette4[p].B;
-                int dist = dr * dr + dg * dg + db * db;
-                if (dist < bestDist)
+                best = 3; // force transparent index
+            }
+            else
+            {
+                best = 0;
+                int bestDist = int.MaxValue;
+                for (int p = 0; p < matchLimit; p++)
                 {
-                    bestDist = dist;
-                    best = p;
+                    int dr = c.R - palette4[p].R,
+                        dg = c.G - palette4[p].G,
+                        db = c.B - palette4[p].B;
+                    int dist = dr * dr + dg * dg + db * db;
+                    if (dist < bestDist)
+                    {
+                        bestDist = dist;
+                        best = p;
+                    }
                 }
             }
             idxBits |= (uint)best << (30 - i * 2);
