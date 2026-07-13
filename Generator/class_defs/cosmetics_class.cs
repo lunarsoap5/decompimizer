@@ -14,13 +14,13 @@ public class TextureRecolor
 public class TextureRecolorOptions
 {
     public string? FileName {get;set;}
-    public int TextureIndex {get;set;}
+    public uint TextureIndex {get;set;}
     public TextureRecolorType RecolorType {get;set;} // 0 for grayscale, 1 for palette recolor, 2 for hue recolor
     public RgbaColor OldColor {get;set;}
     public RgbaColor NewColor {get;set;}
     public int Tolerance {get;set;}
 
-    public TextureRecolorOptions(string fName, int index, TextureRecolorType type, RgbaColor oldColor, RgbaColor newColor, int tol)
+    public TextureRecolorOptions(string fName, uint index, TextureRecolorType type, RgbaColor oldColor, RgbaColor newColor, int tol)
     {
         FileName = fName;
         TextureIndex = index;
@@ -35,13 +35,15 @@ public enum TextureRecolorType
 {
     Greyscale = 0,
     Palette = 1,
-    Hue = 2
+    Hue = 2,
+    Material = 3,
 }
 
 public static class CosmeticFunctions
 {
     public static List<TextureRecolor> GenerateTextureCosmetics()
     {
+        RgbaColor heartColor = new RgbaColor(0x0, 0x6e, 0xFF, 255);
         List<TextureRecolor> recolorOptions =
             [
                 new TextureRecolor(
@@ -99,21 +101,89 @@ public static class CosmeticFunctions
                         ),
                     ]
                 ),
-                // HyShd - Hylian shield
+                // Always
                 new TextureRecolor(
-                    @"extractedISO/root/res/Object/HyShd.arc",
+                    @"extractedISO/root/res/Object/Always.arc",
                     [
                         new TextureRecolorOptions(
-                            @"bmwr/al_sha.bmd",
-                            0,
-                            TextureRecolorType.Hue,
-                            new RgbaColor(33, 44, 66, 255), // Blue background
-                            new RgbaColor(0x9b, 0x6e, 0xab, 255),
+                            @"bmde/o_g_hutk.bmd",
+                            0xFF010103,
+                            TextureRecolorType.Material,
+                            new RgbaColor(0, 0, 0, 255),
+                            heartColor,
+                            25
+                        ),
+                        new TextureRecolorOptions(
+                            @"bmde/o_g_hutu.bmd",
+                            0xFF010103,
+                            TextureRecolorType.Material,
+                            new RgbaColor(0, 0, 0, 255),
+                            heartColor,
+                            25
+                        ),
+                        new TextureRecolorOptions(
+                            @"bmde/o_g_hart.bmd",
+                            0xFF010100,
+                            TextureRecolorType.Material,
+                            new RgbaColor(0, 0, 0, 255),
+                            heartColor,
+                            25
+                        ),
+                    ]
+                ),
+                // Demo 31
+                new TextureRecolor(
+                    @"extractedISO/root/res/Object/Demo31_10.arc",
+                    [
+                        new TextureRecolorOptions(
+                            @"bmde/demo31_oghart_cut10_gp_1.bmd", // Demo - Heart
+                            0xFF010100,
+                            TextureRecolorType.Material,
+                            new RgbaColor(0, 0, 0, 255),
+                            heartColor,
+                            25
+                        ),
+                    ]
+                ),
+                new TextureRecolor(
+                    @"extractedISO/root/res/Object/O_gD_hutk.arc",
+                    [
+                        new TextureRecolorOptions(
+                            @"bmde/o_gd_hutk.bmd",
+                            0xFF010103,
+                            TextureRecolorType.Material,
+                            new RgbaColor(0, 0, 0, 255),
+                            new RgbaColor(0x0, 0x6e, 0xFF, 255),
+                            25
+                        ),
+                    ]
+                ),
+                new TextureRecolor(
+                    @"extractedISO/root/res/Object/O_gD_hutu.arc",
+                    [
+                        new TextureRecolorOptions(
+                            @"bmde/o_gd_hutu.bmd",
+                            0xFF010103,
+                            TextureRecolorType.Material,
+                            new RgbaColor(0, 0, 0, 255),
+                            heartColor,
                             25
                         ),
                     ]
                 ),
             ];
         return recolorOptions;
+    }
+
+    // Prints a list of materials, their indexes, and any colors associated with registers
+    public static void PrintMaterialDescriptions(string fileName)
+    {
+        var hrtBmd = new BmdFile(fileName);
+        byte[] mat3Bytes1 = hrtBmd.GetRawChunk("MAT3");
+        var mat31 = new Mat3Chunk(mat3Bytes1);
+
+        // Print exactly where each material's color comes from:
+        for (int i = 0; i < mat31.Materials.Count; i++)
+            Console.WriteLine(mat31.DescribeMaterial(i));
     }
 }

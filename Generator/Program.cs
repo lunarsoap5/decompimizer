@@ -419,17 +419,18 @@ foreach (TextureRecolor texRecolor in textureRecolors)
     foreach(TextureRecolorOptions texOptions in texRecolor.TextureOptions)
     {
         var texBmd = new BmdFile(Path.Combine(texArchiveDirectory,texOptions.FileName));
-        var textureToModify = texBmd.Textures[texOptions.TextureIndex];
         switch(texOptions.RecolorType)
         {
             case TextureRecolorType.Greyscale:
                 {
+                    var textureToModify = texBmd.Textures[(int)texOptions.TextureIndex];
                     textureToModify.TintGrayscale(texOptions.NewColor);
                     break;
                 }
             
             case TextureRecolorType.Palette:
                 {
+                    var textureToModify = texBmd.Textures[(int)texOptions.TextureIndex];
                     var map = new Dictionary<RgbaColor, RgbaColor>
                     {
                         {texOptions.OldColor, texOptions.NewColor}
@@ -440,10 +441,37 @@ foreach (TextureRecolor texRecolor in textureRecolors)
             
             case TextureRecolorType.Hue:
                 {
+                    var textureToModify = texBmd.Textures[(int)texOptions.TextureIndex];
                     textureToModify.RecolorByHue(
                         targetColor:  texOptions.OldColor,
                         replacementColor: texOptions.NewColor,
                         hueToleranceDegrees: texOptions.Tolerance);
+                    break;
+                }
+            case TextureRecolorType.Material:
+                {
+                    byte[] mat3Bytes = texBmd.GetRawChunk("MAT3");
+                    var mat3 = new Mat3Chunk(mat3Bytes);
+
+                    uint value = texOptions.TextureIndex;
+
+                    //int a = (byte)((value >> 24) & 0xFF); // unused for now
+                    int konstIdx = (byte)((value >> 16) & 0xFF); 
+                    int tevIdx = (byte)((value >> 8) & 0xFF);  
+                    int idx = (byte)(value & 0xFF);         
+                    
+                    var material = mat3.Materials[idx];
+
+                    // Not every material will modify a konst material and/or a tev color. So we check here to see if the value is set. 
+                    if (konstIdx != 0xFF)
+                    {
+                        mat3.SetTevKonstColor(material.KonstColorIdx[konstIdx], texOptions.NewColor); 
+                    }
+                    if (tevIdx != 0xFF)
+                    {
+                        mat3.SetTevColor(material.TevColorIdx[tevIdx], texOptions.NewColor.R, texOptions.NewColor.G, texOptions.NewColor.B, 255);                      
+                    }
+                    texBmd.SetRawChunk("MAT3", mat3.GetPatchedChunkBytes());
                     break;
                 }
             default:
@@ -454,7 +482,7 @@ foreach (TextureRecolor texRecolor in textureRecolors)
         }
 
         texBmd.Save(Path.Combine(texArchiveDirectory,texOptions.FileName));
-        Console.WriteLine($"Modified texture: {texBmd.Textures[texOptions.TextureIndex].Name} in model {texOptions.FileName}");
+        Console.WriteLine($"Modified texture in model {texOptions.FileName}");
     }
 
     RARCPacker.PackArchive(
@@ -496,3 +524,7 @@ RarcTools.GCRebuilder.GCRebuilder.RebuildISO(
 );
 
 System.IO.Directory.Delete(@"extractedISO\", true); // delete the temp ISO directory once we are done with it.
+
+
+// Testing functions. Uncomment as needed. =============================================
+// CosmeticFunctions.PrintMaterialDescriptions("O_gD_hutk.bmd");

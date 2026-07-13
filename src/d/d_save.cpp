@@ -1885,7 +1885,7 @@ void dSv_info_c::onItem(int i_no, int i_roomNo) {
     int shift = i_no % 8;
 
     // Failsafe; localAreaNode size is 0x20
-    if (offset < 0x20)
+    if ((offset < 0x20) && (i_no != 0xFF))
     {
         g_dComIfG_gameInfo.info.getSavedata().getRupee(dComIfGs_getDunStage()).flags[offset] |= (0x80 >> shift);
     }

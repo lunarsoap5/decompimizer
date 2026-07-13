@@ -142,6 +142,29 @@ public class BmdFile
         return result;
     }
 
+    public byte[] GetRawChunk(string magic)
+    {
+        foreach (var (chunkMagic, data) in _chunks)
+            if (chunkMagic == magic)
+                return (byte[])data.Clone();
+        return null;
+    }
+
+    public void SetRawChunk(string magic, byte[] newData)
+    {
+        for (int i = 0; i < _chunks.Count; i++)
+        {
+            if (_chunks[i].magic == magic)
+            {
+                _chunks[i] = (magic, newData);
+                return;
+            }
+        }
+        throw new InvalidOperationException(
+            $"No existing '{magic}' chunk to replace - this file has no such chunk."
+        );
+    }
+
     public void Save(string path) => File.WriteAllBytes(path, Save());
 
     // ----------------------------------------------------------
@@ -1777,4 +1800,486 @@ public partial class BmdTexture
             SetPixelColorsAndRegenerateMips(pixels);
         }
     }
+}
+
+public class Mat3Chunk
+{
+    public List<RgbaColor> MaterialColors { get; private set; } = new();
+    public List<RgbaColor> AmbientColors { get; private set; } = new();
+    public List<(short R, short G, short B, short A)> TevColors { get; private set; } = new(); // TEV registers: TevPrev/Reg0/Reg1/Reg2
+    public List<RgbaColor> TevKonstColors { get; private set; } = new(); // K0-K3
+    public List<TevOrderEntry> TevOrders { get; private set; } = new();
+    public List<TevStageEntry> TevStages { get; private set; } = new();
+
+    public List<Mat3Material> Materials { get; private set; } = new();
+
+    private readonly byte[] _chunk;
+    private readonly int _materialColorOffset;
+    private readonly int _ambientColorOffset;
+    private readonly int _tevColorOffset;
+    private readonly int _tevKColorOffset;
+
+    private enum OffsetIndex
+    {
+        MaterialData = 0,
+        IndexData = 1,
+        NameTable = 2,
+        IndirectData = 3,
+        CullMode = 4,
+        MaterialColor = 5,
+        ColorChannelCount = 6,
+        ColorChannelData = 7,
+        AmbientColorData = 8,
+        LightData = 9,
+        TexGenCount = 10,
+        TexCoordData = 11,
+        TexCoord2Data = 12,
+        TexMatrixData = 13,
+        TexMatrix2Data = 14,
+        TexNoData = 15,
+        TevOrderData = 16,
+        TevColorData = 17,
+        TevKColorData = 18,
+        TevStageCount = 19,
+        TevStageData = 20,
+        TevSwapModeData = 21,
+        TevSwapModeTable = 22,
+        FogData = 23,
+        AlphaCompareData = 24,
+        BlendData = 25,
+        ZModeData = 26,
+        ZCompLoc = 27,
+        DitherData = 28,
+        NBTScaleData = 29
+    }
+
+    public Mat3Chunk(byte[] chunkBytes)
+    {
+        _chunk = (byte[])chunkBytes.Clone();
+
+        int matCount = ReadU16(_chunk, 0x08);
+        var offsets = new int[30];
+        for (int i = 0; i < 30; i++)
+            offsets[i] = ReadS32(_chunk, 0x0C + i * 4);
+
+        int matDataOffset = offsets[(int)OffsetIndex.MaterialData];
+        int indexDataOffset = offsets[(int)OffsetIndex.IndexData];
+        int nameTableOffset = offsets[(int)OffsetIndex.NameTable];
+        int texNoOffset = offsets[(int)OffsetIndex.TexNoData];
+
+        _materialColorOffset = offsets[(int)OffsetIndex.MaterialColor];
+        _ambientColorOffset = offsets[(int)OffsetIndex.AmbientColorData];
+        _tevColorOffset = offsets[(int)OffsetIndex.TevColorData];
+        _tevKColorOffset = offsets[(int)OffsetIndex.TevKColorData];
+        int tevOrderOffset = offsets[(int)OffsetIndex.TevOrderData];
+        int tevStageOffset = offsets[(int)OffsetIndex.TevStageData];
+
+        int SizeOf(OffsetIndex idx) =>
+            SizeOfSection(
+                offsets,
+                (int)idx,
+                _chunk.Length - matDataOffset /*fallback, unused normally*/
+            );
+
+        MaterialColors = ReadColorArray(_materialColorOffset, SizeOf(OffsetIndex.MaterialColor));
+        AmbientColors = ReadColorArray(_ambientColorOffset, SizeOf(OffsetIndex.AmbientColorData));
+        TevKonstColors = ReadColorArray(_tevKColorOffset, SizeOf(OffsetIndex.TevKColorData));
+        TevColors = ReadS16ColorArray(_tevColorOffset, SizeOf(OffsetIndex.TevColorData));
+
+        int tevOrderSize = SizeOf(OffsetIndex.TevOrderData);
+        for (int p = tevOrderOffset; p < tevOrderOffset + tevOrderSize; p += 4)
+        {
+            TevOrders.Add(
+                new TevOrderEntry
+                {
+                    TexCoord = _chunk[p],
+                    TexMap = _chunk[p + 1],
+                    ChannelId = _chunk[p + 2]
+                }
+            );
+        }
+
+        int tevStageSize = SizeOf(OffsetIndex.TevStageData);
+        for (int p = tevStageOffset; p < tevStageOffset + tevStageSize; p += 20)
+            TevStages.Add(TevStageEntry.Read(_chunk, p));
+
+        var names = ReadNameTable(_chunk, nameTableOffset);
+
+        var remap = new int[matCount];
+        for (int i = 0; i < matCount; i++)
+            remap[i] = ReadS16(_chunk, indexDataOffset + i * 2);
+
+        int highest = 0;
+        foreach (var r in remap)
+            if (r > highest)
+                highest = r;
+
+        var uniqueMats = new List<Mat3Material>();
+        int pos = matDataOffset;
+        for (int i = 0; i <= highest; i++)
+        {
+            uniqueMats.Add(Mat3Material.Read(_chunk, pos, texNoOffset));
+            pos += 332;
+        }
+
+        Materials = new List<Mat3Material>();
+        for (int i = 0; i < matCount; i++)
+        {
+            var m = uniqueMats[remap[i]].Clone();
+            m.Name = i < names.Count ? names[i] : $"material_{i}";
+            Materials.Add(m);
+        }
+    }
+
+    public string DescribeMaterial(int materialIndex)
+    {
+        var m = Materials[materialIndex];
+        var sb = new StringBuilder();
+        sb.AppendLine($"Material '{m.Name}' (index {materialIndex})");
+
+        for (int i = 0; i < 2; i++)
+            if (m.MaterialColorIdx[i] >= 0)
+                sb.AppendLine(
+                    $"  MaterialColor[{i}] -> MaterialColors[{m.MaterialColorIdx[i]}] = {MaterialColors[m.MaterialColorIdx[i]]}"
+                );
+
+        for (int i = 0; i < 2; i++)
+            if (m.AmbientColorIdx[i] >= 0)
+                sb.AppendLine(
+                    $"  AmbientColor[{i}] -> AmbientColors[{m.AmbientColorIdx[i]}] = {AmbientColors[m.AmbientColorIdx[i]]}"
+                );
+
+        for (int i = 0; i < 4; i++)
+            if (m.KonstColorIdx[i] >= 0)
+                sb.AppendLine(
+                    $"  KonstColor[{i}] -> TevKonstColors[{m.KonstColorIdx[i]}] = {TevKonstColors[m.KonstColorIdx[i]]}"
+                );
+
+        for (int i = 0; i < 4; i++)
+            if (m.TevColorIdx[i] >= 0)
+                sb.AppendLine(
+                    $"  TevColor[{i}] (register) -> TevColors[{m.TevColorIdx[i]}] = {TevColors[m.TevColorIdx[i]]}"
+                );
+
+        sb.AppendLine("  Active TEV stages:");
+        for (int i = 0; i < 16; i++)
+        {
+            if (m.TevStageIdx[i] < 0)
+                continue;
+            var stage = TevStages[m.TevStageIdx[i]];
+            int orderIdx = m.TevOrderIdx[i];
+            bool usesTexture = orderIdx >= 0 && TevOrders[orderIdx].TexMap != 0xFF;
+            bool usesRaster = orderIdx >= 0 && TevOrders[orderIdx].ChannelId != 0xFF;
+
+            sb.AppendLine(
+                $"    Stage {i}: color = {stage.ColorInA}*A {stage.ColorInB}*B {stage.ColorInC}*C {stage.ColorInD}*D "
+                    + $"-> {stage.ColorRegId} | texture={(usesTexture ? "yes" : "NO")} raster={(usesRaster ? "yes" : "NO")} "
+                    + $"konstColorSel={m.ColorSels[i]}"
+            );
+        }
+
+        return sb.ToString();
+    }
+
+    public void SetMaterialColor(int index, RgbaColor color) => MaterialColors[index] = color;
+
+    public void SetAmbientColor(int index, RgbaColor color) => AmbientColors[index] = color;
+
+    public void SetTevKonstColor(int index, RgbaColor color) => TevKonstColors[index] = color;
+
+    public void SetTevColor(int index, short r, short g, short b, short a) =>
+        TevColors[index] = (r, g, b, a);
+
+    public void RecolorMaterial(int materialIndex, RgbaColor newColor)
+    {
+        var m = Materials[materialIndex];
+        foreach (var idx in m.MaterialColorIdx)
+            if (idx >= 0)
+                SetMaterialColor(idx, newColor);
+        foreach (var idx in m.AmbientColorIdx)
+            if (idx >= 0)
+                SetAmbientColor(idx, newColor);
+        foreach (var idx in m.KonstColorIdx)
+            if (idx >= 0)
+                SetTevKonstColor(idx, newColor);
+        foreach (var idx in m.TevColorIdx)
+            if (idx >= 0)
+                SetTevColor(idx, newColor.R, newColor.G, newColor.B, newColor.A);
+    }
+
+    public byte[] GetPatchedChunkBytes()
+    {
+        byte[] result = (byte[])_chunk.Clone();
+
+        for (int i = 0; i < MaterialColors.Count; i++)
+            WriteColor(result, _materialColorOffset + i * 4, MaterialColors[i]);
+
+        for (int i = 0; i < AmbientColors.Count; i++)
+            WriteColor(result, _ambientColorOffset + i * 4, AmbientColors[i]);
+
+        for (int i = 0; i < TevKonstColors.Count; i++)
+            WriteColor(result, _tevKColorOffset + i * 4, TevKonstColors[i]);
+
+        for (int i = 0; i < TevColors.Count; i++)
+        {
+            int p = _tevColorOffset + i * 8;
+            WriteS16(result, p, TevColors[i].R);
+            WriteS16(result, p + 2, TevColors[i].G);
+            WriteS16(result, p + 4, TevColors[i].B);
+            WriteS16(result, p + 6, TevColors[i].A);
+        }
+
+        return result;
+    }
+
+    private List<RgbaColor> ReadColorArray(int offset, int size)
+    {
+        var list = new List<RgbaColor>();
+        if (offset <= 0)
+            return list;
+        int count = size / 4;
+        for (int i = 0; i < count; i++)
+            list.Add(
+                new RgbaColor(
+                    _chunk[offset + i * 4],
+                    _chunk[offset + i * 4 + 1],
+                    _chunk[offset + i * 4 + 2],
+                    _chunk[offset + i * 4 + 3]
+                )
+            );
+        return list;
+    }
+
+    private List<(short, short, short, short)> ReadS16ColorArray(int offset, int size)
+    {
+        var list = new List<(short, short, short, short)>();
+        if (offset <= 0)
+            return list;
+        int count = size / 8;
+        for (int i = 0; i < count; i++)
+        {
+            int p = offset + i * 8;
+            list.Add(
+                (
+                    ReadS16(_chunk, p),
+                    ReadS16(_chunk, p + 2),
+                    ReadS16(_chunk, p + 4),
+                    ReadS16(_chunk, p + 6)
+                )
+            );
+        }
+        return list;
+    }
+
+    private static int SizeOfSection(int[] offsets, int index, int fallback)
+    {
+        int start = offsets[index];
+        if (start <= 0)
+            return 0;
+
+        int next = int.MaxValue;
+        for (int i = 0; i < offsets.Length; i++)
+        {
+            if (i == index)
+                continue;
+            if (offsets[i] > start && offsets[i] < next)
+                next = offsets[i];
+        }
+        return next == int.MaxValue ? fallback : next - start;
+    }
+
+    private static List<string> ReadNameTable(byte[] chunk, int offset)
+    {
+        var names = new List<string>();
+        int count = ReadU16(chunk, offset);
+        for (int i = 0; i < count; i++)
+        {
+            int entryOff = offset + 4 + i * 4;
+            int strOff = ReadU16(chunk, entryOff + 2);
+            int abs = offset + strOff;
+            var sb = new StringBuilder();
+            while (abs < chunk.Length && chunk[abs] != 0)
+                sb.Append((char)chunk[abs++]);
+            names.Add(sb.ToString());
+        }
+        return names;
+    }
+
+    private static void WriteColor(byte[] d, int o, RgbaColor c)
+    {
+        d[o] = c.R;
+        d[o + 1] = c.G;
+        d[o + 2] = c.B;
+        d[o + 3] = c.A;
+    }
+
+    static ushort ReadU16(byte[] d, int o) => (ushort)((d[o] << 8) | d[o + 1]);
+
+    static short ReadS16(byte[] d, int o) => (short)((d[o] << 8) | d[o + 1]);
+
+    static int ReadS32(byte[] d, int o) =>
+        (d[o] << 24) | (d[o + 1] << 16) | (d[o + 2] << 8) | d[o + 3];
+
+    static void WriteS16(byte[] d, int o, short v)
+    {
+        d[o] = (byte)(v >> 8);
+        d[o + 1] = (byte)v;
+    }
+}
+
+public struct TevOrderEntry
+{
+    public byte TexCoord;
+    public byte TexMap; // 0xFF = none
+    public byte ChannelId; // 0xFF = none (no vertex/raster color read)
+}
+
+public struct TevStageEntry
+{
+    public byte ColorInA,
+        ColorInB,
+        ColorInC,
+        ColorInD;
+    public byte ColorOp,
+        ColorBias,
+        ColorScale;
+    public bool ColorClamp;
+    public byte ColorRegId;
+
+    public byte AlphaInA,
+        AlphaInB,
+        AlphaInC,
+        AlphaInD;
+    public byte AlphaOp,
+        AlphaBias,
+        AlphaScale;
+    public bool AlphaClamp;
+    public byte AlphaRegId;
+
+    public static TevStageEntry Read(byte[] d, int o)
+    {
+        // byte 0 is an unused/skip byte in the file format
+        return new TevStageEntry
+        {
+            ColorInA = d[o + 1],
+            ColorInB = d[o + 2],
+            ColorInC = d[o + 3],
+            ColorInD = d[o + 4],
+            ColorOp = d[o + 5],
+            ColorBias = d[o + 6],
+            ColorScale = d[o + 7],
+            ColorClamp = d[o + 8] != 0,
+            ColorRegId = d[o + 9],
+            AlphaInA = d[o + 10],
+            AlphaInB = d[o + 11],
+            AlphaInC = d[o + 12],
+            AlphaInD = d[o + 13],
+            AlphaOp = d[o + 14],
+            AlphaBias = d[o + 15],
+            AlphaScale = d[o + 16],
+            AlphaClamp = d[o + 17] != 0,
+            AlphaRegId = d[o + 18]
+            // byte 19 is an unused/skip byte
+        };
+    }
+}
+
+public class Mat3Material
+{
+    public string Name;
+    public int[] MaterialColorIdx = new int[2];
+    public int[] AmbientColorIdx = new int[2];
+    public int[] TextureIdx = new int[8]; // resolved TEX1 texture index, -1 = none
+    public int[] KonstColorIdx = new int[4];
+    public byte[] ColorSels = new byte[16]; // KonstColorSel per stage
+    public byte[] AlphaSels = new byte[16]; // KonstAlphaSel per stage
+    public int[] TevOrderIdx = new int[16];
+    public int[] TevColorIdx = new int[4];
+    public int[] TevStageIdx = new int[16];
+
+    public static Mat3Material Read(byte[] d, int o, int texNoTableOffset)
+    {
+        var m = new Mat3Material();
+        int p = o;
+
+        p += 8; // Flag, CullMode, ColorChanCount, TexGenCount, TevStageCount, ZCompLoc, ZMode, Dither (all index bytes - skipped)
+
+        m.MaterialColorIdx[0] = ReadS16(d, p);
+        p += 2;
+        m.MaterialColorIdx[1] = ReadS16(d, p);
+        p += 2;
+
+        p += 8; // ChannelControl indices x4 (short) - skipped
+
+        m.AmbientColorIdx[0] = ReadS16(d, p);
+        p += 2;
+        m.AmbientColorIdx[1] = ReadS16(d, p);
+        p += 2;
+
+        p += 16; // LightingColor indices x8 - skipped
+        p += 16; // TexCoord1Gen indices x8 - skipped
+        p += 16; // PostTexCoordGen indices x8 - skipped
+        p += 20; // TexMatrix1 indices x10 - skipped
+        p += 40; // PostTexMatrix indices x20 - skipped
+
+        for (int i = 0; i < 8; i++)
+        {
+            int texRemapIdx = ReadS16(d, p);
+            p += 2;
+            // TextureIndices in the file are indices into the TexNo
+            // remap table (a short array at TexNoData), which in turn
+            // gives the real TEX1 index. Resolve through it here.
+            m.TextureIdx[i] =
+                (texRemapIdx >= 0) ? ReadS16(d, texNoTableOffset + texRemapIdx * 2) : -1;
+        }
+
+        for (int i = 0; i < 4; i++)
+        {
+            m.KonstColorIdx[i] = ReadS16(d, p);
+            p += 2;
+        }
+
+        for (int i = 0; i < 16; i++)
+            m.ColorSels[i] = d[p++];
+        for (int i = 0; i < 16; i++)
+            m.AlphaSels[i] = d[p++];
+
+        for (int i = 0; i < 16; i++)
+        {
+            m.TevOrderIdx[i] = ReadS16(d, p);
+            p += 2;
+        }
+        for (int i = 0; i < 4; i++)
+        {
+            m.TevColorIdx[i] = ReadS16(d, p);
+            p += 2;
+        }
+        for (int i = 0; i < 16; i++)
+        {
+            m.TevStageIdx[i] = ReadS16(d, p);
+            p += 2;
+        }
+
+        // SwapModes x16, SwapTables x16, Fog, AlphaCompare, BlendMode, NBTScale
+        // follow here but aren't parsed - not needed for color tracing.
+
+        return m;
+    }
+
+    public Mat3Material Clone() =>
+        new Mat3Material
+        {
+            Name = Name,
+            MaterialColorIdx = (int[])MaterialColorIdx.Clone(),
+            AmbientColorIdx = (int[])AmbientColorIdx.Clone(),
+            TextureIdx = (int[])TextureIdx.Clone(),
+            KonstColorIdx = (int[])KonstColorIdx.Clone(),
+            ColorSels = (byte[])ColorSels.Clone(),
+            AlphaSels = (byte[])AlphaSels.Clone(),
+            TevOrderIdx = (int[])TevOrderIdx.Clone(),
+            TevColorIdx = (int[])TevColorIdx.Clone(),
+            TevStageIdx = (int[])TevStageIdx.Clone()
+        };
+
+    static short ReadS16(byte[] d, int o) => (short)((d[o] << 8) | d[o + 1]);
 }
