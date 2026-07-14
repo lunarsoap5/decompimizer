@@ -728,6 +728,46 @@
       }
     ]
   },
+  {
+    "description": "",
+    "FilePath": "res/Stage/F_SP108/R08_00",
+    "Changes": [
+      {
+        // Add the Faron Owl Statue to the global DZR and remove the state-based dupes
+        "Operation": "add",
+        "DataBlock": "ACTR",
+        "Data": {
+          "Name": "TagStat",
+          "param_0": 0,
+          "param_1": 15,
+          "param_2": 240,
+          "param_3": 255,
+          "x": -17500.0,
+          "y": -310.0,
+          "z": -20950.0,
+          "Angle X": 0,
+          "Angle Y": 13653,
+          "Angle Z": 0,
+          "EnemyNo": -1
+        }
+      },
+      {
+        "Operation": "remove",
+        "DataBlock": "ACT2",
+        "ID": "TagStat@-17500,-310,-20950"
+      },
+      {
+        "Operation": "remove",
+        "DataBlock": "ACT3",
+        "ID": "TagStat@-17500,-310,-20950"
+      },
+      {
+        "Operation": "remove",
+        "DataBlock": "ACT5",
+        "ID": "TagStat@-17500,-310,-20950"
+      }
+    ]
+  },
   // Kakariko Village
   {
     "description": "Add hint sign to Kakariko Village",
