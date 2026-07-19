@@ -614,6 +614,20 @@
       },
       {
         "Operation": "modify",
+        "Index": "0x157",
+        "ChangeData": {
+          "text": [
+            "{1a05000001}You got the{1a06ff000001} gate keys{1a06ff000000}!{1a05000002}",
+            "{1a07000007000a}These keys open the gates",
+            "along the path to Kakariko.",
+            "If you go to the graveyard",
+            "you may even enounter the",
+            "{1a06ff000001} Zora Queen{1a06ff000000}."
+          ]
+        }
+      },
+      {
+        "Operation": "modify",
 
         "Index": "0x298",
         "ChangeData": {
