@@ -37,6 +37,22 @@ public:
     inline int CreateHeap();
     inline int Draw();
 
+    void setColor(u8 r, u8 g, u8 b, u8 a) {
+        mColor.r = r;
+        mColor.g = g;
+        mColor.b = b;
+        mColor.a = a;
+    }
+
+    // Params AABBCCDD
+    // AA - Unused
+    // BB - Item
+    // CC - Flag
+    // DD - Type (Ordon Spring/Faron Spring/etc.)
+    u8 getItem() { return (u8)((fopAcM_GetParam(this) >> 16) & 0xFF);} 
+    u8 getFlag() { return (u8)((fopAcM_GetParam(this) >> 8) & 0xFF);}  
+    u8 getType() { return (u8)(fopAcM_GetParam(this) & 0xFF);}  
+
     /* 0x5AC */ u8 field_0x5ac;
     /* 0x5AD */ u8 field_0x5ad;
     /* 0x5AE */ u8 field_0x5ae;
@@ -74,9 +90,11 @@ public:
     /* 0x8D4 */ dCcD_Stts mCcStts;
     /* 0x910 */ dCcD_Sph mCcSph;
     /* 0xA48 */ u8 field_0xa48[0xA4C - 0xA48];
+    GXColor mColor;
+    bool isEnabled;
 };
 
-STATIC_ASSERT(sizeof(daObjYOUSEI_c) == 0xa4c);
+STATIC_ASSERT(sizeof(daObjYOUSEI_c) == 0xa54);
 
 
 #endif /* D_A_OBJ_YOUSEI_H */

@@ -574,6 +574,102 @@
       }
     ]
   },
+  {
+    "description": "Add flags to fairies in spring",
+    "FilePath": "res/Stage/F_SP104/R01_00",
+    "Changes": [
+      {
+        // Add flag to Ordon Spring Fairy 1
+        "Operation": "modify",
+        "DataBlock": "ACT2",
+        "ID": "Yousei@-3625,260,-9595",
+        "Data": {
+          "param_2": 245
+        }
+      },
+      {
+        // Add flag to Ordon Spring Fairy 2
+        "Operation": "modify",
+        "DataBlock": "ACT2",
+        "ID": "Yousei@-3459,260,-9418",
+        "Data": {
+          "param_2": 246
+        }
+      },
+      {
+        // Add flag to Ordon Spring Fairy 3
+        "Operation": "modify",
+        "DataBlock": "ACT2",
+        "ID": "Yousei@-4070,260,-9365",
+        "Data": {
+          "param_2": 247
+        }
+      },
+      {
+        // Add flag to Ordon Spring Fairy 4
+        "Operation": "modify",
+        "DataBlock": "ACT2",
+        "ID": "Yousei@-3963,260,-10056",
+        "Data": {
+          "param_2": 248
+        }
+      },
+      {
+        // Add flag to Ordon Spring Fairy 5
+        "Operation": "modify",
+        "DataBlock": "ACT2",
+        "ID": "Yousei@-3947,260,-9692",
+        "Data": {
+          "param_2": 249
+        }
+      },
+      {
+        // Add flag to Ordon Spring Fairy 6
+        "Operation": "modify",
+        "DataBlock": "ACT2",
+        "ID": "Yousei@-3781,260,-9295",
+        "Data": {
+          "param_2": 250
+        }
+      },
+      {
+        // Add flag to Ordon Spring Fairy 7
+        "Operation": "modify",
+        "DataBlock": "ACT2",
+        "ID": "Yousei@-3577,260,-10008",
+        "Data": {
+          "param_2": 251
+        }
+      },
+      {
+        // Add flag to Ordon Spring Fairy 8
+        "Operation": "modify",
+        "DataBlock": "ACT2",
+        "ID": "Yousei@-3888,260,-9021",
+        "Data": {
+          "param_2": 252
+        }
+      },
+      {
+        // Add flag to Ordon Spring Fairy 9
+        "Operation": "modify",
+        "DataBlock": "ACT2",
+        "ID": "Yousei@-3422,260,-9767",
+        "Data": {
+          "param_2": 253
+        }
+      },
+      {
+        // Add flag to Ordon Spring Fairy 10
+        "Operation": "modify",
+        "DataBlock": "ACT2",
+        "ID": "Yousei@-3765,260,-10244",
+        "Data": {
+          "param_2": 254
+        }
+      }
+    ]
+  },
   // Faron Woods
   {
     "description": "Add epona actor to South Faron Woods",
