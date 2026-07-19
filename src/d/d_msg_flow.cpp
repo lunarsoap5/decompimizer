@@ -2532,6 +2532,8 @@ int dMsgFlow_c::event035(mesg_flow_node_event* i_flowNode_p, fopAc_ac_c* i_speak
         dComIfGs_offItemFirstBit(prm0);
     } else if (prm0 == fpcNm_ITEM_ASHS_SCRIBBLING) {
         dComIfGs_setItem(SLOT_19, fpcNm_ITEM_NONE);
+    } else if (prm0 == fpcNm_ITEM_RAFRELS_MEMO) {
+        dComIfGs_setItem(SLOT_7, fpcNm_ITEM_NONE);
     } else if (prm0 == fpcNm_ITEM_LETTER || prm0 == fpcNm_ITEM_BILL || prm0 == fpcNm_ITEM_WOOD_STATUE || prm0 == fpcNm_ITEM_IRIAS_PENDANT) {
         offWarashibeItem(prm0);
     }
