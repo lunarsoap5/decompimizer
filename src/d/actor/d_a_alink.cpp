@@ -5065,13 +5065,14 @@ int daAlink_c::create() {
     }
 
     if (dStage_stagInfo_GetSaveTbl(dComIfGp_getStage()->getStagInfo()) == dStage_SaveTbl_LV2) {
-        if (!dComIfGs_isItemFirstBit(fpcNm_ITEM_HYLIA_SHIELD) && !dComIfGs_isItemFirstBit(fpcNm_ITEM_SHIELD) &&
+        /*if (!dComIfGs_isItemFirstBit(fpcNm_ITEM_HYLIA_SHIELD) && !dComIfGs_isItemFirstBit(fpcNm_ITEM_SHIELD) &&
             !dComIfGs_isItemFirstBit(fpcNm_ITEM_WOOD_SHIELD))
         {
             fopAcM_onSwitch(this, 0x6F);
         } else {
             fopAcM_offSwitch(this, 0x6F);
-        }
+        }*/
+        fopAcM_offSwitch(this, 0x6F);
     }
 
     return cPhs_COMPLEATE_e;
@@ -18406,11 +18407,12 @@ int daAlink_c::execute() {
                             // "Your shield burned up..."
                             dMeter2Info_setFloatingMessage(2047, 90, false);
 
-                            if (dStage_stagInfo_GetSaveTbl(dComIfGp_getStage()->getStagInfo()) == dStage_SaveTbl_LV2 &&
+                            /*if (dStage_stagInfo_GetSaveTbl(dComIfGp_getStage()->getStagInfo()) == dStage_SaveTbl_LV2 &&
                                 !dComIfGs_isItemFirstBit(fpcNm_ITEM_HYLIA_SHIELD))
                             {
                                 fopAcM_onSwitch(this, 0x6F);
                             }
+                            */
                             seStartOnlyReverb(Z2SE_AL_WOOD_SHIELD_BURN);
                         }
                     } else {
