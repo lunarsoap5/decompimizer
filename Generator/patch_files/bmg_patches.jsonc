@@ -755,6 +755,15 @@
         }
       },
       {
+        // Custom Map Text for SPR Portal
+        "Operation": "modify",
+        "Index": "0x6cf",
+        "ChangeData": {
+          "attributes": "06d0000002000000ff00000000000100",
+          "text": ["Snowpeak Ruins"]
+        }
+      },
+      {
         "Operation": "add",
         "Section": "FLW1",
         "ChangeData": {

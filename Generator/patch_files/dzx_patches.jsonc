@@ -1168,6 +1168,25 @@
     "FilePath": "res/Stage/F_SP114/R01_00",
     "Changes": [
       {
+        // Add custom warp/spawn to outside SPR
+        "Operation": "add",
+        "DataBlock": "PLYR",
+        "Data": {
+          "Name": "Link",
+          "param_0": 255,
+          "param_1": 0,
+          "param_2": 0,
+          "param_3": 63,
+          "x": -68908,
+          "y": -52428,
+          "z": 63583,
+          "Angle_X": 0,
+          "Angle_Y": -16384,
+          "Spawn_ID": 7,
+          "EnemyNo": -1
+        }
+      },
+      {
         "Operation": "modify",
         "DataBlock": "ACTR",
         "ID": "item@-49256,0,27146",

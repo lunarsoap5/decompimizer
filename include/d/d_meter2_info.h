@@ -53,7 +53,7 @@ public:
         /* 0x08 */ cXyz mPosition;
         /* 0x14 */ s16 mAngle;
         /* 0x16 */ u8 mRoomNo;
-        /* 0x17 */ u8 unk_0x17;
+        /* 0x17 */ u8 mPortalNo;
         /* 0x18 */ u8 mPlayerNo;
     };
 
@@ -123,6 +123,7 @@ public:
     u8 getWarpPlayerNo() { return mWarpInfo.mPlayerNo; }
     cXyz& getWarpPos() { return mWarpInfo.mPosition; }
     const char* getWarpStageName() { return mWarpInfo.mStageName; }
+    u8 getWarpPortalNo() { return mWarpInfo.mPortalNo; }
     void setNowCount(u8 i_count) { mNowCount = i_count; }
     void setMaxCount(u8 i_count) { mMaxCount = i_count; }
     void allUseButton() { mUseButton = 0xFFFF; }
@@ -425,6 +426,10 @@ inline cXyz& dMeter2Info_getWarpPos() {
 
 inline const char* dMeter2Info_getWarpStageName() {
     return g_meter2_info.getWarpStageName();
+}
+
+inline u8 dMeter2Info_getWarpPortalNo() {
+    return g_meter2_info.getWarpPortalNo();
 }
 
 inline void dMeter2Info_setNowCount(u8 i_count) {

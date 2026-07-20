@@ -1081,7 +1081,7 @@ void dMenu_Fmap_c::portal_warp_select_proc() {
                 cXyz(portals[mPortalNo].mPosition.x + mpDraw2DBack->getRegionOriginX(region),
                      portals[mPortalNo].mPosition.y,
                      portals[mPortalNo].mPosition.z + mpDraw2DBack->getRegionOriginZ(region)),
-                0, portals[mPortalNo].mRoomNo, 0, portals[mPortalNo].mWarpPlayerNo);
+                0, portals[mPortalNo].mRoomNo, mPortalNo, portals[mPortalNo].mWarpPlayerNo);
 
             dComIfGp_SelectWarpPt_set(portals[mPortalNo].mSelectWarpPt);
             setProcess(PROC_PORTAL_WARP_MAP);

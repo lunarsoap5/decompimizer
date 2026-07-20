@@ -209,7 +209,7 @@ internal class LibStage
         return entries;
     }
 
-    // ACTR / PLYR / TGOB
+    // ACTR / TGOB
     static JsonArray ExtractACTR(int count, int offset, byte[] d)
     {
         var entries = new JsonArray();
@@ -229,6 +229,33 @@ internal class LibStage
                     ["Angle_X"] = ReadS16(d, offset + 24),
                     ["Angle_Y"] = ReadS16(d, offset + 26),
                     ["Angle_Z"] = ReadS16(d, offset + 28),
+                    ["EnemyNo"] = ReadS16(d, offset + 30),
+                }
+            );
+            offset += 0x20;
+        }
+        return entries;
+    }
+
+    static JsonArray ExtractPLYR(int count, int offset, byte[] d)
+    {
+        var entries = new JsonArray();
+        for (int i = 0; i < count; i++)
+        {
+            entries.Add(
+                new JsonObject
+                {
+                    ["Name"] = ReadAscii(d, offset, 8),
+                    ["param_0"] = d[offset + 8],
+                    ["param_1"] = d[offset + 9],
+                    ["param_2"] = d[offset + 10],
+                    ["param_3"] = d[offset + 11],
+                    ["x"] = ReadF32(d, offset + 12),
+                    ["y"] = ReadF32(d, offset + 16),
+                    ["z"] = ReadF32(d, offset + 20),
+                    ["Angle_X"] = ReadS16(d, offset + 24),
+                    ["Angle_Y"] = ReadS16(d, offset + 26),
+                    ["Spawn_ID"] = ReadS16(d, offset + 28),
                     ["EnemyNo"] = ReadS16(d, offset + 30),
                 }
             );
@@ -1187,6 +1214,27 @@ internal class LibStage
         return buf.ToArray();
     }
 
+    static byte[] PackagePLYR(JsonNode entries, int offset)
+    {
+        var buf = new List<byte>();
+        foreach (var e in entries.AsArray())
+        {
+            WriteAscii(buf, e!["Name"]!.GetValue<string>(), 8);
+            WriteU8(buf, (byte)e["param_0"]!.GetValue<int>());
+            WriteU8(buf, (byte)e["param_1"]!.GetValue<int>());
+            WriteU8(buf, (byte)e["param_2"]!.GetValue<int>());
+            WriteU8(buf, (byte)e["param_3"]!.GetValue<int>());
+            WriteF32(buf, e["x"]!.GetValue<float>());
+            WriteF32(buf, e["y"]!.GetValue<float>());
+            WriteF32(buf, e["z"]!.GetValue<float>());
+            WriteS16(buf, (short)e["Angle_X"]!.GetValue<int>());
+            WriteS16(buf, (short)e["Angle_Y"]!.GetValue<int>());
+            WriteS16(buf, (short)e["Spawn_ID"]!.GetValue<int>());
+            WriteS16(buf, (short)e["EnemyNo"]!.GetValue<int>());
+        }
+        return buf.ToArray();
+    }
+
     static byte[] PackageLGT(JsonNode entries, int offset)
     {
         var buf = new List<byte>();
@@ -1457,7 +1505,7 @@ internal class LibStage
             ["RPPN"] = (c, o, d) => ExtractRPPN(c, o, d),
             ["RPAT"] = (c, o, d) => ExtractRPAT(c, o, d),
             ["MULT"] = (c, o, d) => ExtractMULT(c, o, d),
-            ["PLYR"] = (c, o, d) => ExtractACTR(c, o, d),
+            ["PLYR"] = (c, o, d) => ExtractPLYR(c, o, d),
             ["CAMR"] = (c, o, d) => ExtractCAM(c, o, d),
             ["RCAM"] = (c, o, d) => ExtractCAM(c, o, d),
             ["ACTR"] = (c, o, d) => ExtractACTR(c, o, d),
@@ -1517,7 +1565,7 @@ internal class LibStage
             ["FILI"] = roomStage ? (PackageFunc)PackageFILI2 : PackageFILI,
             ["LBNK"] = PackageLBNK,
             ["REVT"] = PackageREVT,
-            ["PLYR"] = PackageACTR,
+            ["PLYR"] = PackagePLYR,
             ["ACTR"] = PackageACTR,
             ["TGOB"] = PackageACTR,
             ["TRES"] = roomStage ? (PackageFunc)PackageStageTRES : PackageTRES,

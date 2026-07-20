@@ -146,7 +146,8 @@ foreach (var dzxPatch in dzxPatches)
     LibStage.PackageDZX(dzxString, archiveDirectory + filePath, false);
     RarcTools.RARCPacker.PackArchive(
         archiveDirectory,
-        archiveDirectory + ".arc",
+        archiveDirectory + ".arc", "",
+        false,
         true
     );
 }
@@ -325,7 +326,8 @@ foreach (var bmgPatch in bmgPatches)
     );
     RarcTools.RARCPacker.PackArchive(
         archiveDirectory,
-        archiveDirectory + ".arc",
+        archiveDirectory + ".arc", "",
+        false,
         true
     );
 }
@@ -361,7 +363,8 @@ foreach(var assetPatch in assetPatches)
             
         RARCPacker.PackArchive(
                 extractedDirectory,
-                extractedDirectory + ".arc",
+                extractedDirectory + ".arc", "",
+                false,
                 true
             );
     }
@@ -403,7 +406,8 @@ bmd.Save(@"extractedISO/root/res/Object/Title/bmdr/titlelogo_r.bmd");
 
 RARCPacker.PackArchive(
                 testDirectory,
-                testDirectory + ".arc",
+                testDirectory + ".arc", "",
+                false,
                 true
             );
 
@@ -487,10 +491,19 @@ foreach (TextureRecolor texRecolor in textureRecolors)
 
     RARCPacker.PackArchive(
                 texArchiveDirectory,
-                texArchiveDirectory + ".arc",
+                texArchiveDirectory + ".arc", "",
+                false,
                 true
             );
 }
+
+//==============================================================================================
+// Generate custom asset/code files
+Console.WriteLine("Generating Custom Asset Files");
+
+// Generate portal.dat file that draw the portal icons on the map
+FieldMapTools.generatePortalData();
+
 //==============================================================================================
 // Update the game code to the rando code - GZ2*99
 

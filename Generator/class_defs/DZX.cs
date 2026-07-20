@@ -82,7 +82,7 @@ public class PLYR
     public float z { get; set; }
     public short Angle_X { get; set; }
     public short Angle_Y { get; set; }
-    public short Angle_Z { get; set; }
+    public short Spawn_ID { get; set; }
     public int EnemyNo { get; set; }
 }
 

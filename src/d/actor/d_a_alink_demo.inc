@@ -4368,8 +4368,15 @@ void daAlink_c::skipPortalObjWarp() {
     } else {
         dComIfGs_setTurnRestart(dMeter2Info_getWarpPos(), dMeter2Info_getWarpPlayerNo(),
                                 dMeter2Info_getWarpRoomNo(), setParamData(dMeter2Info_getWarpRoomNo(), 0, 0xCA, 0));
-        dComIfGp_setNextStage(dMeter2Info_getWarpStageName(), -4, dMeter2Info_getWarpRoomNo(), -1,
+        if (dMeter2Info_getWarpPortalNo() > 0xE) // Vanilla number of portals
+        {
+            dComIfGp_setNextStage(dMeter2Info_getWarpStageName(), dMeter2Info_getWarpPlayerNo(), dMeter2Info_getWarpRoomNo(), -1, 0.0f, 0, 1, 0, shape_angle.y, 1, 0);
+        }
+        else
+        {
+            dComIfGp_setNextStage(dMeter2Info_getWarpStageName(), -4, dMeter2Info_getWarpRoomNo(), -1,
                               0.0f, 0, 1, 0, shape_angle.y, 1, 0);
+        }
     }
 
     if (mProcID == PROC_WARP) {
