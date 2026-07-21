@@ -165,20 +165,17 @@
         "DataBlock": "SCOB",
         "Data": {
           "Name": "scnChg",
-          "param_0": 255,
-          "param_1": 255,
-          "param_2": 0,
-          "param_3": 1,
+          "param": 4294901761,
           "x": -3176.0,
           "y": -600.0,
           "z": 5480.0,
-          "Angle X": 4095,
-          "Angle Y": 0,
-          "Angle Z": 4095,
+          "Angle_X": 4095,
+          "Angle_Y": 0,
+          "Angle_Z": 4095,
           "EnemyNo": -1,
-          "Scale X": 20,
-          "Scale Y": 67,
-          "Scale Z": 54,
+          "Scale_X": 20,
+          "Scale_Y": 67,
+          "Scale_Z": 54,
           "field_0x23": 255
         }
       }
@@ -1184,6 +1181,26 @@
           "Angle_Y": -16384,
           "Spawn_ID": 7,
           "EnemyNo": -1
+        }
+      },
+      {
+        // Add SWArea that sets custom portal flag when player reaches SPR stairs
+        "Operation": "add",
+        "DataBlock": "SCOB",
+        "Data": {
+          "Name": "SwAreaS",
+          "param": 4278255368,
+          "x": -71966,
+          "y": -54500,
+          "z": 56129,
+          "Angle_X": 4095,
+          "Angle_Y": 0,
+          "Angle_Z": 0,
+          "EnemyNo": -1,
+          "Scale_X": 60,
+          "Scale_Y": 50,
+          "Scale_Z": 60,
+          "field_0x23": 255
         }
       },
       {

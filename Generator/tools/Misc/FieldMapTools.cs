@@ -78,7 +78,7 @@ public static class FieldMapTools
                 new(12, 6, "F_SP114", 1, 2, 0x05D1, 8, 0x15, -52424.1289f, 6779.820f, -94607.63f), // Snowpeak Portal
                 new(13, 2, "F_SP117", 1, -2, 0x05CE, 7, 0x64, -35000.0f, 7000.0f, 110065.0f), // Sacred Grove Portal
                 new(14, 5, "F_SP124", 0, 3, 0x05D0, 10, 0x15, -135884.859f, 8000.0f, 80633.7578f), // Gerudo Desert Portal
-                new(15, 6, "F_SP114", 1, 7, 0x06D0, 8, 0x15, -102424.125f, 6780.0f, -20670.6328f) // Custom - SPR Portal
+                new(15, 6, "F_SP114", 1, 7, 0x06D0, 8, 0x8, -102424.125f, 6780.0f, -20670.6328f) // Custom - SPR Portal
             };
         List<byte> portalDataBytes = new();
 
