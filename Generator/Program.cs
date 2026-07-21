@@ -384,32 +384,9 @@ foreach(var assetPatch in assetPatches)
 }
 
 //==============================================================================================
-// Copy over custom Title screen logo - note: I don't have a framework set up for replacing textures yet, but soontm.
-string testDirectory = @"extractedISO/root/res/Object/Title";
-string bmdDirectory = RARCDump.DumpArchive(
-                        Yaz0dec.InitYaz0Decode(testDirectory + @".arc"));
-
-var bmd = new BmdFile(@"extractedISO/root/res/Object/Title/bmdr/titlelogo_r.bmd");
-
-// See what textures exist
-//foreach (var tex in bmd.Textures)
-//    Console.WriteLine($"{tex.Name}  {tex.Width}x{tex.Height}");
-
-// Pull out a texture as a standalone .bti file for external editing
-//bmd.Textures[5].ExportBtiFile("TwilightPrincess.bti");
-
-// After editing .bti file externally (e.g. with GCFT or your own BTI tool):
-bmd.Textures[5].ImportBtiFile(Path.Combine("mod_assets", "TwilightPrincess.bti"));
-
-// Repack the BMD with the modified texture
-bmd.Save(@"extractedISO/root/res/Object/Title/bmdr/titlelogo_r.bmd");
-
-RARCPacker.PackArchive(
-                testDirectory,
-                testDirectory + ".arc", "",
-                false,
-                true
-            );
+// Replace Assets stored in .bmd files
+Console.WriteLine("Modifying BMD Textures");
+BmdTools.replaceModdedTextures();
 
 //==============================================================================================
 // Generate Cosmetic Changes (i.e texture recoloring)

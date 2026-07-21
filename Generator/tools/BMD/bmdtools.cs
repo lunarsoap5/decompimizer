@@ -37,6 +37,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using RarcTools;
 
 public struct RgbaColor : IEquatable<RgbaColor>
 {
@@ -2282,4 +2283,70 @@ public class Mat3Material
         };
 
     static short ReadS16(byte[] d, int o) => (short)((d[o] << 8) | d[o + 1]);
+}
+
+public class TextureReplacement
+{
+    public string archiveDir { get; set; }
+    public string bmdDir { get; set; }
+    public string replacementTex { get; set; }
+    public int idx { get; set; }
+
+    public TextureReplacement(string arcDir, string bmd, string rep, int index)
+    {
+        archiveDir = arcDir;
+        bmdDir = bmd;
+        replacementTex = rep;
+        idx = index;
+    }
+}
+
+public static class BmdTools
+{
+    public static void replaceModdedTextures()
+    {
+        List<TextureReplacement> replacements =
+            new()
+            {
+                new(@"root/res/Object/Title", @"bmdr/titlelogo_r.bmd", "TwilightPrincess.bti", 5),
+                new(@"root/res/Object/Alink", @"bmwr/al_swa.bmd", "al_SWA.bti", 1)
+            };
+
+        foreach (TextureReplacement tex in replacements)
+        {
+            replaceTexture(
+                Path.Combine("extractedISO", tex.archiveDir),
+                tex.bmdDir,
+                Path.Combine("mod_assets", tex.replacementTex),
+                tex.idx
+            );
+        }
+    }
+
+    public static void replaceTexture(
+        string archiveDr,
+        string bmdDir,
+        string replacementTex,
+        int texIdx
+    )
+    {
+        RARCDump.DumpArchive(Yaz0dec.InitYaz0Decode($"{archiveDr}.arc"));
+
+        var bmd = new BmdFile(Path.Combine(archiveDr, bmdDir));
+
+        // See what textures exist
+        //foreach (var tex in bmd.Textures)
+        //    Console.WriteLine($"{tex.Name}  {tex.Width}x{tex.Height}");
+
+        // Pull out a texture as a standalone .bti file for external editing
+        //bmd.Textures[5].ExportBtiFile("TwilightPrincess.bti");
+
+        // After editing .bti file externally (e.g. with GCFT or your own BTI tool):
+        bmd.Textures[texIdx].ImportBtiFile(replacementTex);
+
+        // Repack the BMD with the modified texture
+        bmd.Save(Path.Combine(archiveDr, bmdDir));
+
+        RARCPacker.PackArchive(archiveDr, $"{archiveDr}.arc", "", false, true);
+    }
 }

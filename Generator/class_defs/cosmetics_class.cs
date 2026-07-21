@@ -49,9 +49,10 @@ public static class CosmeticFunctions
                 new TextureRecolor(
                     @"extractedISO/root/res/Object/Kmdl.arc",
                     [
+                        // Hero's Clothes
                         new TextureRecolorOptions(
                             @"bmwr/al.bmd",
-                            0,
+                            0, // Tunic Body
                             TextureRecolorType.Greyscale,
                             new RgbaColor(0x0, 0x0, 0x0, 255),
                             new RgbaColor(0x9b, 0x6e, 0xab, 255),
@@ -77,11 +78,63 @@ public static class CosmeticFunctions
                 new TextureRecolor(
                     @"extractedISO/root/res/Object/Alink.arc",
                     [
+                        // Spinner
                         new TextureRecolorOptions(
                             @"bmdr/al_sp.bmd",
                             0,
                             TextureRecolorType.Hue,
                             new RgbaColor(66, 36, 16, 255), // roughly red
+                            new RgbaColor(0x9b, 0x6e, 0xab, 255),
+                            25
+                        ),
+                        // Ordon Sword
+                        new TextureRecolorOptions(
+                            @"bmwr/al_swa.bmd",
+                            1,
+                            TextureRecolorType.Greyscale,
+                            new RgbaColor(0, 0, 0, 255),
+                            new RgbaColor(0x9b, 0x6e, 0xab, 255),
+                            25
+                        ),
+                        // Master Sword - Handle
+                        new TextureRecolorOptions(
+                            @"bmwe/al_swm.bmd",
+                            0,
+                            TextureRecolorType.Greyscale,
+                            new RgbaColor(0, 0, 0, 255),
+                            new RgbaColor(0x9b, 0x6e, 0xab, 255),
+                            25
+                        ),
+                        // Master Sword - Blade
+                        new TextureRecolorOptions(
+                            @"bmwe/al_swm.bmd",
+                            2,
+                            TextureRecolorType.Greyscale,
+                            new RgbaColor(0, 0, 0, 255),
+                            new RgbaColor(0x9b, 0x6e, 0xab, 255),
+                            25
+                        ),
+                    ]
+                ),
+                // MstrSword
+                new TextureRecolor(
+                    @"extractedISO/root/res/Object/MstrSword.arc",
+                    [
+                        // Master Sword - Handle
+                        new TextureRecolorOptions(
+                            @"bmdr/o_al_swm.bmd",
+                            1,
+                            TextureRecolorType.Greyscale,
+                            new RgbaColor(0, 0, 0, 255),
+                            new RgbaColor(0x9b, 0x6e, 0xab, 255),
+                            25
+                        ),
+                        // Master Sword - Blade
+                        new TextureRecolorOptions(
+                            @"bmdr/o_al_swm.bmd",
+                            3,
+                            TextureRecolorType.Greyscale,
+                            new RgbaColor(0, 0, 0, 255),
                             new RgbaColor(0x9b, 0x6e, 0xab, 255),
                             25
                         ),
@@ -105,6 +158,7 @@ public static class CosmeticFunctions
                 new TextureRecolor(
                     @"extractedISO/root/res/Object/Always.arc",
                     [
+                        // Piece of Heart
                         new TextureRecolorOptions(
                             @"bmde/o_g_hutk.bmd",
                             0xFF010103,
@@ -113,6 +167,7 @@ public static class CosmeticFunctions
                             heartColor,
                             25
                         ),
+                        // Heart Container
                         new TextureRecolorOptions(
                             @"bmde/o_g_hutu.bmd",
                             0xFF010103,
@@ -121,6 +176,7 @@ public static class CosmeticFunctions
                             heartColor,
                             25
                         ),
+                        // Heart Refill
                         new TextureRecolorOptions(
                             @"bmde/o_g_hart.bmd",
                             0xFF010100,
@@ -148,6 +204,7 @@ public static class CosmeticFunctions
                 new TextureRecolor(
                     @"extractedISO/root/res/Object/O_gD_hutk.arc",
                     [
+                        // Get Display - Piece of Heart
                         new TextureRecolorOptions(
                             @"bmde/o_gd_hutk.bmd",
                             0xFF010103,
@@ -161,6 +218,7 @@ public static class CosmeticFunctions
                 new TextureRecolor(
                     @"extractedISO/root/res/Object/O_gD_hutu.arc",
                     [
+                        // Get Display - Heart Container
                         new TextureRecolorOptions(
                             @"bmde/o_gd_hutu.bmd",
                             0xFF010103,
