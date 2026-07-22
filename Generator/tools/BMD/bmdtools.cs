@@ -2308,8 +2308,8 @@ public static class BmdTools
         List<TextureReplacement> replacements =
             new()
             {
-                new(@"root/res/Object/Title", @"bmdr/titlelogo_r.bmd", "TwilightPrincess.bti", 5),
-                new(@"root/res/Object/Alink", @"bmwr/al_swa.bmd", "al_SWA.bti", 1)
+                new(@"root/res/Object/Title", @"bmdr/titlelogo_r.bmd", "TwilightPrincess.bti", 5), // Custom Logo By MelonSpeedruns
+                new(@"root/res/Object/Alink", @"bmwr/al_swa.bmd", "al_SWA.bti", 1) // Custom Ordon Sword texture by Lunar Soap
             };
 
         foreach (TextureReplacement tex in replacements)

@@ -17715,9 +17715,9 @@ int daAlink_c::execute() {
         }
     }
 
-    if (mSwordUpTimer != 0) {
+    /*if (mSwordUpTimer != 0) {
         mSwordUpTimer--;
-    }
+    }*/
 
     field_0x317c = dComIfGp_getPlayerCameraID(0);
     field_0x3510 = current.pos;
