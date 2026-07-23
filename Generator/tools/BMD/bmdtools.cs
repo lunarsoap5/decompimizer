@@ -505,6 +505,13 @@ public partial class BmdTexture
         WriteU32(buf, headerOffset + 0x1C, relImageOffset);
     }
 
+    public static BmdTexture LoadFromBti(string path, string name = null)
+    {
+        var tex = new BmdTexture(name ?? Path.GetFileNameWithoutExtension(path));
+        tex.ImportBtiFile(path);
+        return tex;
+    }
+
     // ----------------------------------------------------------
     // Export as standalone .bti file
     // ----------------------------------------------------------

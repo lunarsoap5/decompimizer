@@ -60,6 +60,39 @@ public static class CosmeticFunctions
                         ),
                     ]
                 ),
+                // Item Icons
+                new TextureRecolor(
+                    @"extractedISO/root/res/Layout/itemicon.arc",
+                    [
+                        // Ordon Sword Icon
+                        new TextureRecolorOptions(
+                            @"timg/tt_kokirinoken_s3_tc.bti",
+                            0,
+                            TextureRecolorType.Greyscale,
+                            new RgbaColor(75, 75, 75, 255),
+                            new RgbaColor(0x9b, 0x6e, 0xab, 255),
+                            25
+                        ),
+                        // Master Sword Icon
+                        new TextureRecolorOptions(
+                            @"timg/ni_mastersword_48.bti",
+                            0,
+                            TextureRecolorType.Greyscale,
+                            new RgbaColor(75, 75, 75, 255),
+                            new RgbaColor(0x9b, 0x6e, 0xab, 255),
+                            25
+                        ),
+                        // Wooden Sword Icon
+                        new TextureRecolorOptions(
+                            @"timg/im_kinobou_48.bti",
+                            0,
+                            TextureRecolorType.Greyscale,
+                            new RgbaColor(75, 75, 75, 255),
+                            new RgbaColor(0x9b, 0x6e, 0xab, 255),
+                            25
+                        ),
+                    ]
+                ),
                 // Mmdl - Magic Armor
                 new TextureRecolor(
                     @"extractedISO/root/res/Object/Mmdl.arc",

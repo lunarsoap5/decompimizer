@@ -399,19 +399,33 @@ foreach (TextureRecolor texRecolor in textureRecolors)
 
     foreach(TextureRecolorOptions texOptions in texRecolor.TextureOptions)
     {
-        var texBmd = new BmdFile(Path.Combine(texArchiveDirectory,texOptions.FileName));
+        BmdFile texBmd = null;
+        BmdTexture textureToModify = null;
+        if (texOptions.FileName.Contains(".bti"))
+        {
+            textureToModify = BmdTexture.LoadFromBti(Path.Combine(texArchiveDirectory,texOptions.FileName));
+        }
+        else
+        {
+            Console.WriteLine(texOptions.FileName);
+            texBmd = new BmdFile(Path.Combine(texArchiveDirectory,texOptions.FileName));
+            if (texOptions.RecolorType != TextureRecolorType.Material)
+            {
+                textureToModify = texBmd.Textures[(int)texOptions.TextureIndex];
+            }
+        }
         switch(texOptions.RecolorType)
         {
             case TextureRecolorType.Greyscale:
                 {
-                    var textureToModify = texBmd.Textures[(int)texOptions.TextureIndex];
+                    
                     textureToModify.TintGrayscale(texOptions.NewColor);
                     break;
                 }
             
             case TextureRecolorType.Palette:
                 {
-                    var textureToModify = texBmd.Textures[(int)texOptions.TextureIndex];
+                    
                     var map = new Dictionary<RgbaColor, RgbaColor>
                     {
                         {texOptions.OldColor, texOptions.NewColor}
@@ -422,7 +436,7 @@ foreach (TextureRecolor texRecolor in textureRecolors)
             
             case TextureRecolorType.Hue:
                 {
-                    var textureToModify = texBmd.Textures[(int)texOptions.TextureIndex];
+                    
                     textureToModify.RecolorByHue(
                         targetColor:  texOptions.OldColor,
                         replacementColor: texOptions.NewColor,
@@ -462,8 +476,16 @@ foreach (TextureRecolor texRecolor in textureRecolors)
                 }
         }
 
-        texBmd.Save(Path.Combine(texArchiveDirectory,texOptions.FileName));
-        Console.WriteLine($"Modified texture in model {texOptions.FileName}");
+        if (texOptions.FileName.Contains(".bti"))
+        {
+            textureToModify.ExportBtiFile(Path.Combine(texArchiveDirectory,texOptions.FileName));
+        }
+        else
+        {
+            texBmd.Save(Path.Combine(texArchiveDirectory,texOptions.FileName));
+        }
+        
+        Console.WriteLine($"Modified texture in file {texOptions.FileName}");
     }
 
     RARCPacker.PackArchive(
