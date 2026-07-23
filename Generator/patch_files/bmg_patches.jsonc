@@ -764,6 +764,15 @@
         }
       },
       {
+        // Custom Text for Snowpeak Howling Stone Item
+        "Operation": "modify",
+        "Index": "0xbb0",
+        "ChangeData": {
+          "attributes": "07c40000030f0800ff00000000000400",
+          "text": ["{1a06ff000001}Progressive Hidden Skill"]
+        }
+      },
+      {
         "Operation": "add",
         "Section": "FLW1",
         "ChangeData": {
