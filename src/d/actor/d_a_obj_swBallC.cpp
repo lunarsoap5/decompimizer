@@ -12,6 +12,8 @@
 #include "d/d_meter2_info.h"
 #include "d/d_item.h"
 #include "d/actor/d_a_player.h"
+#include "rando/rando.h"
+#include "rando/tools/tools.h"
 #include "f_op/f_op_msg_mng.h"
 #include "f_op/f_op_msg.h"
 
@@ -77,6 +79,10 @@ int daObjSwBallC_c::Create() {
     if (fopAcM_isSwitch(this, 0x3d) && fopAcM_isSwitch(this, 0x3e)) {
         field_0x574->setPlaySpeed(1.0f);
         field_0x574->setFrame(field_0x574->getEndFrame());
+        // If flag has been set, create the item
+        cXyz scale = cXyz(1.0f, 1.0f, 1.0f);
+        cXyz position = cXyz(250.0f, -200.0f, 11000.0f);
+        initCreatePlayerItem(g_randoInfo.getEventItem(fpcNm_ITEM_LIGHT_SWORD), 0x81, &position, fopAcM_GetRoomNo(this), &shape_angle, &scale);
     }
     GXColor* color = mModel->getModelData()->getMaterialNodePointer(0)->getTevKColor(1);
     color->r = l_color.r;
@@ -143,6 +149,23 @@ static char* action_table[13] = {
 
 void daObjSwBallC_c::actionWait() {
     if (fopAcM_isSwitch(this, 0x3d) && fopAcM_isSwitch(this, 0x3e)) {
+        dComIfGs_onTbox(10);
+        dComIfGs_onTbox(11);
+
+        // Shrink the light balls
+        calcLightBallScale();
+
+        // Play the animation of the light going to the center
+        field_0x574->setPlaySpeed(1.0f);
+        if (field_0x574->play() != 0 && !fopAcM_isSwitch(this, 0x3F)) {
+            // When it finishes, spawn the item
+            fopAcM_onSwitch(this, 0x3f); // Saw light sword cutscene
+            fopAcM_onSwitch(this, 0x27); // Midna text after light sword cutscene
+            cXyz scale = cXyz(1.0f, 1.0f, 1.0f);
+            cXyz position = cXyz(250.0f, -200.0f, 11000.0f);
+            initCreatePlayerItem(g_randoInfo.getEventItem(fpcNm_ITEM_LIGHT_SWORD), 0x81, &position, fopAcM_GetRoomNo(this), &shape_angle, &scale);
+        }
+        return;
         setAction(1);
         fopAcM_orderOtherEventId(this, field_0x57c, field_0x57e, 0xffff, 0, 1);
         eventInfo.onCondition(2);
