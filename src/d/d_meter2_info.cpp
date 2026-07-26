@@ -1253,7 +1253,7 @@ void dMeter2Info_c::decHotSpringTimer() {
         if (mHotSpringTimer[i] != 0) {
             mHotSpringTimer[i]--;
             if (mHotSpringTimer[i] == 0) {
-                changeWater(i + SLOT_11);
+                //changeWater(i + SLOT_11); We want hot spring water to remain warm all the time.
             }
         }
     }
