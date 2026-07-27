@@ -262,6 +262,34 @@ public static class CosmeticFunctions
                         ),
                     ]
                 ),
+                // Memo Actor
+                new TextureRecolor(
+                    @"extractedISO/root/res/Object/O_gD_mem2.arc",
+                    [
+                        new TextureRecolorOptions(
+                            @"bmdr/o_gd_memo.bmd",
+                            0,
+                            TextureRecolorType.Greyscale,
+                            new RgbaColor(180, 30, 30, 255), 
+                            new RgbaColor(77, 53, 41, 255),
+                            25
+                        ),
+                    ]
+                ),
+                // Custom Sketch Actor
+                new TextureRecolor(
+                    @"extractedISO/root/res/Object/O_gD_mem3.arc",
+                    [
+                        new TextureRecolorOptions(
+                            @"bmdr/o_gd_memo.bmd",
+                            0,
+                            TextureRecolorType.Greyscale,
+                            new RgbaColor(180, 30, 30, 255), 
+                            new RgbaColor(34, 32, 65, 255),
+                            25
+                        ),
+                    ]
+                ),
             ];
         return recolorOptions;
     }

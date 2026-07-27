@@ -12,6 +12,7 @@ bool show_debug = false;
 RarcTools.GCRebuilder.GCRebuilder.ExtractISO(@"decompimizer-GZ2E01.iso", @"extractedISO/");
 
 var options = new JsonSerializerOptions { ReadCommentHandling = JsonCommentHandling.Skip };
+var encoder = new Yaz0Encoder();
 
 //==============================================================================================
 // Apply DZX Patches first
@@ -382,6 +383,11 @@ foreach(var assetPatch in assetPatches)
     }
     
 }
+
+// Copy/Move any vanilla files around
+
+// Make a copy of Memo Actor so that sketch can be a different color
+File.Copy(@"extractedISO/root/res/Object/O_gD_mem2.arc", @"extractedISO/root/res/Object/O_gD_mem3.arc", true);
 
 //==============================================================================================
 // Replace Assets stored in .bmd files
