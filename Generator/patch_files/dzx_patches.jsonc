@@ -957,6 +957,39 @@
           "Angle Z": 0,
           "EnemyNo": -1
         }
+      },
+      {
+        "Operation": "add",
+        "DataBlock": "ACTR",
+        "Data": {
+          "Name": "htPiece",
+          "param_0": 0,
+          "param_1": 255,
+          "param_2": 145,
+          "param_3": 212,
+          "x": 16933,
+          "y": 500,
+          "z": -769,
+          "Angle X": 0,
+          "Angle Y": 0,
+          "Angle Z": 0,
+          "EnemyNo": -1
+        }
+      },
+      {
+        "Operation": "remove",
+        "DataBlock": "ACT0",
+        "ID": "I_Ari@16933,500,-769"
+      },
+      {
+        "Operation": "remove",
+        "DataBlock": "ACT2",
+        "ID": "I_Ari@16933,500,-769"
+      },
+      {
+        "Operation": "remove",
+        "DataBlock": "ACT3",
+        "ID": "I_Ari@16933,500,-769"
       }
     ]
   },
