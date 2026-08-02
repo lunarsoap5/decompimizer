@@ -1486,118 +1486,7 @@
         }
       },
       {
-        "Operation": "modify",
-        "DataBlock": "ACT1",
-        "ID": "item@-92246,-31720,41678",
-        "Data": {
-          "param_2": 67
-        }
-      },
-      {
-        "Operation": "modify",
-        "DataBlock": "ACT1",
-        "ID": "item@-92077,-31720,41800",
-        "Data": {
-          "param_2": 68
-        }
-      },
-      {
-        "Operation": "modify",
-        "DataBlock": "ACT1",
-        "ID": "item@-92156,-31720,41553",
-        "Data": {
-          "param_2": 69
-        }
-      },
-      {
-        "Operation": "modify",
-        "DataBlock": "ACT1",
-        "ID": "item@-94876,-32004,40183",
-        "Data": {
-          "param_2": 73
-        }
-      },
-      {
-        "Operation": "modify",
-        "DataBlock": "ACT1",
-        "ID": "item@-94707,-32004,40305",
-        "Data": {
-          "param_2": 74
-        }
-      },
-      {
-        "Operation": "modify",
-        "DataBlock": "ACT1",
-        "ID": "item@-94790,-32004,40022",
-        "Data": {
-          "param_2": 75
-        }
-      },
-      {
-        "Operation": "modify",
-        "DataBlock": "ACT1",
-        "ID": "item@-94650,-31915,40132",
-        "Data": {
-          "param_2": 76
-        }
-      },
-      {
-        "Operation": "modify",
-        "DataBlock": "ACT2",
-        "ID": "item@-92246,-31720,41678",
-        "Data": {
-          "param_2": 67
-        }
-      },
-      {
-        "Operation": "modify",
-        "DataBlock": "ACT2",
-        "ID": "item@-92077,-31720,41800",
-        "Data": {
-          "param_2": 68
-        }
-      },
-      {
-        "Operation": "modify",
-        "DataBlock": "ACT2",
-        "ID": "item@-92156,-31720,41553",
-        "Data": {
-          "param_2": 69
-        }
-      },
-      {
-        "Operation": "modify",
-        "DataBlock": "ACT2",
-        "ID": "item@-94876,-32004,40183",
-        "Data": {
-          "param_2": 73
-        }
-      },
-      {
-        "Operation": "modify",
-        "DataBlock": "ACT2",
-        "ID": "item@-94707,-32004,40305",
-        "Data": {
-          "param_2": 74
-        }
-      },
-      {
-        "Operation": "modify",
-        "DataBlock": "ACT2",
-        "ID": "item@-94790,-32004,40022",
-        "Data": {
-          "param_2": 75
-        }
-      },
-      {
-        "Operation": "modify",
-        "DataBlock": "ACT2",
-        "ID": "item@-94650,-31915,40132",
-        "Data": {
-          "param_2": 76
-        }
-      },
-      {
+        // Add Auru to global actor table so he is available in any state
         "Operation": "add",
         "DataBlock": "ACTR",
         "Data": {
@@ -1611,6 +1500,181 @@
           "z": 58533.0078125,
           "Angle X": 0,
           "Angle Y": -13107,
+          "Angle Z": 0,
+          "EnemyNo": -1
+        }
+      },
+      {
+        // Add Zora Bombsalesman outside LBT
+        "Operation": "add",
+        "DataBlock": "ACT1",
+        "Data": {
+          "Name": "zrA",
+          "param_0": 15,
+          "param_1": 255,
+          "param_2": 255,
+          "param_3": 0,
+          "x": -93760.578125,
+          "y": -31248.091796875,
+          "z": 42664.75,
+          "Angle X": 1101,
+          "Angle Y": -32768,
+          "Angle Z": 0,
+          "EnemyNo": -1
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACT1",
+        "ID": "item@-92246,-31720,41678",
+        "Data": {
+          "param_2": 67
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACT1",
+        "ID": "item@-92077,-31720,41800",
+        "Data": {
+          "param_2": 68
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACT1",
+        "ID": "item@-92156,-31720,41553",
+        "Data": {
+          "param_2": 69
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACT1",
+        "ID": "item@-94876,-32004,40183",
+        "Data": {
+          "param_2": 73
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACT1",
+        "ID": "item@-94707,-32004,40305",
+        "Data": {
+          "param_2": 74
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACT1",
+        "ID": "item@-94790,-32004,40022",
+        "Data": {
+          "param_2": 75
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACT1",
+        "ID": "item@-94650,-31915,40132",
+        "Data": {
+          "param_2": 76
+        }
+      },
+      {
+        // Add Zora Bombsalesman outside LBT
+        "Operation": "add",
+        "DataBlock": "ACT2",
+        "Data": {
+          "Name": "zrA",
+          "param_0": 15,
+          "param_1": 255,
+          "param_2": 255,
+          "param_3": 0,
+          "x": -93760.578125,
+          "y": -31248.091796875,
+          "z": 42664.75,
+          "Angle X": 1101,
+          "Angle Y": -32768,
+          "Angle Z": 0,
+          "EnemyNo": -1
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACT2",
+        "ID": "item@-92246,-31720,41678",
+        "Data": {
+          "param_2": 67
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACT2",
+        "ID": "item@-92077,-31720,41800",
+        "Data": {
+          "param_2": 68
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACT2",
+        "ID": "item@-92156,-31720,41553",
+        "Data": {
+          "param_2": 69
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACT2",
+        "ID": "item@-94876,-32004,40183",
+        "Data": {
+          "param_2": 73
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACT2",
+        "ID": "item@-94707,-32004,40305",
+        "Data": {
+          "param_2": 74
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACT2",
+        "ID": "item@-94790,-32004,40022",
+        "Data": {
+          "param_2": 75
+        }
+      },
+      {
+        "Operation": "modify",
+        "DataBlock": "ACT2",
+        "ID": "item@-94650,-31915,40132",
+        "Data": {
+          "param_2": 76
+        }
+      },
+      {
+        // Remove Vanilla Auru Actor since we have added one to the global dzx
+        "Operation": "remove",
+        "DataBlock": "ACT2",
+        "ID": "Rafrel@-116486,-13860,58533"
+      },
+      {
+        // Add Zora Bombsalesman outside LBT
+        "Operation": "add",
+        "DataBlock": "ACT3",
+        "Data": {
+          "Name": "zrA",
+          "param_0": 15,
+          "param_1": 255,
+          "param_2": 255,
+          "param_3": 0,
+          "x": -93760.578125,
+          "y": -31248.091796875,
+          "z": 42664.75,
+          "Angle X": 1101,
+          "Angle Y": -32768,
           "Angle Z": 0,
           "EnemyNo": -1
         }

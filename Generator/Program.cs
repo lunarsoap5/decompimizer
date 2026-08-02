@@ -521,7 +521,7 @@ data[0x5] = 0x39;
 
 // Write the modified bytes back to the file
 File.WriteAllBytes(rawFilePath, data);
-Console.WriteLine("Converted Game code to: GZ2E99");
+Console.WriteLine("Converted Game code to: GZ2*99");
 
 //==============================================================================================
 // Clean up any empty directories that are left over. 
