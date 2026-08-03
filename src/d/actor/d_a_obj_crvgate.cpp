@@ -7,6 +7,7 @@
 
 #include "d/actor/d_a_obj_crvgate.h"
 #include "d/d_s_play.h"
+#include "d/d_com_inf_game.h"
 
 const static dCcD_SrcSph ccSphSrc = {
     {
@@ -107,29 +108,30 @@ void daObjCRVGATE_c::actionStartEvent() {
         fopAcM_orderPotentialEvent(this, 2, 0xffff, 0);
         eventInfo.onCondition(0x0);
     } else {
-        camera->mCamera.Stop();
+        //camera->mCamera.Stop();
 
-        field_0x5bc = 0x0;
-        mFovY = camera_body->Fovy();
+        //field_0x5bc = 0x0;
+        //mFovY = camera_body->Fovy();
 
-        mCamCenter = camera_body->Center();
-        mCamEye = camera_body->Eye();
+        //mCamCenter = camera_body->Center();
+        //mCamEye = camera_body->Eye();
 
-        camera->mCamera.SetTrimSize(3);
+        //camera->mCamera.SetTrimSize(3);
         mEventID = 2;
     }
 }
 
 void daObjCRVGATE_c::actionWaitEvent() {
-    if (eventInfo.checkCommandDoor()) {
-        daPy_py_c* player = daPy_getPlayerActorClass();
-        player->changeOriginalDemo();
-        player->changeDemoMode(1, 0, 0, 0);
+    // Instead of checking for a key, we just want to check for the event flag and open the gate from there. 
+    if (dComIfGs_isEventBit(0x6480)) {
+        //daPy_py_c* player = daPy_getPlayerActorClass();
+        //player->changeOriginalDemo();
+        //player->changeDemoMode(1, 0, 0, 0);
 
         mEventID = 1;
-        dComIfGp_setItemKeyNumCount(-1);
+        //dComIfGp_setItemKeyNumCount(-1);
         mEventFlag = true;
-        Demo_Set();
+        //Demo_Set();
 
         Z2GetAudioMgr()->seStart(Z2SE_OBJ_CRVN_GATE_OPEN, &mPos, 0, 0, 1.0f, 1.0f, -1.0f, -1.0f, 0);
 
