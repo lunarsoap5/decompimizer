@@ -128,12 +128,15 @@ void daObjCRVGATE_c::actionWaitEvent() {
         //player->changeOriginalDemo();
         //player->changeDemoMode(1, 0, 0, 0);
 
-        mEventID = 1;
+        mEventID = 3;
         //dComIfGp_setItemKeyNumCount(-1);
-        mEventFlag = true;
+        //mEventFlag = true;
         //Demo_Set();
 
-        Z2GetAudioMgr()->seStart(Z2SE_OBJ_CRVN_GATE_OPEN, &mPos, 0, 0, 1.0f, 1.0f, -1.0f, -1.0f, 0);
+        SetOpen();
+        mpDoorPair->SetOpen();
+
+        //Z2GetAudioMgr()->seStart(Z2SE_OBJ_CRVN_GATE_OPEN, &mPos, 0, 0, 1.0f, 1.0f, -1.0f, -1.0f, 0);
 
         fopAcM_OffStatus(this, 0x100);
     } else {
