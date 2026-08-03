@@ -15,6 +15,7 @@ int daObjDigpl_c::create() {
 
     // Params: 0xABCDEFGH
     // BC = room path index
+    // DE = itemID
     // F = mType
     // GH = mSwitch
 

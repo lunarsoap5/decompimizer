@@ -193,7 +193,11 @@ public static class PatchFunctions
         // Overwrite matching properties from changes
         foreach (var prop in changes.EnumerateObject())
         {
-            node?[prop.Name] = prop.Value.Deserialize<JsonNode>();
+            if (!node.ContainsKey(prop.Name))
+                throw new InvalidOperationException(
+                    $"Property '{prop.Name}' does not exist on target type '{typeof(T).Name}'."
+                );
+            node[prop.Name] = prop.Value.Deserialize<JsonNode>();
         }
 
         return node.Deserialize<T>();
