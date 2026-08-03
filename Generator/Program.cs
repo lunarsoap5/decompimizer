@@ -389,6 +389,9 @@ foreach(var assetPatch in assetPatches)
 // Make a copy of Memo Actor so that sketch can be a different color
 File.Copy(@"extractedISO/root/res/Object/O_gD_mem2.arc", @"extractedISO/root/res/Object/O_gD_mem3.arc", true);
 
+// Make copy of Dom Rod Actor so the unpowered rod can be a different color
+File.Copy(@"extractedISO/root/res/Object/O_gD_CROD.arc", @"extractedISO/root/res/Object/O_gD_CROD1.arc", true);
+
 //==============================================================================================
 // Replace Assets stored in .bmd files
 Console.WriteLine("Modifying BMD Textures");

@@ -290,6 +290,20 @@ public static class CosmeticFunctions
                         ),
                     ]
                 ),
+                // Custom Unpowered Rod Actor
+                new TextureRecolor(
+                    @"extractedISO/root/res/Object/O_gD_CROD1.arc",
+                    [
+                        new TextureRecolorOptions(
+                            @"bmdr/o_gd_al_crod.bmd",
+                            0,
+                            TextureRecolorType.Greyscale,
+                            new RgbaColor(33, 20, 20, 255), 
+                            new RgbaColor(33, 20, 20, 255), 
+                            25
+                        ),
+                    ]
+                ),
             ];
         return recolorOptions;
     }
