@@ -2110,6 +2110,60 @@
         }
       },
       {
+        "Operation": "add",
+        "DataBlock": "ACTR",
+        "Data": {
+          "Name": "Obj_Uma",
+          "param_0": 255,
+          "param_1": 255,
+          "param_2": 255,
+          "param_3": 255,
+          "x": 36589,
+          "y": -260,
+          "z": -43122,
+          "Angle_X": 0,
+          "Angle_Y": 0,
+          "Angle_Z": 0,
+          "EnemyNo": -1
+        }
+      },
+      {
+        "Operation": "add",
+        "DataBlock": "ACTR",
+        "Data": {
+          "Name": "Obj_Uma",
+          "param_0": 255,
+          "param_1": 255,
+          "param_2": 255,
+          "param_3": 255,
+          "x": 35978,
+          "y": -260,
+          "z": -9303,
+          "Angle_X": 0,
+          "Angle_Y": 0,
+          "Angle_Z": 0,
+          "EnemyNo": -1
+        }
+      },
+      {
+        "Operation": "add",
+        "DataBlock": "ACTR",
+        "Data": {
+          "Name": "Obj_Uma",
+          "param_0": 255,
+          "param_1": 255,
+          "param_2": 255,
+          "param_3": 255,
+          "x": -10815,
+          "y": -945,
+          "z": 20023,
+          "Angle_X": 0,
+          "Angle_Y": 0,
+          "Angle_Z": 0,
+          "EnemyNo": -1
+        }
+      },
+      {
         "Operation": "modify",
         "DataBlock": "ACTR",
         "ID": "item@37400,-39,-40200",
@@ -2148,6 +2202,57 @@
           "Angle_Z": 0,
           "EnemyNo": -1
         }
+      },
+      {
+        "Operation": "add",
+        "DataBlock": "ACTR",
+        "Data": {
+          "Name": "Obj_Uma",
+          "param_0": 255,
+          "param_1": 255,
+          "param_2": 255,
+          "param_3": 255,
+          "x": -4400,
+          "y": -7077,
+          "z": 54200,
+          "Angle_X": 0,
+          "Angle_Y": 60,
+          "Angle_Z": 0,
+          "EnemyNo": -1
+        }
+      },
+      {
+        "Operation": "add",
+        "DataBlock": "ACTR",
+        "Data": {
+          "Name": "Obj_Uma",
+          "param_0": 255,
+          "param_1": 255,
+          "param_2": 255,
+          "param_3": 255,
+          "x": -13635,
+          "y": -6648,
+          "z": 64796,
+          "Angle_X": 0,
+          "Angle_Y": -60,
+          "Angle_Z": 0,
+          "EnemyNo": -1
+        }
+      },
+      {
+        "Operation": "remove",
+        "DataBlock": "ACT0",
+        "ID": "Obj_Uma@-4400,-7070,54150"
+      },
+      {
+        "Operation": "remove",
+        "DataBlock": "ACT0",
+        "ID": "Obj_Uma@-4450,-7085,54250"
+      },
+      {
+        "Operation": "remove",
+        "DataBlock": "ACT0",
+        "ID": "Obj_Uma@-4400,-7077,54200"
       },
       {
         "Operation": "modify",
@@ -2204,6 +2309,51 @@
         "Data": {
           "param_2": 21
         }
+      },
+      {
+        "Operation": "remove",
+        "DataBlock": "ACT2",
+        "ID": "Obj_Uma@-13635,-6648,64796"
+      },
+      {
+        "Operation": "remove",
+        "DataBlock": "ACT2",
+        "ID": "Obj_Uma@-13614,-6614,64965"
+      },
+      {
+        "Operation": "remove",
+        "DataBlock": "ACT2",
+        "ID": "Obj_Uma@-13519,-6624,64859"
+      },
+      {
+        "Operation": "remove",
+        "DataBlock": "ACT2",
+        "ID": "Obj_Uma@-4400,-7070,54150"
+      },
+      {
+        "Operation": "remove",
+        "DataBlock": "ACT2",
+        "ID": "Obj_Uma@-4450,-7085,54250"
+      },
+      {
+        "Operation": "remove",
+        "DataBlock": "ACT2",
+        "ID": "Obj_Uma@-4400,-7077,54200"
+      },
+      {
+        "Operation": "remove",
+        "DataBlock": "ACT6",
+        "ID": "Obj_Uma@-4400,-7070,54150"
+      },
+      {
+        "Operation": "remove",
+        "DataBlock": "ACT6",
+        "ID": "Obj_Uma@-4450,-7085,54250"
+      },
+      {
+        "Operation": "remove",
+        "DataBlock": "ACT6",
+        "ID": "Obj_Uma@-4400,-7077,54200"
       },
       {
         "Operation": "add",
@@ -2513,6 +2663,24 @@
           "z": 1903.6146240234375,
           "Angle_X": -2,
           "Angle_Y": 9655,
+          "Angle_Z": 0,
+          "EnemyNo": -1
+        }
+      },
+      {
+        "Operation": "add",
+        "DataBlock": "ACTR",
+        "Data": {
+          "Name": "Obj_Uma",
+          "param_0": 255,
+          "param_1": 255,
+          "param_2": 255,
+          "param_3": 255,
+          "x": -73352,
+          "y": -1427,
+          "z": 9110,
+          "Angle_X": 0,
+          "Angle_Y": 60,
           "Angle_Z": 0,
           "EnemyNo": -1
         }
