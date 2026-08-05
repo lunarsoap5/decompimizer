@@ -30,9 +30,9 @@
           "x": -4765.38037109375,
           "y": -1.2100000381469727,
           "z": 272.1922607421875,
-          "Angle X": -2,
-          "Angle Y": 18105,
-          "Angle Z": 0,
+          "Angle_X": -2,
+          "Angle_Y": 18105,
+          "Angle_Z": 0,
           "EnemyNo": -1
         }
       }
@@ -55,9 +55,9 @@
           "x": 11394.185546875,
           "y": 2878.64990234375,
           "z": -17913.05078125,
-          "Angle X": -2,
-          "Angle Y": -10922,
-          "Angle Z": 0,
+          "Angle_X": -2,
+          "Angle_Y": -10922,
+          "Angle_Z": 0,
           "EnemyNo": -1
         }
       }
@@ -80,9 +80,9 @@
           "x": -1972.1168212890625,
           "y": 3150.0,
           "z": 7610.97509765625,
-          "Angle X": -2,
-          "Angle Y": 24576,
-          "Angle Z": 0,
+          "Angle_X": -2,
+          "Angle_Y": 24576,
+          "Angle_Z": 0,
           "EnemyNo": -1
         }
       }
@@ -105,9 +105,9 @@
           "x": -618.9334716796875,
           "y": 725.0,
           "z": 3112.199951171875,
-          "Angle X": -2,
-          "Angle Y": -32768,
-          "Angle Z": 0,
+          "Angle_X": -2,
+          "Angle_Y": -32768,
+          "Angle_Z": 0,
           "EnemyNo": -1
         }
       }
@@ -129,9 +129,9 @@
           "x": -3885.2158203125,
           "y": 4450.0,
           "z": -6353.38134765625,
-          "Angle X": -2,
-          "Angle Y": 8192,
-          "Angle Z": 0,
+          "Angle_X": -2,
+          "Angle_Y": 8192,
+          "Angle_Z": 0,
           "EnemyNo": -1
         }
       }
@@ -154,9 +154,9 @@
           "x": 0.0,
           "y": -200.0,
           "z": 11915.0,
-          "Angle X": -2,
-          "Angle Y": -32768,
-          "Angle Z": 0,
+          "Angle_X": -2,
+          "Angle_Y": -32768,
+          "Angle_Z": 0,
           "EnemyNo": -1
         }
       },
@@ -165,20 +165,17 @@
         "DataBlock": "SCOB",
         "Data": {
           "Name": "scnChg",
-          "param_0": 255,
-          "param_1": 255,
-          "param_2": 0,
-          "param_3": 1,
+          "param": 4294901761,
           "x": -3176.0,
           "y": -600.0,
           "z": 5480.0,
-          "Angle X": 4095,
-          "Angle Y": 0,
-          "Angle Z": 4095,
+          "Angle_X": 4095,
+          "Angle_Y": 0,
+          "Angle_Z": 4095,
           "EnemyNo": -1,
-          "Scale X": 20,
-          "Scale Y": 67,
-          "Scale Z": 54,
+          "Scale_X": 20,
+          "Scale_Y": 67,
+          "Scale_Z": 54,
           "field_0x23": 255
         }
       }
@@ -200,9 +197,9 @@
           "x": 3376.5400390625,
           "y": 0.0,
           "z": -12709.03515625,
-          "Angle X": -2,
-          "Angle Y": 14266,
-          "Angle Z": 0,
+          "Angle_X": -2,
+          "Angle_Y": 14266,
+          "Angle_Z": 0,
           "EnemyNo": -1
         }
       }
@@ -296,9 +293,9 @@
           "x": 679.0,
           "y": -200.0,
           "z": 9311.0,
-          "Angle X": -2,
-          "Angle Y": 0,
-          "Angle Z": 0,
+          "Angle_X": -2,
+          "Angle_Y": 0,
+          "Angle_Z": 0,
           "EnemyNo": -1
         }
       },
@@ -331,9 +328,9 @@
           "x": 0.0,
           "y": 25.0,
           "z": 11625.0,
-          "Angle X": -2,
-          "Angle Y": 0,
-          "Angle Z": 0,
+          "Angle_X": -2,
+          "Angle_Y": 0,
+          "Angle_Z": 0,
           "EnemyNo": -1
         }
       }
@@ -356,9 +353,9 @@
           "x": -349.4043884277344,
           "y": 450.0,
           "z": -2876.90771484375,
-          "Angle X": -2,
-          "Angle Y": 0,
-          "Angle Z": 0,
+          "Angle_X": -2,
+          "Angle_Y": 0,
+          "Angle_Z": 0,
           "EnemyNo": -1
         }
       }
@@ -381,9 +378,9 @@
           "x": -530.0,
           "y": 0.0,
           "z": -669.6900024414062,
-          "Angle X": -2,
-          "Angle Y": 0,
-          "Angle Z": 0,
+          "Angle_X": -2,
+          "Angle_Y": 0,
+          "Angle_Z": 0,
           "EnemyNo": -1
         }
       }
@@ -406,9 +403,9 @@
           "x": -1191.4200439453125,
           "y": 1100.0,
           "z": -260.6499938964844,
-          "Angle X": -2,
-          "Angle Y": -7037,
-          "Angle Z": 0,
+          "Angle_X": -2,
+          "Angle_Y": -7037,
+          "Angle_Z": 0,
           "EnemyNo": -1
         }
       }
@@ -431,9 +428,9 @@
           "x": -2987.38671875,
           "y": -1636.68994140625,
           "z": -17674.869140625,
-          "Angle X": -2,
-          "Angle Y": 15905,
-          "Angle Z": 0,
+          "Angle_X": -2,
+          "Angle_Y": 15905,
+          "Angle_Z": 0,
           "EnemyNo": -1
         }
       }
@@ -445,22 +442,31 @@
     "FilePath": "res/Stage/F_SP103/R00_00",
     "Changes": [
       {
+        // Remove duplicate Bo to prevent confusion and odd interaction with Goats
+        "Operation": "remove",
+        "DataBlock": "ACT0",
+        "ID": "Bou@-526,300,5333"
+      },
+      {
+        // Patch Door so it can be used with no interruptions.
         "Operation": "modify",
         "DataBlock": "Doo0",
         "ID": "kdoor@470,500,5323",
         "Data": {
-          "Angle X": -1
+          "Angle_X": -1
         }
       },
       {
+        // Patch Door so it can be used with no interruptions.
         "Operation": "modify",
         "DataBlock": "Doo0",
         "ID": "kdoor@500,500,5172",
         "Data": {
-          "Angle X": -1
+          "Angle_X": -1
         }
       },
       {
+        // Add Epona actor to global Actor list to prevent softlocks.
         "Operation": "add",
         "DataBlock": "ACT0",
         "Data": {
@@ -472,9 +478,9 @@
           "x": -1200.0,
           "y": 367.0,
           "z": 6100.0,
-          "Angle X": 0,
-          "Angle Y": -180,
-          "Angle Z": 0,
+          "Angle_X": 0,
+          "Angle_Y": -180,
+          "Angle_Z": 0,
           "EnemyNo": -1
         }
       },
@@ -486,6 +492,7 @@
           "param_2": 16
         }
       },
+      // Update flag for Yellow Rupee on Rusl's house
       {
         "Operation": "modify",
         "DataBlock": "ACT0",
@@ -510,9 +517,19 @@
           "param_2": 4
         }
       },
+      // Update flag for Yellow Rupee on Rusl's house
       {
         "Operation": "modify",
         "DataBlock": "ACT5",
+        "ID": "item@-4739,1155,2239",
+        "Data": {
+          "param_2": 17
+        }
+      },
+      // Update flag for Yellow Rupee on Rusl's house
+      {
+        "Operation": "modify",
+        "DataBlock": "ACT6",
         "ID": "item@-4739,1155,2239",
         "Data": {
           "param_2": 17
@@ -536,9 +553,9 @@
           "x": 687.8900146484375,
           "y": 800.0,
           "z": -1424.1600341796875,
-          "Angle X": -2,
-          "Angle Y": -24551,
-          "Angle Z": 0,
+          "Angle_X": -2,
+          "Angle_Y": -24551,
+          "Angle_Z": 0,
           "EnemyNo": -1
         }
       },
@@ -551,6 +568,102 @@
         "Operation": "remove",
         "DataBlock": "ACT4",
         "ID": "Maro@847,800,-1500"
+      }
+    ]
+  },
+  {
+    "description": "Add flags to fairies in spring",
+    "FilePath": "res/Stage/F_SP104/R01_00",
+    "Changes": [
+      {
+        // Add flag to Ordon Spring Fairy 1
+        "Operation": "modify",
+        "DataBlock": "ACT2",
+        "ID": "Yousei@-3625,260,-9595",
+        "Data": {
+          "param_2": 245
+        }
+      },
+      {
+        // Add flag to Ordon Spring Fairy 2
+        "Operation": "modify",
+        "DataBlock": "ACT2",
+        "ID": "Yousei@-3459,260,-9418",
+        "Data": {
+          "param_2": 246
+        }
+      },
+      {
+        // Add flag to Ordon Spring Fairy 3
+        "Operation": "modify",
+        "DataBlock": "ACT2",
+        "ID": "Yousei@-4070,260,-9365",
+        "Data": {
+          "param_2": 247
+        }
+      },
+      {
+        // Add flag to Ordon Spring Fairy 4
+        "Operation": "modify",
+        "DataBlock": "ACT2",
+        "ID": "Yousei@-3963,260,-10056",
+        "Data": {
+          "param_2": 248
+        }
+      },
+      {
+        // Add flag to Ordon Spring Fairy 5
+        "Operation": "modify",
+        "DataBlock": "ACT2",
+        "ID": "Yousei@-3947,260,-9692",
+        "Data": {
+          "param_2": 249
+        }
+      },
+      {
+        // Add flag to Ordon Spring Fairy 6
+        "Operation": "modify",
+        "DataBlock": "ACT2",
+        "ID": "Yousei@-3781,260,-9295",
+        "Data": {
+          "param_2": 250
+        }
+      },
+      {
+        // Add flag to Ordon Spring Fairy 7
+        "Operation": "modify",
+        "DataBlock": "ACT2",
+        "ID": "Yousei@-3577,260,-10008",
+        "Data": {
+          "param_2": 251
+        }
+      },
+      {
+        // Add flag to Ordon Spring Fairy 8
+        "Operation": "modify",
+        "DataBlock": "ACT2",
+        "ID": "Yousei@-3888,260,-9021",
+        "Data": {
+          "param_2": 252
+        }
+      },
+      {
+        // Add flag to Ordon Spring Fairy 9
+        "Operation": "modify",
+        "DataBlock": "ACT2",
+        "ID": "Yousei@-3422,260,-9767",
+        "Data": {
+          "param_2": 253
+        }
+      },
+      {
+        // Add flag to Ordon Spring Fairy 10
+        "Operation": "modify",
+        "DataBlock": "ACT2",
+        "ID": "Yousei@-3765,260,-10244",
+        "Data": {
+          "param_2": 254
+        }
       }
     ]
   },
@@ -571,9 +684,9 @@
           "x": -1200.0,
           "y": 367.0,
           "z": 6100.0,
-          "Angle X": 0,
-          "Angle Y": -180,
-          "Angle Z": 0,
+          "Angle_X": 0,
+          "Angle_Y": -180,
+          "Angle_Z": 0,
           "EnemyNo": -1
         }
       }
@@ -617,9 +730,9 @@
           "x": -12423.8466796875,
           "y": 273.2779846191406,
           "z": -11518.9580078125,
-          "Angle X": -2,
-          "Angle Y": -28120,
-          "Angle Z": 0,
+          "Angle_X": -2,
+          "Angle_Y": -28120,
+          "Angle_Z": 0,
           "EnemyNo": -1
         }
       },
@@ -667,9 +780,9 @@
           "x": -13505.0,
           "y": 250.0,
           "z": -14405.0,
-          "Angle X": 101,
-          "Angle Y": -14199,
-          "Angle Z": 0,
+          "Angle_X": 101,
+          "Angle_Y": -14199,
+          "Angle_Z": 0,
           "EnemyNo": -1
         }
       }
@@ -700,11 +813,145 @@
           "x": -36714.90234375,
           "y": 424.0389404296875,
           "z": -23698.02734375,
-          "Angle X": 0,
-          "Angle Y": 0,
-          "Angle Z": -1,
+          "Angle_X": 0,
+          "Angle_Y": 0,
+          "Angle_Z": -1,
           "EnemyNo": -1
         }
+      }
+    ]
+  },
+  {
+    "description": "",
+    "FilePath": "res/Stage/F_SP108/R08_00",
+    "Changes": [
+      {
+        // Add the Faron Owl Statue to the global DZR and remove the state-based dupes
+        "Operation": "add",
+        "DataBlock": "ACTR",
+        "Data": {
+          "Name": "TagStat",
+          "param_0": 0,
+          "param_1": 15,
+          "param_2": 240,
+          "param_3": 255,
+          "x": -17500.0,
+          "y": -310.0,
+          "z": -20950.0,
+          "Angle_X": 0,
+          "Angle_Y": 13653,
+          "Angle_Z": 0,
+          "EnemyNo": -1
+        }
+      },
+      {
+        "Operation": "remove",
+        "DataBlock": "ACT2",
+        "ID": "TagStat@-17500,-310,-20950"
+      },
+      {
+        "Operation": "remove",
+        "DataBlock": "ACT3",
+        "ID": "TagStat@-17500,-310,-20950"
+      },
+      {
+        "Operation": "remove",
+        "DataBlock": "ACT5",
+        "ID": "TagStat@-17500,-310,-20950"
+      }
+    ]
+  },
+  {
+    "description": "",
+    "FilePath": "res/Stage/F_SP108/R14_00",
+    "Changes": [
+      {
+        // Add lantern torch to all states
+        "Operation": "add",
+        "DataBlock": "ACTR",
+        "Data": {
+          "Name": "Cldst00",
+          "param_0": 0,
+          "param_1": 0,
+          "param_2": 0,
+          "param_3": 90,
+          "x": 1127.0,
+          "y": 50.0,
+          "z": -271.0,
+          "Angle_X": 0,
+          "Angle_Y": 0,
+          "Angle_Z": 0,
+          "EnemyNo": -1
+        }
+      },
+      {
+        // Add lantern torch to all states
+        "Operation": "add",
+        "DataBlock": "ACTR",
+        "Data": {
+          "Name": "Cldst00",
+          "param_0": 0,
+          "param_1": 0,
+          "param_2": 0,
+          "param_3": 90,
+          "x": 1105.0,
+          "y": 50.0,
+          "z": 303.0,
+          "Angle_X": 0,
+          "Angle_Y": -32768,
+          "Angle_Z": 0,
+          "EnemyNo": -1
+        }
+      },
+      {
+        "Operation": "remove",
+        "DataBlock": "ACT0",
+        "ID": "Cldst00@1127,50,-271"
+      },
+      {
+        "Operation": "remove",
+        "DataBlock": "ACT0",
+        "ID": "Cldst00@1105,50,303"
+      },
+      {
+        "Operation": "remove",
+        "DataBlock": "ACT1",
+        "ID": "Cldst00@1127,50,-271"
+      },
+      {
+        "Operation": "remove",
+        "DataBlock": "ACT1",
+        "ID": "Cldst00@1105,50,303"
+      },
+      {
+        "Operation": "remove",
+        "DataBlock": "ACT2",
+        "ID": "Cldst00@1127,50,-271"
+      },
+      {
+        "Operation": "remove",
+        "DataBlock": "ACT2",
+        "ID": "Cldst00@1105,50,303"
+      },
+      {
+        "Operation": "remove",
+        "DataBlock": "ACT3",
+        "ID": "Cldst00@1127,50,-271"
+      },
+      {
+        "Operation": "remove",
+        "DataBlock": "ACT3",
+        "ID": "Cldst00@1105,50,303"
+      },
+      {
+        "Operation": "remove",
+        "DataBlock": "ACT5",
+        "ID": "Cldst00@1127,50,-271"
+      },
+      {
+        "Operation": "remove",
+        "DataBlock": "ACT5",
+        "ID": "Cldst00@1105,50,303"
       }
     ]
   },
@@ -725,9 +972,9 @@
           "x": -3347.52734,
           "y": 2999.16138,
           "z": -2865.99341,
-          "Angle X": -2,
-          "Angle Y": 0,
-          "Angle Z": 0,
+          "Angle_X": -2,
+          "Angle_Y": 0,
+          "Angle_Z": 0,
           "EnemyNo": -1
         }
       },
@@ -774,9 +1021,9 @@
           "x": 920.5830688476562,
           "y": 0.7459850907325745,
           "z": 1227.3997802734375,
-          "Angle X": -2,
-          "Angle Y": 13733,
-          "Angle Z": 0,
+          "Angle_X": -2,
+          "Angle_Y": 13733,
+          "Angle_Z": 0,
           "EnemyNo": -1
         }
       }
@@ -799,11 +1046,44 @@
           "x": 21765.986328125,
           "y": 500.0,
           "z": -62.24700164794922,
-          "Angle X": -2,
-          "Angle Y": -16384,
-          "Angle Z": 0,
+          "Angle_X": -2,
+          "Angle_Y": -16384,
+          "Angle_Z": 0,
           "EnemyNo": -1
         }
+      },
+      {
+        "Operation": "add",
+        "DataBlock": "ACTR",
+        "Data": {
+          "Name": "htPiece",
+          "param_0": 0,
+          "param_1": 255,
+          "param_2": 145,
+          "param_3": 212,
+          "x": 16933,
+          "y": 500,
+          "z": -769,
+          "Angle_X": 0,
+          "Angle_Y": 0,
+          "Angle_Z": 0,
+          "EnemyNo": -1
+        }
+      },
+      {
+        "Operation": "remove",
+        "DataBlock": "ACT0",
+        "ID": "I_Ari@16933,500,-769"
+      },
+      {
+        "Operation": "remove",
+        "DataBlock": "ACT2",
+        "ID": "I_Ari@16933,500,-769"
+      },
+      {
+        "Operation": "remove",
+        "DataBlock": "ACT3",
+        "ID": "I_Ari@16933,500,-769"
       }
     ]
   },
@@ -862,9 +1142,9 @@
           "x": -2964.848388671875,
           "y": -2500.0,
           "z": 17146.267578125,
-          "Angle X": -2,
-          "Angle Y": -20727,
-          "Angle Z": 0,
+          "Angle_X": -2,
+          "Angle_Y": -20727,
+          "Angle_Z": 0,
           "EnemyNo": -1
         }
       },
@@ -991,9 +1271,9 @@
           "x": 15931.923828125,
           "y": -14389.4912109375,
           "z": -17388.19921875,
-          "Angle X": -2,
-          "Angle Y": 11354,
-          "Angle Z": 0,
+          "Angle_X": -2,
+          "Angle_Y": 11354,
+          "Angle_Z": 0,
           "EnemyNo": -1
         }
       },
@@ -1002,7 +1282,7 @@
         "DataBlock": "ACTR",
         "ID": "E_hp@-4700,-4444,-18470",
         "Data": {
-          "Angle Z": 0
+          "Angle_Z": 0
         }
       }
     ]
@@ -1011,6 +1291,45 @@
     "description": "Add flags for snowboarding rupees and add shadow beast actors to layer 3",
     "FilePath": "res/Stage/F_SP114/R01_00",
     "Changes": [
+      {
+        // Add custom warp/spawn to outside SPR
+        "Operation": "add",
+        "DataBlock": "PLYR",
+        "Data": {
+          "Name": "Link",
+          "param_0": 255,
+          "param_1": 0,
+          "param_2": 0,
+          "param_3": 63,
+          "x": -68908,
+          "y": -52428,
+          "z": 63583,
+          "Angle_X": 0,
+          "Angle_Y": -16384,
+          "Spawn_ID": 7,
+          "EnemyNo": -1
+        }
+      },
+      {
+        // Add SWArea that sets custom portal flag when player reaches SPR stairs
+        "Operation": "add",
+        "DataBlock": "SCOB",
+        "Data": {
+          "Name": "SwAreaS",
+          "param": 4278255368,
+          "x": -71966,
+          "y": -54500,
+          "z": 56129,
+          "Angle_X": 4095,
+          "Angle_Y": 0,
+          "Angle_Z": 0,
+          "EnemyNo": -1,
+          "Scale_X": 60,
+          "Scale_Y": 50,
+          "Scale_Z": 60,
+          "field_0x23": 255
+        }
+      },
       {
         "Operation": "modify",
         "DataBlock": "ACTR",
@@ -1175,9 +1494,9 @@
           "x": -11947.955078125,
           "y": 900.0,
           "z": -9894.2177734375,
-          "Angle X": 0,
-          "Angle Y": 8009,
-          "Angle Z": 5,
+          "Angle_X": 0,
+          "Angle_Y": 8009,
+          "Angle_Z": 5,
           "EnemyNo": -1
         }
       },
@@ -1193,9 +1512,9 @@
           "x": -11947.955078125,
           "y": 900.0,
           "z": -9894.2177734375,
-          "Angle X": 0,
-          "Angle Y": 8009,
-          "Angle Z": 5,
+          "Angle_X": 0,
+          "Angle_Y": 8009,
+          "Angle_Z": 5,
           "EnemyNo": -1
         }
       },
@@ -1211,9 +1530,9 @@
           "x": -11947.955078125,
           "y": 900.0,
           "z": -9894.2177734375,
-          "Angle X": 0,
-          "Angle Y": 8009,
-          "Angle Z": 5,
+          "Angle_X": 0,
+          "Angle_Y": 8009,
+          "Angle_Z": 5,
           "EnemyNo": -1
         }
       }
@@ -1236,9 +1555,9 @@
           "x": -108290.0859375,
           "y": -8654.748046875,
           "z": 45935.296875,
-          "Angle X": 0,
-          "Angle Y": 1,
-          "Angle Z": 63,
+          "Angle_X": 0,
+          "Angle_Y": 1,
+          "Angle_Z": 63,
           "EnemyNo": -1
         }
       },
@@ -1254,9 +1573,47 @@
           "x": -109203.4609375,
           "y": -7220.0,
           "z": 33083.734375,
-          "Angle X": -2,
-          "Angle Y": 25781,
-          "Angle Z": 0,
+          "Angle_X": -2,
+          "Angle_Y": 25781,
+          "Angle_Z": 0,
+          "EnemyNo": -1
+        }
+      },
+      {
+        // Add Auru to global actor table so he is available in any state
+        "Operation": "add",
+        "DataBlock": "ACTR",
+        "Data": {
+          "Name": "Rafrel",
+          "param_0": 0,
+          "param_1": 0,
+          "param_2": 29,
+          "param_3": 1,
+          "x": -116486.9453125,
+          "y": -13860.0,
+          "z": 58533.0078125,
+          "Angle_X": 0,
+          "Angle_Y": -13107,
+          "Angle_Z": 0,
+          "EnemyNo": -1
+        }
+      },
+      {
+        // Add Zora Bombsalesman outside LBT
+        "Operation": "add",
+        "DataBlock": "ACT1",
+        "Data": {
+          "Name": "zrA",
+          "param_0": 15,
+          "param_1": 255,
+          "param_2": 255,
+          "param_3": 0,
+          "x": -93760.578125,
+          "y": -31248.091796875,
+          "z": 42664.75,
+          "Angle_X": 1101,
+          "Angle_Y": -32768,
+          "Angle_Z": 0,
           "EnemyNo": -1
         }
       },
@@ -1317,6 +1674,25 @@
         }
       },
       {
+        // Add Zora Bombsalesman outside LBT
+        "Operation": "add",
+        "DataBlock": "ACT2",
+        "Data": {
+          "Name": "zrA",
+          "param_0": 15,
+          "param_1": 255,
+          "param_2": 255,
+          "param_3": 0,
+          "x": -93760.578125,
+          "y": -31248.091796875,
+          "z": 42664.75,
+          "Angle_X": 1101,
+          "Angle_Y": -32768,
+          "Angle_Z": 0,
+          "EnemyNo": -1
+        }
+      },
+      {
         "Operation": "modify",
         "DataBlock": "ACT2",
         "ID": "item@-92246,-31720,41678",
@@ -1373,20 +1749,27 @@
         }
       },
       {
+        // Remove Vanilla Auru Actor since we have added one to the global dzx
+        "Operation": "remove",
+        "DataBlock": "ACT2",
+        "ID": "Rafrel@-116486,-13860,58533"
+      },
+      {
+        // Add Zora Bombsalesman outside LBT
         "Operation": "add",
-        "DataBlock": "ACTR",
+        "DataBlock": "ACT3",
         "Data": {
-          "Name": "Rafrel",
-          "param_0": 0,
-          "param_1": 0,
-          "param_2": 29,
-          "param_3": 1,
-          "x": -116486.9453125,
-          "y": -13860.0,
-          "z": 58533.0078125,
-          "Angle X": 0,
-          "Angle Y": -13107,
-          "Angle Z": 0,
+          "Name": "zrA",
+          "param_0": 15,
+          "param_1": 255,
+          "param_2": 255,
+          "param_3": 0,
+          "x": -93760.578125,
+          "y": -31248.091796875,
+          "z": 42664.75,
+          "Angle_X": 1101,
+          "Angle_Y": -32768,
+          "Angle_Z": 0,
           "EnemyNo": -1
         }
       },
@@ -1464,9 +1847,9 @@
           "x": -309.9978332519531,
           "y": -1614.82177734375,
           "z": 157.97079467773438,
-          "Angle X": -2,
-          "Angle Y": -32768,
-          "Angle Z": 0,
+          "Angle_X": -2,
+          "Angle_Y": -32768,
+          "Angle_Z": 0,
           "EnemyNo": -1
         }
       },
@@ -1545,9 +1928,9 @@
           "x": 0.0,
           "y": -200.0,
           "z": 835.0,
-          "Angle X": -2,
-          "Angle Y": 0,
-          "Angle Z": 0,
+          "Angle_X": -2,
+          "Angle_Y": 0,
+          "Angle_Z": 0,
           "EnemyNo": -1
         }
       },
@@ -1579,9 +1962,9 @@
           "x": -1543.0,
           "y": 1725.0,
           "z": 7964.85498046875,
-          "Angle X": -2,
-          "Angle Y": 16384,
-          "Angle Z": 0,
+          "Angle_X": -2,
+          "Angle_Y": 16384,
+          "Angle_Z": 0,
           "EnemyNo": -1
         }
       },
@@ -1597,9 +1980,9 @@
           "x": 0.0,
           "y": 1700.0,
           "z": -5435.0,
-          "Angle X": 327,
-          "Angle Y": 0,
-          "Angle Z": 0,
+          "Angle_X": 327,
+          "Angle_Y": 0,
+          "Angle_Z": 0,
           "EnemyNo": -1
         }
       },
@@ -1629,7 +2012,7 @@
         "DataBlock": "SCO2",
         "ID": "KMsg@0,1700,-5435",
         "Data": {
-          "Angle X": -32513
+          "Angle_X": -32513
         }
       }
     ]
@@ -1678,9 +2061,9 @@
           "x": -568.55615234375,
           "y": 260.0,
           "z": -3969.31005859375,
-          "Angle X": -2,
-          "Angle Y": 0,
-          "Angle Z": 0,
+          "Angle_X": -2,
+          "Angle_Y": 0,
+          "Angle_Z": 0,
           "EnemyNo": -1
         }
       },
@@ -1698,7 +2081,7 @@
         "ID": "tboxA0@2389,260,-1473",
         "Data": {
           "field_0xa": 247,
-          "Appear Type": 128
+          "Appear_Type": 128
         }
       }
     ]
@@ -1720,9 +2103,63 @@
           "x": -12433.2744140625,
           "y": -1075.2218017578125,
           "z": 20885.712890625,
-          "Angle X": -2,
-          "Angle Y": -32768,
-          "Angle Z": 0,
+          "Angle_X": -2,
+          "Angle_Y": -32768,
+          "Angle_Z": 0,
+          "EnemyNo": -1
+        }
+      },
+      {
+        "Operation": "add",
+        "DataBlock": "ACTR",
+        "Data": {
+          "Name": "Obj_Uma",
+          "param_0": 255,
+          "param_1": 255,
+          "param_2": 255,
+          "param_3": 255,
+          "x": 36589,
+          "y": -260,
+          "z": -43122,
+          "Angle_X": 0,
+          "Angle_Y": 0,
+          "Angle_Z": 0,
+          "EnemyNo": -1
+        }
+      },
+      {
+        "Operation": "add",
+        "DataBlock": "ACTR",
+        "Data": {
+          "Name": "Obj_Uma",
+          "param_0": 255,
+          "param_1": 255,
+          "param_2": 255,
+          "param_3": 255,
+          "x": 35978,
+          "y": -260,
+          "z": -9303,
+          "Angle_X": 0,
+          "Angle_Y": 0,
+          "Angle_Z": 0,
+          "EnemyNo": -1
+        }
+      },
+      {
+        "Operation": "add",
+        "DataBlock": "ACTR",
+        "Data": {
+          "Name": "Obj_Uma",
+          "param_0": 255,
+          "param_1": 255,
+          "param_2": 255,
+          "param_3": 255,
+          "x": -10815,
+          "y": -945,
+          "z": 20023,
+          "Angle_X": 0,
+          "Angle_Y": 0,
+          "Angle_Z": 0,
           "EnemyNo": -1
         }
       },
@@ -1760,11 +2197,62 @@
           "x": -10116.021484375,
           "y": -4923.4619140625,
           "z": 43064.4375,
-          "Angle X": -2,
-          "Angle Y": 1929,
-          "Angle Z": 0,
+          "Angle_X": -2,
+          "Angle_Y": 1929,
+          "Angle_Z": 0,
           "EnemyNo": -1
         }
+      },
+      {
+        "Operation": "add",
+        "DataBlock": "ACTR",
+        "Data": {
+          "Name": "Obj_Uma",
+          "param_0": 255,
+          "param_1": 255,
+          "param_2": 255,
+          "param_3": 255,
+          "x": -4400,
+          "y": -7077,
+          "z": 54200,
+          "Angle_X": 0,
+          "Angle_Y": 60,
+          "Angle_Z": 0,
+          "EnemyNo": -1
+        }
+      },
+      {
+        "Operation": "add",
+        "DataBlock": "ACTR",
+        "Data": {
+          "Name": "Obj_Uma",
+          "param_0": 255,
+          "param_1": 255,
+          "param_2": 255,
+          "param_3": 255,
+          "x": -13635,
+          "y": -6648,
+          "z": 64796,
+          "Angle_X": 0,
+          "Angle_Y": -60,
+          "Angle_Z": 0,
+          "EnemyNo": -1
+        }
+      },
+      {
+        "Operation": "remove",
+        "DataBlock": "ACT0",
+        "ID": "Obj_Uma@-4400,-7070,54150"
+      },
+      {
+        "Operation": "remove",
+        "DataBlock": "ACT0",
+        "ID": "Obj_Uma@-4450,-7085,54250"
+      },
+      {
+        "Operation": "remove",
+        "DataBlock": "ACT0",
+        "ID": "Obj_Uma@-4400,-7077,54200"
       },
       {
         "Operation": "modify",
@@ -1823,6 +2311,51 @@
         }
       },
       {
+        "Operation": "remove",
+        "DataBlock": "ACT2",
+        "ID": "Obj_Uma@-13635,-6648,64796"
+      },
+      {
+        "Operation": "remove",
+        "DataBlock": "ACT2",
+        "ID": "Obj_Uma@-13614,-6614,64965"
+      },
+      {
+        "Operation": "remove",
+        "DataBlock": "ACT2",
+        "ID": "Obj_Uma@-13519,-6624,64859"
+      },
+      {
+        "Operation": "remove",
+        "DataBlock": "ACT2",
+        "ID": "Obj_Uma@-4400,-7070,54150"
+      },
+      {
+        "Operation": "remove",
+        "DataBlock": "ACT2",
+        "ID": "Obj_Uma@-4450,-7085,54250"
+      },
+      {
+        "Operation": "remove",
+        "DataBlock": "ACT2",
+        "ID": "Obj_Uma@-4400,-7077,54200"
+      },
+      {
+        "Operation": "remove",
+        "DataBlock": "ACT6",
+        "ID": "Obj_Uma@-4400,-7070,54150"
+      },
+      {
+        "Operation": "remove",
+        "DataBlock": "ACT6",
+        "ID": "Obj_Uma@-4450,-7085,54250"
+      },
+      {
+        "Operation": "remove",
+        "DataBlock": "ACT6",
+        "ID": "Obj_Uma@-4400,-7077,54200"
+      },
+      {
         "Operation": "add",
         "DataBlock": "SCO6",
         "Data": {
@@ -1831,9 +2364,9 @@
           "x": 5600.0,
           "y": -5680.0,
           "z": 52055.0,
-          "Angle X": 0,
-          "Angle Y": 16384,
-          "Angle Z": 0,
+          "Angle_X": 0,
+          "Angle_Y": 16384,
+          "Angle_Z": 0,
           "EnemyNo": -1,
           "Scale X": 32,
           "Scale Y": 45,
@@ -1869,9 +2402,9 @@
           "x": -46039.4921875,
           "y": -9250.0,
           "z": 81859.2890625,
-          "Angle X": -2,
-          "Angle Y": -32768,
-          "Angle Z": 0,
+          "Angle_X": -2,
+          "Angle_Y": -32768,
+          "Angle_Z": 0,
           "EnemyNo": -1
         }
       }
@@ -1893,9 +2426,9 @@
           "x": 10778.20703125,
           "y": 306.82666015625,
           "z": -62651.0078125,
-          "Angle X": -164,
-          "Angle Y": 16384,
-          "Angle Z": 0,
+          "Angle_X": -164,
+          "Angle_Y": 16384,
+          "Angle_Z": 0,
           "EnemyNo": -1
         }
       },
@@ -1911,9 +2444,9 @@
           "x": 10778.20703125,
           "y": 306.82666015625,
           "z": -62951.0078125,
-          "Angle X": -164,
-          "Angle Y": 16384,
-          "Angle Z": 0,
+          "Angle_X": -164,
+          "Angle_Y": 16384,
+          "Angle_Z": 0,
           "EnemyNo": -1
         }
       },
@@ -1929,9 +2462,9 @@
           "x": 10778.20703125,
           "y": 306.82666015625,
           "z": -63191.0078125,
-          "Angle X": -164,
-          "Angle Y": 16384,
-          "Angle Z": 0,
+          "Angle_X": -164,
+          "Angle_Y": 16384,
+          "Angle_Z": 0,
           "EnemyNo": -1
         }
       }
@@ -1953,9 +2486,9 @@
           "x": -64943.7421875,
           "y": -1359.6671142578125,
           "z": -31897.8828125,
-          "Angle X": -2,
-          "Angle Y": -7645,
-          "Angle Z": 0,
+          "Angle_X": -2,
+          "Angle_Y": -7645,
+          "Angle_Z": 0,
           "EnemyNo": -1
         }
       },
@@ -2071,9 +2604,9 @@
           "x": -94678.8671875,
           "y": -3900.0,
           "z": 18410.54296875,
-          "Angle X": -2,
-          "Angle Y": 0,
-          "Angle Z": 0,
+          "Angle_X": -2,
+          "Angle_Y": 0,
+          "Angle_Z": 0,
           "EnemyNo": -1
         }
       },
@@ -2128,9 +2661,27 @@
           "x": -80699.5,
           "y": -765.583740234375,
           "z": 1903.6146240234375,
-          "Angle X": -2,
-          "Angle Y": 9655,
-          "Angle Z": 0,
+          "Angle_X": -2,
+          "Angle_Y": 9655,
+          "Angle_Z": 0,
+          "EnemyNo": -1
+        }
+      },
+      {
+        "Operation": "add",
+        "DataBlock": "ACTR",
+        "Data": {
+          "Name": "Obj_Uma",
+          "param_0": 255,
+          "param_1": 255,
+          "param_2": 255,
+          "param_3": 255,
+          "x": -73352,
+          "y": -1427,
+          "z": 9110,
+          "Angle_X": 0,
+          "Angle_Y": 60,
+          "Angle_Z": 0,
           "EnemyNo": -1
         }
       },
@@ -2224,9 +2775,9 @@
           "x": -51500.0,
           "y": -5500.0,
           "z": 27368.30859375,
-          "Angle X": -2,
-          "Angle Y": 0,
-          "Angle Z": 0,
+          "Angle_X": -2,
+          "Angle_Y": 0,
+          "Angle_Z": 0,
           "EnemyNo": -1
         }
       },
@@ -2315,9 +2866,9 @@
           "x": 20356.23046875,
           "y": 556.7000122070312,
           "z": 38694.8046875,
-          "Angle X": -2,
-          "Angle Y": 153,
-          "Angle Z": 0,
+          "Angle_X": -2,
+          "Angle_Y": 153,
+          "Angle_Z": 0,
           "EnemyNo": -1
         }
       }
@@ -2340,9 +2891,9 @@
           "x": 1794.0,
           "y": 2523.0,
           "z": -17400.0,
-          "Angle X": -129,
-          "Angle Y": 0,
-          "Angle Z": 0,
+          "Angle_X": -129,
+          "Angle_Y": 0,
+          "Angle_Z": 0,
           "EnemyNo": -1
         }
       }
@@ -2556,9 +3107,9 @@
           "x": -2924.745849609375,
           "y": 35.0,
           "z": 8386.2890625,
-          "Angle X": -2,
-          "Angle Y": -32768,
-          "Angle Z": 0,
+          "Angle_X": -2,
+          "Angle_Y": -32768,
+          "Angle_Z": 0,
           "EnemyNo": -1
         }
       }
@@ -2581,9 +3132,9 @@
           "x": 5161.02978515625,
           "y": 0.0,
           "z": -5264.330078125,
-          "Angle X": -2,
-          "Angle Y": 0,
-          "Angle Z": 0,
+          "Angle_X": -2,
+          "Angle_Y": 0,
+          "Angle_Z": 0,
           "EnemyNo": -1
         }
       }
@@ -2634,9 +3185,9 @@
           "x": -650.0,
           "y": 450.0,
           "z": -500.0,
-          "Angle X": 327,
-          "Angle Y": -32768,
-          "Angle Z": 1535,
+          "Angle_X": 327,
+          "Angle_Y": -32768,
+          "Angle_Z": 1535,
           "EnemyNo": -1
         }
       },
@@ -2646,7 +3197,7 @@
         "ID": "TGSPITM@-650,450,-500,95",
         "Data": {
           "param_1": 8,
-          "Angle Z": -251
+          "Angle_Z": -251
         }
       },
       {
@@ -2654,8 +3205,8 @@
         "DataBlock": "ACT2",
         "ID": "TGSPITM@-550,450,-500,766",
         "Data": {
-          "Angle X": 327,
-          "Angle Z": 13311
+          "Angle_X": 327,
+          "Angle_Z": 13311
         }
       },
       {
@@ -2663,7 +3214,7 @@
         "DataBlock": "ACT2",
         "ID": "TGSPITM@-750,450,-500,768",
         "Data": {
-          "Angle Z": 1279
+          "Angle_Z": 1279
         }
       },
       {
@@ -2693,7 +3244,7 @@
         "ID": "TGSPITM@-550,450,-500,163",
         "Data": {
           "param_1": 7,
-          "Angle Z": 15933
+          "Angle_Z": 15933
         }
       },
       {
@@ -2710,7 +3261,7 @@
         "ID": "TGSPITM@-750,450,-500,130",
         "Data": {
           "param_1": 10,
-          "Angle Z": 14596
+          "Angle_Z": 14596
         }
       }
     ]
@@ -2732,9 +3283,9 @@
           "x": 4531.1904296875,
           "y": -30.0,
           "z": 2631.960693359375,
-          "Angle X": 0,
-          "Angle Y": 0,
-          "Angle Z": 0,
+          "Angle_X": 0,
+          "Angle_Y": 0,
+          "Angle_Z": 0,
           "EnemyNo": -1
         }
       },
@@ -2880,9 +3431,9 @@
           "x": 440.0,
           "y": -770.0,
           "z": -3250.0,
-          "Angle X": -2,
-          "Angle Y": -8192,
-          "Angle Z": 0,
+          "Angle_X": -2,
+          "Angle_Y": -8192,
+          "Angle_Z": 0,
           "EnemyNo": -1
         }
       }

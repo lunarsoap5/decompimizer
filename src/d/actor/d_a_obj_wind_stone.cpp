@@ -165,6 +165,13 @@ void daWindStone_c::exeModeHowl() {
         daAlink_getAlinkActorClass()->startWindStoneSound(tuneId, &current.pos);
         attention_info.flags = 0;
         if (chkWlfInRange()) {
+            /* todo: add logic for checking for specific stones.
+            I think the easiest way to do it would be to have a switch/case for tuneId.
+            indexes 0xbb0 - 0xbb6 in zel00 are reserved for the howling stone hints
+            NOTE: The setFloatingMessage uses the msgID of the "attribute" in the message. 
+            Example: index 0xbb0's msgID is 0x7c4
+            */
+            dMeter2Info_setFloatingMessage(0x7c4, 90, true); // Hint the item.
             attention_info.flags |= fopAc_AttnFlag_ETC_e;
             attention_info.distances[fopAc_attn_ETC_e] = 65;
         }

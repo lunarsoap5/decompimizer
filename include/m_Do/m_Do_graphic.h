@@ -5,6 +5,8 @@
 #include "m_Do/m_Do_mtx.h"
 #include "global.h"
 
+#define FB_WIDTH_BASE (608)
+#define FB_HEIGHT_BASE (448)
 #if WIDESCREEN_SUPPORT
 #define FB_WIDTH  (640)
 #define FB_HEIGHT (456)
@@ -111,6 +113,9 @@ public:
     static BOOL isAutoForcus() { return mAutoForcus; }
     static void setTickRate(u32 rate) { JFWDisplay::getManager()->setTickRate(rate); }
     static void waitBlanking(int wait) { JFWDisplay::getManager()->waitBlanking(wait); }
+
+    static f32 ScaleHUDXLeft(f32 baseX) { return baseX; }
+    static f32 ScaleHUDXRight(f32 baseX) { return FB_WIDTH_BASE + baseX; }
 
     static void setBlureMtx(const Mtx m) {
         cMtx_copy(m, mBlureMtx);
@@ -327,6 +332,7 @@ public:
     static int m_height;
     static f32 m_heightF;
     static f32 m_widthF;
+
     #endif
 };
 

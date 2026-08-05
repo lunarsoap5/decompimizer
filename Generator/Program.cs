@@ -5,11 +5,16 @@ using RarcTools;
 
 Console.WriteLine("Hello, World!");
 
+bool show_debug = false;
+
+//==============================================================================================
 // Open ISO Image
 RarcTools.GCRebuilder.GCRebuilder.ExtractISO(@"decompimizer-GZ2E01.iso", @"extractedISO/");
 
 var options = new JsonSerializerOptions { ReadCommentHandling = JsonCommentHandling.Skip };
+var encoder = new Yaz0Encoder();
 
+//==============================================================================================
 // Apply DZX Patches first
 // Deserialize DZX Patches file:
 string dzxPatchContents = File.ReadAllText(@"Generator/patch_files/dzx_patches.jsonc");
@@ -101,13 +106,15 @@ foreach (var dzxPatch in dzxPatches)
                         );
 
                         // Successfully patched the section, so break out.
-
+                        if (show_debug)
+                        {
                         Console.WriteLine(
                             "Successfully Applied Patch to: "
                                 + archiveDirectory
                                 + "-"
                                 + DZXChange.ID
                         );
+                        }
 
                         didPatch = true;
                         break;
@@ -140,11 +147,13 @@ foreach (var dzxPatch in dzxPatches)
     LibStage.PackageDZX(dzxString, archiveDirectory + filePath, false);
     RarcTools.RARCPacker.PackArchive(
         archiveDirectory,
-        archiveDirectory[..archiveDirectory.LastIndexOf("\\")] + ".arc",
+        archiveDirectory + ".arc", "",
+        false,
         true
     );
 }
 
+//==============================================================================================
 // Apply BMG Patches
 // Deserialize BMG Patches file:
 string bmgPatchContents = File.ReadAllText(@"Generator/patch_files/bmg_patches.jsonc");
@@ -206,9 +215,12 @@ foreach (var bmgPatch in bmgPatches)
                         if (changeData.Data?.flwTable is not null)
                             target.Data!.flwTable![index] = changeData.Data.flwTable[0];
 
+                        if (show_debug)
+                        {
                         Console.WriteLine(
                             "Successfully Applied Patch to: " + archiveDirectory + "-" + bmgChange.Section + "-" + bmgChange.Index
                         );
+                        }
                     }
                     else if (bmgChange.Section == "FLI1" && bmgChange.Index != null)
                     {
@@ -221,9 +233,12 @@ foreach (var bmgPatch in bmgPatches)
                         if (changeData.RawData is not null)
                             target.RawData![index] = changeData.RawData[0];
 
+                        if (show_debug)
+                        {
                         Console.WriteLine(
                             "Successfully Applied Patch to: " + archiveDirectory + "-"+ bmgChange.Section + "-" + bmgChange.Index
                         );
+                        }
                     }
                 }
                 else
@@ -236,6 +251,8 @@ foreach (var bmgPatch in bmgPatches)
                 );
                 bmgContents[sectionIndex] = (BMGDataBlock)patched;
                 // Successfully patched the section, so break out.
+                if (show_debug)
+                {
                 if (bmgChange.Index != null)
                 {
                     Console.WriteLine(
@@ -250,6 +267,7 @@ foreach (var bmgPatch in bmgPatches)
                             + "-"
                             + bmgChange.Section
                     );
+                }
                 }
                 }
 
@@ -283,9 +301,12 @@ foreach (var bmgPatch in bmgPatches)
                     target.Data.flwIndexTable.AddRange(addition.Data.flwIndexTable);
                     target.Data.flwIndexCount = target.Data.flwIndexTable.Count;
                 }
+                if (show_debug)
+                {
                 Console.WriteLine(
                             "Successfully Added Patch to: " + archiveDirectory + "-"+ bmgChange.Section
                         );
+                }
                 break;
             }
         }
@@ -306,31 +327,225 @@ foreach (var bmgPatch in bmgPatches)
     );
     RarcTools.RARCPacker.PackArchive(
         archiveDirectory,
-        archiveDirectory[..archiveDirectory.LastIndexOf("\\")] + ".arc",
+        archiveDirectory + ".arc", "",
+        false,
         true
     );
 }
 
-// Leaving this commented for now. Will be useful once we get to the point where the generator copies over custom files.
-/*
-//Move all of the new game files over to the extractedISO directory
-string[] movableFolders = Directory.GetDirectories(@"mod_assets\");
-if (movableFolders.Length != 0)
+//==============================================================================================
+// Copy over custom files
+// Deserialize asset manifest file:
+string assetManifestContents = File.ReadAllText(Path.Combine("mod_assets","manifest.jsonc"));
+var assetPatches = JsonSerializer.Deserialize<List<AssetPatch>>(assetManifestContents, options);
+
+// Loop through all manifest items and apply them appropriately
+foreach(var assetPatch in assetPatches)
 {
-    Console.WriteLine("Copying new game files to game folder...");
-    foreach (string folder in movableFolders)
+    // If the manifest source directory contains an archive, we need to extract it before we modify it.
+    if (assetPatch.Directory.Contains(".arc"))
     {
-        string gameFolder = folder.Substring(gameFiles.Length, (folder.Length - gameFiles.Length));
-        gameFolder = tempISOPath + @"\root" + gameFolder;
-        Console.WriteLine("Copied " + folder + " to game folder!");
-        CopyDirectory(folder, gameFolder, true);
+        string archiveDirectory = Tools.GetSubstringFromMarker(assetPatch.Directory, ".arc");
+        string extractedDirectory = RARCDump.DumpArchive(
+                Yaz0dec.InitYaz0Decode(@"extractedISO/root/" + archiveDirectory));
+        
+
+        foreach (AssetFiles file in assetPatch.Files)
+        {
+            
+            string newDirectory =  Path.Combine(extractedDirectory,file.Subdirectory,file.FileName);
+            //Console.WriteLine(extractedDirectory);
+            File.Copy(Path.Combine("mod_assets", file.FileName), newDirectory, true);
+            
+            Console.WriteLine($"Successfully copied file: {file.FileName} to directory: {newDirectory}");
+
+            
+        }
+            
+        RARCPacker.PackArchive(
+                extractedDirectory,
+                extractedDirectory + ".arc", "",
+                false,
+                true
+            );
+    }
+    // Otherwise, just move the custom file over, replacing anything as needed. 
+    else
+    {
+        foreach (AssetFiles file in assetPatch.Files)
+        {
+            string newDirectory = Path.Combine(@"extractedISO/root/",assetPatch.Directory, file.FileName);
+            Directory.CreateDirectory(Path.Combine(@"extractedISO/root/",assetPatch.Directory));
+            File.Copy(Path.Combine("mod_assets", file.FileName),  newDirectory, true);
+        
+            Console.WriteLine($"Successfully copied file: {file.FileName} to directory: {newDirectory}");
+        }
+    }
+    
+}
+
+// Copy/Move any vanilla files around
+
+// Make a copy of Memo Actor so that sketch can be a different color
+File.Copy(@"extractedISO/root/res/Object/O_gD_mem2.arc", @"extractedISO/root/res/Object/O_gD_mem3.arc", true);
+
+// Make copy of Dom Rod Actor so the unpowered rod can be a different color
+File.Copy(@"extractedISO/root/res/Object/O_gD_CROD.arc", @"extractedISO/root/res/Object/O_gD_CROD1.arc", true);
+
+//==============================================================================================
+// Replace Assets stored in .bmd files
+Console.WriteLine("Modifying BMD Textures");
+BmdTools.replaceModdedTextures();
+
+//==============================================================================================
+// Generate Cosmetic Changes (i.e texture recoloring)
+List<TextureRecolor> textureRecolors = CosmeticFunctions.GenerateTextureCosmetics();
+foreach (TextureRecolor texRecolor in textureRecolors)
+{
+    // Dump the archive
+    string texArchiveDirectory = RARCDump.DumpArchive(
+                        Yaz0dec.InitYaz0Decode(texRecolor.ArchiveDirectory));
+
+    foreach(TextureRecolorOptions texOptions in texRecolor.TextureOptions)
+    {
+        BmdFile texBmd = null;
+        BmdTexture textureToModify = null;
+        if (texOptions.FileName.Contains(".bti"))
+        {
+            textureToModify = BmdTexture.LoadFromBti(Path.Combine(texArchiveDirectory,texOptions.FileName));
+        }
+        else
+        {
+            Console.WriteLine(texOptions.FileName);
+            texBmd = new BmdFile(Path.Combine(texArchiveDirectory,texOptions.FileName));
+            if (texOptions.RecolorType != TextureRecolorType.Material)
+            {
+                textureToModify = texBmd.Textures[(int)texOptions.TextureIndex];
+            }
+        }
+        switch(texOptions.RecolorType)
+        {
+            case TextureRecolorType.Greyscale:
+                {
+                    
+                    textureToModify.TintGrayscale(texOptions.NewColor);
+                    break;
+                }
+            
+            case TextureRecolorType.Palette:
+                {
+                    
+                    var map = new Dictionary<RgbaColor, RgbaColor>
+                    {
+                        {texOptions.OldColor, texOptions.NewColor}
+                    };
+                    textureToModify.Recolor(map, texOptions.Tolerance);
+                    break;
+                }
+            
+            case TextureRecolorType.Hue:
+                {
+                    
+                    textureToModify.RecolorByHue(
+                        targetColor:  texOptions.OldColor,
+                        replacementColor: texOptions.NewColor,
+                        hueToleranceDegrees: texOptions.Tolerance);
+                    break;
+                }
+            case TextureRecolorType.Material:
+                {
+                    byte[] mat3Bytes = texBmd.GetRawChunk("MAT3");
+                    var mat3 = new Mat3Chunk(mat3Bytes);
+
+                    uint value = texOptions.TextureIndex;
+
+                    //int a = (byte)((value >> 24) & 0xFF); // unused for now
+                    int konstIdx = (byte)((value >> 16) & 0xFF); 
+                    int tevIdx = (byte)((value >> 8) & 0xFF);  
+                    int idx = (byte)(value & 0xFF);         
+                    
+                    var material = mat3.Materials[idx];
+
+                    // Not every material will modify a konst material and/or a tev color. So we check here to see if the value is set. 
+                    if (konstIdx != 0xFF)
+                    {
+                        mat3.SetTevKonstColor(material.KonstColorIdx[konstIdx], texOptions.NewColor); 
+                    }
+                    if (tevIdx != 0xFF)
+                    {
+                        mat3.SetTevColor(material.TevColorIdx[tevIdx], texOptions.NewColor.R, texOptions.NewColor.G, texOptions.NewColor.B, 255);                      
+                    }
+                    texBmd.SetRawChunk("MAT3", mat3.GetPatchedChunkBytes());
+                    break;
+                }
+            default:
+                {
+                    Console.WriteLine($"No recolor definition defined for type {texOptions.RecolorType}");
+                    break;
+                }
+        }
+
+        if (texOptions.FileName.Contains(".bti"))
+        {
+            textureToModify.ExportBtiFile(Path.Combine(texArchiveDirectory,texOptions.FileName));
+        }
+        else
+        {
+            texBmd.Save(Path.Combine(texArchiveDirectory,texOptions.FileName));
+        }
+        
+        Console.WriteLine($"Modified texture in file {texOptions.FileName}");
+    }
+
+    RARCPacker.PackArchive(
+                texArchiveDirectory,
+                texArchiveDirectory + ".arc", "",
+                false,
+                true
+            );
+}
+
+//==============================================================================================
+// Generate custom asset/code files
+Console.WriteLine("Generating Custom Asset Files");
+
+// Generate portal.dat file that draw the portal icons on the map
+FieldMapTools.generatePortalData();
+
+//==============================================================================================
+// Update the game code to the rando code - GZ2*99
+
+string rawFilePath = @"extractedISO/root/&&systemdata/ISO.hdr";
+
+// Read the file into a byte array
+byte[] data = File.ReadAllBytes(rawFilePath);
+data[0x4] = 0x39;
+data[0x5] = 0x39;
+
+// Write the modified bytes back to the file
+File.WriteAllBytes(rawFilePath, data);
+Console.WriteLine("Converted Game code to: GZ2*99");
+
+//==============================================================================================
+// Clean up any empty directories that are left over. 
+foreach (string directory in Directory.GetDirectories("extractedISO", "*", SearchOption.AllDirectories)
+                                          .OrderByDescending(d => d.Length))
+{
+    if (!Directory.EnumerateFileSystemEntries(directory).Any())
+    {
+        Directory.Delete(directory);
     }
 }
-*/
 
+//==============================================================================================
 RarcTools.GCRebuilder.GCRebuilder.RebuildISO(
     @"extractedISO\root\",
-    "decompimizer-GZ2E01.iso",
+    "decompimizer-GZ2E99.iso",
     false
 );
+
 System.IO.Directory.Delete(@"extractedISO\", true); // delete the temp ISO directory once we are done with it.
+
+
+// Testing functions. Uncomment as needed. =============================================
+// CosmeticFunctions.PrintMaterialDescriptions("O_gD_hutk.bmd");

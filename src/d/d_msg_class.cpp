@@ -1435,19 +1435,19 @@ bool jmessage_tMeasureProcessor::do_tag(u32 i_tag, void const* i_data, u32 i_siz
             dMsgUnit_setTag(20, dComIfGs_getPohSpiritNum() + 1, buffer);
             break;
         case MSGTAG_S_WALLET_MAX:
-            dMsgUnit_setTag(16, g_seedInfo.getHeaderPtr()->getSmallWalletMax(), buffer);
+            dMsgUnit_setTag(0x10000, g_seedInfo.getHeaderPtr()->getSmallWalletMax(), buffer);
             break;
         case MSGTAG_M_WALLET_MAX:
-            dMsgUnit_setTag(17, g_seedInfo.getHeaderPtr()->getBigWalletMax(), buffer);
+            dMsgUnit_setTag(0x10000, g_seedInfo.getHeaderPtr()->getBigWalletMax(), buffer);
             break;
         case MSGTAG_L_WALLET_MAX:
-            dMsgUnit_setTag(18, g_seedInfo.getHeaderPtr()->getGiantWalletMax(), buffer);
+            dMsgUnit_setTag(0x10000, g_seedInfo.getHeaderPtr()->getGiantWalletMax(), buffer);
             break;
         case MSGTAG_SKY_LETTER_NUM:
-            dMsgUnit_setTag(19, dComIfGs_getAncientDocumentNum(), buffer);
+            dMsgUnit_setTag(0x10000, dComIfGs_getAncientDocumentNum(), buffer);
             break;
         case MSGTAG_SKY_LETTER_NUM_1:
-            dMsgUnit_setTag(21, dComIfGs_getAncientDocumentNum() + 1, buffer);
+            dMsgUnit_setTag(0x10000, dComIfGs_getAncientDocumentNum() + 1, buffer);
             break;
         case MSGTAG_BALLOON_SCORE: {
             int number;
@@ -4279,19 +4279,19 @@ bool jmessage_string_tMeasureProcessor::do_tag(u32 i_tag, void const* i_data, u3
             dMsgUnit_setTag(20, dComIfGs_getPohSpiritNum(), buffer);
             break;
         case MSGTAG_S_WALLET_MAX:
-            dMsgUnit_setTag(16, g_seedInfo.getHeaderPtr()->getSmallWalletMax(), buffer);
+            dMsgUnit_setTag(0x10000, g_seedInfo.getHeaderPtr()->getSmallWalletMax(), buffer);
             break;
         case MSGTAG_M_WALLET_MAX:
-            dMsgUnit_setTag(17, g_seedInfo.getHeaderPtr()->getBigWalletMax(), buffer);
+            dMsgUnit_setTag(0x10000, g_seedInfo.getHeaderPtr()->getBigWalletMax(), buffer);
             break;
         case MSGTAG_L_WALLET_MAX:
-            dMsgUnit_setTag(18, g_seedInfo.getHeaderPtr()->getGiantWalletMax(), buffer);
+            dMsgUnit_setTag(0x10000, g_seedInfo.getHeaderPtr()->getGiantWalletMax(), buffer);
             break;
         case MSGTAG_SKY_LETTER_NUM:
-            dMsgUnit_setTag(19, dComIfGs_getAncientDocumentNum(), buffer);
+            dMsgUnit_setTag(0x10000, dComIfGs_getAncientDocumentNum(), buffer);
             break;
         case MSGTAG_SKY_LETTER_NUM_1:
-            dMsgUnit_setTag(21, dComIfGs_getAncientDocumentNum() + 1, buffer);
+            dMsgUnit_setTag(0x10000, dComIfGs_getAncientDocumentNum() + 1, buffer);
             break;
         case MSGTAG_BALLOON_SCORE: {
             int local_15c;
@@ -4907,19 +4907,19 @@ bool jmessage_string_tRenderingProcessor::do_tag(u32 i_tag, void const* i_data, 
             dMsgUnit_setTag(20, dComIfGs_getPohSpiritNum(), buffer);
             break;
         case MSGTAG_S_WALLET_MAX:
-            dMsgUnit_setTag(16, g_seedInfo.getHeaderPtr()->getSmallWalletMax(), buffer);
+            dMsgUnit_setTag(0x10000, g_seedInfo.getHeaderPtr()->getSmallWalletMax(), buffer);
             break;
         case MSGTAG_M_WALLET_MAX:
-            dMsgUnit_setTag(17, g_seedInfo.getHeaderPtr()->getBigWalletMax(), buffer);
+            dMsgUnit_setTag(0x10000, g_seedInfo.getHeaderPtr()->getBigWalletMax(), buffer);
             break;
         case MSGTAG_L_WALLET_MAX:
-            dMsgUnit_setTag(18, g_seedInfo.getHeaderPtr()->getGiantWalletMax(), buffer);
+            dMsgUnit_setTag(0x10000, g_seedInfo.getHeaderPtr()->getGiantWalletMax(), buffer);
             break;
         case MSGTAG_SKY_LETTER_NUM:
-            dMsgUnit_setTag(19, dComIfGs_getAncientDocumentNum(), buffer);
+            dMsgUnit_setTag(0x10000, dComIfGs_getAncientDocumentNum(), buffer);
             break;
         case MSGTAG_SKY_LETTER_NUM_1:
-            dMsgUnit_setTag(21, dComIfGs_getAncientDocumentNum() + 1, buffer);
+            dMsgUnit_setTag(0x10000, dComIfGs_getAncientDocumentNum() + 1, buffer);
             break;
         case MSGTAG_BALLOON_SCORE:{
             int local_15c;

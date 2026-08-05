@@ -20,6 +20,7 @@ public class DZX
             ["ACT"] = typeof(ACTR), // Matches ACTR, ACT0, ACT1, etc.
             ["SCO"] = typeof(SCOB), // Matches SCOB, SCO0, SCO1, etc.
             ["LGT"] = typeof(LGT0), // Matches LGT0, LGT1, LGT2, etc.
+            ["TRES"] = typeof(TRES), // Matches TRES, TRE0, TRE1, etc.
             // add as many as needed
         };
 
@@ -81,7 +82,7 @@ public class PLYR
     public float z { get; set; }
     public short Angle_X { get; set; }
     public short Angle_Y { get; set; }
-    public short Angle_Z { get; set; }
+    public short Spawn_ID { get; set; }
     public int EnemyNo { get; set; }
 }
 
@@ -150,6 +151,24 @@ public class LGT0
     public int field_0x1f { get; set; }
 }
 
+public class TRES
+{
+    public string Name { get; set; }
+    public int field_0x8 { get; set; }
+    public int Type_Flag { get; set; }
+    public int field_0xa { get; set; }
+    public int Appear_Type { get; set; }
+    public float x { get; set; }
+    public float y { get; set; }
+    public float z { get; set; }
+    public short Room_No { get; set; }
+    public short Rotation { get; set; }
+    public int Item { get; set; }
+    public int Flag_ID { get; set; }
+    public int field_0x1e { get; set; }
+    public int field_0x1f { get; set; }
+}
+
 public class DZXPatch
 {
     public string? FilePath { get; set; }
@@ -174,7 +193,11 @@ public static class PatchFunctions
         // Overwrite matching properties from changes
         foreach (var prop in changes.EnumerateObject())
         {
-            node?[prop.Name] = prop.Value.Deserialize<JsonNode>();
+            if (!node.ContainsKey(prop.Name))
+                throw new InvalidOperationException(
+                    $"Property '{prop.Name}' does not exist on target type '{typeof(T).Name}'."
+                );
+            node[prop.Name] = prop.Value.Deserialize<JsonNode>();
         }
 
         return node.Deserialize<T>();

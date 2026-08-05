@@ -36,7 +36,9 @@
 #include "JSystem/J3DGraphBase/J3DMaterial.h"
 #include "rando/rando.h"
 #include "rando/seed/seed.h"
+#include "rando/tools/tools.h"
 #include "rando/tools/verifyItemFunctions.h"
+#include "m_Do/m_Do_controller_pad.h"
 
 typedef void (dMenu_Collect2D_c::*initFunc)();
 static initFunc init[] = {
@@ -1061,6 +1063,45 @@ void dMenu_Collect2D_c::changeSword() {
 void dMenu_Collect2D_c::changeShield() {
     switch (mCursorX) {
     case 3:
+        if (checkButtonsHeld(PAD_TRIGGER_L))
+        {
+            // If we are holding the L trigger, unequip the shield no matter what.
+            dMeter2Info_setShield(fpcNm_ITEM_NONE, false);
+            setEquipItemFrameColorShield(0);
+            daAlink_getAlinkActorClass()->setShieldChange();
+            Z2GetAudioMgr()->seStart(Z2SE_SY_ITEM_SET_X, NULL, 0, 0, 1.0f, 1.0f, -1.0f, -1.0f,
+                                         0);
+            dMeter2Info_set2DVibration();
+        }
+        else if (dComIfGs_getSelectEquipShield() != fpcNm_ITEM_SHIELD)
+        {
+            // If we don't have Ordon Shield equipped, but have obtained it before, equip it.
+            if (dComIfGs_isItemFirstBit(fpcNm_ITEM_SHIELD))
+            {
+                dMeter2Info_setShield(fpcNm_ITEM_SHIELD, false);
+                setEquipItemFrameColorShield(0);
+                daAlink_getAlinkActorClass()->setShieldChange();
+                Z2GetAudioMgr()->seStart(Z2SE_SY_ITEM_SET_X, NULL, 0, 0, 1.0f, 1.0f, -1.0f, -1.0f,
+                                         0);
+                dMeter2Info_set2DVibration();
+            }
+        }
+        else 
+        {
+            // If we have the Ordon Shield equipped, but have obtained the Wood Shield before, equip it.
+            if (dComIfGs_isItemFirstBit(fpcNm_ITEM_WOOD_SHIELD))
+            {
+                dMeter2Info_setShield(fpcNm_ITEM_WOOD_SHIELD, false);
+                setEquipItemFrameColorShield(0);
+                daAlink_getAlinkActorClass()->setShieldChange();
+                Z2GetAudioMgr()->seStart(Z2SE_SY_ITEM_SET_X, NULL, 0, 0, 1.0f, 1.0f, -1.0f, -1.0f,
+                                         0);
+                dMeter2Info_set2DVibration();
+            }
+        }
+
+
+        /* Vanilla code
         if (dComIfGs_isItemFirstBit(fpcNm_ITEM_SHIELD)) {
             if (dComIfGs_getSelectEquipShield() != fpcNm_ITEM_SHIELD) {
                 dMeter2Info_setShield(fpcNm_ITEM_SHIELD, false);
@@ -1080,9 +1121,20 @@ void dMenu_Collect2D_c::changeShield() {
                 dMeter2Info_set2DVibration();
             }
         }
+            */
         break;
     case 4:
-        if (dComIfGs_getSelectEquipShield() != fpcNm_ITEM_HYLIA_SHIELD) {
+        if (checkButtonsHeld(PAD_TRIGGER_L))
+        {
+            // If we are holding the L trigger, unequip the shield no matter what.
+            dMeter2Info_setShield(fpcNm_ITEM_NONE, false);
+            setEquipItemFrameColorShield(0);
+            daAlink_getAlinkActorClass()->setShieldChange();
+            Z2GetAudioMgr()->seStart(Z2SE_SY_ITEM_SET_X, NULL, 0, 0, 1.0f, 1.0f, -1.0f, -1.0f,
+                                         0);
+            dMeter2Info_set2DVibration();
+        }
+        else if (dComIfGs_getSelectEquipShield() != fpcNm_ITEM_HYLIA_SHIELD) {
             dMeter2Info_setShield(fpcNm_ITEM_HYLIA_SHIELD, false);
             setEquipItemFrameColorShield(1);
             daAlink_getAlinkActorClass()->setShieldChange();

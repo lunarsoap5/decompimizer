@@ -1723,6 +1723,13 @@ void dSv_save_c::init() {
 
     mEvent.init();
     mMiniGame.init();
+
+    for (int i = 0; i < STAGE_MAX; i++) {
+        for (int j = 0; j < 0x20; j++)
+        {
+            mRupee[i].flags[j] = 0;
+        }
+    }
 }
 
 dSv_memory2_c* dSv_save_c::getSave2(int i_stage2No) {
@@ -1871,51 +1878,35 @@ BOOL dSv_info_c::revSwitch(int i_no, int i_roomNo) {
 }
 
 void dSv_info_c::onItem(int i_no, int i_roomNo) {
+    (void)i_roomNo;
     JUT_ASSERT(4398, (0 <= i_no && i_no < (MEMORY_ITEM+ DAN_ITEM+ ZONE_ITEM+ ONEZONE_ITEM)) || i_no == -1 || i_no == 255);
 
-    if (i_no == -1 || i_no == 255) {
-        return;
-    }
+    int offset = i_no / 8;
+    int shift = i_no % 8;
 
-    if (i_no < MEMORY_ITEM) {
-        mDan.onItem(i_no);
-    } else if (i_no < (MEMORY_ITEM + DAN_ITEM)) {
-        mMemory.getBit().onItem(i_no - MEMORY_ITEM);
-    } else {
-        JUT_ASSERT(4414, 0 <= i_roomNo && i_roomNo < 64);
-        int zoneNo = dComIfGp_roomControl_getZoneNo(i_roomNo);
-        JUT_ASSERT(4416, 0 <= zoneNo && zoneNo < ZONE_MAX);
-
-        if (i_no < (MEMORY_ITEM + DAN_ITEM + ZONE_ITEM)) {
-            mZone[zoneNo].getBit().onItem(i_no - (MEMORY_ITEM + DAN_ITEM));
-        } else {
-            mZone[zoneNo].getBit().onOneItem(i_no - (MEMORY_ITEM + DAN_ITEM + ZONE_ITEM));
-        }
+    // Failsafe; localAreaNode size is 0x20
+    if ((offset < 0x20) && (i_no != 0xFF))
+    {
+        g_dComIfG_gameInfo.info.getSavedata().getRupee(dComIfGs_getDunStage()).flags[offset] |= (0x80 >> shift);
     }
-}
+} 
 
 BOOL dSv_info_c::isItem(int i_no, int i_roomNo) const {
-    JUT_ASSERT(4488, (0 <= i_no && i_no < (MEMORY_ITEM+ DAN_ITEM+ ZONE_ITEM+ ONEZONE_ITEM)) || i_no == -1 || i_no == 255);
+    (void)i_roomNo;
+    JUT_ASSERT(4398,
+        (0 <= i_no && i_no < (MEMORY_ITEM + DAN_ITEM + ZONE_ITEM + ONEZONE_ITEM)) ||
+        i_no == -1 || i_no == 255);
 
-    if (i_no == -1 || i_no == 255) {
-        return FALSE;
+    int offset = i_no / 8;
+    int shift = i_no % 8;
+
+    if (offset < 0x20)
+    {
+        return (g_dComIfG_gameInfo.info.getSavedata().getRupee(dComIfGs_getDunStage()).flags[offset] &
+                (0x80 >> shift)) != 0;
     }
 
-    if (i_no < MEMORY_ITEM) {
-        return mDan.isItem(i_no);
-    } else if (i_no < (MEMORY_ITEM + DAN_ITEM)) {
-        return mMemory.getBit().isItem(i_no - MEMORY_ITEM);
-    } else {
-        JUT_ASSERT(4501, 0 <= i_roomNo && i_roomNo < 64);
-        int zoneNo = dComIfGp_roomControl_getZoneNo(i_roomNo);
-        JUT_ASSERT(4503, 0 <= zoneNo && zoneNo < ZONE_MAX);
-
-        if (i_no < (MEMORY_ITEM + DAN_ITEM + ZONE_ITEM)) {
-            return mZone[zoneNo].getBit().isItem(i_no - (MEMORY_ITEM + DAN_ITEM));
-        } else {
-            return mZone[zoneNo].getBit().isOneItem(i_no - (MEMORY_ITEM + DAN_ITEM + ZONE_ITEM));
-        }
-    }
+    return false;
 }
 
 void dSv_info_c::onActor(int i_id, int i_roomNo) {
@@ -2017,7 +2008,7 @@ int dSv_info_c::memory_to_card(char* card_ptr, int dataNum) {
     savedata->getPlayer().getPlayerStatusB().setDateIpl(OSGetTime());
 
     memcpy(card_ptr, savedata, sizeof(dSv_save_c));
-    card_ptr += 0x958;
+    card_ptr += SAVE_CLASS_SIZE;
     OS_REPORT("(dSv_player_c) size %d\n", sizeof(dSv_player_c));
     OS_REPORT("(dSv_memory_c) size %d(%d)\n", sizeof(dSv_memory_c));
     OS_REPORT("(dSv_memory2_c) size %d(%d)\n", sizeof(dSv_memory2_c));

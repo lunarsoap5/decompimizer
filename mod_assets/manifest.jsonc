@@ -1,0 +1,50 @@
+[
+  {
+    "Directory": "res/Layout/itemicon.arc/",
+    "Files": [
+      {
+        // Custom Shadow Crystal icon created by MelonSpeedruns
+        "FileName": "zz_00_shadow_crystal.bti",
+        "Subdirectory": "timg/"
+      },
+      {
+        // Custom Mirror Shard icon
+        "FileName": "zz_01_mirror_shard.bti",
+        "Subdirectory": "timg/"
+      }
+    ]
+  },
+  {
+    "Directory": "mod",
+    "Files": [
+      {
+        // Seed file that has settings/dynamic replacements
+        "FileName": "seed.bin"
+      }
+    ]
+  },
+  {
+    "Directory": "res/Object",
+    "Files": [
+      {
+        // Custom Forest Temple Small Key created by Skilar
+        "FileName": "T_gD_Fkey.arc"
+      }
+    ]
+  },
+  {
+    "Directory": "res/CardIcon/cardicon.arc/",
+    "Files": [
+      {
+        // Custom Memory Card Banner created by Isaac
+        "FileName": "zelda2_gc_banner.bti",
+        "Subdirectory": ""
+      },
+      {
+        // Custom Memory Card Banner created by Isaac
+        "FileName": "zelda2_gc_icon.bti",
+        "Subdirectory": ""
+      }
+    ]
+  }
+]

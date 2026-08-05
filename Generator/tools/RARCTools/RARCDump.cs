@@ -204,9 +204,9 @@ namespace RarcTools
                 ReadFile(br, args);
             }
 
-            string subfolder = PatchFunctions.AfterLast(args, '/');
+            Tools.CleanUpExtractedArchive(args);
 
-            return args + "\\" + subfolder;
+            return args;
         }
     }
 }

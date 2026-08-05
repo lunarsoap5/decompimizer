@@ -588,6 +588,51 @@ void randoInfo_c::offLoad()
         // Clear the danBit that starts a conversation when entering the ranch so the player can do goats as needed.
         dComIfGs_offSaveDunSwitch(0x1);
     }
+
+    if (getCurrentStageID() == Cave_of_Ordeals)
+    {
+        // If we've reached certain checkpoints in CoO, we don't want to force the player to have to re-do everything. 
+        if(dComIfGs_isEventBit(ORDON_SPRING_HAS_FARIES))
+        {
+            u32 danAddr = reinterpret_cast<u32>(&g_dComIfG_gameInfo.info.getDan());
+            if(dComIfGs_isEventBit(FARON_SPRING_HAS_FARIES))
+            {
+                if(dComIfGs_isEventBit(ELDIN_SPRING_HAS_FARIES))
+                {
+                    if(dComIfGs_isEventBit(LANAYRU_SPRING_HAS_FARIES))
+                    {
+                        if(dComIfGs_isEventBit(SPRING_SPIRITS_CAN_GIVE_FARY_TEARS))
+                        {
+                            // Open all 50 CoO doors
+                            *reinterpret_cast<u32*>(danAddr + 4) = 0xFFFFFFFF;
+                            *reinterpret_cast<u32*>(danAddr + 8) = 0x0005FFFF;
+                        }
+                        else
+                        {
+                            // Open doors to CoO 1-40
+                            *reinterpret_cast<u32*>(danAddr + 4) = 0xFFFFFFFF;
+                            *reinterpret_cast<u32*>(danAddr + 8) = 0x000400FF;
+                        }
+                    }
+                    else
+                    {
+                        // Open doors to CoO 1-30
+                        *reinterpret_cast<u32*>(danAddr + 4) = 0x3FFFFFFF;
+                    }
+                }
+                else
+                {
+                    // Open doors to CoO 1-20
+                    *reinterpret_cast<u32*>(danAddr + 4) = 0xFFFFF;
+                }
+            }
+            else
+            {
+                // Open doors to CoO 1-10
+                *reinterpret_cast<u32*>(danAddr + 4) = 0x3FF;
+            }
+        }
+    }
 }
 
 void checkSetHCBarrierFlag(u8 req, u8 currentCount)

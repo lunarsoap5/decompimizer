@@ -229,13 +229,13 @@ uint verifyProgressiveItem(uint item)
         case fpcNm_ITEM_COPY_ROD:
         case fpcNm_ITEM_COPY_ROD_2:
         {
-            if (haveItem(fpcNm_ITEM_COPY_ROD_2))
+            if (haveItem(fpcNm_ITEM_COPY_ROD))
             {
-                item = fpcNm_ITEM_COPY_ROD;
+                item = fpcNm_ITEM_COPY_ROD_2;
             }
             else
             {
-                item = fpcNm_ITEM_COPY_ROD_2;
+                item = fpcNm_ITEM_COPY_ROD;
             }
             break;
         }

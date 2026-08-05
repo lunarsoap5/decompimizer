@@ -662,12 +662,12 @@ void dMeter2Info_c::resetMeterString() {
 }
 
 void dMeter2Info_c::setWarpInfo(const char* i_stageName, const cXyz& i_position, s16 i_angle,
-                                u8 i_roomNo, u8 param_4, u8 i_warpPlayerNo) {
+                                u8 i_roomNo, u8 i_portalNo, u8 i_warpPlayerNo) {
     strcpy(mWarpInfo.mStageName, i_stageName);
     mWarpInfo.mPosition = i_position;
     mWarpInfo.mAngle = (s16)i_angle;
     mWarpInfo.mRoomNo = (u8)i_roomNo;
-    mWarpInfo.unk_0x17 = (u8)param_4;
+    mWarpInfo.mPortalNo = (u8)i_portalNo;
     mWarpInfo.mPlayerNo = (u8)i_warpPlayerNo;
 }
 
@@ -1253,7 +1253,7 @@ void dMeter2Info_c::decHotSpringTimer() {
         if (mHotSpringTimer[i] != 0) {
             mHotSpringTimer[i]--;
             if (mHotSpringTimer[i] == 0) {
-                changeWater(i + SLOT_11);
+                //changeWater(i + SLOT_11); We want hot spring water to remain warm all the time.
             }
         }
     }

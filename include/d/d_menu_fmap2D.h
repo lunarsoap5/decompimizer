@@ -404,6 +404,11 @@ public:
     /* 0xC2 */ u8 mAlphaButtonZ;
     /* 0xC3 */ u8 mAlphaAnalogStick;
     /* 0xC4 */ u8 mAlphaDpad;
+
+    // Needed for pause menu poe counter
+    J2DTextBox* mpPoeCountPane;
+    J2DPicture* mpPoeCountIcon;
+    u8 mSelectRegionNo;
  };
 
 #endif /* D_MENU_D_MENU_FMAP2D_H */

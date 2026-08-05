@@ -636,11 +636,12 @@ int daAlink_c::procBottleSwing() {
                 offModeFlg(4);
 
                 if (mEquipItem != fpcNm_ITEM_KANTERA) {
-                    u16 bottle_item = dComIfGp_event_getPreItemNo();
+                    u16 bottle_item = dComIfGp_event_getPreItemNo(); // Right here is where we would shuffle other bottle contents
 
                     if (bottle_item == fpcNm_ITEM_WATER_BOTTLE &&
                         getMoveBGActorName(mLinkAcch.m_wtr, FALSE) == PROC_Obj_Onsen)
                     {
+                        // Note: if we want to shuffle hot springwater, this is where it is done. 
                         bottle_item = fpcNm_ITEM_HOT_SPRING;
                     }
 

@@ -516,7 +516,7 @@
           "text": [
             "{1a05000001}You got the first shard of",
             "the {1a06ff000001}Mirror of Twilight{1a06ff000000}! It",
-            "is covered in{1a06ff000008}sand{1a06ff000000}.."
+            "is covered in {1a06ff000008}sand{1a06ff000000}.."
           ]
         }
       },
@@ -609,6 +609,20 @@
           "text": [
             "{1a05000001}You got a {1a06ff000001}Sky character{1a06ff000000}!",
             "You've collected {1a05000001}{1a05050014}{1a06ff000000} so far."
+          ]
+        }
+      },
+      {
+        "Operation": "modify",
+        "Index": "0x157",
+        "ChangeData": {
+          "text": [
+            "{1a05000001}You got the{1a06ff000001} gate keys{1a06ff000000}!{1a05000002}",
+            "{1a07000007000a}These keys open the gates",
+            "along the path to Kakariko.",
+            "If you go to the graveyard",
+            "you may even enounter the",
+            "{1a06ff000001} Zora Queen{1a06ff000000}."
           ]
         }
       },
@@ -738,6 +752,24 @@
         "Index": "0xfb3",
         "ChangeData": {
           "text": ["This is a test hint."]
+        }
+      },
+      {
+        // Custom Map Text for SPR Portal
+        "Operation": "modify",
+        "Index": "0x6cf",
+        "ChangeData": {
+          "attributes": "06d0000002000000ff00000000000100",
+          "text": ["Snowpeak Ruins"]
+        }
+      },
+      {
+        // Custom Text for Snowpeak Howling Stone Item
+        "Operation": "modify",
+        "Index": "0xbb0",
+        "ChangeData": {
+          "attributes": "07c40000030f0800ff00000000000400",
+          "text": ["{1a06ff000001}Progressive Hidden Skill"]
         }
       },
       {

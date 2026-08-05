@@ -28,7 +28,8 @@ static const int SWITCH_ZONE_MAX = 0x20;
 static const int SWITCH_ONE_ZONE_MAX = 0x10;
 static const int ITEM_ZONE_MAX = 0x20;
 static const int ITEM_ONE_ZONE_MAX = 0x10;
-static const int QUEST_LOG_SIZE = 0xA94;
+static const int QUEST_LOG_SIZE = 0xE94; // Vanilla is 0xA94. It is increased by 0x380 to allow for custom rupee/wonder item flag bitfield
+static const int SAVE_CLASS_SIZE = 0xD58; // Vanilla is 0x958
 static const int QUIVER_MAX = 30;
 static const int BIG_QUIVER_MAX = 60;
 static const int GIANT_QUIVER_MAX = 100;
@@ -751,6 +752,7 @@ public:
     void onItem(int i_no);
     void offItem(int i_no);
     BOOL isItem(int i_no) const;
+    s8 getStageNo() { return mStageNo; }
 
     void reset() { mStageNo = -1; }
 
@@ -897,6 +899,11 @@ private:
     u8 unk[80];
 };
 
+class dSv_rupeeFlag_c {
+public:
+    u8 flags[0x20];
+};
+
 class dSv_save_c {
 public:
     dSv_save_c() {}
@@ -908,6 +915,11 @@ public:
     dSv_memory_c& getSave(int i_stageNo) {
         JUT_ASSERT(1412, 0 <= i_stageNo && i_stageNo < STAGE_MAX);
         return mSave[i_stageNo];
+    }
+
+    dSv_rupeeFlag_c& getRupee(int i_stageNo) {
+        JUT_ASSERT(1412, 0 <= i_stageNo && i_stageNo < RUPEE_STAGE_MAX);
+        return mRupee[i_stageNo];
     }
     void putSave(int i_stageNo, dSv_memory_c mem) {
         JUT_ASSERT(1417, 0 <= i_stageNo && i_stageNo < STAGE_MAX);
@@ -926,7 +938,8 @@ public:
     /* 0x7F0 */ dSv_event_c mEvent;
     /* 0x8F0 */ dSv_reserve_c reserve;
     /* 0x940 */ dSv_MiniGame_c mMiniGame;
-};  // Size: 0x958
+    /* 0x958 */ dSv_rupeeFlag_c mRupee[STAGE_MAX]; // Custom - Added for randomizer. Holds flags for rupees/wonder items
+};  // Size: 0xCD8
 
 class flagFile_c : public JORReflexible {
 public:

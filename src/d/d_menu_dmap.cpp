@@ -132,6 +132,14 @@ dMenu_DmapBg_c::dMenu_DmapBg_c(JKRExpHeap* i_heap, STControl* i_stick) {
     memset(&field_0xd80, 0, 20);
     buttonIconScreenInit();
     field_0xdd0 = 0;
+
+    mpPoeCountIcon = new J2DPicture((ResTIMG*)JKRGetNameResource("ni_item_icon_pou.bti", dComIfGp_getItemIconArchive()));
+
+    mpPoeCountPane = new J2DTextBox();
+    if (mpPoeCountPane != NULL) {
+        mpPoeCountPane->setFontSize(15.0f, 15.0f);
+        mpPoeCountPane->setFont(mDoExt_getMesgFont());
+    }
 }
 
 void dMenu_DmapBg_c::mapScreenInit() {
@@ -759,6 +767,12 @@ dMenu_DmapBg_c::~dMenu_DmapBg_c() {
         mDoExt_destroyExpHeap(mpTalkHeap);
         mpTalkHeap = NULL;
     }
+
+    delete mpPoeCountIcon;
+    mpPoeCountIcon = NULL;
+
+    delete mpPoeCountPane;
+    mpPoeCountPane = NULL;
 }
 
 void dMenu_DmapBg_c::setAllAlphaRate(f32 i_rate, bool param_2) {
@@ -949,6 +963,31 @@ void dMenu_DmapBg_c::draw() {
     }
 
     mButtonScreen->draw(field_0xd94, field_0xd98, grafContext);
+
+    int nowPoeCount = 0;
+    int totalPoeCount = 0;
+    dMenuMapCommon_c::getDmapPoeCount(dComIfGp_getStartStageName(), nowPoeCount, totalPoeCount);
+    if (dComIfGs_isEventBit(dSv_event_flag_c::F_0456) && totalPoeCount > 0) {
+        const f32 x = field_0xd94 + mDoGph_gInf_c::ScaleHUDXLeft(70.0f);
+        const f32 y = 410.0f;
+        const f32 iconsize = 48.0f * 0.8f;
+
+        if (mpPoeCountIcon != NULL)
+            mpPoeCountIcon->draw(x - 35.0f, y - 25.0f, iconsize, iconsize, false, false, false);
+
+        char counter_text[6];
+        snprintf(counter_text, sizeof(counter_text), "%d/%d", nowPoeCount, totalPoeCount);
+        mpPoeCountPane->setString(counter_text);
+
+        mpPoeCountPane->setCharColor(0x000000FF);
+        mpPoeCountPane->setGradColor(0x000000FF);
+        mpPoeCountPane->draw(x + 1, y + 1, FB_WIDTH, HBIND_LEFT);
+
+        mpPoeCountPane->setCharColor(0xC8C8C8FF);
+        mpPoeCountPane->setGradColor(0xC8C8C8FF);
+        mpPoeCountPane->draw(x, y, FB_WIDTH, HBIND_LEFT);
+    }
+
     grafContext->scissor(scissor_left, scissor_top, scissor_width, scissor_height);
     grafContext->setScissor();
     grafContext->setup2D();

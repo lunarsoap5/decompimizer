@@ -20,6 +20,7 @@
 #include "d/d_msg_class.h"
 #include "d/d_msg_object.h"
 #include "d/d_pane_class.h"
+#include "rando/rando.h"
 #include "rando/seed/seed.h"
 #include "rando/tools/tools.h"
 #include <string>
@@ -1414,6 +1415,9 @@ void dMeter2Draw_c::changeTextureLife(int i_no, bool param_1, u8 i_quarterNum) {
             for (int i = 0; i < 4; i++) {
                 if (i == i_quarterNum) {
                     mpScreen->search(tag_bigh[i])->show();
+
+                    // Set Big heart color
+                    static_cast<J2DPicture*>(mpScreen->search(tag_bigh[i]))->setBlackWhite(JUtility::TColor(0, 19, 127, 0), JUtility::TColor(0x9b, 0x6e, 0xab, 255));
                 } else {
                     mpScreen->search(tag_bigh[i])->hide();
                 }
@@ -1434,6 +1438,12 @@ void dMeter2Draw_c::changeTextureLife(int i_no, bool param_1, u8 i_quarterNum) {
 }
 
 void dMeter2Draw_c::drawLife(s16 i_maxLife, s16 i_life, f32 i_posX, f32 i_posY) {
+
+    static u64 const lifet2_tag[] = {
+        'hear_00', 'hear_01', 'hear_02', 'hear_03', 'hear_04', 'hear_05', 'hear_06',
+        'hear_07', 'hear_08', 'hear_09', 'hear_10', 'hear_11', 'hear_12', 'hear_13',
+        'hear_14', 'hear_15', 'hear_16', 'hear_17', 'hear_18', 'hear_19',
+    };
     s16 max_heart_cnt = i_maxLife / 5;
     s16 heart_cnt = i_life / 4;
     s16 heart_quarters = i_life % 4;
@@ -1466,6 +1476,9 @@ void dMeter2Draw_c::drawLife(s16 i_maxLife, s16 i_life, f32 i_posX, f32 i_posY) 
             mpLifeParts[i]->hide();
             changeTextureLife(i, false, 0xFF);
         }
+
+        // Set Heart color
+        static_cast<J2DPicture*>(mpScreen->search(lifet2_tag[i]))->setBlackWhite(JUtility::TColor(0, 19, 127, 0), JUtility::TColor(0x9b, 0x6e, 0xab, 255));
     }
 
     mpLifeParent->scale(g_drawHIO.mLifeParentScale, g_drawHIO.mLifeParentScale);
@@ -2051,6 +2064,10 @@ void dMeter2Draw_c::drawRupee(s16 i_rupeeNum) {
             mpRupeeTexture[i][j]->paneTrans(g_drawHIO.mRupeeCountPosX, g_drawHIO.mRupeeCountPosY);
         }
     }
+
+    // Change wallet rupee color
+    static_cast<J2DPicture*>(mpScreen->search('rupi'))->setBlackWhite(JUtility::TColor(0, 19, 127, 0), JUtility::TColor(0x9b, 0x6e, 0xab, 255));
+
 }
 
 void dMeter2Draw_c::setAlphaRupeeChange(bool param_0) {
@@ -2274,6 +2291,10 @@ void dMeter2Draw_c::drawButtonA(u8 i_action, f32 i_posX, f32 i_posY, f32 i_textP
     mpTextA->scale(var_f30 * i_scale, var_f30 * i_scale);
     mpTextA->paneTrans(g_drawHIO.mButtonATextPosX + i_textPosX,
                        g_drawHIO.mButtonATextPosY + i_textPosY);
+    
+    
+    // Change A Button Color
+    static_cast<J2DPicture*>(mpScreen->search('a_btn'))->setBlackWhite(JUtility::TColor(0, 19, 127, 0), JUtility::TColor(0x9b, 0x6e, 0xab, 255));
 }
 
 void dMeter2Draw_c::drawButtonB(u8 i_action, bool param_1, f32 i_posX, f32 i_posY, f32 i_textPosX,
@@ -2374,6 +2395,9 @@ void dMeter2Draw_c::drawButtonB(u8 i_action, bool param_1, f32 i_posX, f32 i_pos
     mpTextB->scale(var_f30 * i_scale, var_f30 * i_scale);
     mpTextB->paneTrans(g_drawHIO.mButtonBFontPosX + i_textPosX,
                        g_drawHIO.mButtonBFontPosY + i_textPosY);
+    
+    // Change B Button Color
+    static_cast<J2DPicture*>(mpScreen->search('b_btn'))->setBlackWhite(JUtility::TColor(0, 19, 127, 0), JUtility::TColor(0x9b, 0x6e, 0xab, 255));
 }
 
 void dMeter2Draw_c::drawButtonR(u8 unused0, u8 i_action, bool unused1, bool unused2) {
@@ -2422,6 +2446,9 @@ void dMeter2Draw_c::drawButtonZ(u8 i_action) {
 
     mpTextXY[2]->scale(g_drawHIO.mButtonZFontScale, g_drawHIO.mButtonZFontScale);
     mpTextXY[2]->paneTrans(g_drawHIO.mButtonZFontPosX, g_drawHIO.mButtonZFontPosY);
+
+    // Change Z Button Color
+    static_cast<J2DPicture*>(mpScreen->search('zbtn'))->setBlackWhite(JUtility::TColor(0, 19, 127, 0), JUtility::TColor(0x9b, 0x6e, 0xab, 255));
 }
 
 void dMeter2Draw_c::drawButton3D(u8 i_action) {
@@ -2463,6 +2490,11 @@ void dMeter2Draw_c::drawButtonBin(u8 i_action) {
 
 void dMeter2Draw_c::drawButtonXY(int i_no, u8 i_itemNo, u8 i_action, bool param_3, bool param_4) {
     JUT_ASSERT(0, i_no < SELECT_MAX_e);
+
+    // Change X Button Color
+    static_cast<J2DPicture*>(mpScreen->search('x_btn'))->setBlackWhite(JUtility::TColor(0, 19, 127, 0), JUtility::TColor(0x9b, 0x6e, 0xab, 255));
+    // Change Y Button Color
+    static_cast<J2DPicture*>(mpScreen->search('y_btn'))->setBlackWhite(JUtility::TColor(0, 19, 127, 0), JUtility::TColor(0x9b, 0x6e, 0xab, 255));
 
     static u64 const tag[] = {'item_x_n', 'item_y_n'};
 

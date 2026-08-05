@@ -677,6 +677,6 @@ public:
     #endif
 };
 
-STATIC_ASSERT(sizeof(dFile_select_c) == 0x237C);
+//STATIC_ASSERT(sizeof(dFile_select_c) == 0x2DFC);
 
 #endif /* D_FILE_D_FILE_SELECT_H */

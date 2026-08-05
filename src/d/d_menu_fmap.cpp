@@ -522,6 +522,13 @@ void dMenu_Fmap_c::_move() {
         }
         mpDraw2DBack->setSpotTextureFadeAlpha(mSpotTextureFadeAlpha);
     }
+
+    u8 region = mpDraw2DBack->getSelectRegion();
+    if (region != 0xFF && mpDraw2DBack->isShowRegion(region)) {
+        mpDraw2DTop->mSelectRegionNo = region;
+    } else {
+        mpDraw2DTop->mSelectRegionNo = 0xFF;
+    }
 }
 
 void dMenu_Fmap_c::_draw() {
@@ -1074,7 +1081,7 @@ void dMenu_Fmap_c::portal_warp_select_proc() {
                 cXyz(portals[mPortalNo].mPosition.x + mpDraw2DBack->getRegionOriginX(region),
                      portals[mPortalNo].mPosition.y,
                      portals[mPortalNo].mPosition.z + mpDraw2DBack->getRegionOriginZ(region)),
-                0, portals[mPortalNo].mRoomNo, 0, portals[mPortalNo].mWarpPlayerNo);
+                0, portals[mPortalNo].mRoomNo, mPortalNo, portals[mPortalNo].mWarpPlayerNo);
 
             dComIfGp_SelectWarpPt_set(portals[mPortalNo].mSelectWarpPt);
             setProcess(PROC_PORTAL_WARP_MAP);

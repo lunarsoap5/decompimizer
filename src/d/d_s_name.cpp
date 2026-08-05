@@ -15,6 +15,7 @@
 #include "m_Do/m_Do_machine.h"
 #include "m_Do/m_Do_mtx.h"
 #include "f_op/f_op_overlap_mng.h"
+#include "rando/data/flags.h"
 
 static dSn_HIO_c g_snHIO;
 
@@ -282,14 +283,16 @@ void dScnName_c::changeGameScene() {
         dComIfGs_gameStart();
         fopScnM_ChangeReq(this, field_0x41f == 0 ? PROC_PLAY_SCENE : PROC_PLAY_SCENE, 0, 5);
         dComIfGp_offEnableNextStage();
-
-        if (dFs_c->isDataNew(dFs_c->getSelectNum())) {
-            dComIfGp_setNextStage("F_SP108", 21, 1, 13);
-        }
         
         dKy_clear_game_init();
         dComIfGs_resetDan();
         dComIfGs_setRestartRoomParam(0);
+
+        if (dFs_c->isDataNew(dFs_c->getSelectNum())) {
+            dComIfGp_setNextStage("F_SP103", 1, 1, -1); // This is where the custom spawn will be placed
+            dComIfGs_onEventBit(WATCHED_START_OF_GAME_CUTSCENE);
+            // Set seed init flags/code here
+        }
     }
 }
 

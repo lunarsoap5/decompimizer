@@ -13,6 +13,12 @@
 int daObjDigpl_c::create() {
     fopAcM_ct(this, daObjDigpl_c);
 
+    // Params: 0xABCDEFGH
+    // BC = room path index
+    // DE = itemID
+    // F = mType
+    // GH = mSwitch
+
     mType = (fopAcM_GetParam(this) >> 8) & 0xF;
     mSwitch = fopAcM_GetParam(this) & 0xFF;
 

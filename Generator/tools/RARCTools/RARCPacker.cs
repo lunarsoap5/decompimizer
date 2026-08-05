@@ -61,14 +61,24 @@ namespace RarcTools
         public static uint numFilesWithData; //How many files with data have been added
         public static uint lengthOfDataTable; //How much data has been added
 
+        static Dictionary<string, uint> nodeIndexByPath = new Dictionary<string, uint>();
+        static Dictionary<int, string> pendingDirEntryPaths = new Dictionary<int, string>();
+
         static FileEntry[] fileEntries;
         static Node[] nodes;
         static string[] filesData;
 
         public static int totalNumFilesAdded;
 
-        public static void PackArchive(string srcDir, string dstDir, bool deleteDirectory)
+        public static void PackArchive(
+            string srcDir,
+            string dstDir,
+            string rootDirectory,
+            bool compressFiles,
+            bool deleteDirectory
+        )
         {
+            string rootDir = srcDir;
             //This is a hack to enable debugging
             //args = new string[1];
             //args[0] = @"H:\Games\NGC\fsa root\GC4Sword\Boss\boss010.arc_dir\boss010";
@@ -98,12 +108,15 @@ namespace RarcTools
             numNodesDone = 0;
             numFilesWithData = 0;
             lengthOfDataTable = 0;
+            nodeIndexByPath = new Dictionary<string, uint>();
+            pendingDirEntryPaths = new Dictionary<int, string>();
 
             //Fill out the ROOT node
             nodes[0].type = "ROOT";
 
             nodes[0].filenameOffset = (uint)stringTable.Length;
-            String rootDirName = new FileInfo(srcDir).Name;
+            String rootDirName = (rootDirectory == "") ? "archive" : rootDirectory;
+
             stringTable = stringTable + rootDirName + (char)0x00;
 
             nodes[0].foldernameHash = Hash(rootDirName);
@@ -112,11 +125,12 @@ namespace RarcTools
             nodes[0].numFileEntries = (ushort)(files.Length + 2);
 
             nodes[0].firstFileEntryOffset = 0;
-
+            nodeIndexByPath[srcDir] = 0;
             numNodesDone++; //One node is complete
 
             //Get the total number of subdirectories and files
             string[] allFiles = Directory.GetFiles(srcDir, "*", SearchOption.AllDirectories);
+            Array.Sort(allFiles, StringComparer.Ordinal);
             int numOfFilesAndDirs = allFiles.Length + allDirectories.Length;
             //Now set up an array of FileEntrys(Taking into account the "." and ".." file entries for each folder
             fileEntries = new FileEntry[numOfFilesAndDirs + (allDirectories.Length * 2) + 2];
@@ -126,39 +140,38 @@ namespace RarcTools
 
             //CURRENTLY ONLY GOES TWO FOLDERS DEEP (Should be recursive, but it's not yet)
             //Create FileEntry for each file in current folder
-            string[] folders = ProcessFilesAndFolders(srcDir);
+            string[] folders = ProcessFilesAndFolders(srcDir, compressFiles);
             //For each folder
             for (int i = 0; i < folders.Length; i++)
             {
                 srcDir = folders[i];
                 CreateNode(srcDir);
-                string[] folders2 = ProcessFilesAndFolders(srcDir);
+                string[] folders2 = ProcessFilesAndFolders(srcDir, compressFiles);
 
                 //Do that again for any files/folders in this folder
                 for (int i2 = 0; i2 < folders2.Length; i2++)
                 {
                     srcDir = folders2[i2];
                     CreateNode(srcDir);
-                    ProcessFilesAndFolders(srcDir);
+                    ProcessFilesAndFolders(srcDir, compressFiles);
                 }
             }
 
             //Fill out the filename & data offsets for the folder entries with the offset from the appropriate Node
-            for (int n = 0; n < totalNumFilesAdded; n++)
+            foreach (var kvp in pendingDirEntryPaths)
             {
-                if (fileEntries[n].filenameOffset == 0xFFFE)
-                {
-                    uint nodeNum = 0;
-                    foreach (Node node in nodes)
-                    {
-                        if (node.foldernameHash == fileEntries[n].filenameHash)
-                        {
-                            fileEntries[n].filenameOffset = (ushort)node.filenameOffset;
-                            fileEntries[n].dataOffset = nodeNum;
-                        }
-                        nodeNum++;
-                    }
-                }
+                int entryIndex = kvp.Key;
+                string path = kvp.Value;
+
+                if (!nodeIndexByPath.TryGetValue(path, out uint nodeNum))
+                    throw new Exception(
+                        $"RARCPacker: no node found for directory path '{path}' (file entry {entryIndex}). "
+                            + "This indicates a bug in node/entry creation order, not a hash collision."
+                    );
+
+                Node node = nodes[nodeNum];
+                fileEntries[entryIndex].filenameOffset = (ushort)node.filenameOffset;
+                fileEntries[entryIndex].dataOffset = nodeNum;
             }
 
             //Make the data table a mutiple of 16
@@ -357,7 +370,7 @@ namespace RarcTools
 
             if (deleteDirectory)
             {
-                Directory.Delete(srcDir, true);
+                Directory.Delete(rootDir, true);
             }
 
             Console.WriteLine("Wrote Packaged Archive to: " + dstDir);
@@ -379,24 +392,25 @@ namespace RarcTools
             return stringTable;
         }
 
-        static string[] ProcessFilesAndFolders(string args)
+        static string[] ProcessFilesAndFolders(string args, bool compressFiles)
         {
             //Create FileEntry for each file
             string[] files = Directory.GetFiles(args, "*", SearchOption.TopDirectoryOnly);
+            Array.Sort(files, StringComparer.Ordinal);
             bool isFiles = true;
             if (files.Length > 0)
-                CreateFileEntries(files, isFiles);
+                CreateFileEntries(files, isFiles, compressFiles);
             //And for each folder
             files = Directory.GetDirectories(args, "*", SearchOption.TopDirectoryOnly);
             isFiles = false;
             if (files.Length > 0)
-                CreateFileEntries(files, isFiles);
+                CreateFileEntries(files, isFiles, false);
 
             CreateDummyFiles();
             return files;
         }
 
-        static void CreateFileEntries(string[] entries, bool isFiles) //This should be fixed up so it only checks isFiles once
+        static void CreateFileEntries(string[] entries, bool isFiles, bool compressEntries) //This should be fixed up so it only checks isFiles once
         {
             foreach (string entry in entries)
             {
@@ -404,7 +418,7 @@ namespace RarcTools
                 {
                     fileEntries[totalNumFilesAdded].id = (ushort)totalNumFilesAdded;
 
-                    if (Path.GetExtension(entry) == ".szs") //Check if szs file and use right.. marker?
+                    if ((Path.GetExtension(entry) == ".szs") || compressEntries) //Check if szs file and use right.. marker?
                         fileEntries[totalNumFilesAdded].unknown2 = 0x9500;
                     else
                         fileEntries[totalNumFilesAdded].unknown2 = 0x1100;
@@ -440,6 +454,8 @@ namespace RarcTools
                     fileEntries[totalNumFilesAdded].dataOffset = (uint)0xFFFE;
 
                     fileEntries[totalNumFilesAdded].dataSize = 0x10;
+
+                    pendingDirEntryPaths[totalNumFilesAdded] = entry;
                 }
                 totalNumFilesAdded++;
             }
@@ -494,6 +510,8 @@ namespace RarcTools
 
             dirName = new FileInfo(folder).Name;
             nodes[numNodesDone].foldernameHash = Hash(dirName);
+
+            nodeIndexByPath[folder] = numNodesDone;
 
             numNodesDone++;
         }

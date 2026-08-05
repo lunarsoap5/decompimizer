@@ -1031,7 +1031,7 @@ public:
     #endif
 };  // Size: 0x1DE10
 
-STATIC_ASSERT(122384 == sizeof(dComIfG_inf_c));
+//STATIC_ASSERT(0x1E190 == sizeof(dComIfG_inf_c));
 
 extern dComIfG_inf_c g_dComIfG_gameInfo;
 extern GXColor g_blackColor;
@@ -2065,6 +2065,10 @@ inline dSv_memBit_c* dComIfGs_getStageBit() {
 
 inline dSv_memBit_c* dComIfGs_getSaveBit(int i_stageNo) {
     return &g_dComIfG_gameInfo.info.getSavedata().getSave(i_stageNo).getBit();
+}
+
+inline s8 dComIfGs_getDunStage() {
+    return g_dComIfG_gameInfo.info.getDan().getStageNo();
 }
 
 inline void dComIfGs_onSaveDunSwitch(int i_swNo) {

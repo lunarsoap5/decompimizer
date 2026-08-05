@@ -1244,10 +1244,7 @@ void item_func_HYRULE_SMALL_KEY() {
 }
 
 void item_func_CAMP_SMALL_KEY() {
-    u8 currentKeys = dComIfGs_getKeyNum(0xA);
-    u8 currentTotalKeys = dComIfGs_getTotalKeyNum(0xA);
-    dComIfGs_setKeyNum(0xA, currentKeys + 1);
-    dComIfGs_setTotalKeyNum(0xA, currentTotalKeys + 1);
+    dComIfGs_onEventBit(0x6480); // Custom - Unlock Bulblin Camp Gate
 }
 
 void item_func_LAKE_HYLIA_PORTAL() {

@@ -47,6 +47,8 @@ public:
         /* 0x15 */ u8 _15;
     };
 
+    
+
     dMenuMapCommon_c();
     virtual ~dMenuMapCommon_c();
     void initiate(JKRArchive*);
@@ -65,6 +67,9 @@ public:
         mCenterPosX = center_pos;
         _c90 = param_2;
     }
+
+    static void getDmapPoeCount(const char* stageName, int& nowCount, int& totalCount);
+    static void getFmapPoeCount(const int regionNo, int& nowCount, int& totalCount);
 
     struct Stage_c {
         // Incomplete class
@@ -119,5 +124,12 @@ public:
     /* 0xC8C */ f32 mCenterPosX;
     /* 0xC90 */ u8 _c90;
 };
+
+struct PoeInfo {
+        const char* stagename;
+        u8 switch_no;
+        s8 region_id;
+        u8 save_id;
+    };
 
 #endif /* D_MENU_D_MENU_MAP_COMMON_H */

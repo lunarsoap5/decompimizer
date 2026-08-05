@@ -3,6 +3,7 @@
 
 #include "f_op/f_op_camera_mng.h"
 #include "f_op/f_op_scene.h"
+#include "d/d_file_select.h"
 
 class dSn_HIO_c {
 public:
@@ -17,35 +18,6 @@ class dScnName_camera_c : public camera_process_class {
 public:
     dScnName_camera_c() { field_0x22f = 84; }
     virtual ~dScnName_camera_c() {}
-};
-
-// remove later and use header instead
-class dFile_select_c {
-public:
-    dFile_select_c(JKRArchive*);
-    virtual ~dFile_select_c();
-    void _create();
-    void _move();
-    void _draw();
-
-    bool getFadeFlag() { return mFadeFlag; }
-    int isDataNew(u8 i) { return mDataNew[i]; }
-    int isSelectEnd() { return mSelectEnd; }
-    u8 getSelectNum() { return mSelectNum; }
-    void setUseType(u8 type) { mUseType = type; }
-
-private:
-    u8 field_0x4[0x254];
-    /* 0x0258 */ u8 mDataNew[3];
-    /* 0x025B */ u8 field_0x25b[0x265 - 0x25b];
-    /* 0x0265 */ u8 mSelectNum;
-    /* 0x0266 */ u8 field_0x266[0x270 - 0x266];
-    /* 0x0270 */ bool mSelectEnd;
-    /* 0x0271 */ u8 field_0x271[0x3b0 - 0x271];
-    /* 0x03B0 */ u8 mUseType;
-    /* 0x03B1 */ u8 field_0x3b1[0x2374 - 0x3b1];
-    /* 0x2374 */ bool mFadeFlag;
-    /* 0x2375 */ u8 field_0x2375[0x237c - 0x2375];
 };
 
 // remove later and use header instead

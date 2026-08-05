@@ -9,6 +9,7 @@
 #include "d/d_com_inf_game.h"
 #include "d/d_s_play.h"
 #include "d/d_item.h"
+#include "rando/rando.h"
 #include "Z2AudioLib/Z2Instances.h"
 
 void daObjYOUSEI_c::InitCcSph() {
@@ -93,7 +94,16 @@ void daObjYOUSEI_c::MoveAction() {
         break;
     case 1:
         if (field_0x5d6 == 100 && mPrm != 0) {
-            execItemGet(fpcNm_ITEM_RECOVERY_FAILY);
+            // If the fairy has a check, give it and set the flag. If not, just give a normal fairy.
+            if (isEnabled)
+            {
+                dComIfGs_onItem(getFlag(), -1);
+                g_randoInfo.addItemToEventQueue(getItem());
+            }
+            else
+            {
+                execItemGet(fpcNm_ITEM_RECOVERY_FAILY);
+            }  
         }
 
         f32 var_f31 = (25.0f + yREG_F(16)) / field_0x5d6;
@@ -105,7 +115,7 @@ void daObjYOUSEI_c::MoveAction() {
         cXyz sp24;
         f32 temp_f30 = field_0x5d6 / 120.0f;
 
-        if ((fopAcM_GetParam(this) & 0xFF) == 0 && field_0x5d6 > 110) {
+        if (getType() == 0 && field_0x5d6 > 110) {
             if (field_0x5d6 > 115) {
                 var_f31 = 0.03f + BREG_F(1);
                 sp30.set(0.0f, 600.0f + BREG_F(3), (10.0f / field_0x5e8) + (130.0f * temp_f30));
@@ -714,6 +724,12 @@ int daObjYOUSEI_c::Execute() {
 
     mSound.startCreatureSoundLevel(Z2SE_FAIRY_S_LV, 0, -1);
 
+    JPABaseEmitter* emitter = dComIfGp_particle_getEmitter(field_0x604);
+    if ((emitter != NULL) && isEnabled) {
+        emitter->setGlobalPrmColor(mColor.r, mColor.g, mColor.b);
+        emitter->setGlobalEnvColor(mColor.r, mColor.g, mColor.b);
+    }
+
     if (mpModelMorf->checkFrame(1.0f) && mAnmSpeed > 0.0f) {
         mSound.startCreatureSound(Z2SE_FAIRY_S_FLY, 100.0f * mAnmSpeed, -1);
     }
@@ -779,7 +795,16 @@ int daObjYOUSEI_c::create() {
         return cPhs_ERROR_e;
     }
 
-    mPrm = fopAcM_GetParam(this);
+    mPrm = getType();
+    if (dComIfGs_isItem(getFlag(), -1))
+    {
+        isEnabled = true;
+    }
+    else
+    {
+        isEnabled = false;
+    }
+
     switch (mPrm) {
     case 0:
         mPrm = 0;
@@ -815,6 +840,12 @@ int daObjYOUSEI_c::create() {
     default:
         mPrm = 5;
         break;
+    }
+
+    // Init fairy color if the flag hasn't been set.
+    if (isEnabled)
+    {
+        setColor(255, 15, 15, 255); // Major Item - Red
     }
 
     gravity = nREG_F(0);

@@ -377,6 +377,29 @@ void daDitem_c::set_pos() {
     }
 
     cLib_offsetPos(&pos, &sp38, player->shape_angle.y, &offset);
+    
+    // Adjust position based on item.
+    switch(m_itemNo)
+    {
+        case fpcNm_ITEM_MIRROR_PIECE_1:
+        case fpcNm_ITEM_MIRROR_PIECE_2:
+        case fpcNm_ITEM_MIRROR_PIECE_3:
+        case fpcNm_ITEM_MIRROR_PIECE_4:
+        {
+            pos.y += 15.0f;
+            break;
+        }
+        case fpcNm_ITEM_MASTER_SWORD:
+        case fpcNm_ITEM_LIGHT_SWORD:
+        {
+            pos.y -= 10.f;
+            break;
+        }
+        default:
+        {
+            break;
+        }
+    }
     current.pos = pos;
 }
 
@@ -518,21 +541,29 @@ int daDitem_c::execute() {
     eyePos = current.pos;
     eyePos.y += mpModel->getModelData()->getJointNodePointer(0)->getMax()->y * 0.5f;
 
-    if (m_itemNo == fpcNm_ITEM_ORANGE_RUPEE || m_itemNo == fpcNm_ITEM_SILVER_RUPEE) {
-        field_0x99c = current.pos;
-        field_0x99c.y += 10.0f;
-    } else if (m_itemNo == fpcNm_ITEM_WALLET_LV3 || m_itemNo == fpcNm_ITEM_CHUCHU_RARE) {
-        field_0x99c = current.pos;
-        field_0x99c.y += 15.0f;
-    } else if (m_itemNo == fpcNm_ITEM_FAIRY_DROP || m_itemNo == fpcNm_ITEM_DROP_BOTTLE) {
-        field_0x99c = current.pos;
-    }
-
-    mSound.framework(0, dComIfGp_getReverb(fopAcM_GetRoomNo(this)));
-
     // Certain items use field models that are too big to fit in link's hands so we want to scale them down to fit.
-    switch (m_itemNo)
+    switch(m_itemNo)
     {
+        case fpcNm_ITEM_ORANGE_RUPEE:
+        case fpcNm_ITEM_SILVER_RUPEE:
+        {
+            field_0x99c = current.pos;
+            field_0x99c.y += 10.0f;
+            break;
+        }
+        case fpcNm_ITEM_WALLET_LV3:
+        case fpcNm_ITEM_CHUCHU_RARE:
+        {
+            field_0x99c = current.pos;
+            field_0x99c.y += 15.0f;
+            break;
+        }
+        case fpcNm_ITEM_FAIRY_DROP:
+        case fpcNm_ITEM_DROP_BOTTLE:
+        {
+            field_0x99c = current.pos;
+            break;
+        }
         case fpcNm_ITEM_MIRROR_PIECE_1:
         case fpcNm_ITEM_MIRROR_PIECE_2:
         case fpcNm_ITEM_MIRROR_PIECE_3:
@@ -552,6 +583,8 @@ int daDitem_c::execute() {
             break;
         }
     }
+
+    mSound.framework(0, dComIfGp_getReverb(fopAcM_GetRoomNo(this)));
     return 1;
 }
 
