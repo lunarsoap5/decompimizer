@@ -198,24 +198,24 @@ void daObj_Stick_c::setMtx() {
     mpModel->setBaseTRMtx(mDoMtx_stack_c::get());
 }
 
-static u32 daObj_Stick_Create(void* i_this) {
+static int daObj_Stick_Create(void* i_this) {
     return static_cast<daObj_Stick_c*>(i_this)->create();
 }
 
-static void daObj_Stick_Delete(void* param_0) {
-    static_cast<daObj_Stick_c*>(param_0)->Delete();
+static int daObj_Stick_Delete(void* param_0) {
+    return static_cast<daObj_Stick_c*>(param_0)->Delete();
 }
 
-static void daObj_Stick_Execute(void* param_0) {
-    static_cast<daObj_Stick_c*>(param_0)->Execute();
+static int daObj_Stick_Execute(void* param_0) {
+    return static_cast<daObj_Stick_c*>(param_0)->Execute();
 }
 
-static void daObj_Stick_Draw(void* param_0) {
-    static_cast<daObj_Stick_c*>(param_0)->Draw();
+static int daObj_Stick_Draw(void* param_0) {
+    return static_cast<daObj_Stick_c*>(param_0)->Draw();
 }
 
-static bool daObj_Stick_IsDelete(void* param_0) {
-    return true;
+static int daObj_Stick_IsDelete(void* param_0) {
+    return 1;
 }
 
 static actor_method_class daObj_Stick_MethodTable = {
@@ -227,18 +227,18 @@ static actor_method_class daObj_Stick_MethodTable = {
 };
 
 actor_process_profile_definition g_profile_OBJ_STICK = {
-  fpcLy_CURRENT_e,          // mLayerID
-  7,                        // mListID
-  fpcPi_CURRENT_e,          // mListPrio
-  PROC_OBJ_STICK,           // mProcName
-  &g_fpcLf_Method.base,    // sub_method
-  sizeof(daObj_Stick_c),    // mSize
-  0,                        // mSizeOther
-  0,                        // mParameters
-  &g_fopAc_Method.base,     // sub_method
-  85,                       // mPriority
-  &daObj_Stick_MethodTable, // sub_method
-  0x00044100,               // mStatus
-  fopAc_ACTOR_e,            // mActorType
-  fopAc_CULLBOX_CUSTOM_e,   // cullType
+    /* Layer ID     */ fpcLy_CURRENT_e,
+    /* List ID      */ 7,
+    /* List Prio    */ fpcPi_CURRENT_e,
+    /* Proc Name    */ fpcNm_OBJ_STICK_e,
+    /* Proc SubMtd  */ &g_fpcLf_Method.base,
+    /* Size         */ sizeof(daObj_Stick_c),
+    /* Size Other   */ 0,
+    /* Parameters   */ 0,
+    /* Leaf SubMtd  */ &g_fopAc_Method.base,
+    /* Draw Prio    */ fpcDwPi_OBJ_STICK_e,
+    /* Actor SubMtd */ &daObj_Stick_MethodTable,
+    /* Status       */ fopAcStts_UNK_0x40000_e | fopAcStts_UNK_0x4000_e | fopAcStts_CULL_e,
+    /* Group        */ fopAc_ACTOR_e,
+    /* Cull Type    */ fopAc_CULLBOX_CUSTOM_e,
 };

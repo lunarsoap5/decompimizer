@@ -3,9 +3,12 @@
  * DVD Error Handling
  */
 
+#include "m_Do/machine.h" // IWYU pragma: keep
+
 #include "m_Do/m_Do_DVDError.h"
 #include "JSystem/JKernel/JKRAssertHeap.h"
-#include <dolphin/os.h>
+#include "JSystem/JKernel/JKRThread.h"
+#include <os.h>
 #include "m_Do/m_Do_dvd_thread.h"
 #include "m_Do/m_Do_ext.h"
 #include "m_Do/m_Do_Reset.h"

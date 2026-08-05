@@ -242,7 +242,7 @@ static void e_tk2_find(e_tk2_class* i_this) {
         break;
 
     case MODE_TK2_SWIM:
-        ADD_ANGLE(i_this->mPlayerAngleY, 0x8000);
+        ANGLE_ADD(i_this->mPlayerAngleY, 0x8000);
         i_this->mAttentionOFF = true;
         if (i_this->mpMorf->isStop()) {
             i_this->mAnimSpeed = 4.0f;
@@ -268,7 +268,7 @@ static void e_tk2_find(e_tk2_class* i_this) {
             }
         }
         if (i_this->mActionTimer[1] == 0) {
-            ADD_ANGLE(i_this->mPlayerAngleY, 0x8000);
+            ANGLE_ADD(i_this->mPlayerAngleY, 0x8000);
         } else {
             i_this->mPlayerAngleY = i_this->mSomeAngle;
         }
@@ -289,7 +289,7 @@ static void e_tk2_attack(e_tk2_class* i_this) {
     case MODE_TK2_APPEAR:
         if ((int)i_this->mpMorf->getFrame() == 0x18) {
             i_this->mBallID =
-                fopAcM_createChild(PROC_E_TK_BALL, fopAcM_GetID(actor), 1, &actor->eyePos,
+                fopAcM_createChild(fpcNm_E_TK_BALL_e, fopAcM_GetID(actor), 1, &actor->eyePos,
                                    fopAcM_GetRoomNo(actor), &actor->shape_angle, 0, -1, 0);
         }
         if ((int)i_this->mpMorf->getFrame() == 0x1c) {
@@ -398,7 +398,7 @@ static int daE_TK2_Execute(e_tk2_class* i_this) {
     cXyz cStack_94;
     cXyz cStack_a0;
 
-    if (i_this->mExecuteState == 0x00) {
+    if (i_this->mActionTimer[3] == 0x00) {
         dBgS_ObjGndChk_Spl ground_check;
         cStack_94 = actor->current.pos;
         cStack_94.y += 200.0f;
@@ -602,7 +602,7 @@ static int daE_TK2_Create(fopAc_ac_c* actor) {
         i_this->mSound.init(&actor->current.pos, &actor->eyePos, 0x3, 0x1);
         i_this->mSound.setEnemyName("E_tk2");
         i_this->mAtInfo.mpSound = &i_this->mSound;
-        i_this->mExecuteState = 0x14;
+        i_this->mActionTimer[3] = 0x14;
         daE_TK2_Execute(i_this);
     }
     return phase;
@@ -615,18 +615,18 @@ static actor_method_class l_daE_TK2_Method = {
 };
 
 actor_process_profile_definition g_profile_E_TK2 = {
-    fpcLy_CURRENT_e,         // mLayerID
-    7,                       // mListID
-    fpcPi_CURRENT_e,         // mListPrio
-    PROC_E_TK2,              // mProcName
-    &g_fpcLf_Method.base,    // sub_method
-    sizeof(e_tk2_class),     // mSize
-    0,                       // mSizeOther
-    0,                       // mParameters
-    &g_fopAc_Method.base,    // sub_method
-    150,                     // mPriority
-    &l_daE_TK2_Method,       // sub_method
-    0x00040100,              // mStatus
-    fopAc_ENEMY_e,           // mActorType
-    fopAc_CULLBOX_CUSTOM_e,  // cullType
+    /* Layer ID     */ fpcLy_CURRENT_e,
+    /* List ID      */ 7,
+    /* List Prio    */ fpcPi_CURRENT_e,
+    /* Proc Name    */ fpcNm_E_TK2_e,
+    /* Proc SubMtd  */ &g_fpcLf_Method.base,
+    /* Size         */ sizeof(e_tk2_class),
+    /* Size Other   */ 0,
+    /* Parameters   */ 0,
+    /* Leaf SubMtd  */ &g_fopAc_Method.base,
+    /* Draw Prio    */ fpcDwPi_E_TK2_e,
+    /* Actor SubMtd */ &l_daE_TK2_Method,
+    /* Status       */ fopAcStts_UNK_0x40000_e | fopAcStts_CULL_e,
+    /* Group        */ fopAc_ENEMY_e,
+    /* Cull Type    */ fopAc_CULLBOX_CUSTOM_e,
 };

@@ -63,7 +63,6 @@ if __name__ == "__main__":
 
     parser.add_argument(
         "--map",
-        type=expanded_path,
         default=DEFAULT_DOLPHIN_CONFIG_PATH / "Maps",
         help="Folder to place the symbol map for the modified ISO (defaults to Dolphin's maps directory).",
     )

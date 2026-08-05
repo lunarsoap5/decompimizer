@@ -6,6 +6,7 @@
 #include "JSystem/JKernel/JKRExpHeap.h"
 #include "JSystem/JKernel/JKRMemArchive.h"
 #include <cstdio>
+#include <cstring>
 #include "f_op/f_op_msg_mng.h"
 #include "d/d_com_inf_game.h"
 #include "d/d_lib.h"
@@ -226,17 +227,17 @@ dMenu_Fmap_c::dMenu_Fmap_c(JKRExpHeap* i_heap, STControl* i_stick, CSTControl* i
     }
 
     if (i_panDirection == 1) {
-        mTransX = -608.0f;
+        mTransX = -FB_WIDTH_BASE;
         mTransY = 0.0f;
     } else if (i_panDirection == 3) {
-        mTransX = 608.0f;
+        mTransX = FB_WIDTH_BASE;
         mTransY = 0.0f;
     } else if (i_panDirection == 2) {
         mTransX = 0.0f;
-        mTransY = -448.0f;
+        mTransY = -FB_HEIGHT_BASE;
     } else if (i_panDirection == 0) {
         mTransX = 0.0f;
-        mTransY = 448.0f;
+        mTransY = FB_HEIGHT_BASE;
     } else {
         mTransX = 0.0f;
         mTransY = 0.0f;
@@ -1709,17 +1710,17 @@ bool dMenu_Fmap_c::isOpen() {
     f32 ratio = (f32)mDisplayFrame / (f32)display_frame_num;
 
     if (mPanDirection == 1) {
-        mTransX = (1.0f - ratio) * -608.0f;
+        mTransX = (1.0f - ratio) * -FB_WIDTH_BASE;
         mTransY = 0.0f;
     } else if (mPanDirection == 3) {
-        mTransX = (1.0f - ratio) * 608.0f;
+        mTransX = (1.0f - ratio) * FB_WIDTH_BASE;
         mTransY = 0.0f;
     } else if (mPanDirection == 2) {
         mTransX = 0.0f;
-        mTransY = (1.0f - ratio) * -448.0f;
+        mTransY = (1.0f - ratio) * -FB_HEIGHT_BASE;
     } else if (mPanDirection == 0) {
         mTransX = 0.0f;
-        mTransY = (1.0f - ratio) * 448.0f;
+        mTransY = (1.0f - ratio) * FB_HEIGHT_BASE;
     }
 
     mAlphaRatio = ratio;
@@ -1759,17 +1760,17 @@ bool dMenu_Fmap_c::isClose() {
     }
 
     if (mPanDirection == 1) {
-        mTransX = (1.0f - ratio) * 608.0f;
+        mTransX = (1.0f - ratio) * FB_WIDTH_BASE;
         mTransY = 0.0f;
     } else if (mPanDirection == 3) {
-        mTransX = (1.0f - ratio) * -608.0f;
+        mTransX = (1.0f - ratio) * -FB_WIDTH_BASE;
         mTransY = 0.0f;
     } else if (mPanDirection == 2) {
         mTransX = 0.0f;
-        mTransY = (1.0f - ratio) * 448.0f;
+        mTransY = (1.0f - ratio) * FB_HEIGHT_BASE;
     } else if (mPanDirection == 0) {
         mTransX = 0.0f;
-        mTransY = (1.0f - ratio) * -448.0f;
+        mTransY = (1.0f - ratio) * -FB_HEIGHT_BASE;
     }
 
     mAlphaRatio = ratio;
@@ -2276,7 +2277,7 @@ bool dMenu_Fmap_c::readFieldMapData(void** o_data, char const* i_path, bool para
 }
 
 void dMenu_Fmap_c::decodeFieldMapData() {
-    int field_data = (intptr_t)mpFieldDat;
+    intptr_t field_data = (intptr_t)mpFieldDat;
     dMenu_Fmap_field_region_data_c* region_data
         = (dMenu_Fmap_field_region_data_c*)(field_data + mpFieldDat->mRegionDataOffset);
     dMenuMapCommon_c::Stage_c* stage_data

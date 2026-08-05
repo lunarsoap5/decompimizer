@@ -1,6 +1,12 @@
+#include "m_Do/machine.h" // IWYU pragma: keep
+
 #include "m_Do/m_Do_hostIO.h"
 #include "JSystem/JHostIO/JORServer.h"
-#include <dolphin/dolphin.h>
+#ifdef __REVOLUTION_SDK__
+#include <revolution.h>
+#else
+#include <dolphin.h>
+#endif
 
 #if DEBUG
 

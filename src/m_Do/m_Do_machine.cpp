@@ -3,6 +3,8 @@
  * Exception Management
  */
 
+#include "m_Do/machine.h" // IWYU pragma: keep
+
 #include "m_Do/m_Do_machine.h"
 #include "JSystem/JFramework/JFWSystem.h"
 #include "JSystem/JKernel/JKRHeap.h"
@@ -250,7 +252,9 @@ GXRenderModeObj g_ntscZeldaProg = {
 
 #if DEBUG
 static void myGXVerifyCallback(GXWarningLevel, u32, const char*);
+#endif
 
+#if DEBUG || VERSION == VERSION_WII_PAL
 GXRenderModeObj g_palZeldaProg60 = {
     VI_TVMODE_EURGB60_PROG,
     640, 456, 456, 25, 12, 670, 456,
@@ -581,7 +585,7 @@ static void fault_callback_scroll(u16, OSContext* p_context, u32, u32) {
     JUTException* manager = JUTException::getManager();
     JUTConsole* exConsole = manager->getConsole();
 
-    u32 srr0 = p_context->srr0 & -4;
+    uintptr_t srr0 = p_context->srr0 & -4;
     if (srr0 >= 0x8000000C && srr0 < 0x82FFFFFF) {
         exConsole->print_f("(SRR0-3):%08X %08X %08X %08X\n", *(u32*)(srr0 - 0xC),
                            *(u32*)(srr0 - 0x8), *(u32*)(srr0 - 0x4), *(u32*)srr0);

@@ -16,6 +16,7 @@
 #include "d/d_map_path_dmap.h"
 #include "SSystem/SComponent/c_math.h"
 #include <cstdio>
+#include <cstring>
 
 char* daDoor20_c::getStopBmdName() {
     switch (door_param2_c::getKind(this)) {
@@ -1385,8 +1386,8 @@ int daDoor20_c::createKey() {
                 roomNo = door_param2_c::getBRoomNo(this);
             }
             field_0x5ec =
-                fopAcM_createChildFromOffset(PROC_Obj_Lv5Key, fopAcM_GetID(this), 0xffffffff,
-                                             &cStack_28, roomNo, &cStack_30, &scale, 0xffffffff, 0);
+                fopAcM_createChildFromOffset(fpcNm_Obj_Lv5Key_e, fopAcM_GetID(this), 0xffffffff,
+                                             &cStack_28, roomNo, &cStack_30, &scale, -1, 0);
             break;
         default:
             OSReport_Error("シャッタードア：鍵タイプが不明です\n"); // Shutter door: key type unknown
@@ -1404,8 +1405,8 @@ int daDoor20_c::createKey() {
                 }
             }
             field_0x5ec =
-                fopAcM_createChildFromOffset(PROC_OBJ_KEYHOLE, fopAcM_GetID(this), 0xffffffff,
-                                             &cStack_28, roomNo, &cStack_30, &scale, 0xffffffff, 0);
+                fopAcM_createChildFromOffset(fpcNm_OBJ_KEYHOLE_e, fopAcM_GetID(this), 0xffffffff,
+                                             &cStack_28, roomNo, &cStack_30, &scale, -1, 0);
         }
 
         current.pos = prevPos;
@@ -1498,7 +1499,7 @@ int daDoor20_c::drawCheck(int param_1) {
 
 int daDoor20_c::checkExecute() {
     field_0x68c = frontCheck();
-    if (fopAcM_CheckStatus(this, 0x1000)) {
+    if (fopAcM_CheckStatus(this, fopAcStts_STAFF_SHUTTER_e)) {
         return 1;
     }
     if (eventInfo.checkCommandDemoAccrpt() || eventInfo.checkCommandDoor()) {
@@ -2153,18 +2154,18 @@ static actor_method_class l_daDoor20_Method = {
 };
 
 actor_process_profile_definition g_profile_DOOR20 = {
-    fpcLy_CURRENT_e,        // mLayerID
-    3,                      // mListID
-    fpcPi_CURRENT_e,        // mListPrio
-    PROC_DOOR20,            // mProcName
-    &g_fpcLf_Method.base,  // sub_method
-    sizeof(daDoor20_c),     // mSize
-    0,                      // mSizeOther
-    0,                      // mParameters
-    &g_fopAc_Method.base,   // sub_method
-    294,                    // mPriority
-    &l_daDoor20_Method,     // sub_method
-    0x44000,                // mStatus
-    fopAc_ACTOR_e,          // mActorType
-    fopAc_CULLBOX_CUSTOM_e, // cullType
+    /* Layer ID     */ fpcLy_CURRENT_e,
+    /* List ID      */ 3,
+    /* List Prio    */ fpcPi_CURRENT_e,
+    /* Proc Name    */ fpcNm_DOOR20_e,
+    /* Proc SubMtd  */ &g_fpcLf_Method.base,
+    /* Size         */ sizeof(daDoor20_c),
+    /* Size Other   */ 0,
+    /* Parameters   */ 0,
+    /* Leaf SubMtd  */ &g_fopAc_Method.base,
+    /* Draw Prio    */ fpcDwPi_DOOR20_e,
+    /* Actor SubMtd */ &l_daDoor20_Method,
+    /* Status       */ fopAcStts_UNK_0x40000_e | fopAcStts_UNK_0x4000_e,
+    /* Group        */ fopAc_ACTOR_e,
+    /* Cull Type    */ fopAc_CULLBOX_CUSTOM_e,
 };

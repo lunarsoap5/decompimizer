@@ -12,6 +12,9 @@
 #include "d/d_msg_class.h"
 #include "d/d_msg_object.h"
 #include "rando/tools/verifyItemFunctions.h"
+#include "d/d_meter_HIO.h"
+
+#include <cstring>
 
 enum ITEMICON_RES_FILE_ID {
     ITEMICON_BTI_ARI_MESU_00=0x3,
@@ -203,11 +206,11 @@ void dMeter2Info_c::init() {
     unk_0x5c = 0.0f;
     unk_0x60 = 1.0f;
     unk_0x64 = 30.0f;
-    unk_0x68 = 304.0f;
-    unk_0x6c = 224.0f;
+    unk_0x68 = FB_WIDTH_BASE / 2;
+    unk_0x6c = FB_HEIGHT_BASE / 2;
 
-    m2DWidth = 608.0f;
-    m2DHeight = 448.0f;
+    m2DWidth = FB_WIDTH_BASE;
+    m2DHeight = FB_HEIGHT_BASE;
     m2DPosH = 0.0f;
     m2DPosV = 0.0f;
     unk_0x80 = 0.0f;
@@ -362,19 +365,18 @@ void dMeter2Info_c::getString(u32 i_stringID, char* o_string, JMSMesgEntry_c* i_
     }
 
     JMSMesgInfo_c* bmg_inf = (JMSMesgInfo_c*)(msgRes + sizeof(bmg_header_t));
-    u8* bmg_data = (u8*)bmg_inf + bmg_inf->header.size + sizeof(bmg_section_t);  // pointer to start of message data
+    u8* bmg_data = (u8*)bmg_inf + bmg_inf->header.size;
+    u8* string_data = bmg_data + sizeof(bmg_section_t);  // pointer to start of message data
 
     char* string_ptr = NULL;
     for (u16 i = 0; i < bmg_inf->entry_num; i++) {
-        u8* entry = ((u8*)bmg_inf + (i * sizeof(JMSMesgEntry_c)));
-
         // check if i_stringID equals the message entry "Message ID"
-        if (i_stringID == *(u16*)(entry + 0x14)) {
-            string_ptr = (char*)(bmg_data + *(u32*)(entry + 0x10));  // use entry "String Offset" to get string pointer
+        if (i_stringID == bmg_inf->entries[i].message_id) {
+            string_ptr = (char*)(string_data + bmg_inf->entries[i].string_offset);  // use entry "String Offset" to get string pointer
             strcpy(o_string, string_ptr);
 
             if (i_msgEntry != NULL) {
-                memcpy(i_msgEntry, entry + 0x10, sizeof(JMSMesgEntry_c));
+                memcpy(i_msgEntry, &bmg_inf->entries[i], sizeof(JMSMesgEntry_c));
             }
 
             return;
@@ -508,6 +510,10 @@ void dMeter2Info_c::getStringKanji(u32 i_stringID, char* o_string, JMSMesgEntry_
     }
 }
 
+static void dummyString() {
+    OS_REPORT("レボ用ＩＤ＝＝＝＝＝＞%d, %d\n");
+}
+
 f32 dMeter2Info_c::getStringLength(J2DTextBox* i_textbox, char* i_string) {
     f32 str_width = 0.0f;
     f32 str_len = 0.0f;
@@ -622,8 +628,8 @@ void dMeter2Info_c::warpInProc() {
     dComIfGs_setWarpMarkFlag(0);
     dComIfGs_resetLastWarpAcceptStage();
 
-    if (dComIfGs_getItem(SLOT_18, true) != fpcNm_ITEM_LV7_DUNGEON_EXIT) {
-        dComIfGs_setItem(SLOT_18, fpcNm_ITEM_DUNGEON_EXIT);
+    if (dComIfGs_getItem(SLOT_18, true) != dItemNo_LV7_DUNGEON_EXIT_e) {
+        dComIfGs_setItem(SLOT_18, dItemNo_DUNGEON_EXIT_e);
     }
 }
 
@@ -654,7 +660,7 @@ void dMeter2Info_c::warpOutProc() {
     }
 
     dComIfGs_setWarpItemData(dComIfGp_getStartStageName(), pos, angle.y, room_no, 0, 1);
-    dComIfGs_setItem(SLOT_18, fpcNm_ITEM_DUNGEON_BACK);
+    dComIfGs_setItem(SLOT_18, dItemNo_DUNGEON_BACK_e);
 }
 
 void dMeter2Info_c::resetMeterString() {
@@ -674,114 +680,114 @@ void dMeter2Info_c::setWarpInfo(const char* i_stageName, const cXyz& i_position,
 u8 dMeter2Info_c::getItemType(u8 i_itemNo) {
     u8 type;
     switch (i_itemNo) {
-    case fpcNm_ITEM_GREEN_RUPEE:
+    case dItemNo_GREEN_RUPEE_e:
         type = ItemType_GREEN_RUPEE;
         break;
-    case fpcNm_ITEM_BLUE_RUPEE:
+    case dItemNo_BLUE_RUPEE_e:
         type = ItemType_BLUE_RUPEE;
         break;
-    case fpcNm_ITEM_YELLOW_RUPEE:
+    case dItemNo_YELLOW_RUPEE_e:
         type = ItemType_YELLOW_RUPEE;
         break;
-    case fpcNm_ITEM_RED_RUPEE:
+    case dItemNo_RED_RUPEE_e:
         type = ItemType_RED_RUPEE;
         break;
-    case fpcNm_ITEM_PURPLE_RUPEE:
-    case fpcNm_ITEM_LINKS_SAVINGS:
+    case dItemNo_PURPLE_RUPEE_e:
+    case dItemNo_LINKS_SAVINGS_e:
         type = ItemType_PURPLE_RUPEE;
         break;
-    case fpcNm_ITEM_ORANGE_RUPEE:
+    case dItemNo_ORANGE_RUPEE_e:
         type = ItemType_ORANGE_RUPEE;
         break;
-    case fpcNm_ITEM_SILVER_RUPEE:
+    case dItemNo_SILVER_RUPEE_e:
         type = ItemType_SILVER_RUPEE;
         break;
-    case fpcNm_ITEM_EMPTY_BOTTLE:
+    case dItemNo_EMPTY_BOTTLE_e:
         type = ItemType_EMPTY_BOTTLE;
         break;
-    case fpcNm_ITEM_RED_BOTTLE:
-    case fpcNm_ITEM_RED_BOTTLE_2:
+    case dItemNo_RED_BOTTLE_e:
+    case dItemNo_RED_BOTTLE_2_e:
         type = ItemType_RED_BOTTLE;
         break;
-    case fpcNm_ITEM_GREEN_BOTTLE:
+    case dItemNo_GREEN_BOTTLE_e:
         type = ItemType_GREEN_BOTTLE;
         break;
-    case fpcNm_ITEM_BLUE_BOTTLE:
+    case dItemNo_BLUE_BOTTLE_e:
         type = ItemType_BLUE_BOTTLE;
         break;
-    case fpcNm_ITEM_MILK_BOTTLE:
+    case dItemNo_MILK_BOTTLE_e:
         type = ItemType_MILK_BOTTLE;
         break;
-    case fpcNm_ITEM_HALF_MILK_BOTTLE:
+    case dItemNo_HALF_MILK_BOTTLE_e:
         type = ItemType_HALF_MILK_BOTTLE;
         break;
-    case fpcNm_ITEM_OIL_BOTTLE:
-    case fpcNm_ITEM_OIL_BOTTLE_2:
-    case fpcNm_ITEM_OIL_BOTTLE3:
+    case dItemNo_OIL_BOTTLE_e:
+    case dItemNo_OIL_BOTTLE_2_e:
+    case dItemNo_OIL_BOTTLE3_e:
         type = ItemType_OIL_BOTTLE;
         break;
-    case fpcNm_ITEM_WATER_BOTTLE:
+    case dItemNo_WATER_BOTTLE_e:
         type = ItemType_WATER_BOTTLE;
         break;
-    case fpcNm_ITEM_HOT_SPRING:
-    case fpcNm_ITEM_HOT_SPRING_2:
+    case dItemNo_HOT_SPRING_e:
+    case dItemNo_HOT_SPRING_2_e:
         type = ItemType_HOT_SPRING;
         break;
-    case fpcNm_ITEM_LV1_SOUP:
+    case dItemNo_LV1_SOUP_e:
         type = ItemType_LV1_SOUP;
         break;
-    case fpcNm_ITEM_LV2_SOUP:
-    case fpcNm_ITEM_LV3_SOUP:
+    case dItemNo_LV2_SOUP_e:
+    case dItemNo_LV3_SOUP_e:
         type = ItemType_LV2_3_SOUP;
         break;
-    case fpcNm_ITEM_UGLY_SOUP:
+    case dItemNo_UGLY_SOUP_e:
         type = ItemType_UGLY_SOUP;
         break;
-    case fpcNm_ITEM_CHUCHU_RED:
+    case dItemNo_CHUCHU_RED_e:
         type = ItemType_CHUCHU_RED;
         break;
-    case fpcNm_ITEM_CHUCHU_BLUE:
+    case dItemNo_CHUCHU_BLUE_e:
         type = ItemType_CHUCHU_BLUE;
         break;
-    case fpcNm_ITEM_CHUCHU_GREEN:
+    case dItemNo_CHUCHU_GREEN_e:
         type = ItemType_CHUCHU_GREEN;
         break;
-    case fpcNm_ITEM_CHUCHU_YELLOW:
+    case dItemNo_CHUCHU_YELLOW_e:
         type = ItemType_CHUCHU_YELLOW;
         break;
-    case fpcNm_ITEM_CHUCHU_PURPLE:
+    case dItemNo_CHUCHU_PURPLE_e:
         type = ItemType_CHUCHU_PURPLE;
         break;
-    case fpcNm_ITEM_CHUCHU_RARE:
+    case dItemNo_CHUCHU_RARE_e:
         type = ItemType_CHUCHU_RARE;
         break;
-    case fpcNm_ITEM_CHUCHU_BLACK:
+    case dItemNo_CHUCHU_BLACK_e:
         type = ItemType_CHUCHU_BLACK;
         break;
-    case fpcNm_ITEM_POU_FIRE1:
-    case fpcNm_ITEM_POU_FIRE2:
-    case fpcNm_ITEM_POU_FIRE3:
-    case fpcNm_ITEM_POU_FIRE4:
+    case dItemNo_POU_FIRE1_e:
+    case dItemNo_POU_FIRE2_e:
+    case dItemNo_POU_FIRE3_e:
+    case dItemNo_POU_FIRE4_e:
         type = ItemType_POU_FIRE;
         break;
-    case fpcNm_ITEM_FAIRY:
+    case dItemNo_FAIRY_e:
         type = ItemType_FAIRY;
         break;
-    case fpcNm_ITEM_BEE_CHILD:
-    case fpcNm_ITEM_SHOP_BEE_CHILD:
+    case dItemNo_BEE_CHILD_e:
+    case dItemNo_SHOP_BEE_CHILD_e:
         type = ItemType_BEE_CHILD;
         break;
-    case fpcNm_ITEM_WORM:
+    case dItemNo_WORM_e:
         type = ItemType_WORM;
         break;
-    case fpcNm_ITEM_FAIRY_DROP:
-    case fpcNm_ITEM_DROP_BOTTLE:
+    case dItemNo_FAIRY_DROP_e:
+    case dItemNo_DROP_BOTTLE_e:
         type = ItemType_DROP_BOTTLE;
         break;
-    case fpcNm_ITEM_BOMB_ARROW:
+    case dItemNo_BOMB_ARROW_e:
         type = ItemType_BOMB_ARROW;
         break;
-    case fpcNm_ITEM_HAWK_ARROW:
+    case dItemNo_HAWK_ARROW_e:
         type = ItemType_HAWK_ARROW;
         break;
     default:
@@ -799,10 +805,10 @@ int dMeter2Info_c::readItemTexture(u8 i_itemNo, void* i_texBuf1, J2DPicture* i_p
     int tex_num = 0;
 
     if (i_texBuf1 != NULL) {
-        if ((i_itemNo == fpcNm_ITEM_KANTERA && dComIfGs_getOil() == 0) || i_itemNo == fpcNm_ITEM_KANTERA2) {
+        if ((i_itemNo == dItemNo_KANTERA_e && dComIfGs_getOil() == 0) || i_itemNo == dItemNo_KANTERA2_e) {
             u32 size = JKRReadIdxResource(i_texBuf1, 0xC00, ITEMICON_BTI_IM_KANTERA_OFF_48, dComIfGp_getItemIconArchive());
             JUT_ASSERT(1166, size != 0);
-        } else if (i_itemNo == fpcNm_ITEM_COPY_ROD && !daPy_getPlayerActorClass()->checkCopyRodTopUse() && param_9 == -1) {
+        } else if (i_itemNo == dItemNo_COPY_ROD_e && !daPy_getPlayerActorClass()->checkCopyRodTopUse() && param_9 == -1) {
             u32 size = JKRReadIdxResource(i_texBuf1, 0xC00, ITEMICON_BTI_ST_COPY_ROD_B, dComIfGp_getItemIconArchive());
             JUT_ASSERT(1173, size != 0);
         } else if ((itemType == ItemType_POU_FIRE || itemType == ItemType_FAIRY || itemType == ItemType_BEE_CHILD || itemType == ItemType_WORM) && i_texBuf3 == NULL) {
@@ -1003,6 +1009,104 @@ s16 dMeter2Info_c::get4thTexture(u8 i_itemType) {
 }
 
 void dMeter2Info_c::set1stColor(u8 i_itemType, J2DPicture* i_pic) {
+    // TODO: probably some way to rectify this for both versions
+    #if VERSION == VERSION_SHIELD_DEBUG
+    static JUtility::TColor const black_color[37] = {
+        JUtility::TColor(0x00, 0x00, 0x00, 0x00), JUtility::TColor(0x00, 0x60, 0x00, 0x00), JUtility::TColor(0x00, 0x00, 0xC0, 0x00),
+        JUtility::TColor(0xA0, 0x60, 0x00, 0x00), JUtility::TColor(0xA0, 0x00, 0x00, 0x00), JUtility::TColor(0x40, 0x00, 0x60, 0x00),
+        JUtility::TColor(0xE0, 0x00, 0x00, 0x00), JUtility::TColor(0x40, 0x40, 0x40, 0x00), JUtility::TColor(0x6E, 0x6E, 0x64, 0x00),
+        JUtility::TColor(0x32, 0x00, 0x00, 0x00), JUtility::TColor(0x00, 0x7F, 0x00, 0x00), JUtility::TColor(0x00, 0x00, 0x7F, 0x00),
+        JUtility::TColor(0xAF, 0x9B, 0x6E, 0x00), JUtility::TColor(0xAA, 0x9B, 0x6E, 0x00), JUtility::TColor(0x55, 0x37, 0x14, 0x00),
+        JUtility::TColor(0x6E, 0x6E, 0x6E, 0x00), JUtility::TColor(0x6E, 0x6E, 0x6E, 0x00), JUtility::TColor(0xFF, 0x58, 0x00, 0x00),
+        JUtility::TColor(0x6C, 0x3E, 0x00, 0x00), JUtility::TColor(0x00, 0x00, 0x00, 0x00), JUtility::TColor(0x32, 0x00, 0x00, 0x00),
+        JUtility::TColor(0x00, 0x00, 0x7F, 0x00), JUtility::TColor(0x00, 0x7F, 0x00, 0x00), JUtility::TColor(0x55, 0x37, 0x14, 0x00),
+        JUtility::TColor(0x00, 0x00, 0x22, 0x00), JUtility::TColor(0x2B, 0x18, 0x22, 0x00), JUtility::TColor(0x00, 0x00, 0x00, 0x00),
+        JUtility::TColor(0x46, 0x46, 0x41, 0x00), JUtility::TColor(0x46, 0x46, 0x41, 0x00), JUtility::TColor(0x46, 0x46, 0x41, 0x00),
+        JUtility::TColor(0x46, 0x46, 0x41, 0x00), JUtility::TColor(0x00, 0x00, 0x00, 0x00), JUtility::TColor(0x00, 0x00, 0x00, 0x00),
+        JUtility::TColor(0x00, 0x00, 0x00, 0x00), JUtility::TColor(0x00, 0x00, 0x00, 0x00), JUtility::TColor(0x00, 0x00, 0x00, 0x00),
+        JUtility::TColor(0x00, 0x00, 0x00, 0x00),
+    };
+
+    static JUtility::TColor const white_color[37] = {
+        JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0x60, 0xFF, 0x00, 0xFF), JUtility::TColor(0x00, 0xFF, 0xFF, 0xFF),
+        JUtility::TColor(0xFF, 0xFF, 0x00, 0xFF), JUtility::TColor(0xFF, 0x80, 0x80, 0xFF), JUtility::TColor(0xBE, 0x40, 0xFF, 0xFF),
+        JUtility::TColor(0xFF, 0xC0, 0x00, 0xFF), JUtility::TColor(0xC0, 0xC0, 0xC0, 0xFF), JUtility::TColor(0xF5, 0xF5, 0xFF, 0xFF),
+        JUtility::TColor(0xFF, 0xD2, 0xAA, 0xFF), JUtility::TColor(0xEF, 0xF5, 0xC9, 0xFF), JUtility::TColor(0xB0, 0xFF, 0xFF, 0xFF),
+        JUtility::TColor(0xFF, 0xFF, 0xF0, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xF0, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xD7, 0xFF),
+        JUtility::TColor(0xF5, 0xF5, 0xFF, 0xFF), JUtility::TColor(0xF5, 0xF5, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xC2, 0xFF),
+        JUtility::TColor(0xFF, 0x9D, 0x00, 0xFF), JUtility::TColor(0xC8, 0xC8, 0xC8, 0xFF), JUtility::TColor(0xFF, 0xD2, 0xAA, 0xFF),
+        JUtility::TColor(0xB0, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xEF, 0xF5, 0xC9, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xD7, 0xFF),
+        JUtility::TColor(0xD7, 0xCF, 0xF5, 0xFF), JUtility::TColor(0xFF, 0xFF, 0x33, 0xFF), JUtility::TColor(0xC8, 0xC8, 0xC8, 0xFF),
+        JUtility::TColor(0xF5, 0xF5, 0xFF, 0xFF), JUtility::TColor(0xF5, 0xF5, 0xFF, 0xFF), JUtility::TColor(0xF5, 0xF5, 0xFF, 0xFF),
+        JUtility::TColor(0xF5, 0xF5, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF),
+        JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF),
+        JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF),
+    };
+
+    static JUtility::TColor const vertex_color_lu[37] = {
+        JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF),
+        JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF),
+        JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0x00),
+        JUtility::TColor(0xFF, 0x78, 0xAF, 0xFF), JUtility::TColor(0x5C, 0xB4, 0x16, 0xFF), JUtility::TColor(0xA4, 0xFF, 0x00, 0xFF),
+        JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0x00, 0xFF),
+        JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF),
+        JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0x78, 0xAF, 0xFF),
+        JUtility::TColor(0xA4, 0xFF, 0x00, 0xFF), JUtility::TColor(0x5C, 0xB4, 0x16, 0xFF), JUtility::TColor(0xFF, 0xFF, 0x00, 0xFF),
+        JUtility::TColor(0xC9, 0xB4, 0xFF, 0xFF), JUtility::TColor(0x3C, 0x0A, 0x00, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF),
+        JUtility::TColor(0xFF, 0xFF, 0xFF, 0x00), JUtility::TColor(0xFF, 0xFF, 0xFF, 0x00), JUtility::TColor(0xFF, 0xFF, 0xFF, 0x00),
+        JUtility::TColor(0xFF, 0xFF, 0xFF, 0x00), JUtility::TColor(0xFF, 0xA0, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF),
+        JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF),
+        JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF),
+    };
+
+    static JUtility::TColor const vertex_color_ru[37] = {
+        JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF),
+        JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF),
+        JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0x00),
+        JUtility::TColor(0xFF, 0xFF, 0x73, 0xFF), JUtility::TColor(0xFF, 0xFF, 0x2A, 0xFF), JUtility::TColor(0x98, 0xFF, 0x00, 0xFF),
+        JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF),
+        JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF),
+        JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0x73, 0xFF),
+        JUtility::TColor(0x98, 0xFF, 0x00, 0xFF), JUtility::TColor(0xFF, 0xFF, 0x2A, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF),
+        JUtility::TColor(0xFF, 0xFF, 0x39, 0xFF), JUtility::TColor(0xFF, 0xFF, 0x00, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF),
+        JUtility::TColor(0xFF, 0xFF, 0xFF, 0x00), JUtility::TColor(0xFF, 0xFF, 0xFF, 0x00), JUtility::TColor(0xFF, 0xFF, 0xFF, 0x00),
+        JUtility::TColor(0xFF, 0xFF, 0xFF, 0x00), JUtility::TColor(0xFF, 0xA0, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF),
+        JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF),
+        JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF),
+    };
+
+    static JUtility::TColor const vertex_color_ld[37] = {
+        JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF),
+        JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF),
+        JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0x78, 0x6E, 0x3C, 0xFF),
+        JUtility::TColor(0xFF, 0x00, 0x00, 0xFF), JUtility::TColor(0x3C, 0x32, 0x50, 0xFF), JUtility::TColor(0x00, 0x00, 0x74, 0xFF),
+        JUtility::TColor(0xFA, 0xC8, 0x9B, 0xFF), JUtility::TColor(0xFA, 0xC8, 0x9B, 0xFF), JUtility::TColor(0x46, 0x87, 0x00, 0xFF),
+        JUtility::TColor(0x5A, 0xB4, 0xB4, 0xFF), JUtility::TColor(0x5A, 0xB4, 0xB4, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF),
+        JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0x00, 0x00, 0x00, 0xFF), JUtility::TColor(0xFF, 0x00, 0x00, 0xFF),
+        JUtility::TColor(0x00, 0x00, 0x74, 0xFF), JUtility::TColor(0x3C, 0x32, 0x50, 0xFF), JUtility::TColor(0x46, 0x87, 0x00, 0xFF),
+        JUtility::TColor(0x3C, 0x32, 0x50, 0x49), JUtility::TColor(0xFF, 0xFF, 0x00, 0xFF), JUtility::TColor(0x00, 0x00, 0x00, 0xFF),
+        JUtility::TColor(0x00, 0x00, 0x00, 0xFF), JUtility::TColor(0x00, 0x00, 0x00, 0xFF), JUtility::TColor(0x00, 0x00, 0x00, 0xFF),
+        JUtility::TColor(0x00, 0x00, 0x00, 0xFF), JUtility::TColor(0xE0, 0x00, 0xE0, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF),
+        JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF),
+        JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF),
+    };
+
+    static JUtility::TColor const vertex_color_rd[37] = {
+        JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF),
+        JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF),
+        JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0x78, 0x6E, 0x3C, 0xFF),
+        JUtility::TColor(0xFF, 0x96, 0x00, 0xFF), JUtility::TColor(0x55, 0x42, 0x00, 0xFF), JUtility::TColor(0x61, 0x48, 0xFF, 0xFF),
+        JUtility::TColor(0xFF, 0xFF, 0xAA, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xAA, 0xFF), JUtility::TColor(0xAF, 0x91, 0x23, 0xFF),
+        JUtility::TColor(0xE6, 0xFA, 0xFF, 0xFF), JUtility::TColor(0xE6, 0xFA, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF),
+        JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0x00, 0x00, 0x00, 0xFF), JUtility::TColor(0xFF, 0x96, 0x00, 0xFF),
+        JUtility::TColor(0x61, 0x48, 0xFF, 0xFF), JUtility::TColor(0x55, 0x42, 0x00, 0xFF), JUtility::TColor(0xAF, 0x91, 0x23, 0xFF),
+        JUtility::TColor(0x3C, 0x09, 0x4E, 0xFF), JUtility::TColor(0xBA, 0x98, 0x00, 0xFF), JUtility::TColor(0x00, 0x00, 0x00, 0xFF),
+        JUtility::TColor(0x00, 0x00, 0x00, 0xFF), JUtility::TColor(0x00, 0x00, 0x00, 0xFF), JUtility::TColor(0x00, 0x00, 0x00, 0xFF),
+        JUtility::TColor(0x00, 0x00, 0x00, 0xFF), JUtility::TColor(0xE0, 0x00, 0xE0, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF),
+        JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF),
+        JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF),
+    };
+    #else
     static GXColor const black_color[37] = {
         {0x00, 0x00, 0x00, 0x00}, {0x00, 0x60, 0x00, 0x00}, {0x00, 0x00, 0xC0, 0x00},
         {0xA0, 0x60, 0x00, 0x00}, {0xA0, 0x00, 0x00, 0x00}, {0x40, 0x00, 0x60, 0x00},
@@ -1098,6 +1202,7 @@ void dMeter2Info_c::set1stColor(u8 i_itemType, J2DPicture* i_pic) {
         {0xFF, 0xFF, 0xFF, 0xFF}, {0xFF, 0xFF, 0xFF, 0xFF}, {0xFF, 0xFF, 0xFF, 0xFF},
         {0xFF, 0xFF, 0xFF, 0xFF},
     };
+    #endif
 
     i_pic->setBlackWhite(*(JUtility::TColor*)&black_color[i_itemType],
                            *(JUtility::TColor*)&white_color[i_itemType]);
@@ -1108,6 +1213,104 @@ void dMeter2Info_c::set1stColor(u8 i_itemType, J2DPicture* i_pic) {
 }
 
 void dMeter2Info_c::set2ndColor(u8 i_itemType, J2DPicture* i_pic) {
+    // TODO: probably some way to rectify this for both versions
+    #if VERSION == VERSION_SHIELD_DEBUG
+    static JUtility::TColor const black_color[37] = {
+        JUtility::TColor(0x00, 0x00, 0x00, 0x00), JUtility::TColor(0x00, 0x00, 0x00, 0x00), JUtility::TColor(0x00, 0x00, 0x00, 0x00),
+        JUtility::TColor(0x00, 0x00, 0x00, 0x00), JUtility::TColor(0x00, 0x00, 0x00, 0x00), JUtility::TColor(0x00, 0x00, 0x00, 0x00),
+        JUtility::TColor(0x00, 0x00, 0x00, 0x00), JUtility::TColor(0x00, 0x00, 0x00, 0x00), JUtility::TColor(0x00, 0x00, 0x00, 0x00),
+        JUtility::TColor(0x00, 0x00, 0x00, 0x00), JUtility::TColor(0x00, 0x00, 0x00, 0x00), JUtility::TColor(0x00, 0x00, 0x00, 0x00),
+        JUtility::TColor(0x00, 0x00, 0x00, 0x00), JUtility::TColor(0x00, 0x00, 0x00, 0x00), JUtility::TColor(0x00, 0x00, 0x00, 0x00),
+        JUtility::TColor(0x00, 0x00, 0x00, 0x00), JUtility::TColor(0x00, 0x00, 0x00, 0x00), JUtility::TColor(0x00, 0x00, 0x00, 0x00),
+        JUtility::TColor(0x00, 0x00, 0x00, 0x00), JUtility::TColor(0x00, 0x00, 0x00, 0x00), JUtility::TColor(0x00, 0x00, 0x00, 0x00),
+        JUtility::TColor(0x00, 0x00, 0x00, 0x00), JUtility::TColor(0x00, 0x00, 0x00, 0x00), JUtility::TColor(0x00, 0x00, 0x00, 0x00),
+        JUtility::TColor(0x00, 0x00, 0x00, 0x00), JUtility::TColor(0x00, 0x00, 0x00, 0x00), JUtility::TColor(0x00, 0x00, 0x00, 0x00),
+        JUtility::TColor(0x00, 0x86, 0xD4, 0x00), JUtility::TColor(0xE6, 0x1E, 0xFF, 0x00), JUtility::TColor(0x00, 0x00, 0x00, 0x00),
+        JUtility::TColor(0x00, 0x00, 0x00, 0x00), JUtility::TColor(0x00, 0x00, 0x00, 0x00), JUtility::TColor(0x00, 0x00, 0x00, 0x00),
+        JUtility::TColor(0x00, 0x00, 0x00, 0x00), JUtility::TColor(0x00, 0x00, 0x00, 0x00), JUtility::TColor(0x00, 0x00, 0x00, 0x00),
+        JUtility::TColor(0x00, 0x00, 0x00, 0x00),
+    };
+
+    static JUtility::TColor const white_color[37] = {
+        JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF),
+        JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF),
+        JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF),
+        JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF),
+        JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF),
+        JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF),
+        JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF),
+        JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF),
+        JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF),
+        JUtility::TColor(0xF5, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xC8, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF),
+        JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF),
+        JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF),
+        JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF),
+    };
+
+    static JUtility::TColor const vertex_color_lu[37] = {
+        JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF),
+        JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF),
+        JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF),
+        JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF),
+        JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF),
+        JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF),
+        JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF),
+        JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF),
+        JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF),
+        JUtility::TColor(0x00, 0x00, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF),
+        JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF),
+        JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF),
+        JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF),
+    };
+
+    static JUtility::TColor const vertex_color_ru[37] = {
+        JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF),
+        JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF),
+        JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF),
+        JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF),
+        JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF),
+        JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF),
+        JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF),
+        JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF),
+        JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF),
+        JUtility::TColor(0x00, 0xFF, 0xFF, 0x58), JUtility::TColor(0xFF, 0xFF, 0xFF, 0x58), JUtility::TColor(0xFF, 0xFF, 0xFF, 0x58),
+        JUtility::TColor(0xFF, 0xFF, 0xFF, 0x58), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF),
+        JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF),
+        JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF),
+    };
+
+    static JUtility::TColor const vertex_color_ld[37] = {
+        JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF),
+        JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF),
+        JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF),
+        JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF),
+        JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF),
+        JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF),
+        JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF),
+        JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF),
+        JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF),
+        JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF),
+        JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF),
+        JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF),
+        JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF),
+    };
+
+    static JUtility::TColor const vertex_color_rd[37] = {
+        JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF),
+        JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF),
+        JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF),
+        JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF),
+        JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF),
+        JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF),
+        JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF),
+        JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF),
+        JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF),
+        JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xCD, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xCD, 0xFF, 0xFF, 0xFF),
+        JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF),
+        JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF), JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF),
+        JUtility::TColor(0xFF, 0xFF, 0xFF, 0xFF),
+    };
+    #else
     static GXColor const black_color[37] = {
         {0x00, 0x00, 0x00, 0x00}, {0x00, 0x00, 0x00, 0x00}, {0x00, 0x00, 0x00, 0x00},
         {0x00, 0x00, 0x00, 0x00}, {0x00, 0x00, 0x00, 0x00}, {0x00, 0x00, 0x00, 0x00},
@@ -1203,6 +1406,7 @@ void dMeter2Info_c::set2ndColor(u8 i_itemType, J2DPicture* i_pic) {
         {0xFF, 0xFF, 0xFF, 0xFF}, {0xFF, 0xFF, 0xFF, 0xFF}, {0xFF, 0xFF, 0xFF, 0xFF},
         {0xFF, 0xFF, 0xFF, 0xFF},
     };
+    #endif
 
     i_pic->setBlackWhite(*(JUtility::TColor*)&black_color[i_itemType],
                            *(JUtility::TColor*)&white_color[i_itemType]);
@@ -1235,6 +1439,8 @@ void dMeter2Info_c::set3rdColor(u8 i_itemType, J2DPicture* i_pic) {
 }
 
 void dMeter2Info_c::set4thColor(u8 i_itemType, J2DPicture* i_pic) {
+    UNUSED(i_itemType);
+
     i_pic->setBlackWhite(JUtility::TColor(0, 0, 0, 0), JUtility::TColor(0xff, 0xff, 0xff, 0xff));
     i_pic->setCornerColor(
         JUtility::TColor(0xff, 0xff, 0xff, 0xff), JUtility::TColor(0xff, 0xff, 0xff, 0xff),
@@ -1265,8 +1471,8 @@ void dMeter2Info_c::changeWater(u8 i_slotNo) {
 
     mHotSpringTimer[i_bottleIdx] = 0;
 
-    if (dComIfGs_getItem(i_slotNo, true) == fpcNm_ITEM_HOT_SPRING) {
-        dComIfGs_setItem(i_slotNo, fpcNm_ITEM_WATER_BOTTLE);
+    if (dComIfGs_getItem(i_slotNo, true) == dItemNo_HOT_SPRING_e) {
+        dComIfGs_setItem(i_slotNo, dItemNo_WATER_BOTTLE_e);
 
         for (int i = 0; i < 3; i++) {
             if (i_slotNo == dComIfGs_getSelectItemIndex(i)) {
@@ -1286,7 +1492,7 @@ void dMeter2Info_c::setMiniGameItem(u8 i_minigameFlag) {
         u8 setRentBagIdx = false;
 
         for (int bagIdx = 0; bagIdx < 3; bagIdx++) {
-            if (!setRentBagIdx && dComIfGs_getItem((u8)(bagIdx + SLOT_15), true) == fpcNm_ITEM_NONE) {
+            if (!setRentBagIdx && dComIfGs_getItem((u8)(bagIdx + SLOT_15), true) == dItemNo_NONE_e) {
                 mRentalBombBagIdx = bagIdx;
                 setRentBagIdx = true;
             }
@@ -1322,12 +1528,12 @@ void dMeter2Info_c::setMiniGameItem(u8 i_minigameFlag) {
         dComIfGs_setArrowNum(mSaveArrowNumMG);
     }
 
-    dComIfGs_setItem((u8)(mRentalBombBagIdx + SLOT_15), fpcNm_ITEM_NORMAL_BOMB);
-    dComIfGp_setItem((u8)(mRentalBombBagIdx + SLOT_15), fpcNm_ITEM_NORMAL_BOMB);
+    dComIfGs_setItem((u8)(mRentalBombBagIdx + SLOT_15), dItemNo_NORMAL_BOMB_e);
+    dComIfGp_setItem((u8)(mRentalBombBagIdx + SLOT_15), dItemNo_NORMAL_BOMB_e);
 
     if (mMiniGameItemSetFlag != 3) {
-        dComIfGs_setItem(SLOT_4, fpcNm_ITEM_BOW);
-        dComIfGp_setItem(SLOT_4, fpcNm_ITEM_BOW);
+        dComIfGs_setItem(SLOT_4, dItemNo_BOW_e);
+        dComIfGp_setItem(SLOT_4, dItemNo_BOW_e);
         dComIfGs_setMixItemIndex(SELECT_ITEM_Y, 0xFF);
         dComIfGs_setSelectItemIndex(SELECT_ITEM_Y, 0xFF);
         dComIfGs_setMixItemIndex(SELECT_ITEM_X, SLOT_4);
@@ -1452,20 +1658,32 @@ u8 dMeter2Info_getPixel(f32 i_posX, f32 i_posY, f32 param_2, f32 param_3, f32 i_
     return (var_r24 & 0x7000) != 0;
 }
 
+bool dMeter2Info_isNextStage(const char* i_name, s16 i_roomNo, s16 i_point, s16 i_layer) {
+    if (strcmp(dComIfGp_getNextStageName(), i_name) == 0
+        && dComIfGp_getNextStageRoomNo() == i_roomNo
+        && dComIfGp_getNextStagePoint() == i_point
+        && dComIfGp_getNextStageLayer() == i_layer
+    ) {
+        return true;
+    }
+
+    return false;
+}
+
 void dMeter2Info_setCloth(u8 i_clothId, bool i_offItemBit) {
     switch (i_clothId) {
-    case fpcNm_ITEM_WEAR_CASUAL:
-    case fpcNm_ITEM_WEAR_KOKIRI:
-    case fpcNm_ITEM_ARMOR:
-    case fpcNm_ITEM_WEAR_ZORA:
+    case dItemNo_WEAR_CASUAL_e:
+    case dItemNo_WEAR_KOKIRI_e:
+    case dItemNo_ARMOR_e:
+    case dItemNo_WEAR_ZORA_e:
         break;
     default:
         OS_REPORT("cloth item id error!! ==> %d\n", i_clothId);
-        i_clothId = fpcNm_ITEM_WEAR_CASUAL;
+        i_clothId = dItemNo_WEAR_CASUAL_e;
         i_offItemBit = false;
     }
 
-    if (i_offItemBit && dComIfGs_getSelectEquipClothes() != fpcNm_ITEM_NONE) {
+    if (i_offItemBit && dComIfGs_getSelectEquipClothes() != dItemNo_NONE_e) {
         dComIfGs_offItemFirstBit(dComIfGs_getSelectEquipClothes());
     }
 
@@ -1475,15 +1693,15 @@ void dMeter2Info_setCloth(u8 i_clothId, bool i_offItemBit) {
 
 void dMeter2Info_setSword(u8 i_itemId, bool i_offItemBit) {
     switch (i_itemId) {
-    case fpcNm_ITEM_NONE:
-    case fpcNm_ITEM_WOOD_STICK:
-    case fpcNm_ITEM_SWORD:
-    case fpcNm_ITEM_MASTER_SWORD:
-    case fpcNm_ITEM_LIGHT_SWORD:
+    case dItemNo_NONE_e:
+    case dItemNo_WOOD_STICK_e:
+    case dItemNo_SWORD_e:
+    case dItemNo_MASTER_SWORD_e:
+    case dItemNo_LIGHT_SWORD_e:
         break;
     default:
         OS_REPORT("sword item id error!! ==> %d\n", i_itemId);
-        i_itemId = fpcNm_ITEM_NONE;
+        i_itemId = dItemNo_NONE_e;
         i_offItemBit = false;
     }
 
@@ -1497,14 +1715,14 @@ void dMeter2Info_setSword(u8 i_itemId, bool i_offItemBit) {
 
 void dMeter2Info_setShield(u8 i_itemId, bool i_offItemBit) {
     switch (i_itemId) {
-    case fpcNm_ITEM_NONE:
-    case fpcNm_ITEM_WOOD_SHIELD:
-    case fpcNm_ITEM_SHIELD:
-    case fpcNm_ITEM_HYLIA_SHIELD:
+    case dItemNo_NONE_e:
+    case dItemNo_WOOD_SHIELD_e:
+    case dItemNo_SHIELD_e:
+    case dItemNo_HYLIA_SHIELD_e:
         break;
     default:
         OS_REPORT("shield item id error!! ==> %d\n", i_itemId);
-        i_itemId = fpcNm_ITEM_NONE;
+        i_itemId = dItemNo_NONE_e;
         i_offItemBit = false;
     }
 
@@ -1595,6 +1813,7 @@ u8 dMeter2Info_getNewLetterNum() {
 }
 
 int dMeter2Info_setNewLetterSender() {
+    int ret = 0;
     u8 check = 0;
 
     for (int i = 0; i < 0x40; i++) {
@@ -1602,10 +1821,9 @@ int dMeter2Info_setNewLetterSender() {
             u16 letterEvent = dMenu_Letter::getLetterEventFlag(i);
             if (dComIfGs_isEventBit(dSv_event_flag_c::saveBitLabels[letterEvent])) {
                 if (check == 0) {
-                    u16 letterName = dMenu_Letter::getLetterName(i);
-                    dMsgObject_c::setLetterNameID(letterName);
+                    dMsgObject_setLetterNameID(dMenu_Letter::getLetterName(i));
                 } else {
-                    dMsgObject_c::setLetterNameID(0);
+                    dMsgObject_setLetterNameID(0);
                     return 0;
                 }
                 check++;
@@ -1613,7 +1831,7 @@ int dMeter2Info_setNewLetterSender() {
         }
     }
 
-    return 0;
+    return ret;
 }
 
 int dMeter2Info_recieveLetter() {
@@ -1644,6 +1862,35 @@ int dMeter2Info_recieveLetter() {
 
     return rv;
 }
+
+#if WIDESCREEN_SUPPORT
+f32 dMeter2Info_getWide2DPosX(f32* param_0) {
+    J2DOrthoGraph graf(0.0f, 0.0f, 640.0f, 456.0f, -1.0f, 1.0f);
+    graf.setOrtho(mDoGph_gInf_c::getMinXF(), mDoGph_gInf_c::getMinYF(), mDoGph_gInf_c::getWidthF(), mDoGph_gInf_c::getHeightF(), -1.0f, 1.0f);
+    JGeometry::TBox2<f32>* bounds = graf.getBounds();
+    const JGeometry::TBox2<f32>* ortho = graf.getOrtho();
+
+    f32 var_f31 = 304.0f;
+    f32 var_f30 = 608.0f / (ortho->f.x - ortho->i.x);
+    f32 var_f29 = *param_0 - var_f31;
+    *param_0 = var_f29 * var_f30 + var_f31;
+    return *param_0;
+}
+
+void dMeter2Info_onWide2D() {
+    g_ringHIO.updateOnWide();
+    g_drawHIO.updateOnWide();
+}
+
+#if VERSION != VERSION_WII_USA_KIOSK
+void dMeter2Info_offWide2D() {
+    g_ringHIO.updateOffWide();
+    g_drawHIO.updateOffWide();
+}
+#endif
+#endif
+
+void dMeter2Info_set2DVibrationT() {}
 
 void dMeter2Info_set2DVibration() {}
 

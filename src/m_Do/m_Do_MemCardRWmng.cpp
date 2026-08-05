@@ -3,12 +3,15 @@
  * Memcard Saving and Checksum
  */
 
+#include "m_Do/machine.h" // IWYU pragma: keep
+
 #include "m_Do/m_Do_MemCardRWmng.h"
 #include "m_Do/m_Do_MemCard.h"
 #include "JSystem/JUtility/JUTTexture.h"
 #include "d/d_com_inf_game.h"
 #include "d/d_save.h"
 #include <cstdio>
+#include <cstring>
 
 #if VERSION == VERSION_GCN_JPN
 #define HEADER_TITLE   "ゼルダの伝説 ﾄﾜｲﾗｲﾄﾌﾟﾘﾝｾｽ"

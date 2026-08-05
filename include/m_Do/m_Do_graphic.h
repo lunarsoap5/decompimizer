@@ -11,8 +11,8 @@
 #define FB_WIDTH  (640)
 #define FB_HEIGHT (456)
 #else
-#define FB_WIDTH  (608)
-#define FB_HEIGHT (448)
+#define FB_WIDTH  FB_WIDTH_BASE
+#define FB_HEIGHT FB_HEIGHT_BASE
 #endif
 
 int mDoGph_Create();
@@ -59,7 +59,7 @@ public:
     public:
         virtual ~csr_c() {}
         virtual void draw(f32, f32) = 0;
-        virtual bool isPointer();
+        virtual bool isPointer() { return true; }
 
         static void particleExecute();
         static u32 getBlurID() { return m_blurID; }
@@ -71,6 +71,8 @@ public:
     };
 
     static void entryBaseCsr(csr_c*);
+    static void releaseCsr(void);
+    static void entryCsr(csr_c*);
     #endif
 
     static void create();
@@ -256,7 +258,9 @@ public:
 
     static void onWide();
     static void offWide();
-    static u8 isWide();
+    inline static u8 isWide() {
+        return mWide == TRUE;
+    }
 
     static void onWideZoom();
     static void offWideZoom();

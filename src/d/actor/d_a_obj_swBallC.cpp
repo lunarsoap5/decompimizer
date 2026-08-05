@@ -22,7 +22,7 @@ static int CheckCreateHeap(fopAc_ac_c* param_0) {
 }
 
 static void* s_swb_sub(void* param_1, void* param_2) {
-    if (fopAcM_IsActor(param_1) && fopAcM_GetName(param_1) == PROC_Obj_SwBallB &&
+    if (fopAcM_IsActor(param_1) && fopAcM_GetName(param_1) == fpcNm_Obj_SwBallB_e &&
         (u32)((daObjSwBallB_c*)param_1)->getID() == ((daObjSwBallC_c*)param_2)->field_0x582)
     {
         return param_1;
@@ -31,7 +31,7 @@ static void* s_swb_sub(void* param_1, void* param_2) {
 }
 
 static void* s_ballA_sub(void* param_1, void* param_2) {
-    if (fopAcM_IsActor(param_1) && fopAcM_GetName(param_1) == PROC_Obj_Carry &&
+    if (fopAcM_IsActor(param_1) && fopAcM_GetName(param_1) == fpcNm_Obj_Carry_e &&
         ((daObjCarry_c*)param_1)->getType() == daObjCarry_c::TYPE_BALL_S)
     {
         return param_1;
@@ -40,7 +40,7 @@ static void* s_ballA_sub(void* param_1, void* param_2) {
 }
 
 static void* s_ballB_sub(void* param_1, void* param_2) {
-    if (fopAcM_IsActor(param_1) && fopAcM_GetName(param_1) == PROC_Obj_Carry &&
+    if (fopAcM_IsActor(param_1) && fopAcM_GetName(param_1) == fpcNm_Obj_Carry_e &&
         ((daObjCarry_c*)param_1)->getType() == daObjCarry_c::TYPE_BALL_S_2)
     {
         return param_1;
@@ -259,7 +259,7 @@ int daObjSwBallC_c::demoProc() {
             break;
         case 10:
             field_0x584 = 1;
-            execItemGet(fpcNm_ITEM_LIGHT_SWORD); // Collect Both Sols Check
+            execItemGet(dItemNo_LIGHT_SWORD_e); // Collect Both Sols Check
             break;
         }
     }
@@ -366,14 +366,14 @@ int daObjSwBallC_c::calcLightBallScale() {
     int uVar3 = 0;
     fopAc_ac_c* ball = (fopAc_ac_c*)fpcM_Search(s_ballA_sub, this);
     if (ball != NULL) {
-        fopAcM_OnStatus(ball, 0x800);
+        fopAcM_OnStatus(ball, fopAcStts_STAFF_EXTRA_e);
         uVar3 = cLib_chaseF(&ball->scale.x, 0.0f, 0.05f);
         ball->scale.y = ball->scale.x;
         ball->scale.z = ball->scale.x;
     }
     ball = (fopAc_ac_c*)fpcM_Search(s_ballB_sub, this);
     if (ball != NULL) {
-        fopAcM_OnStatus(ball, 0x800);
+        fopAcM_OnStatus(ball, fopAcStts_STAFF_EXTRA_e);
         uVar3 &= cLib_chaseF(&ball->scale.x, 0.0f, 0.05f);
         ball->scale.y = ball->scale.x;
         ball->scale.z = ball->scale.x;
@@ -433,18 +433,18 @@ static actor_method_class l_daObjSwBallC_Method = {
 };
 
 actor_process_profile_definition g_profile_Obj_SwBallC = {
-    fpcLy_CURRENT_e,
-    7,
-    fpcPi_CURRENT_e,
-    PROC_Obj_SwBallC,
-    &g_fpcLf_Method.base,
-    sizeof(daObjSwBallC_c),
-    0,
-    0,
-    &g_fopAc_Method.base,
-    0x246,
-    &l_daObjSwBallC_Method,
-    0x40100,
-    fopAc_ACTOR_e,
-    fopAc_CULLBOX_CUSTOM_e,
+    /* Layer ID     */ fpcLy_CURRENT_e,
+    /* List ID      */ 7,
+    /* List Prio    */ fpcPi_CURRENT_e,
+    /* Proc Name    */ fpcNm_Obj_SwBallC_e,
+    /* Proc SubMtd  */ &g_fpcLf_Method.base,
+    /* Size         */ sizeof(daObjSwBallC_c),
+    /* Size Other   */ 0,
+    /* Parameters   */ 0,
+    /* Leaf SubMtd  */ &g_fopAc_Method.base,
+    /* Draw Prio    */ fpcDwPi_Obj_SwBallC_e,
+    /* Actor SubMtd */ &l_daObjSwBallC_Method,
+    /* Status       */ fopAcStts_UNK_0x40000_e | fopAcStts_CULL_e,
+    /* Group        */ fopAc_ACTOR_e,
+    /* Cull Type    */ fopAc_CULLBOX_CUSTOM_e,
 };

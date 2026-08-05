@@ -20,6 +20,7 @@ The project can target the following supported versions:
 - `RZDE01_02`: Wii - North America (Rev 2)
 - `RZDP01`: Wii - Europe/Australia
 - `RZDJ01`: Wii - Japan
+- `DZDE01`: Wii - North America (Kiosk Demo)
 - `Shield`: Nvidia Shield - China
 - `ShieldD`: Nvidia Shield - China (Debug Version)
 

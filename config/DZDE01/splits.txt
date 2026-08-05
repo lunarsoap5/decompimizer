@@ -20,15 +20,18 @@ d/d_home_button.cpp:
 d/d_cursor_mng.cpp:
 	.text       start:0x80006D90 end:0x80007BC8
 	.data       start:0x803BD040 end:0x803BD168
-	.sdata      start:0x804F77C0 end:0x804F780C
-	.sbss       start:0x804FA8C8 end:0x804FA8D8
+	.sdata      start:0x804F77C0 end:0x804F77F8
+	.sbss       start:0x804FA8C8 end:0x804FA8D0
 	.sdata2     start:0x804FBB18 end:0x804FBB30
+
+d/d_rvl_fb_copy.cpp:
+	.sbss       start:0x804FA8D0 end:0x804FA8D8
 
 d/d_E3Stage_select06.cpp:
 	.text       start:0x80007BC8 end:0x800097C4
 	.data       start:0x803BD168 end:0x803BD3A0
-	.sdata      start:0x804F780C end:0x804F783C
-	.sbss       start:0x804FA8D8 end:0x804FA8E8
+	.sdata      start:0x804F77F8 end:0x804F7838
+	.sbss       start:0x804FA8D8 end:0x804FA8E0
 	.sdata2     start:0x804FBB30 end:0x804FBB78
 
 m_Do/m_Do_main.cpp:
@@ -36,35 +39,36 @@ m_Do/m_Do_main.cpp:
 	.ctors      start:0x80396104 end:0x80396108
 	.data       start:0x803BD3A0 end:0x803BD6B8
 	.bss        start:0x8040B480 end:0x8040B8E0
-	.sdata      start:0x804F783C end:0x804F78B8
-	.sbss       start:0x804FA8E8 end:0x804FA910
+	.sdata      start:0x804F7838 end:0x804F78B0
+	.sbss       start:0x804FA8E0 end:0x804FA908
 	.sdata2     start:0x804FBB78 end:0x804FBB90
 
 m_Do/m_Do_printf.cpp:
 	.text       start:0x8000A5DC end:0x8000ACF4
 	.data       start:0x803BD6B8 end:0x803BD770
 	.bss        start:0x8040B8E0 end:0x8040C0E0
-	.sbss       start:0x804FA910 end:0x804FA92C
+	.sdata      start:0x804F78B0 end:0x804F78B8
+	.sbss       start:0x804FA908 end:0x804FA928
 
 m_Do/m_Do_audio.cpp:
 	.text       start:0x8000ACF4 end:0x8000B698
 	.ctors      start:0x80396108 end:0x8039610C
-	.data       start:0x803BD770 end:0x803BD9E8
+	.data       start:0x803BD770 end:0x803BD9D0
 	.bss        start:0x8040C0E0 end:0x8040D498
 	.sdata      start:0x804F78B8 end:0x804F7924
-	.sbss       start:0x804FA92C end:0x804FA97C
+	.sbss       start:0x804FA928 end:0x804FA978
 
 m_Do/m_Do_controller_pad.cpp:
 	.text       start:0x8000B698 end:0x8000BAA8
 	.bss        start:0x8040D498 end:0x8040D5A8
 	.sdata2     start:0x804FBB90 end:0x804FBBA8
 
-m_Do/m_Re_controller_pad.cpp:
+m_Re/m_Re_controller_pad.cpp:
 	.text       start:0x8000BAA8 end:0x8000F56C
 	.rodata     start:0x803962C0 end:0x80396310
-	.data       start:0x803BD9E8 end:0x803BDA00
+	.data       start:0x803BD9D0 end:0x803BDA00
 	.bss        start:0x8040D5A8 end:0x80414E58
-	.sbss       start:0x804FA97C end:0x804FA988
+	.sbss       start:0x804FA978 end:0x804FA988
 	.sdata2     start:0x804FBBA8 end:0x804FBC50
 
 m_Do/m_Do_graphic.cpp:
@@ -1116,17 +1120,17 @@ d/d_meter_HIO.cpp:
 	.text       start:0x801DE3F0 end:0x801E1790
 	.ctors      start:0x80396184 end:0x80396188
 	.rodata     start:0x803B4BF0 end:0x803B4DE8
-	.data       start:0x803DDF10 end:0x803DE28C
+	.data       start:0x803DDF10 end:0x803DE208
 	.bss        start:0x8047D018 end:0x8047E5C0
-	.sdata      start:0x804F95B8 end:0x804F9640
+	.sdata      start:0x804F95B8 end:0x804F9638
 	.sbss       start:0x804FAF38 end:0x804FAF40
 	.sdata2     start:0x804FE448 end:0x804FE6E0
 
 d/d_meter_button.cpp:
 	.text       start:0x801E1790 end:0x801EBD60
 	.rodata     start:0x803B4DE8 end:0x803B4F48
-	.data       start:0x803DE28C end:0x803DE368
-	.sdata      start:0x804F9640 end:0x804F9648
+	.data       start:0x803DE208 end:0x803DE368
+	.sdata      start:0x804F9638 end:0x804F9648
 	.sdata2     start:0x804FE6E0 end:0x804FE760
 
 d/d_meter_haihai.cpp:
@@ -2317,40 +2321,40 @@ Z2AudioLib/Z2AudioMgr.cpp:
 	.sbss       start:0x804FB240 end:0x804FB248
 	.sdata2     start:0x804FFDC8 end:0x804FFDD0
 
-Z2AudioLib/SpkSpeakerCtrl.cpp:
+Z2AudioCS/SpkSpeakerCtrl.cpp:
 	.text       start:0x802AA208 end:0x802AAB9C
 	.ctors      start:0x80396244 end:0x80396248
 	.bss        start:0x80482E78 end:0x80482F98
 	.sbss       start:0x804FB248 end:0x804FB250
 
-Z2AudioLib/SpkSystem.cpp:
+Z2AudioCS/SpkSystem.cpp:
 	.text       start:0x802AAB9C end:0x802AAE6C
 	.ctors      start:0x80396248 end:0x8039624C
 	.bss        start:0x80482F98 end:0x80482FB8
-	.sbss       start:0x804FB250 end:0x804FB264
+	.sbss       start:0x804FB250 end:0x804FB260
 
-Z2AudioLib/SpkMixingBuffer.cpp:
+Z2AudioCS/SpkMixingBuffer.cpp:
 	.text       start:0x802AAE6C end:0x802AAFB8
 	.sdata2     start:0x804FFDD0 end:0x804FFDD8
 
-Z2AudioLib/SpkWave.cpp:
+Z2AudioCS/SpkWave.cpp:
 	.text       start:0x802AAFB8 end:0x802AB0FC
 
-Z2AudioLib/SpkTable.cpp:
+Z2AudioCS/SpkTable.cpp:
 	.text       start:0x802AB0FC end:0x802AB180
 
-Z2AudioLib/SpkData.cpp:
+Z2AudioCS/SpkData.cpp:
 	.text       start:0x802AB180 end:0x802AB268
 
-Z2AudioLib/SpkSound.cpp:
+Z2AudioCS/SpkSound.cpp:
 	.text       start:0x802AB268 end:0x802ABE74
 	.ctors      start:0x8039624C end:0x80396250
 	.bss        start:0x80482FB8 end:0x80482FC8
 	.sdata2     start:0x804FFDD8 end:0x804FFE00
 
-Z2AudioLib/Z2AudioCS.cpp:
+Z2AudioCS/Z2AudioCS.cpp:
 	.text       start:0x802ABE74 end:0x802AC134
-	.sbss       start:0x804FB264 end:0x804FB268
+	.sbss       start:0x804FB260 end:0x804FB268
 	.sdata2     start:0x804FFE00 end:0x804FFE08
 
 revolution/gf/GFGeometry.cpp:
@@ -3313,7 +3317,7 @@ revolution/sc/scsystem.c:
 	.data       start:0x80401E40 end:0x80401FC0
 	.bss        start:0x804B1DE0 end:0x804B9F80
 	.sdata      start:0x804FA640 end:0x804FA718
-	.sbss       start:0x804FB91C end:0x804FB934
+	.sbss       start:0x804FB91C end:0x804FB930
 
 revolution/sc/scapi.c:
 	.text       start:0x8033D99C end:0x8033DD18
@@ -3330,7 +3334,7 @@ revolution/wenc/wenc.c:
 
 revolution/ipc/ipcMain.c:
 	.text       start:0x8033E1E0 end:0x8033E264
-	.sbss       start:0x804FB934 end:0x804FB948
+	.sbss       start:0x804FB930 end:0x804FB948
 
 revolution/ipc/ipcclt.c:
 	.text       start:0x8033E264 end:0x8033F964
@@ -4121,7 +4125,7 @@ TRK_MINNOW_revolution/debugger/embedded/MetroTRK/Os/revolution/target_options.c:
 TRK_MINNOW_revolution/debugger/embedded/MetroTRK/Os/revolution/UDP_Stubs.c:
 	.text       start:0x80395078 end:0x803950C0
 
-TRK_MINNOW_revolution/gamedev/cust_connection/cc/exi2/GCN/EXI2_DDH_GCN/main.c:
+TRK_MINNOW_revolution/gamedev/cust_connection/cc/exi2/GCN/EXI2_GDEV_GCN/main.c:
 	.text       start:0x803950C0 end:0x80395380
 	.bss        start:0x804F72A0 end:0x804F77BC
 	.sbss       start:0x804FBAC8 end:0x804FBAD0

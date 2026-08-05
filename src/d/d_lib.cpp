@@ -16,8 +16,7 @@
 #include "f_op/f_op_actor.h"
 #include "m_Do/m_Do_controller_pad.h"
 
-static void dummy1(mDoExt_btkAnm* btk) {
-    cXyz pos;
+static void dummy1(mDoExt_btkAnm* btk, cXyz& pos) {
     GXColor color;
     OS_REPORT("d_lib.cpp");
     OS_REPORT("brk != 0");
@@ -109,7 +108,7 @@ u8 STControl::checkTrigger() {
     f32 stickValue = getValueStick();
     s16 stickAngle = getAngleStick();
     u8 var_r6 = 0;
-    s16 temp_r7 = 0x2000 - field_0x26 >> 1;
+    s16 temp_r7 = (0x2000 - field_0x26) >> 1;
 
     if (!cM3d_IsZero(stickValue)) {
         if (stickAngle < field_0x22 - 0x7000 + temp_r7) {

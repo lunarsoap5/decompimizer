@@ -6,6 +6,7 @@
 #include "d/dolzel_rel.h"  // IWYU pragma: keep
 
 #include "d/actor/d_a_npc_sola.h"
+#include <cstring>
 
 enum Bans_RES_File_ID {
     /* BCK */
@@ -193,14 +194,13 @@ int daNpc_solA_c::Execute() {
     return execute();
 }
 
-void daNpc_solA_c::Draw() {
+int daNpc_solA_c::Draw() {
     if (mpMatAnm[0] != NULL) {
         J3DModelData* mdlData_p = mpMorf[0]->getModel()->getModelData();
         mdlData_p->getMaterialNodePointer(getEyeballMaterialNo())->setMaterialAnm(mpMatAnm[0]);
     }
-    draw(FALSE, FALSE, mpHIO->m.common.real_shadow_size, NULL, 100.0f, FALSE, FALSE,
-         FALSE);
-    return;
+    
+    return draw(FALSE, FALSE, mpHIO->m.common.real_shadow_size, NULL, 100.0f, FALSE, FALSE, FALSE);
 }
 
 BOOL daNpc_solA_c::createHeapCallBack(fopAc_ac_c* a_this) {
@@ -359,7 +359,7 @@ void daNpc_solA_c::setAttnPos() {
 void daNpc_solA_c::setCollision() {
     cXyz pos;
     if (!mHide) {
-        int prm = mTwilight == true ? 0x69 : 0x79;
+        int prm = mTwilight == TRUE ? 0x69 : 0x79;
         mCyl.SetCoSPrm(prm);
 
         pos = current.pos;
@@ -480,12 +480,12 @@ static int daNpc_solA_Execute(void* param_0) {
     return static_cast<daNpc_solA_c*>(param_0)->Execute();
 }
 
-static void daNpc_solA_Draw(void* param_0) {
+static int daNpc_solA_Draw(void* param_0) {
     return static_cast<daNpc_solA_c*>(param_0)->Draw();
 }
 
-static bool daNpc_solA_IsDelete(void* param_0) {
-    return true;
+static int daNpc_solA_IsDelete(void* param_0) {
+    return 1;
 }
 
 static actor_method_class daNpc_solA_MethodTable = {
@@ -495,18 +495,18 @@ static actor_method_class daNpc_solA_MethodTable = {
 };
 
 actor_process_profile_definition g_profile_NPC_SOLA = {
-    fpcLy_CURRENT_e,          // mLayerID
-    7,                        // mListID
-    fpcPi_CURRENT_e,          // mListPrio
-    PROC_NPC_SOLA,            // mProcName
-    &g_fpcLf_Method.base,     // sub_method
-    sizeof(daNpc_solA_c),     // mSize
-    0,                        // mSizeOther
-    0,                        // mParameters
-    &g_fopAc_Method.base,     // sub_method
-    366,                      // mPriority
-    &daNpc_solA_MethodTable,  // sub_method
-    0x00044107,               // mStatus
-    fopAc_NPC_e,              // mActorType
-    fopAc_CULLBOX_CUSTOM_e,   // cullType
+    /* Layer ID     */ fpcLy_CURRENT_e,
+    /* List ID      */ 7,
+    /* List Prio    */ fpcPi_CURRENT_e,
+    /* Proc Name    */ fpcNm_NPC_SOLA_e,
+    /* Proc SubMtd  */ &g_fpcLf_Method.base,
+    /* Size         */ sizeof(daNpc_solA_c),
+    /* Size Other   */ 0,
+    /* Parameters   */ 0,
+    /* Leaf SubMtd  */ &g_fopAc_Method.base,
+    /* Draw Prio    */ fpcDwPi_NPC_SOLA_e,
+    /* Actor SubMtd */ &daNpc_solA_MethodTable,
+    /* Status       */ fopAcStts_UNK_0x40000_e | fopAcStts_UNK_0x4000_e | fopAcStts_CULL_e | fopAcStts_UNK_0x4_e | fopAcStts_UNK_0x2_e | fopAcStts_UNK_0x1_e,
+    /* Group        */ fopAc_NPC_e,
+    /* Cull Type    */ fopAc_CULLBOX_CUSTOM_e,
 };

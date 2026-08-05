@@ -60,7 +60,7 @@ static fopAc_ac_c* pushPullcallBack(fopAc_ac_c* param_0, fopAc_ac_c* param_1, s1
 
 static void* searchIronBallCallback(void* i_actor, void* i_data) {
     daObjYtaihou_c* taihou_rhs = (daObjYtaihou_c*)i_data;
-    if (fopAcM_GetProfName(i_actor) == PROC_Obj_Carry) {
+    if (fopAcM_GetProfName(i_actor) == fpcNm_Obj_Carry_e) {
         daObjCarry_c* pCarry = ((daObjCarry_c*)i_actor);
         if ( ((daObjCarry_c*)i_actor)->getType() == daObjCarry_c::TYPE_IRON_BALL) {
             if ( pCarry->isDraw() == 0
@@ -156,7 +156,7 @@ void daObjYtaihou_c::setMtx() {
     static f32 l_wheelMinR;
     static u8 lbl_396_bss_4C;
 
-    home.angle.z += (s16) ((s16)(shape_angle.y - old.angle.y) * 0.8f);
+    ANGLE_ADD(home.angle.z, (s16)(shape_angle.y - old.angle.y) * 0.8f);
     if ((s8)lbl_396_bss_4C == 0) {
         l_wheelMinR = cM_scos(0xccc) * 60.0f;
         lbl_396_bss_4C = 1;
@@ -356,21 +356,21 @@ int daObjYtaihou_c::Delete() {
     return 1;
 }
 
-static void daObjYtaihou_create1st(daObjYtaihou_c* i_this) {
+static int daObjYtaihou_create1st(daObjYtaihou_c* i_this) {
     fopAcM_ct(i_this, daObjYtaihou_c);
-    i_this->create1st();
+    return i_this->create1st();
 }
 
-static void daObjYtaihou_MoveBGDelete(daObjYtaihou_c* i_this) {
-    i_this->MoveBGDelete();
+static int daObjYtaihou_MoveBGDelete(daObjYtaihou_c* i_this) {
+    return i_this->MoveBGDelete();
 }
 
-static void daObjYtaihou_MoveBGExecute(daObjYtaihou_c* i_this) {
-    i_this->MoveBGExecute();
+static int daObjYtaihou_MoveBGExecute(daObjYtaihou_c* i_this) {
+    return i_this->MoveBGExecute();
 }
 
-static void daObjYtaihou_MoveBGDraw(daObjYtaihou_c* i_this) {
-    i_this->Draw();
+static int daObjYtaihou_MoveBGDraw(daObjYtaihou_c* i_this) {
+    return i_this->Draw();
 }
 
 static actor_method_class daObjYtaihou_METHODS = {
@@ -382,20 +382,20 @@ static actor_method_class daObjYtaihou_METHODS = {
 };
 
 actor_process_profile_definition g_profile_Obj_Ytaihou = {
-  fpcLy_CURRENT_e,        // mLayerID
-  3,                      // mListID
-  fpcPi_CURRENT_e,        // mListPrio
-  PROC_Obj_Ytaihou,       // mProcName
-  &g_fpcLf_Method.base,  // sub_method
-  sizeof(daObjYtaihou_c), // mSize
-  0,                      // mSizeOther
-  0,                      // mParameters
-  &g_fopAc_Method.base,   // sub_method
-  635,                    // mPriority
-  &daObjYtaihou_METHODS,  // sub_method
-  0x00044100,             // mStatus
-  fopAc_ACTOR_e,          // mActorType
-  fopAc_CULLBOX_CUSTOM_e, // cullType
+    /* Layer ID     */ fpcLy_CURRENT_e,
+    /* List ID      */ 3,
+    /* List Prio    */ fpcPi_CURRENT_e,
+    /* Proc Name    */ fpcNm_Obj_Ytaihou_e,
+    /* Proc SubMtd  */ &g_fpcLf_Method.base,
+    /* Size         */ sizeof(daObjYtaihou_c),
+    /* Size Other   */ 0,
+    /* Parameters   */ 0,
+    /* Leaf SubMtd  */ &g_fopAc_Method.base,
+    /* Draw Prio    */ fpcDwPi_Obj_Ytaihou_e,
+    /* Actor SubMtd */ &daObjYtaihou_METHODS,
+    /* Status       */ fopAcStts_UNK_0x40000_e | fopAcStts_UNK_0x4000_e | fopAcStts_CULL_e,
+    /* Group        */ fopAc_ACTOR_e,
+    /* Cull Type    */ fopAc_CULLBOX_CUSTOM_e,
 };
 
 AUDIO_INSTANCES;

@@ -1,7 +1,7 @@
-
-#include "d/dolzel.h" // IWYU pragma: keep
+#include "m_Do/machine.h" // IWYU pragma: keep
 
 #include "m_Do/m_Do_ext2.h"
+#include <cstring>
 
 FixedMemoryCheck* FixedMemoryCheck::sFirst;
 

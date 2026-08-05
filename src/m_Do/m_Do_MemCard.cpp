@@ -3,9 +3,12 @@
  * Memory Card Control
  */
 
-#include <dolphin/card.h>
+#include "m_Do/machine.h" // IWYU pragma: keep
+
+#include <card.h>
 #include "m_Do/m_Do_MemCard.h"
 #include "JSystem/JKernel/JKRAssertHeap.h"
+#include "JSystem/JKernel/JKRThread.h"
 #include "m_Do/m_Do_ext.h"
 #include "m_Do/m_Do_MemCardRWmng.h"
 #include "m_Do/m_Do_Reset.h"
@@ -13,6 +16,7 @@
 #if PLATFORM_WII || PLATFORM_SHIELD
 #include <revolution/nand.h>
 #include <revolution/sc.h>
+#include <cstring>
 #endif
 
 #define SLOT_A 0
