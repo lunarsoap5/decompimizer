@@ -55,7 +55,7 @@ static int dShopSystem_searchItemActor(void* i_actor, void* param_1) {
                 if ((sw == 0xFF || !dComIfGs_isSaveSwitch(sw)) &&
                     (sw2 == 0xFF || dComIfGs_isSaveSwitch(sw2)))
                 {
-                    /*if (sw != 0xFF && item_no == fpcNm_ITEM_HYLIA_SHIELD && checkItemGet(item_no, true)) {
+                    /*if (sw != 0xFF && item_no == dItemNo_HYLIA_SHIELD && checkItemGet(item_no, true)) {
                         dComIfGs_onSaveSwitch(sw);
                     } else {*/
                         if (i_posID == 0) {

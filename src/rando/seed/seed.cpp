@@ -132,10 +132,10 @@ void seedInfo_c::applySeedPatches()
     {
         dComIfGs_onDarkClearLV(0);
         dComIfGs_setLightDropNum(0, 0x10);
-        execItemGet(fpcNm_ITEM_DROP_CONTAINER);
-        if (haveItem(fpcNm_ITEM_WEAR_KOKIRI))
+        execItemGet(dItemNo_DROP_CONTAINER_e);
+        if (haveItem(dItemNo_WEAR_KOKIRI_e))
         {
-            execItemGet(fpcNm_ITEM_WEAR_KOKIRI);
+            execItemGet(dItemNo_WEAR_KOKIRI_e);
         }
     }
 
@@ -143,25 +143,25 @@ void seedInfo_c::applySeedPatches()
     {
         dComIfGs_onDarkClearLV(1);
         dComIfGs_setLightDropNum(1, 0x10);
-        execItemGet(fpcNm_ITEM_DROP_CONTAINER02);
+        execItemGet(dItemNo_DROP_CONTAINER02_e);
     }
 
     if (dComIfGs_isEventBit(CLEARED_ELDIN_TWILIGHT))
     {
         dComIfGs_onDarkClearLV(2);
         dComIfGs_setLightDropNum(2, 0x10);
-        execItemGet(fpcNm_ITEM_DROP_CONTAINER03);
+        execItemGet(dItemNo_DROP_CONTAINER03_e);
     }
 
     if (skipMinorCutscenes())
     {
-        dComIfGs_onItemFirstBit(fpcNm_ITEM_GREEN_RUPEE);
-        dComIfGs_onItemFirstBit(fpcNm_ITEM_BLUE_RUPEE);
-        dComIfGs_onItemFirstBit(fpcNm_ITEM_YELLOW_RUPEE);
-        dComIfGs_onItemFirstBit(fpcNm_ITEM_RED_RUPEE);
-        dComIfGs_onItemFirstBit(fpcNm_ITEM_PURPLE_RUPEE);
-        dComIfGs_onItemFirstBit(fpcNm_ITEM_ORANGE_RUPEE);
-        dComIfGs_onItemFirstBit(fpcNm_ITEM_SILVER_RUPEE);
+        dComIfGs_onItemFirstBit(dItemNo_GREEN_RUPEE_e);
+        dComIfGs_onItemFirstBit(dItemNo_BLUE_RUPEE_e);
+        dComIfGs_onItemFirstBit(dItemNo_YELLOW_RUPEE_e);
+        dComIfGs_onItemFirstBit(dItemNo_RED_RUPEE_e);
+        dComIfGs_onItemFirstBit(dItemNo_PURPLE_RUPEE_e);
+        dComIfGs_onItemFirstBit(dItemNo_ORANGE_RUPEE_e);
+        dComIfGs_onItemFirstBit(dItemNo_SILVER_RUPEE_e);
 
         dComIfGs_setAllLetterGet();
         dComIfGs_setAllLetterRead();
@@ -346,14 +346,14 @@ void seedInfo_c::loadShopModels()
         {
             switch (replacementItem)
             {
-                case fpcNm_ITEM_GREEN_RUPEE:
-                case fpcNm_ITEM_BLUE_RUPEE:
-                case fpcNm_ITEM_YELLOW_RUPEE:
-                case fpcNm_ITEM_RED_RUPEE:
-                case fpcNm_ITEM_PURPLE_RUPEE:
-                case fpcNm_ITEM_ORANGE_RUPEE:
-                case fpcNm_ITEM_SILVER_RUPEE:
-                case fpcNm_ITEM_LINKS_SAVINGS:
+                case dItemNo_GREEN_RUPEE_e:
+                case dItemNo_BLUE_RUPEE_e:
+                case dItemNo_YELLOW_RUPEE_e:
+                case dItemNo_RED_RUPEE_e:
+                case dItemNo_PURPLE_RUPEE_e:
+                case dItemNo_ORANGE_RUPEE_e:
+                case dItemNo_SILVER_RUPEE_e:
+                case dItemNo_LINKS_SAVINGS_e:
                 {
                     currentShopItemDataPtr->mOffsetY = 65.f;
                     break;
@@ -372,8 +372,8 @@ void seedInfo_c::loadShopModels()
         // Handle scale
         switch(replacementItem)
         {
-            case fpcNm_ITEM_MASTER_SWORD:
-            case fpcNm_ITEM_LIGHT_SWORD:
+            case dItemNo_MASTER_SWORD_e:
+            case dItemNo_LIGHT_SWORD_e:
             {
                 currentShopItemDataPtr->mScale = 0.35f;
                 break;

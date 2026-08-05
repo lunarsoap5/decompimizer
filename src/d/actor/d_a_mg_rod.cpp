@@ -4029,7 +4029,7 @@ static void uki_catch(dmg_rod_class* i_this) {
             } else if (mgfish->mCaughtType == MG_CATCH_BIN) {
                 i_this->msgflow.init(actor, 0x139A, 0, NULL);
                 dComIfGs_onEventBit(dSv_event_flag_c::saveBitLabels[468]);
-                execItemGet(fpcNm_ITEM_EMPTY_BOTTLE); // Fishing Hole Bottle Check
+                execItemGet(dItemNo_EMPTY_BOTTLE_e); // Fishing Hole Bottle Check
             } else if (mgfish->mCaughtType == MG_CATCH_KN) {
                 i_this->msgflow.init(actor, 0x139C, 0, NULL);
             } else if (mgfish->mCaughtType == MG_CATCH_ED) {

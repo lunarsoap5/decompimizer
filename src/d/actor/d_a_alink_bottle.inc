@@ -636,7 +636,7 @@ int daAlink_c::procBottleSwing() {
                 mProcVar2.field_0x300c = 1;
                 offModeFlg(4);
 
-                if (mEquipItem != fpcNm_ITEM_KANTERA) {
+                if (mEquipItem != dItemNo_KANTERA_e) {
                     u16 bottle_item = dComIfGp_event_getPreItemNo(); // Right here is where we would shuffle other bottle contents
 
                     if (bottle_item == dItemNo_WATER_BOTTLE_e &&

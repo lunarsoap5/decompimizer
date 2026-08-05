@@ -106,7 +106,7 @@ void customMenuRing_c::setUpItemWheelMenuText()
     const u8 campTotalKeyNum = dComIfGs_getTotalKeyNum(0xA);
     bool hasFaronGateKey = dComIfGs_isStageSwitch(0x2, 0x14);
     bool hasCoroGateKey = dComIfGs_isStageSwitch(0x2, 0xC);
-    bool hasGateKey = haveItem(fpcNm_ITEM_BOSSRIDER_KEY);
+    bool hasGateKey = haveItem(dItemNo_BOSSRIDER_KEY_e);
 
     snprintf(itemWheelTextBuf, sizeof(itemWheelTextBuf), "Shadows: %d/3        Key Legend:\nShards: %d/4         Current (Total)\n\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n", shadowsCount, shardsCount, "Forest", "Mines", "Lakebed", "Arbiters", "Snowpeak", "Time", "City", "Palace", "Hyrule", "Desert", "Faron Gate", "Coro Gate", "Gate Keys");
     

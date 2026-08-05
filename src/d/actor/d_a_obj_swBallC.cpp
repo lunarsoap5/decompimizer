@@ -82,7 +82,7 @@ int daObjSwBallC_c::Create() {
         // If flag has been set, create the item
         cXyz scale = cXyz(1.0f, 1.0f, 1.0f);
         cXyz position = cXyz(250.0f, -200.0f, 11000.0f);
-        initCreatePlayerItem(g_randoInfo.getEventItem(fpcNm_ITEM_LIGHT_SWORD), 0x81, &position, fopAcM_GetRoomNo(this), &shape_angle, &scale);
+        initCreatePlayerItem(g_randoInfo.getEventItem(dItemNo_LIGHT_SWORD_e), 0x81, &position, fopAcM_GetRoomNo(this), &shape_angle, &scale);
     }
     GXColor* color = mModel->getModelData()->getMaterialNodePointer(0)->getTevKColor(1);
     color->r = l_color.r;
@@ -163,7 +163,7 @@ void daObjSwBallC_c::actionWait() {
             fopAcM_onSwitch(this, 0x27); // Midna text after light sword cutscene
             cXyz scale = cXyz(1.0f, 1.0f, 1.0f);
             cXyz position = cXyz(250.0f, -200.0f, 11000.0f);
-            initCreatePlayerItem(g_randoInfo.getEventItem(fpcNm_ITEM_LIGHT_SWORD), 0x81, &position, fopAcM_GetRoomNo(this), &shape_angle, &scale);
+            initCreatePlayerItem(g_randoInfo.getEventItem(dItemNo_LIGHT_SWORD_e), 0x81, &position, fopAcM_GetRoomNo(this), &shape_angle, &scale);
         }
         return;
         setAction(1);

@@ -5323,7 +5323,7 @@ void dKyr_odour_draw(Mtx drawMtx, u8** tex) {
     if (daAlink_c::checkStageName("F_SP114") && dComIfGs_isEventBit(GOT_REEKFISH_SCENT))
     {
         // If we are in snowpeak and have smelled a reekfish, we want to show the scent path, even if it's not equipped
-        smell = fpcNm_ITEM_SMELL_FISH;
+        smell = dItemNo_SMELL_FISH_e;
     }
     else
     {
@@ -5331,7 +5331,7 @@ void dKyr_odour_draw(Mtx drawMtx, u8** tex) {
     }
 
     switch (smell) {
-    case fpcNm_ITEM_SMELL_YELIA_POUCH:
+    case dItemNo_SMELL_YELIA_POUCH_e:
         color_reg0.r = 0xFF;
         color_reg0.g = 0xFF;
         color_reg0.b = 0xFF;

@@ -382,16 +382,16 @@ void daDitem_c::set_pos() {
     // Adjust position based on item.
     switch(m_itemNo)
     {
-        case fpcNm_ITEM_MIRROR_PIECE_1:
-        case fpcNm_ITEM_MIRROR_PIECE_2:
-        case fpcNm_ITEM_MIRROR_PIECE_3:
-        case fpcNm_ITEM_MIRROR_PIECE_4:
+        case dItemNo_MIRROR_PIECE_1_e:
+        case dItemNo_MIRROR_PIECE_2_e:
+        case dItemNo_MIRROR_PIECE_3_e:
+        case dItemNo_MIRROR_PIECE_4_e:
         {
             pos.y += 15.0f;
             break;
         }
-        case fpcNm_ITEM_MASTER_SWORD:
-        case fpcNm_ITEM_LIGHT_SWORD:
+        case dItemNo_MASTER_SWORD_e:
+        case dItemNo_LIGHT_SWORD_e:
         {
             pos.y -= 10.f;
             break;
@@ -545,36 +545,36 @@ int daDitem_c::execute() {
     // Certain items use field models that are too big to fit in link's hands so we want to scale them down to fit.
     switch(m_itemNo)
     {
-        case fpcNm_ITEM_ORANGE_RUPEE:
-        case fpcNm_ITEM_SILVER_RUPEE:
+        case dItemNo_ORANGE_RUPEE_e:
+        case dItemNo_SILVER_RUPEE_e:
         {
             field_0x99c = current.pos;
             field_0x99c.y += 10.0f;
             break;
         }
-        case fpcNm_ITEM_WALLET_LV3:
-        case fpcNm_ITEM_CHUCHU_RARE:
+        case dItemNo_WALLET_LV3_e:
+        case dItemNo_CHUCHU_RARE_e:
         {
             field_0x99c = current.pos;
             field_0x99c.y += 15.0f;
             break;
         }
-        case fpcNm_ITEM_FAIRY_DROP:
-        case fpcNm_ITEM_DROP_BOTTLE:
+        case dItemNo_FAIRY_DROP_e:
+        case dItemNo_DROP_BOTTLE_e:
         {
             field_0x99c = current.pos;
             break;
         }
-        case fpcNm_ITEM_MIRROR_PIECE_1:
-        case fpcNm_ITEM_MIRROR_PIECE_2:
-        case fpcNm_ITEM_MIRROR_PIECE_3:
-        case fpcNm_ITEM_MIRROR_PIECE_4:
+        case dItemNo_MIRROR_PIECE_1_e:
+        case dItemNo_MIRROR_PIECE_2_e:
+        case dItemNo_MIRROR_PIECE_3_e:
+        case dItemNo_MIRROR_PIECE_4_e:
         {
             scale.x = 0.05f;
             break;
         }
-        case fpcNm_ITEM_MASTER_SWORD:
-        case fpcNm_ITEM_LIGHT_SWORD:
+        case dItemNo_MASTER_SWORD_e:
+        case dItemNo_LIGHT_SWORD_e:
         {
             scale.x = 0.001f;
             break;

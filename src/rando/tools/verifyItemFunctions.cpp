@@ -10,7 +10,7 @@ bool haveItem(uint item)
 
 uint getProgressiveSword()
 {
-    static const u8 progressiveItemsList[] = {fpcNm_ITEM_WOOD_STICK, fpcNm_ITEM_SWORD, fpcNm_ITEM_MASTER_SWORD};
+    static const u8 progressiveItemsList[] = {dItemNo_WOOD_STICK_e, dItemNo_SWORD_e, dItemNo_MASTER_SWORD_e};
 
     uint listLength = sizeof(progressiveItemsList) / sizeof(progressiveItemsList[0]);
     for (int i = 0; i < listLength; i++)
@@ -23,12 +23,12 @@ uint getProgressiveSword()
     }
 
     // All previous obtained, so return last upgrade
-    return fpcNm_ITEM_LIGHT_SWORD;
+    return dItemNo_LIGHT_SWORD_e;
 };
 
 uint getProgressiveBow()
 {
-    static const u8 progressiveItemsList[] = {fpcNm_ITEM_BOW, fpcNm_ITEM_ARROW_LV2};
+    static const u8 progressiveItemsList[] = {dItemNo_BOW_e, dItemNo_ARROW_LV2_e};
 
     uint listLength = sizeof(progressiveItemsList) / sizeof(progressiveItemsList[0]);
     for (int i = 0; i < listLength; i++)
@@ -41,12 +41,12 @@ uint getProgressiveBow()
     }
 
     // All previous obtained, so return last upgrade
-    return fpcNm_ITEM_ARROW_LV3;
+    return dItemNo_ARROW_LV3_e;
 };
 
 uint getProgressiveSkill()
 {
-    static const u8 progressiveItemsList[] = {fpcNm_ITEM_ENDING_BLOW, fpcNm_ITEM_SHIELD_ATTACK, fpcNm_ITEM_BACK_SLICE, fpcNm_ITEM_HELM_SPLITTER, fpcNm_ITEM_MORTAL_DRAW, fpcNm_ITEM_JUMP_STRIKE};
+    static const u8 progressiveItemsList[] = {dItemNo_ENDING_BLOW_e, dItemNo_SHIELD_ATTACK_e, dItemNo_BACK_SLICE_e, dItemNo_HELM_SPLITTER_e, dItemNo_MORTAL_DRAW_e, dItemNo_JUMP_STRIKE_e};
 
     uint listLength = sizeof(progressiveItemsList) / sizeof(progressiveItemsList[0]);
     for (int i = 0; i < listLength; i++)
@@ -59,33 +59,33 @@ uint getProgressiveSkill()
     }
 
     // All previous obtained, so return last upgrade
-    return fpcNm_ITEM_GREAT_SPIN;
+    return dItemNo_GREAT_SPIN_e;
 };
 
 uint getProgressiveSkybook()
 {
-    if (!haveItem(fpcNm_ITEM_ANCIENT_DOCUMENT2))
+    if (!haveItem(dItemNo_ANCIENT_DOCUMENT2_e))
     {
-        if (haveItem(fpcNm_ITEM_ANCIENT_DOCUMENT))
+        if (haveItem(dItemNo_ANCIENT_DOCUMENT_e))
         {
             if (dComIfGs_getAncientDocumentNum() != 5)
             {
-                return fpcNm_ITEM_AIR_LETTER;
+                return dItemNo_AIR_LETTER_e;
             }
         }
         else
         {
-            return fpcNm_ITEM_ANCIENT_DOCUMENT;
+            return dItemNo_ANCIENT_DOCUMENT_e;
         }
     }
 
     // All previous obtained, so return last upgrade
-    return fpcNm_ITEM_ANCIENT_DOCUMENT2;
+    return dItemNo_ANCIENT_DOCUMENT2_e;
 };
 
 uint getProgressiveKeyShard()
 {
-    static const u8 progressiveItemsList[] = {fpcNm_ITEM_L2_KEY_PIECES1, fpcNm_ITEM_L2_KEY_PIECES2};
+    static const u8 progressiveItemsList[] = {dItemNo_L2_KEY_PIECES1_e, dItemNo_L2_KEY_PIECES2_e};
 
     uint listLength = sizeof(progressiveItemsList) / sizeof(progressiveItemsList[0]);
     for (int i = 0; i < listLength; i++)
@@ -98,12 +98,12 @@ uint getProgressiveKeyShard()
     }
 
     // All previous obtained, so return last upgrade
-    return fpcNm_ITEM_LV2_BOSS_KEY;
+    return dItemNo_LV2_BOSS_KEY_e;
 };
 
 uint getProgressiveMirrorShard()
 {
-    static const u8 progressiveItemsList[] = {fpcNm_ITEM_MIRROR_PIECE_1, fpcNm_ITEM_MIRROR_PIECE_2, fpcNm_ITEM_MIRROR_PIECE_3};
+    static const u8 progressiveItemsList[] = {dItemNo_MIRROR_PIECE_1_e, dItemNo_MIRROR_PIECE_2_e, dItemNo_MIRROR_PIECE_3_e};
 
     uint listLength = sizeof(progressiveItemsList) / sizeof(progressiveItemsList[0]);
     for (int i = 0; i < listLength; i++)
@@ -116,12 +116,12 @@ uint getProgressiveMirrorShard()
     }
 
     // All previous obtained, so return last upgrade
-    return fpcNm_ITEM_MIRROR_PIECE_4;
+    return dItemNo_MIRROR_PIECE_4_e;
 };
 
 uint getProgressiveFusedShadow()
 {
-    static const u8 progressiveItemsList[] = {fpcNm_ITEM_FUSED_SHADOW_1, fpcNm_ITEM_FUSED_SHADOW_2};
+    static const u8 progressiveItemsList[] = {dItemNo_FUSED_SHADOW_1_e, dItemNo_FUSED_SHADOW_2_e};
 
     uint listLength = sizeof(progressiveItemsList) / sizeof(progressiveItemsList[0]);
     for (int i = 0; i < listLength; i++)
@@ -134,12 +134,12 @@ uint getProgressiveFusedShadow()
     }
 
     // All previous obtained, so return last upgrade
-    return fpcNm_ITEM_FUSED_SHADOW_3;
+    return dItemNo_FUSED_SHADOW_3_e;
 };
 
 u8 getWarashibeItemCount()
 {
-    static const u8 itemsList[] = {fpcNm_ITEM_LETTER, fpcNm_ITEM_BILL, fpcNm_ITEM_WOOD_STATUE, fpcNm_ITEM_IRIAS_PENDANT, fpcNm_ITEM_HORSE_FLUTE};
+    static const u8 itemsList[] = {dItemNo_LETTER_e, dItemNo_BILL_e, dItemNo_WOOD_STATUE_e, dItemNo_IRIAS_PENDANT_e, dItemNo_HORSE_FLUTE_e};
     u8 count = 0;
 
     uint listLength = sizeof(itemsList) / sizeof(itemsList[0]);
@@ -158,149 +158,149 @@ uint verifyProgressiveItem(uint item)
 {
     switch (item)
     {
-        case fpcNm_ITEM_WOOD_STICK:
-        case fpcNm_ITEM_SWORD:
-        case fpcNm_ITEM_MASTER_SWORD:
-        case fpcNm_ITEM_LIGHT_SWORD:
+        case dItemNo_WOOD_STICK_e:
+        case dItemNo_SWORD_e:
+        case dItemNo_MASTER_SWORD_e:
+        case dItemNo_LIGHT_SWORD_e:
         {
             item = getProgressiveSword();
             break;
         }
-        case fpcNm_ITEM_BOW:
-        case fpcNm_ITEM_ARROW_LV2:
-        case fpcNm_ITEM_ARROW_LV3:
+        case dItemNo_BOW_e:
+        case dItemNo_ARROW_LV2_e:
+        case dItemNo_ARROW_LV3_e:
         {
             item = getProgressiveBow();
             break;
         }
-        case fpcNm_ITEM_WALLET_LV2:
-        case fpcNm_ITEM_WALLET_LV3:
+        case dItemNo_WALLET_LV2_e:
+        case dItemNo_WALLET_LV3_e:
         {
-            if (haveItem(fpcNm_ITEM_WALLET_LV2))
+            if (haveItem(dItemNo_WALLET_LV2_e))
             {
-                item = fpcNm_ITEM_WALLET_LV3;
+                item = dItemNo_WALLET_LV3_e;
             }
             else
             {
-                item = fpcNm_ITEM_WALLET_LV2;
+                item = dItemNo_WALLET_LV2_e;
             }
             break;
         }
-        case fpcNm_ITEM_ENDING_BLOW:
-        case fpcNm_ITEM_SHIELD_ATTACK:
-        case fpcNm_ITEM_BACK_SLICE:
-        case fpcNm_ITEM_HELM_SPLITTER:
-        case fpcNm_ITEM_MORTAL_DRAW:
-        case fpcNm_ITEM_JUMP_STRIKE:
-        case fpcNm_ITEM_GREAT_SPIN:
+        case dItemNo_ENDING_BLOW_e:
+        case dItemNo_SHIELD_ATTACK_e:
+        case dItemNo_BACK_SLICE_e:
+        case dItemNo_HELM_SPLITTER_e:
+        case dItemNo_MORTAL_DRAW_e:
+        case dItemNo_JUMP_STRIKE_e:
+        case dItemNo_GREAT_SPIN_e:
         {
             item = getProgressiveSkill();
             break;
         }
-        case fpcNm_ITEM_HOOKSHOT:
-        case fpcNm_ITEM_W_HOOKSHOT:
+        case dItemNo_HOOKSHOT_e:
+        case dItemNo_W_HOOKSHOT_e:
         {
             // If we have either clawshot, we want to return the double no matter what.
             // We check for both in this case because the game unsets the clawshot flag once the double has been obtained.
-            if (haveItem(fpcNm_ITEM_HOOKSHOT) || haveItem(fpcNm_ITEM_W_HOOKSHOT))
+            if (haveItem(dItemNo_HOOKSHOT_e) || haveItem(dItemNo_W_HOOKSHOT_e))
             {
-                item = fpcNm_ITEM_W_HOOKSHOT;
+                item = dItemNo_W_HOOKSHOT_e;
             }
             else
             {
-                item = fpcNm_ITEM_HOOKSHOT;
+                item = dItemNo_HOOKSHOT_e;
             }
             break;
         }
-        case fpcNm_ITEM_ANCIENT_DOCUMENT:
-        case fpcNm_ITEM_AIR_LETTER:
-        case fpcNm_ITEM_ANCIENT_DOCUMENT2:
+        case dItemNo_ANCIENT_DOCUMENT_e:
+        case dItemNo_AIR_LETTER_e:
+        case dItemNo_ANCIENT_DOCUMENT2_e:
         {
             item = getProgressiveSkybook();
             break;
         }
-        case fpcNm_ITEM_L2_KEY_PIECES1:
-        case fpcNm_ITEM_L2_KEY_PIECES2:
-        case fpcNm_ITEM_LV2_BOSS_KEY:
+        case dItemNo_L2_KEY_PIECES1_e:
+        case dItemNo_L2_KEY_PIECES2_e:
+        case dItemNo_LV2_BOSS_KEY_e:
         {
             item = getProgressiveKeyShard();
             break;
         }
-        case fpcNm_ITEM_COPY_ROD:
-        case fpcNm_ITEM_COPY_ROD_2:
+        case dItemNo_COPY_ROD_e:
+        case dItemNo_COPY_ROD_2_e:
         {
-            if (haveItem(fpcNm_ITEM_COPY_ROD))
+            if (haveItem(dItemNo_COPY_ROD_e))
             {
-                item = fpcNm_ITEM_COPY_ROD_2;
+                item = dItemNo_COPY_ROD_2_e;
             }
             else
             {
-                item = fpcNm_ITEM_COPY_ROD;
+                item = dItemNo_COPY_ROD_e;
             }
             break;
         }
-        case fpcNm_ITEM_FISHING_ROD_1:
-        case fpcNm_ITEM_ZORAS_JEWEL:
+        case dItemNo_FISHING_ROD_1_e:
+        case dItemNo_ZORAS_JEWEL_e:
         {
-            if (haveItem(fpcNm_ITEM_FISHING_ROD_1))
+            if (haveItem(dItemNo_FISHING_ROD_1_e))
             {
-                item = fpcNm_ITEM_ZORAS_JEWEL;
+                item = dItemNo_ZORAS_JEWEL_e;
             }
             else
             {
-                item = fpcNm_ITEM_FISHING_ROD_1;
+                item = dItemNo_FISHING_ROD_1_e;
             }
             break;
         }
-        case fpcNm_ITEM_MIRROR_PIECE_1:
-        case fpcNm_ITEM_MIRROR_PIECE_2:
-        case fpcNm_ITEM_MIRROR_PIECE_3:
-        case fpcNm_ITEM_MIRROR_PIECE_4:
+        case dItemNo_MIRROR_PIECE_1_e:
+        case dItemNo_MIRROR_PIECE_2_e:
+        case dItemNo_MIRROR_PIECE_3_e:
+        case dItemNo_MIRROR_PIECE_4_e:
         {
             item = getProgressiveMirrorShard();
             break;
         }
-        case fpcNm_ITEM_FUSED_SHADOW_1:
-        case fpcNm_ITEM_FUSED_SHADOW_2:
-        case fpcNm_ITEM_FUSED_SHADOW_3:
+        case dItemNo_FUSED_SHADOW_1_e:
+        case dItemNo_FUSED_SHADOW_2_e:
+        case dItemNo_FUSED_SHADOW_3_e:
         {
             item = getProgressiveFusedShadow();
             break;
         }
-        case fpcNm_ITEM_ARROW_10:
-        case fpcNm_ITEM_ARROW_20:
-        case fpcNm_ITEM_ARROW_30:
+        case dItemNo_ARROW_10_e:
+        case dItemNo_ARROW_20_e:
+        case dItemNo_ARROW_30_e:
         {
-            if (!haveItem(fpcNm_ITEM_BOW))
+            if (!haveItem(dItemNo_BOW_e))
             {
-                item = fpcNm_ITEM_BLUE_RUPEE;
+                item = dItemNo_BLUE_RUPEE_e;
             }
             break;
         }
-        case fpcNm_ITEM_BOMB_5:
-        case fpcNm_ITEM_BOMB_10:
-        case fpcNm_ITEM_BOMB_20:
-        case fpcNm_ITEM_BOMB_30:
-        case fpcNm_ITEM_WATER_BOMB_5:
-        case fpcNm_ITEM_WATER_BOMB_10:
-        case fpcNm_ITEM_WATER_BOMB_20:
-        case fpcNm_ITEM_WATER_BOMB_30:
-        case fpcNm_ITEM_BOMB_INSECT_5:
-        case fpcNm_ITEM_BOMB_INSECT_10:
-        case fpcNm_ITEM_BOMB_INSECT_20:
-        case fpcNm_ITEM_BOMB_INSECT_30:
+        case dItemNo_BOMB_5_e:
+        case dItemNo_BOMB_10_e:
+        case dItemNo_BOMB_20_e:
+        case dItemNo_BOMB_30_e:
+        case dItemNo_WATER_BOMB_5_e:
+        case dItemNo_WATER_BOMB_10_e:
+        case dItemNo_WATER_BOMB_20_e:
+        case dItemNo_WATER_BOMB_30_e:
+        case dItemNo_BOMB_INSECT_5_e:
+        case dItemNo_BOMB_INSECT_10_e:
+        case dItemNo_BOMB_INSECT_20_e:
+        case dItemNo_BOMB_INSECT_30_e:
         {
-            if (!haveItem(fpcNm_ITEM_BOMB_IN_BAG))
+            if (!haveItem(dItemNo_BOMB_IN_BAG_e))
             {
-                item = fpcNm_ITEM_BLUE_RUPEE;
+                item = dItemNo_BLUE_RUPEE_e;
             }
             break;
         }
-        case fpcNm_ITEM_PACHINKO_SHOT:
+        case dItemNo_PACHINKO_SHOT_e:
         {
-            if (!haveItem(fpcNm_ITEM_PACHINKO))
+            if (!haveItem(dItemNo_PACHINKO_e))
             {
-                item = fpcNm_ITEM_BLUE_RUPEE;
+                item = dItemNo_BLUE_RUPEE_e;
             }
             break;
         }

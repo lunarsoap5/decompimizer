@@ -64,12 +64,12 @@ int CheckFieldItemCreateHeap(fopAc_ac_c* i_this) {
 
     switch (item_no)
     {
-        case fpcNm_ITEM_EMPTY_BOTTLE:
-        case fpcNm_ITEM_HALF_MILK_BOTTLE:
-        case fpcNm_ITEM_OIL_BOTTLE3:
-        case fpcNm_ITEM_DROP_BOTTLE:
-        case fpcNm_ITEM_LINKS_SAVINGS:
-        case fpcNm_ITEM_POU_SPIRIT:
+        case dItemNo_EMPTY_BOTTLE_e:
+        case dItemNo_HALF_MILK_BOTTLE_e:
+        case dItemNo_OIL_BOTTLE3_e:
+        case dItemNo_DROP_BOTTLE_e:
+        case dItemNo_LINKS_SAVINGS_e:
+        case dItemNo_POU_SPIRIT_e:
         {
             return CheckItemCreateHeap(i_this);
         }

@@ -4086,7 +4086,7 @@ void daB_DS_c::executeBattle2Dead() {
             dComIfGp_event_reset();
             dComIfGs_onStageBossEnemy(0x13);
             // Give the boss item
-            u8 agDungeonReward = g_randoInfo.getEventItem(fpcNm_ITEM_MIRROR_PIECE_1);
+            u8 agDungeonReward = g_randoInfo.getEventItem(dItemNo_MIRROR_PIECE_1_e);
             g_randoInfo.addItemToEventQueue(agDungeonReward);
             /* dSv_event_flag_c::F_0265 - Arbiter's Grounds - Arbiter's Grounds clear */
             dComIfGs_onEventBit(0x2010);
@@ -5451,7 +5451,7 @@ cPhs_Step daB_DS_c::create() {
             angle.x = angle.y = angle.z = 0;
             pos.set(-400.0f, 1775.0f, -4132.0f);
 
-            fopAcM_createItemForBoss(&pos, fpcNm_ITEM_UTAWA_HEART, fopAcM_GetRoomNo(this), &angle, &scale,
+            fopAcM_createItemForBoss(&pos, dItemNo_UTAWA_HEART_e, fopAcM_GetRoomNo(this), &angle, &scale,
                                         0.0f, 0.0f, -1);
             //}
 

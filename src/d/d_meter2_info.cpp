@@ -1566,10 +1566,10 @@ void dMeter2Info_c::resetMiniGameItem(bool i_saveItem) {
         }
 
         // If the player has the bow, we don't want to possibly take it away from them. 
-        if (haveItem(fpcNm_ITEM_BOW))
+        if (haveItem(dItemNo_BOW_e))
         {
-            dComIfGs_setItem(SLOT_4, fpcNm_ITEM_BOW);
-            dComIfGp_setItem(SLOT_4, fpcNm_ITEM_BOW);
+            dComIfGs_setItem(SLOT_4, dItemNo_BOW_e);
+            dComIfGp_setItem(SLOT_4, dItemNo_BOW_e);
         }
         else
         {

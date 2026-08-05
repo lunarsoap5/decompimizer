@@ -1185,7 +1185,7 @@ void daAlink_c::setLightningSwordEffect() {
     }
 
     int i;
-    if ((mEquipItem == 0x103) && (checkNoResetFlg3(FLG3_UNK_100000) || ((dComIfGs_getSelectEquipSword() == fpcNm_ITEM_LIGHT_SWORD) && g_seedInfo.isLightSwordAlwaysOn()))) {
+    if ((mEquipItem == 0x103) && (checkNoResetFlg3(FLG3_UNK_100000) || ((dComIfGs_getSelectEquipSword() == dItemNo_LIGHT_SWORD_e) && g_seedInfo.isLightSwordAlwaysOn()))) {
         seStartOnlyReverbLevel(Z2SE_AL_LIGHTNING_SW_GLOW);
 
         for (i = 0; i < 3; i++) {

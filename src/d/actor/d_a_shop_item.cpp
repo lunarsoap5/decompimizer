@@ -16,7 +16,7 @@ const char* daShopItem_c::getShopArcname() {
     // If the item is 0xFF we want to show sold out.
     // If not, show the item ID
     switch (m_itemNo) {
-        case fpcNm_ITEM_NONE:
+        case dItemNo_NONE_e:
             if (strcmp("R_SP160", dComIfGp_getStartStageName()) == 0) {
                 mShopItemID = SHOP_ITEMNO_ARMOR_SOLD;
             } else {
@@ -30,7 +30,7 @@ const char* daShopItem_c::getShopArcname() {
         }
 
     /*
-    case fpcNm_ITEM_OIL_BOTTLE:
+    case dItemNo_OIL_BOTTLE:
         mShopItemID = SHOP_ITEMNO_OIL;
         break;
     case dItemNo_MILK_BOTTLE_e:
@@ -102,22 +102,22 @@ const char* daShopItem_c::getShopArcname() {
     if (strcmp(allStages[Ordon_Village_Interiors], dComIfGp_getStartStageName()) == 0) 
     {
         switch (m_itemNo) {
-            case fpcNm_ITEM_PACHINKO:
+            case dItemNo_PACHINKO_e:
             {
                 mShopItemID = SHOP_ITEM_SERA_SLINGSHOT;
                 break;
             }
-            case fpcNm_ITEM_MILK_BOTTLE:
+            case dItemNo_MILK_BOTTLE_e:
             {
                 mShopItemID = SHOP_ITEM_SERA_MILK;
                 break;
             }
-            case fpcNm_ITEM_OIL_BOTTLE:
+            case dItemNo_OIL_BOTTLE_e:
             {
                 mShopItemID = SHOP_ITEM_SERA_OIL;
                 break;
             }
-            case fpcNm_ITEM_BEE_CHILD:
+            case dItemNo_BEE_CHILD_e:
             {
                 mShopItemID = SHOP_ITEM_SERA_LARVA;
                 break;

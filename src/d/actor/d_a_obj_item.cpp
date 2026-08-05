@@ -155,36 +155,36 @@ void daItem_c::CreateInit() {
     // Adjust item scale based on item ID
     switch(m_itemNo)
     {
-        case fpcNm_ITEM_KAKERA_HEART:
-        case fpcNm_ITEM_UTAWA_HEART:
-        case fpcNm_ITEM_ARROW_10:
-        case fpcNm_ITEM_ARROW_20:
-        case fpcNm_ITEM_ARROW_30:
-        case fpcNm_ITEM_GREEN_RUPEE:
-        case fpcNm_ITEM_BLUE_RUPEE:
-        case fpcNm_ITEM_YELLOW_RUPEE:
-        case fpcNm_ITEM_RED_RUPEE:
-        case fpcNm_ITEM_PURPLE_RUPEE:
-        case fpcNm_ITEM_ORANGE_RUPEE:
-        case fpcNm_ITEM_SILVER_RUPEE:
-        case fpcNm_ITEM_HEART:
+        case dItemNo_KAKERA_HEART_e:
+        case dItemNo_UTAWA_HEART_e:
+        case dItemNo_ARROW_10_e:
+        case dItemNo_ARROW_20_e:
+        case dItemNo_ARROW_30_e:
+        case dItemNo_GREEN_RUPEE_e:
+        case dItemNo_BLUE_RUPEE_e:
+        case dItemNo_YELLOW_RUPEE_e:
+        case dItemNo_RED_RUPEE_e:
+        case dItemNo_PURPLE_RUPEE_e:
+        case dItemNo_ORANGE_RUPEE_e:
+        case dItemNo_SILVER_RUPEE_e:
+        case dItemNo_HEART_e:
         {
             mItemScale.setall(1.0f);
             break;
         }
 
-        case fpcNm_ITEM_BOW:
+        case dItemNo_BOW_e:
         {
             mItemScale.setall(1.5f);
             break;
         }
 
-        case fpcNm_ITEM_MASTER_SWORD:
-        case fpcNm_ITEM_LIGHT_SWORD:
-        case fpcNm_ITEM_MIRROR_PIECE_1:
-        case fpcNm_ITEM_MIRROR_PIECE_2:
-        case fpcNm_ITEM_MIRROR_PIECE_3:
-        case fpcNm_ITEM_MIRROR_PIECE_4:
+        case dItemNo_MASTER_SWORD_e:
+        case dItemNo_LIGHT_SWORD_e:
+        case dItemNo_MIRROR_PIECE_1_e:
+        case dItemNo_MIRROR_PIECE_2_e:
+        case dItemNo_MIRROR_PIECE_3_e:
+        case dItemNo_MIRROR_PIECE_4_e:
         {
             mItemScale.setall(0.7f);
             break;
@@ -225,10 +225,10 @@ void daItem_c::CreateInit() {
     animPlay(1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f);
 
     // Prevent game from giving Boomerange on room load
-    /*if (m_itemNo == fpcNm_ITEM_BOOMERANG) {
+    /*if (m_itemNo == dItemNo_BOOMERANG) {
         itemGetNextExecute();
     } else */
-    if ((m_itemNo == fpcNm_ITEM_ORANGE_RUPEE || m_itemNo == fpcNm_ITEM_SILVER_RUPEE) &&
+    if ((m_itemNo == dItemNo_ORANGE_RUPEE_e || m_itemNo == dItemNo_SILVER_RUPEE_e) &&
                mSparkleEmtr.getEmitter() == NULL)
     {
         dComIfGp_particle_set(0x0C14, &mSparklePos, NULL, NULL, -1, &mSparkleEmtr, -1, NULL, NULL,
@@ -760,17 +760,17 @@ void daItem_c::mode_wait() {
     case dItemNo_LIGHT_ARROW_e:
         itemActionForArrow();
         break;
-    /*case fpcNm_ITEM_BOOMERANG:
+    /*case dItemNo_BOOMERANG:
         itemActionForBoomerang();
         break;
     */
-    case fpcNm_ITEM_GREEN_RUPEE:
-    case fpcNm_ITEM_BLUE_RUPEE:
-    case fpcNm_ITEM_YELLOW_RUPEE:
-    case fpcNm_ITEM_RED_RUPEE:
-    case fpcNm_ITEM_PURPLE_RUPEE:
-    case fpcNm_ITEM_ORANGE_RUPEE:
-    case fpcNm_ITEM_SILVER_RUPEE:
+    case dItemNo_GREEN_RUPEE_e:
+    case dItemNo_BLUE_RUPEE_e:
+    case dItemNo_YELLOW_RUPEE_e:
+    case dItemNo_RED_RUPEE_e:
+    case dItemNo_PURPLE_RUPEE_e:
+    case dItemNo_ORANGE_RUPEE_e:
+    case dItemNo_SILVER_RUPEE_e:
     default:
         itemActionForRupee();
         break;
@@ -831,22 +831,22 @@ void daItem_c::itemGetNextExecute() {
         BOOL haveItem = false;
 
         switch (m_itemNo) {
-        /*case fpcNm_ITEM_HEART:
-        case fpcNm_ITEM_GREEN_RUPEE:
-        case fpcNm_ITEM_ARROW_10:
-        case fpcNm_ITEM_ARROW_20:
-        case fpcNm_ITEM_ARROW_30:
-        case fpcNm_ITEM_ARROW_1:
+        /*case dItemNo_HEART:
+        case dItemNo_GREEN_RUPEE:
+        case dItemNo_ARROW_10:
+        case dItemNo_ARROW_20:
+        case dItemNo_ARROW_30:
+        case dItemNo_ARROW_1:
             procInitSimpleGetDemo();
             itemGet();
             break;*/
-        case fpcNm_ITEM_BLUE_RUPEE:
-        case fpcNm_ITEM_YELLOW_RUPEE:
-        case fpcNm_ITEM_RED_RUPEE:
-        case fpcNm_ITEM_PURPLE_RUPEE:
-        case fpcNm_ITEM_ORANGE_RUPEE:
-        case fpcNm_ITEM_SILVER_RUPEE:
-        case fpcNm_ITEM_PACHINKO_SHOT:
+        case dItemNo_BLUE_RUPEE_e:
+        case dItemNo_YELLOW_RUPEE_e:
+        case dItemNo_RED_RUPEE_e:
+        case dItemNo_PURPLE_RUPEE_e:
+        case dItemNo_ORANGE_RUPEE_e:
+        case dItemNo_SILVER_RUPEE_e:
+        case dItemNo_PACHINKO_SHOT_e:
             if (daPy_getPlayerActorClass()->checkCanoeRide() ||
                 daPy_getPlayerActorClass()->checkHorseRide())
             {
@@ -866,7 +866,7 @@ void daItem_c::itemGetNextExecute() {
                 itemGet();
             }
             break;
-        //case fpcNm_ITEM_BOOMERANG:
+        //case dItemNo_BOOMERANG:
         //    procInitGetDemoEvent();
         //    break;
         default:
@@ -920,7 +920,7 @@ void daItem_c::itemGet() {
         mDoAud_seStart(Z2SE_RED_LUPY_GET, NULL, 0, 0);
         execItemGet(m_itemNo);
         break;
-    /*case fpcNm_ITEM_BOOMERANG:
+    /*case dItemNo_BOOMERANG:
         break;
     case dItemNo_ARROW_10_e:
     case dItemNo_ARROW_20_e:

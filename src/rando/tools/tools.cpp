@@ -53,7 +53,7 @@ void checkTransformFromWolf()
 
 u8 setNextWarashibeItem()
 {
-    static const u8 questItemsList[] = {fpcNm_ITEM_LETTER, fpcNm_ITEM_BILL, fpcNm_ITEM_WOOD_STATUE, fpcNm_ITEM_IRIAS_PENDANT, fpcNm_ITEM_HORSE_FLUTE};
+    static const u8 questItemsList[] = {dItemNo_LETTER_e, dItemNo_BILL_e, dItemNo_WOOD_STATUE_e, dItemNo_IRIAS_PENDANT_e, dItemNo_HORSE_FLUTE_e};
 
     u32 listLength = sizeof(questItemsList) / sizeof(questItemsList[0]);
 
@@ -286,10 +286,10 @@ bool checkToTSwordReqEquip()
     if (equippedSword != 0xFF)
     {
         u8 neededSword = g_seedInfo.getHeaderPtr()->getToTSwordRequirement();
-        if (neededSword != fpcNm_ITEM_WOOD_STICK)
+        if (neededSword != dItemNo_WOOD_STICK_e)
         {
             // If the sword we have equipped is better or equal to the sword we need, allow it to be used.
-            if ((equippedSword >= neededSword) && (equippedSword != fpcNm_ITEM_WOOD_STICK))
+            if ((equippedSword >= neededSword) && (equippedSword != dItemNo_WOOD_STICK_e))
             {
                 return true;
             }

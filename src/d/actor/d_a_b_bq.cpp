@@ -2499,7 +2499,7 @@ static int daB_BQ_Create(fopAc_ac_c* i_this) {
             //if (!dComIfGs_isStageLife()) {
             cXyz scale(1.0f, 1.0f, 1.0f);
             pos.set(60.0f, 0.0f, 1778.0f);
-            fopAcM_createItemForBoss(&pos, fpcNm_ITEM_UTAWA_HEART, fopAcM_GetRoomNo(i_this),
+            fopAcM_createItemForBoss(&pos, dItemNo_UTAWA_HEART_e, fopAcM_GetRoomNo(i_this),
                                         &i_this->shape_angle, &scale, 0.0f, 0.0f, -1);
             //}
 

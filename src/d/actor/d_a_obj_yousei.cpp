@@ -102,7 +102,7 @@ void daObjYOUSEI_c::MoveAction() {
             }
             else
             {
-                execItemGet(fpcNm_ITEM_RECOVERY_FAILY);
+                execItemGet(dItemNo_RECOVERY_FAILY_e);
             }  
         }
 

@@ -1695,9 +1695,9 @@ u8 dMenu_Ring_c::getItemNum(u8 i_slotNo) {
     case dItemNo_PACHINKO_e:
         ret = dComIfGs_getPachinkoNum();
         break;
-    case fpcNm_ITEM_ANCIENT_DOCUMENT:
-    case fpcNm_ITEM_AIR_LETTER:
-    case fpcNm_ITEM_ANCIENT_DOCUMENT2:
+    case dItemNo_ANCIENT_DOCUMENT_e:
+    case dItemNo_AIR_LETTER_e:
+    case dItemNo_ANCIENT_DOCUMENT2_e:
         ret = dComIfGs_getAncientDocumentNum();
         break;
     }
@@ -1739,9 +1739,9 @@ u8 dMenu_Ring_c::getItemMaxNum(u8 i_slotNo) {
     case dItemNo_PACHINKO_e:
         ret = dComIfGs_getPachinkoMax();
         break;
-        case fpcNm_ITEM_ANCIENT_DOCUMENT:
-        case fpcNm_ITEM_AIR_LETTER:
-        case fpcNm_ITEM_ANCIENT_DOCUMENT2:
+        case dItemNo_ANCIENT_DOCUMENT_e:
+        case dItemNo_AIR_LETTER_e:
+        case dItemNo_ANCIENT_DOCUMENT2_e:
             ret = 6;
             break;
     }

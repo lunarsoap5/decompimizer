@@ -1145,39 +1145,39 @@ void item_func_LV3_SOUP() {
 }
 
 void item_func_LETTER() {
-    if (dComIfGs_getItem(SLOT_21, true) != fpcNm_ITEM_HORSE_FLUTE)
+    if (dComIfGs_getItem(SLOT_21, true) != dItemNo_HORSE_FLUTE_e)
     {
-        dComIfGs_setItem(SLOT_21, fpcNm_ITEM_LETTER);
+        dComIfGs_setItem(SLOT_21, dItemNo_LETTER_e);
     }
 }
 
 void item_func_BILL() {
-    if (dComIfGs_getItem(SLOT_21, true) != fpcNm_ITEM_HORSE_FLUTE)
+    if (dComIfGs_getItem(SLOT_21, true) != dItemNo_HORSE_FLUTE_e)
     {
-        dComIfGs_setItem(SLOT_21, fpcNm_ITEM_BILL);
+        dComIfGs_setItem(SLOT_21, dItemNo_BILL_e);
     }
 }
 
 void item_func_WOOD_STATUE() {
     /* dSv_event_flag_c::F_283 - Hyrule Field - Get wood carving */
     dComIfGs_onEventBit(dSv_event_flag_c::saveBitLabels[283]);
-    if (dComIfGs_getItem(SLOT_21, true) != fpcNm_ITEM_HORSE_FLUTE)
+    if (dComIfGs_getItem(SLOT_21, true) != dItemNo_HORSE_FLUTE_e)
     {
-        dComIfGs_setItem(SLOT_21, fpcNm_ITEM_WOOD_STATUE);
+        dComIfGs_setItem(SLOT_21, dItemNo_WOOD_STATUE_e);
     }
 }
 
 void item_func_IRIAS_PENDANT() {
-    if (dComIfGs_getItem(SLOT_21, true) != fpcNm_ITEM_HORSE_FLUTE)
+    if (dComIfGs_getItem(SLOT_21, true) != dItemNo_HORSE_FLUTE_e)
     {
-        dComIfGs_setItem(SLOT_21, fpcNm_ITEM_IRIAS_PENDANT);
+        dComIfGs_setItem(SLOT_21, dItemNo_IRIAS_PENDANT_e);
     }
 }
 
 void item_func_HORSE_FLUTE() {
-    if (dComIfGs_getItem(SLOT_21, true) == fpcNm_ITEM_NONE)
+    if (dComIfGs_getItem(SLOT_21, true) == dItemNo_NONE_e)
     {
-        dComIfGs_setItem(SLOT_21, fpcNm_ITEM_HORSE_FLUTE);
+        dComIfGs_setItem(SLOT_21, dItemNo_HORSE_FLUTE_e);
     }
 }
 
@@ -1253,13 +1253,13 @@ void item_func_LAKE_HYLIA_PORTAL() {
 }
 
 void item_func_RAFRELS_MEMO() {
-    dComIfGs_setItem(SLOT_7, fpcNm_ITEM_RAFRELS_MEMO);
+    dComIfGs_setItem(SLOT_7, dItemNo_RAFRELS_MEMO_e);
 }
 
 void item_func_ASHS_SCRIBBLING() {
     if (!dComIfGs_isEventBit(0x3B80)) // Got earring from Ralis
     {
-        dComIfGs_setItem(SLOT_19, fpcNm_ITEM_ASHS_SCRIBBLING);
+        dComIfGs_setItem(SLOT_19, dItemNo_ASHS_SCRIBBLING_e);
     }
 }
 
@@ -1606,7 +1606,7 @@ void item_func_AIR_LETTER() {
 void item_func_ANCIENT_DOCUMENT2() {
     dComIfGs_onEventBit(0x3B08); // Repaired Cannon at Lake
     dComIfGs_setAncientDocumentNum(6);
-    dComIfGs_setItem(SLOT_22, fpcNm_ITEM_ANCIENT_DOCUMENT2);
+    dComIfGs_setItem(SLOT_22, dItemNo_ANCIENT_DOCUMENT2_e);
 }
 
 void item_func_LV7_DUNGEON_EXIT() {
@@ -1668,7 +1668,7 @@ void item_func_KEY_OF_CARAVAN() {}
 
 void item_func_LV2_BOSS_KEY() {
     dComIfGs_onDungeonItemBossKey(0x11);
-    execItemGet(fpcNm_ITEM_L2_KEY_PIECES3);
+    execItemGet(dItemNo_L2_KEY_PIECES3_e);
 }
 
 void item_func_KEY_OF_FILONE() {
@@ -1870,7 +1870,7 @@ int item_getcheck_func_WEAR_ZORA() {
 }
 
 int item_getcheck_func_MAGIC_LV1() {
-    return dComIfGs_isItemFirstBit(fpcNm_ITEM_MAGIC_LV1);
+    return dComIfGs_isItemFirstBit(dItemNo_MAGIC_LV1_e);
 }
 
 int item_getcheck_func_DUNGEON_EXIT_2() {
@@ -1882,11 +1882,11 @@ int item_getcheck_func_WALLET_LV1() {
 }
 
 int item_getcheck_func_WALLET_LV2() {
-    return dComIfGs_isItemFirstBit(fpcNm_ITEM_WALLET_LV2);
+    return dComIfGs_isItemFirstBit(dItemNo_WALLET_LV2_e);
 }
 
 int item_getcheck_func_WALLET_LV3() {
-    return dComIfGs_isItemFirstBit(fpcNm_ITEM_WALLET_LV3);
+    return dComIfGs_isItemFirstBit(dItemNo_WALLET_LV3_e);
 }
 
 int item_getcheck_func_ZORAS_JEWEL() {
@@ -2149,27 +2149,27 @@ int item_getcheck_func_LV3_SOUP() {
 }
 
 int item_getcheck_func_LETTER() {
-    return dComIfGs_isItemFirstBit(fpcNm_ITEM_LETTER);
+    return dComIfGs_isItemFirstBit(dItemNo_LETTER_e);
 }
 
 int item_getcheck_func_BILL() {
-    return dComIfGs_isItemFirstBit(fpcNm_ITEM_BILL);
+    return dComIfGs_isItemFirstBit(dItemNo_BILL_e);
 }
 
 int item_getcheck_func_WOOD_STATUE() {
-    return dComIfGs_isItemFirstBit(fpcNm_ITEM_WOOD_STATUE);
+    return dComIfGs_isItemFirstBit(dItemNo_WOOD_STATUE_e);
 }
 
 int item_getcheck_func_IRIAS_PENDANT() {
-    return dComIfGs_isItemFirstBit(fpcNm_ITEM_IRIAS_PENDANT);
+    return dComIfGs_isItemFirstBit(dItemNo_IRIAS_PENDANT_e);
 }
 
 int item_getcheck_func_HORSE_FLUTE() {
-    return dComIfGs_isItemFirstBit(fpcNm_ITEM_HORSE_FLUTE);
+    return dComIfGs_isItemFirstBit(dItemNo_HORSE_FLUTE_e);
 }
 
 int item_getcheck_func_CAMP_SMALL_KEY() {
-    return dComIfGs_isItemFirstBit(fpcNm_ITEM_CAMP_SMALL_KEY);
+    return dComIfGs_isItemFirstBit(dItemNo_CAMP_SMALL_KEY_e);
 }
 
 int item_getcheck_func_RAFRELS_MEMO() {
@@ -2217,15 +2217,15 @@ int item_getcheck_func_FILLED_CONTAINER() {
 }
 
 int item_getcheck_func_MIRROR_PIECE_2() {
-    return dComIfGs_isItemFirstBit(fpcNm_ITEM_MIRROR_PIECE_2);
+    return dComIfGs_isItemFirstBit(dItemNo_MIRROR_PIECE_2_e);
 }
 
 int item_getcheck_func_MIRROR_PIECE_3() {
-    return dComIfGs_isItemFirstBit(fpcNm_ITEM_MIRROR_PIECE_3);
+    return dComIfGs_isItemFirstBit(dItemNo_MIRROR_PIECE_3_e);
 }
 
 int item_getcheck_func_MIRROR_PIECE_4() {
-    return dComIfGs_isItemFirstBit(fpcNm_ITEM_MIRROR_PIECE_4);
+    return dComIfGs_isItemFirstBit(dItemNo_MIRROR_PIECE_4_e);
 }
 
 int item_getcheck_func_SMELL_YELIA_POUCH() {
@@ -2349,19 +2349,19 @@ int item_getcheck_func_F_MAYFLY() {
 }
 
 int item_getcheck_func_FUSED_SHADOW_1() {
-    return dComIfGs_isItemFirstBit(fpcNm_ITEM_FUSED_SHADOW_1);
+    return dComIfGs_isItemFirstBit(dItemNo_FUSED_SHADOW_1_e);
 }
 
 int item_getcheck_func_FUSED_SHADOW_2() {
-    return dComIfGs_isItemFirstBit(fpcNm_ITEM_FUSED_SHADOW_2);
+    return dComIfGs_isItemFirstBit(dItemNo_FUSED_SHADOW_2_e);
 }
 
 int item_getcheck_func_FUSED_SHADOW_3() {
-    return dComIfGs_isItemFirstBit(fpcNm_ITEM_FUSED_SHADOW_3);
+    return dComIfGs_isItemFirstBit(dItemNo_FUSED_SHADOW_3_e);
 }
 
 int item_getcheck_func_MIRROR_PIECE_1() {
-    return dComIfGs_isItemFirstBit(fpcNm_ITEM_MIRROR_PIECE_1);
+    return dComIfGs_isItemFirstBit(dItemNo_MIRROR_PIECE_1_e);
 }
 
 int item_getcheck_func_POU_SPIRIT() {
@@ -2369,31 +2369,31 @@ int item_getcheck_func_POU_SPIRIT() {
 }
 
 int item_getcheck_func_ENDING_BLOW() {
-    return dComIfGs_isItemFirstBit(fpcNm_ITEM_ENDING_BLOW);
+    return dComIfGs_isItemFirstBit(dItemNo_ENDING_BLOW_e);
 }
 
 int item_getcheck_func_SHIELD_ATTACK() {
-    return dComIfGs_isItemFirstBit(fpcNm_ITEM_SHIELD_ATTACK);
+    return dComIfGs_isItemFirstBit(dItemNo_SHIELD_ATTACK_e);
 }
 
 int item_getcheck_func_BACK_SLICE() {
-    return dComIfGs_isItemFirstBit(fpcNm_ITEM_BACK_SLICE);
+    return dComIfGs_isItemFirstBit(dItemNo_BACK_SLICE_e);
 }
 
 int item_getcheck_func_HELM_SPLITTER() {
-    return dComIfGs_isItemFirstBit(fpcNm_ITEM_HELM_SPLITTER);
+    return dComIfGs_isItemFirstBit(dItemNo_HELM_SPLITTER_e);
 }
 
 int item_getcheck_func_MORTAL_DRAW() {
-    return dComIfGs_isItemFirstBit(fpcNm_ITEM_MORTAL_DRAW);
+    return dComIfGs_isItemFirstBit(dItemNo_MORTAL_DRAW_e);
 }
 
 int item_getcheck_func_JUMP_STRIKE() {
-    return dComIfGs_isItemFirstBit(fpcNm_ITEM_JUMP_STRIKE);
+    return dComIfGs_isItemFirstBit(dItemNo_JUMP_STRIKE_e);
 }
 
 int item_getcheck_func_GREAT_SPIN() {
-    return dComIfGs_isItemFirstBit(fpcNm_ITEM_GREAT_SPIN);
+    return dComIfGs_isItemFirstBit(dItemNo_GREAT_SPIN_e);
 }
 
 int item_getcheck_func_ANCIENT_DOCUMENT() {
@@ -2437,7 +2437,7 @@ int item_getcheck_func_POU_FIRE4() {
 }
 
 int item_getcheck_func_BOSSRIDER_KEY() {
-    return dComIfGs_isItemFirstBit(fpcNm_ITEM_BOSSRIDER_KEY);
+    return dComIfGs_isItemFirstBit(dItemNo_BOSSRIDER_KEY_e);
 }
 
 int item_getcheck_func_TOMATO_PUREE() {

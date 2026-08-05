@@ -138,7 +138,7 @@ static u8 get_collect_smell()
     // If we are in snowpeak and have smelled the reekfish, We want to show the path, even if we don't have the scent equipped.
     if(daAlink_c::checkStageName("F_SP114") && dComIfGs_isEventBit(0x6120)) 
     {
-        return fpcNm_ITEM_SMELL_FISH;
+        return dItemNo_SMELL_FISH_e;
     }
     else
     {

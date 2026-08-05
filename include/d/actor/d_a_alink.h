@@ -3160,6 +3160,12 @@ public:
     void statusWindowExecute(const cXyz* i_pos, s16 i_angle);
     void statusWindowDraw();
     void resetStatusWindow();
+
+     // Fairy
+    void createFairy();
+    void executeFairy();
+    void drawFairy();
+    
     fopAc_ac_c* getChainGrabActor() { return field_0x2844.getActor(); }
     bool checkCokkoGlide() const {
         return mProcID == PROC_AUTO_JUMP && mProcVar2.field_0x300c != 0;
@@ -3928,6 +3934,9 @@ public:
 
     static u32 getOtherHeapSize() { return 0xF0A60; }
 
+    u16 getEventId() { return mMsgFlow.getEventId(); }
+    s16** getDomeLockChromaTable() { return &field_0x0724->mAnmCRegDataR;}
+
     static daAlink_BckData const m_mainBckShield[20];
     static daAlink_BckData const m_mainBckSword[5];
     static daAlink_BckData const m_mainBckFishing[28];
@@ -4566,6 +4575,8 @@ public:
     /* 0x03848 */ cXyz* field_0x3848;
     /* 0x0384C */ cXyz* field_0x384c;
     /* 0x03850 */ daAlink_procFunc mpProcFunc;
+
+     daAlink_Fairy_c mFairy;
 };  // Size: 0x385C
 
 class daAlinkHIO_data_c : public JORReflexible {

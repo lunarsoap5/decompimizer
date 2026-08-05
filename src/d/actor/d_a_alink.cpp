@@ -1947,6 +1947,8 @@ static dJntColData_c l_wolfJntColData[] = {
 
 #include "d/actor/d_a_alink_whistle.inc"
 
+#include "d/actor/d_a_alink_fairy.inc"
+
 #include "d/actor/d_a_alink_ironball.inc"
 
 #include "d/actor/d_a_alink_demo.inc"
@@ -5091,8 +5093,8 @@ int daAlink_c::create() {
     }
 
     if (dStage_stagInfo_GetSaveTbl(dComIfGp_getStage()->getStagInfo()) == dStage_SaveTbl_LV2) {
-        /*if (!dComIfGs_isItemFirstBit(fpcNm_ITEM_HYLIA_SHIELD) && !dComIfGs_isItemFirstBit(fpcNm_ITEM_SHIELD) &&
-            !dComIfGs_isItemFirstBit(fpcNm_ITEM_WOOD_SHIELD))
+        /*if (!dComIfGs_isItemFirstBit(dItemNo_HYLIA_SHIELD) && !dComIfGs_isItemFirstBit(dItemNo_SHIELD) &&
+            !dComIfGs_isItemFirstBit(dItemNo_WOOD_SHIELD))
         {
             fopAcM_onSwitch(this, 0x6F);
         } else {
@@ -14439,9 +14441,9 @@ bool daAlink_c::checkCastleTownUseItem(u16 i_itemNo) {
     {
         switch (i_itemNo)
         {
-            case fpcNm_ITEM_DUNGEON_BACK:
-            case fpcNm_ITEM_DUNGEON_EXIT:
-            case fpcNm_ITEM_DUNGEON_EXIT_2:
+            case dItemNo_DUNGEON_BACK_e:
+            case dItemNo_DUNGEON_EXIT_e:
+            case dItemNo_DUNGEON_EXIT_2_e:
             {
                 return false;
             }
@@ -18470,7 +18472,7 @@ int daAlink_c::execute() {
                             dMeter2Info_setFloatingMessage(2047, 90, false);
 
                             /*if (dStage_stagInfo_GetSaveTbl(dComIfGp_getStage()->getStagInfo()) == dStage_SaveTbl_LV2 &&
-                                !dComIfGs_isItemFirstBit(fpcNm_ITEM_HYLIA_SHIELD))
+                                !dComIfGs_isItemFirstBit(dItemNo_HYLIA_SHIELD))
                             {
                                 fopAcM_onSwitch(this, 0x6F);
                             }

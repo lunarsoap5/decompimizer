@@ -1165,11 +1165,11 @@ static int phase_1(dScnPly_c* i_this) {
     if (!strcmp(dComIfGp_getStartStageName(), "F_SP104") && dComIfGp_getStartStageRoomNo() == 1 &&
         dComIfGp_getStartStagePoint() == 23 && dComIfGp_getStartStageLayer() == 12)
     {
-        // dComIfGs_onItemFirstBit(fpcNm_ITEM_HORSE_FLUTE);
-        // dComIfGs_setItem(SLOT_21, fpcNm_ITEM_HORSE_FLUTE);
-        u8 itemToGive = g_randoInfo.getEventItem(fpcNm_ITEM_HORSE_FLUTE);
-        execItemGet(fpcNm_ITEM_HORSE_FLUTE);
-        offWarashibeItem(fpcNm_ITEM_IRIAS_PENDANT);
+        // dComIfGs_onItemFirstBit(dItemNo_HORSE_FLUTE);
+        // dComIfGs_setItem(SLOT_21, dItemNo_HORSE_FLUTE);
+        u8 itemToGive = g_randoInfo.getEventItem(dItemNo_HORSE_FLUTE_e);
+        execItemGet(itemToGive);
+        offWarashibeItem(dItemNo_IRIAS_PENDANT_e);
     }
 
     if ((u8)dKy_darkworld_stage_check(dComIfGp_getStartStageName(),

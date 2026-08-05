@@ -365,7 +365,7 @@ u8 randoInfo_c::getPoeItem(u8 bitSw)
     Once the infrastructure is built the code will look like the following:
     u8 item = replacePoeReward(); we will probably build the functionality out instead of calling another func though.
     */ 
-    return fpcNm_ITEM_POU_SPIRIT;
+    return dItemNo_POU_SPIRIT_e;
 }
 
 void randoInfo_c::handlePoeItem(u8 bitSw)

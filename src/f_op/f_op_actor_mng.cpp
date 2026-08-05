@@ -1556,7 +1556,7 @@ fpc_ProcID fopAcM_createItemForBoss(const cXyz* i_pos, int i_itemNo, int i_roomN
                                     f32 i_speedY, int param_8) {
     // getBossItem(i_itemNo);
     i_itemNo = verifyProgressiveItem(i_itemNo);
-    if (i_itemNo == fpcNm_ITEM_UTAWA_HEART)
+    if (i_itemNo == dItemNo_UTAWA_HEART_e)
     {
         param_8 = 0x9F; // Custom flag used for dungeon heart containers.
     }

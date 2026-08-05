@@ -37,7 +37,7 @@ int daObjSword_c::Create() {
 
 cPhs_Step daObjSword_c::create() {
     fopAcM_ct(this, daObjSword_c);
-    m_itemNo = g_randoInfo.getEventItem(fpcNm_ITEM_SWORD); // Search for rando check first
+    m_itemNo = g_randoInfo.getEventItem(dItemNo_SWORD_e); // Search for rando check first
     if (fopAcM_isItem(this, getItemBit())) {
         return cPhs_ERROR_e;
     }

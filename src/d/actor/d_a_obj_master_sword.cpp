@@ -47,16 +47,16 @@ void daObjMasterSword_c::executeWait() {
 
     if (fopAcM_checkCarryNow(this)) {
 
-        u8 itemToGive = g_randoInfo.getEventItem(fpcNm_ITEM_MASTER_SWORD);
+        u8 itemToGive = g_randoInfo.getEventItem(dItemNo_MASTER_SWORD_e);
         g_randoInfo.addItemToEventQueue(itemToGive);
 
-        itemToGive = g_randoInfo.getEventItem(fpcNm_ITEM_MAGIC_LV1);
+        itemToGive = g_randoInfo.getEventItem(dItemNo_MAGIC_LV1_e);
         g_randoInfo.addItemToEventQueue(itemToGive);
         // Set the necessary flags to de-spawn the MS and set the save file event flag.
         dComIfGs_onTmpBit(0x820);
         dComIfGs_onEventBit(0x2120);
 
-        //dMeter2Info_setCloth(fpcNm_ITEM_WEAR_KOKIRI, false);
+        //dMeter2Info_setCloth(dItemNo_WEAR_KOKIRI, false);
         fopAcM_orderMapToolEvent(this, getEventID(), 0xFF, 0xFFFF, 1, 0);
 
         actor_status = 0;
@@ -200,9 +200,9 @@ int daObjMasterSword_c::execute() {
 
     if (dComIfGs_isTmpBit(dSv_event_tmp_flag_c::tempBitLabels[73])) {
         /* We don't want the game to give the Master Sword to link automatically
-        dComIfGs_onItemFirstBit(fpcNm_ITEM_MASTER_SWORD);
-        dMeter2Info_setSword(fpcNm_ITEM_MASTER_SWORD, false);
-        dComIfGs_setSelectEquipSword(fpcNm_ITEM_MASTER_SWORD);
+        dComIfGs_onItemFirstBit(dItemNo_MASTER_SWORD);
+        dMeter2Info_setSword(dItemNo_MASTER_SWORD, false);
+        dComIfGs_setSelectEquipSword(dItemNo_MASTER_SWORD);
 
         dComIfGp_setItemLifeCount(dComIfGs_getMaxLife(), 0);
         dComIfGs_onEventBit(dSv_event_flag_c::saveBitLabels[getFlagNo()]);
