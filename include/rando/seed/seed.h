@@ -93,6 +93,7 @@ public:
     u8* getLanternColorPtr() const { return (u8*)&lanternColor; }
     EntranceInfo getSpawnInfo() const { return spawnInfo; }
     u16 getReturnPlaceSectionOffset() const {return returnPlaceSectionOffset; }
+    u8 getTriforcePieceReqCount() const {return triforcePieceReqCount;}
 
     //const EntryInfo* getVolatilePatchInfoPtr() const { return &volatilePatchInfo; }
     //const EntryInfo* getOneTimePatchInfoPtr() const { return &oneTimePatchInfo; }
@@ -145,7 +146,7 @@ public:
     /* 0x58 */ u8 barrierReqCount; // See below for notes
     /* 0x59 */ u8 hcBkRequirement;
     /* 0x5A */ u8 hcBkReqCount; // See below for notes  
-    /* 0x5B */ u8 padding;
+    /* 0x5B */ u8 triforcePieceReqCount;
     /* 0x5C */ u16 smallWalletMax;
     /* 0x5E */ u16 bigWalletMax;
     /* 0x60 */ u16 giantWalletMax;

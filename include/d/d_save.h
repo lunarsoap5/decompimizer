@@ -406,7 +406,9 @@ public:
     BOOL isCollectMirror(u8 i_item) const;
 
     void setPohNum(u8 i_num) { mPohNum = i_num; }
+    void addTriforcePiece() { mTriforcePieces++;}
     u8 getPohNum() const { return mPohNum; }
+    u8 getTriforcePieceNum() { return mTriforcePieces;}
 
     void addPohNum() {
         if (mPohNum < 0x3D) {
@@ -423,7 +425,8 @@ private:
     /* 0xA */ u8 mMirror;
     /* 0xB */ u8 unk11;
     /* 0xC */ u8 mPohNum;
-    /* 0xD */ u8 padding[3];
+    /* 0xD */ u8 mTriforcePieces;
+    /* 0xD */ u8 padding[2];
 };  // Size: 0x10
 
 class dSv_player_wolf_c {

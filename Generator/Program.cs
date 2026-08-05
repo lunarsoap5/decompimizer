@@ -416,7 +416,7 @@ foreach (TextureRecolor texRecolor in textureRecolors)
         }
         else
         {
-            Console.WriteLine(texOptions.FileName);
+            //Console.WriteLine(texOptions.FileName);
             texBmd = new BmdFile(Path.Combine(texArchiveDirectory,texOptions.FileName));
             if (texOptions.RecolorType != TextureRecolorType.Material)
             {

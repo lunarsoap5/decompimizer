@@ -225,7 +225,20 @@ int randoInfo_c::execute() {
         }
     }
 
-    
+    if (getShowTriforceCount())
+    {
+        mFrameCounter++;
+        // Only draw the text for 5 seconds, then hide it.
+        if (mFrameCounter >= 150)
+        {
+            hideTriforceCount();
+            mFrameCounter = 0;
+        }
+        else
+        {
+            // draw the triforce count text
+        }
+    }
 
     // Always check for and handle time of day changes
     if (getTimeChange() != NO_CHANGE)

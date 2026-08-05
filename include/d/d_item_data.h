@@ -148,7 +148,7 @@ enum {
     /* 0x35 */ dItemNo_WALLET_LV2_e,
     /* 0x36 */ dItemNo_WALLET_LV3_e,
     /* 0x37 */ dItemNo_NOENTRY_55_e,
-    /* 0x38 */ dItemNo_NOENTRY_56_e,
+    /* 0x38 */ dItemNo_TRIFORCE_PIECE_e,
     /* 0x39 */ dItemNo_UPPER_ZORAS_RIVER_PORTAL_e,
     /* 0x3A */ dItemNo_CASTLE_TOWN_PORTAL_e,
     /* 0x3B */ dItemNo_GERUDO_DESERT_PORTAL_e,

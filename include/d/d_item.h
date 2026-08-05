@@ -82,6 +82,7 @@ void item_func_DUNGEON_EXIT_2();
 void item_func_WALLET_LV1();
 void item_func_WALLET_LV2();
 void item_func_WALLET_LV3();
+void item_func_TRIFORCE_PIECE();
 void item_func_UPPER_ZORAS_RIVER_PORTAL();
 void item_func_CASTLE_TOWN_PORTAL();
 void item_func_GERUDO_DESERT_PORTAL();

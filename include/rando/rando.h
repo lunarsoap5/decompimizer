@@ -55,6 +55,7 @@ public:
     J2DPicture* getDunCompassIconPtr() { return dunCompassIconPtr;}
     bool getDrawBigKey() { return drawBigKey;}
     GXColor getGlobalRGB() { return globalRGB;}
+    bool getShowTriforceCount() { return isShowTriforceCount;}
     
     void setGiveItemToPlayerStatus(u8 status) { eventItemStatus = status;}
     void setLastButtonInput(u16 buttonInput) { m_LastButtonInput = buttonInput;}
@@ -67,6 +68,8 @@ public:
     void setDunMapIconPtr(J2DPicture* ptr) { dunMapIconPtr = ptr;}
     void setDunCompassIconPtr(J2DPicture* ptr) { dunCompassIconPtr = ptr;}
     void setDrawBigKey(bool val) { drawBigKey = val; }
+    void showTriforceCount() { isShowTriforceCount = true;}
+    void hideTriforceCount() { isShowTriforceCount = false;}
 
     bool mInitialized;
     u8 eventItemStatus;
@@ -78,6 +81,7 @@ public:
     bool hasPendingToDChange;
     u8 mTimeChange;
     u8 eventItemQueue[EVENT_ITEM_QUEUE_SIZE];
+    bool isShowTriforceCount;
     bool roomReloadingState;
     J2DPicture* dPadIconPtr;
     J2DPicture* bigKeyIconPtr;

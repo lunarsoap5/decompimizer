@@ -71,7 +71,7 @@ static void (*item_func_ptr[256])() = {
     item_func_WALLET_LV2,
     item_func_WALLET_LV3,
     item_func_noentry,
-    item_func_noentry,
+    item_func_TRIFORCE_PIECE,
     item_func_UPPER_ZORAS_RIVER_PORTAL,
     item_func_CASTLE_TOWN_PORTAL,
     item_func_GERUDO_DESERT_PORTAL,
@@ -842,6 +842,20 @@ void item_func_WALLET_LV3() {
             *reinterpret_cast<uint32_t*>(reinterpret_cast<uint32_t>(windowPtr) + rupee) = 0xff00ffff;
         }
     */
+}
+
+void item_func_TRIFORCE_PIECE() {
+    dComIfGs_addTriforcePiece();
+
+    // If we have enough pieces to complete the game, load the credits. If not, display the current count.
+    if (dComIfGs_getTriforcePieceNum() >= g_seedInfo.getHeaderPtr()->getTriforcePieceReqCount())
+    {
+        // trigger game end
+    }
+    else
+    {
+        g_randoInfo.showTriforceCount();
+    }
 }
 
 void item_func_UPPER_ZORAS_RIVER_PORTAL() {

@@ -1685,6 +1685,14 @@ inline void dComIfGs_addPohSpiritNum() {
     g_dComIfG_gameInfo.info.getPlayer().getCollect().addPohNum();
 }
 
+inline u8 dComIfGs_getTriforcePieceNum() {
+    return g_dComIfG_gameInfo.info.getPlayer().getCollect().getTriforcePieceNum();
+}
+
+inline void dComIfGs_addTriforcePiece() {
+    g_dComIfG_gameInfo.info.getPlayer().getCollect().addTriforcePiece();
+}
+
 inline BOOL dComIfGs_isCollectClothes(u8 i_clothesNo) {
     return g_dComIfG_gameInfo.info.getPlayer().getCollect().isCollect(COLLECT_CLOTHING, i_clothesNo);
 }
