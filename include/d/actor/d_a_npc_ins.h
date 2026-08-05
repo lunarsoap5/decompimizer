@@ -148,6 +148,7 @@ private:
     /* 0xE1E */ u16 mMode;
     /* 0xE20 */ u8 mOrderSpeakEvent;
     /* 0xE21 */ u8 mType;
+    /* 0xE22 */ u8 currentInsect;
 };
 
 STATIC_ASSERT(sizeof(daNpcIns_c) == 0xe24);

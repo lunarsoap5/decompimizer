@@ -1252,6 +1252,12 @@ int daNpcIns_c::waitPresent(void* param_1) {
                     break;
                 }
 
+                // If we are currently giving an insect, then we need to keep track of it.
+                if (isInsect(type))
+                {
+                    currentInsect = type;
+                }
+
                 if (type != 0) {
                     OS_REPORT("Insects released. Type=%d\n", type);
                     mInsectMsgNo = getInsectMessageNo(type);
@@ -1485,7 +1491,7 @@ int daNpcIns_c::talk(void* param_1) {
                         itemNo = 0;
                         u32 eventID = mFlow.getEventId(&itemNo);
                         // We want the item received to be based off the bug given instead of using the msg flow
-                        itemNo = g_randoInfo.getBugReward(dMeter2Info_getInsectSelectType());
+                        itemNo = g_randoInfo.getBugReward(currentInsect);
 
                         OS_REPORT("会話終了時 イベントID=%d アイテムNo=%d\n", eventID, itemNo);
 
