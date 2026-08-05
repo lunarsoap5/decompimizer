@@ -7,14 +7,15 @@
 #include "d/d_event_manager.h"
 #include "d/d_particle.h"
 #include "d/d_resorce.h"
-#include "d/d_save.h"
 #include "d/d_vibration.h"
 #include "d/d_drawlist.h"
 #include "d/d_stage.h"
+#include "d/d_save.h"
 #include "f_op/f_op_actor.h"
 #include "global.h"
 #include "m_Do/m_Do_controller_pad.h"
 #include "m_Do/m_Do_graphic.h"
+#include <cstring>
 
 enum dComIfG_ButtonStatus {
     /* 0x00 */ BUTTON_STATUS_NONE,
@@ -212,6 +213,7 @@ public:
 };
 
 class camera_class;
+class camera_process_class;
 class dComIfG_camera_info_class {
 public:
     dComIfG_camera_info_class() {}
@@ -308,9 +310,9 @@ public:
     /* 0x04EEC */ u8 mDoStatus;  // A button
     /* 0x04EED */ u8 field_0x4eed;
     /* 0x04EEE */ u8 m3DStatus;
-    /* 0x04EEF */ u8 field_0x4eef;  // related to NunStatusForce
+    /* 0x04EEF */ u8 mNunDirectionForce;
     /* 0x04EF0 */ u8 field_0x4ef0;  // related to NunStatus
-    /* 0x04EF1 */ u8 field_0x4ef1;  // related to RemoConStatusForce
+    /* 0x04EF1 */ u8 mRemoConDirectionForce;
     /* 0x04EF2 */ u8 field_0x4ef2;  // related to RemoConStatus
     /* 0x04EF3 */ u8 field_0x4ef3[2];
     /* 0x04EF5 */ u8 m3DDirection;
@@ -323,9 +325,9 @@ public:
     /* 0x04EFC */ u8 mRStatusForce;
     /* 0x04EFD */ u8 mAStatusForce;
     /* 0x04EFE */ u8 field_0x4efe;
-    /* 0x04EFF */ u8 field_0x4eff;  // related to NunStatusForce
+    /* 0x04EFF */ u8 mNunStatusForce;
     /* 0x04F00 */ u8 mBottleStatusForce;
-    /* 0x04F01 */ u8 field_0x4f01;  // related to RemoConStatusForce
+    /* 0x04F01 */ u8 mRemoConStatusForce;
     /* 0x04F02 */ u8 field_0x4f02[2];
     /* 0x04F04 */ u8 mDoStatusForce;
     /* 0x04F05 */ u8 mTouchStatusForce;
@@ -348,9 +350,9 @@ public:
     /* 0x04F17 */ u8 mRSetFlagForce;
     /* 0x04F18 */ u8 mASetFlagForce;
     /* 0x04F19 */ u8 field_0x4f19;
-    /* 0x04F1A */ u8 field_0x4f1a;  // related to NunStatusForce
+    /* 0x04F1A */ u8 mNunSetFlagForce;
     /* 0x04F1B */ u8 mBottleSetFlagForce;
-    /* 0x04F1C */ u8 field_0x4f1c;  // related to RemoConStatusForce
+    /* 0x04F1C */ u8 mRemoConSetFlagForce;
     /* 0x04F1D */ u8 field_0x4f1d[2];
     /* 0x04F1F */ u8 mDoSetFlagForce;
     /* 0x04F20 */ u8 m3DSetFlagForce;
@@ -367,12 +369,12 @@ public:
     /* 0x04F2B */ u8 mYSetFlagForce;
     /* 0x04F2C */ u8 mNunZStatus;
     /* 0x04F2D */ u8 mNunZSetFlag;
-    /* 0x04F2E */ u8 field_0x4fc6;  // related to NunZStatusForce
-    /* 0x04F2F */ u8 field_0x4fc7;  // related to NunZStatusForce
+    /* 0x04F2E */ u8 mNunZStatusForce;
+    /* 0x04F2F */ u8 mNunZSetFlagForce;
     /* 0x04F30 */ u8 mNunCStatus;
     /* 0x04F31 */ u8 mNunCSetFlag;
-    /* 0x04F32 */ u8 field_0x4fca;  // related to NunCStatusForce
-    /* 0x04F33 */ u8 field_0x4fcb;  // related to NunCStatusForce
+    /* 0x04F32 */ u8 mNunCStatusForce;
+    /* 0x04F33 */ u8 mNunCSetFlagForce;
     /* 0x04F34 */ u8 mSelectItem[8];
     /* 0x04F3C */ u8 mSelectEquip[6];
     /* 0x04F42 */ u8 mBaseAnimeID;
@@ -404,7 +406,7 @@ public:
     /* 0x04F7D */ u8 mPauseFlag;
     /* 0x04F7E */ u8 mItemLifeCountType;
     /* 0x04F7F */ u8 mOxygenShowFlag;
-    /* 0x04F80 */ u8 mShow2D;
+    /* 0x04F80 */ bool mShow2D;
     /* 0x04F84 */ JKRExpHeap* mExpHeap2D;
     /* 0x04F88 */ JKRExpHeap* mSubExpHeap2D[2];
     /* 0x04F90 */ JKRExpHeap* mMsgExpHeap;
@@ -422,7 +424,7 @@ public:
     void clearItemBombNumCount(u8 i_item);
     s16 getItemMaxBombNumCount(u8 i_bombType);
     void setNowVibration(u8 vib_status);
-    u32 getNowVibration();
+    u8 getNowVibration();
     void setStartStage(dStage_startStage_c* p_startStage);
     static int getLayerNo_common_common(char const* stageName, int roomId, int layer);
     static int getLayerNo_common(char const* stageName, int roomId, int layer);
@@ -593,7 +595,7 @@ public:
     dMsgObject_c* getMsgObjectClass() { return mItemInfo.mMsgObjectClass; }
     void setMsgObjectClass(dMsgObject_c* obj) { mItemInfo.mMsgObjectClass = obj; }
     f32 getItemLifeCount() { return mItemInfo.mItemLifeCount; }
-    u8& getItemLifeCountType() { return mItemInfo.mItemLifeCountType; }
+    u8 getItemLifeCountType() { return mItemInfo.mItemLifeCountType; }
     void setItemLifeCount(f32 hearts, u8 type) {
         mItemInfo.mItemLifeCount += hearts;
         mItemInfo.mItemLifeCountType = type;
@@ -616,6 +618,7 @@ public:
     void setItemMaxMagicCount(s16 max) { mItemInfo.mItemMaxMagicCount += max; }
     s32 getItemOilCount() { return mItemInfo.mItemOilCount; }
     void setItemOilCount(s32 oil) { mItemInfo.mItemOilCount += oil; }
+    void setItemMaxOilCount(s32 oil) { mItemInfo.mItemMaxOilCount += oil; }
     void clearItemOilCount() { mItemInfo.mItemOilCount = 0; }
     s32 getItemNowOil() { return mItemInfo.mItemNowOil; }
     void setItemNowOil(s32 oil) { mItemInfo.mItemNowOil = oil; }
@@ -630,6 +633,7 @@ public:
     s32 getOxygenCount() { return mItemInfo.mOxygenCount; }
     void setOxygenCount(s32 oxygen) { mItemInfo.mOxygenCount += oxygen; }
     void clearOxygenCount() { mItemInfo.mOxygenCount = 0; }
+    void setMaxOxygenCount(s32 oxygen) { mItemInfo.mMaxOxygenCount += oxygen; }
     s32 getMaxOxygenCount() { return mItemInfo.mMaxOxygenCount; }
     void clearMaxOxygenCount() { mItemInfo.mMaxOxygenCount = 0; }
     s16 getItemArrowNumCount() { return mItemInfo.mItemArrowNumCount; }
@@ -670,10 +674,17 @@ public:
     }
     u8 getNunStatus() { return mItemInfo.mNunStatus; }
     bool isNunSetFlag(u8 flag) { return (mItemInfo.mNunSetFlag & flag) ? true : false; }
-    void setNunStatus(u8 status, u8 param_1, u8 flag) {
+    void setNunStatus(u8 status, u8 direction, u8 flag) {
         mItemInfo.mNunStatus = status;
-        mItemInfo.field_0x4ef0 = param_1;
+        mItemInfo.field_0x4ef0 = direction;
         mItemInfo.mNunSetFlag = flag;
+    }
+    u8 getNunStatusForce() { return mItemInfo.mNunStatus; }
+    bool getNunSetFlagForce() { return mItemInfo.mNunSetFlag; }
+    void setNunStatusForce(u8 status, u8 direction, u8 flag) {
+        mItemInfo.mNunStatusForce = status;
+        mItemInfo.mNunDirectionForce = direction;
+        mItemInfo.mNunSetFlagForce = flag;
     }
     u8 getBottleStatus() { return mItemInfo.mBottleStatus; }
     bool isBottleSetFlag(u8 flag) { return (mItemInfo.mBottleSetFlag & flag) ? true : false; }
@@ -689,10 +700,17 @@ public:
     }
     u8 getRemoConStatus() { return mItemInfo.mRemoConStatus; }
     bool isRemoConSetFlag(u8 flag) { return (mItemInfo.mRemoConSetFlag & flag) ? true : false; }
-    void setRemoConStatus(u8 status, u8 param_1, u8 flag) {
+    void setRemoConStatus(u8 status, u8 direction, u8 flag) {
         mItemInfo.mRemoConStatus = status;
-        mItemInfo.field_0x4ef2 = param_1;
+        mItemInfo.field_0x4ef2 = direction;
         mItemInfo.mRemoConSetFlag = flag;
+    }
+    u8 getRemoConStatusForce() { return mItemInfo.mBottleStatusForce; }
+    u8 getRemoConSetFlagForce() { return mItemInfo.mBottleSetFlagForce; }
+    void setRemoConStatusForce(u8 status, u8 direction, u8 flag) {
+        mItemInfo.mRemoConStatusForce = status;
+        mItemInfo.mRemoConDirectionForce = direction;
+        mItemInfo.mRemoConSetFlagForce = flag;
     }
     u8 getDoStatus() { return mItemInfo.mDoStatus; }
     bool isDoSetFlag(u8 flag) { return (mItemInfo.mDoSetFlag & flag) ? true : false; }
@@ -725,17 +743,17 @@ public:
     u8 getCStickStatus() { return mItemInfo.mCStickStatus; }
     u8 getCStickDirection() { return mItemInfo.mCStickDirection; }
     bool isCStickSetFlag(u8 flag) { return (mItemInfo.mCStickSetFlag & flag) ? true : false; }
-    void setCStickStatus(u8 status, u8 param_1, u8 flag) {
+    void setCStickStatus(u8 status, u8 direction, u8 flag) {
         mItemInfo.mCStickStatus = status;
-        mItemInfo.mCStickDirection = param_1;
+        mItemInfo.mCStickDirection = direction;
         mItemInfo.mCStickSetFlag = flag;
     }
     u8 getCStickStatusForce() { return mItemInfo.mCStickStatusForce; }
     u8 getCStickDirectionForce() { return mItemInfo.mCStickDirectionForce; }
     u8 getCStickSetFlagForce() { return mItemInfo.mCStickSetFlagForce; }
-    void setCStickStatusForce(u8 status, u8 param_1, u8 flag) {
+    void setCStickStatusForce(u8 status, u8 direction, u8 flag) {
         mItemInfo.mCStickStatusForce = status;
-        mItemInfo.mCStickDirectionForce = param_1;
+        mItemInfo.mCStickDirectionForce = direction;
         mItemInfo.mCStickSetFlagForce = flag;
     }
     u8 getSButtonStatus() { return mItemInfo.mSButtonStatus; }
@@ -792,11 +810,28 @@ public:
         mItemInfo.mNunZStatus = status;
         mItemInfo.mNunZSetFlag = flag;
     }
+    u8 getNunZStatusForce() { return mItemInfo.mBottleStatusForce; }
+    u8 getNunZSetFlagForce() { return mItemInfo.mBottleSetFlagForce; }
+    void setNunZStatusForce(u8 status, u8 flag) {
+        mItemInfo.mNunZStatusForce = status;
+        mItemInfo.mNunZSetFlagForce = flag;
+    }
     u8 getNunCStatus() { return mItemInfo.mNunCStatus; }
     bool isNunCSetFlag(u8 flag) { return (mItemInfo.mNunCSetFlag & flag) ? true : false; }
     void setNunCStatus(u8 status, u8 flag) {
         mItemInfo.mNunCStatus = status;
         mItemInfo.mNunCSetFlag = flag;
+    }
+    u8 getNunCStatusForce() { return mItemInfo.mBottleStatusForce; }
+    u8 getNunCSetFlagForce() { return mItemInfo.mBottleSetFlagForce; }
+    void setNunCStatusForce(u8 status, u8 flag) {
+        mItemInfo.mNunCStatusForce = status;
+        mItemInfo.mNunCSetFlagForce = flag;
+    }
+    u8 getTouchStatusForce() { return mItemInfo.mTouchStatusForce; }
+    u8 getTouchSetFlagForce() { return mItemInfo.mBottleSetFlagForce; }
+    void setTouchStatusForce(u8 status) {
+        mItemInfo.mTouchStatusForce = status;
     }
     u8 getSelectItem(int idx) { return mItemInfo.mSelectItem[idx]; }
     void setSelectItem(int idx, u8 i_itemNo) { mItemInfo.mSelectItem[idx] = i_itemNo; }
@@ -833,7 +868,7 @@ public:
     void onPauseFlag() { mItemInfo.mPauseFlag = true; }
     u8 getOxygenShowFlag() { return mItemInfo.mOxygenShowFlag; }
     void setOxygenShowFlag(u8 flag) { mItemInfo.mOxygenShowFlag = flag; }
-    u8 show2dCheck() { return mItemInfo.mShow2D; }
+    bool show2dCheck() { return mItemInfo.mShow2D; }
     void show2dOn() { mItemInfo.mShow2D = 1; }
     void show2dOff() { mItemInfo.mShow2D = 0; }
     JKRExpHeap* getExpHeap2D() { return mItemInfo.mExpHeap2D; }
@@ -950,12 +985,7 @@ public:
 
 class dComIfG_inf_c {
 public:
-    dComIfG_inf_c() { this->ct(); }
-    ~dComIfG_inf_c() {}
-    void ct();
-    void createBaseCsr();
-
-#if PLATFORM_WII || VERSION == VERSION_SHIELD_DEBUG
+#if PLATFORM_WII || PLATFORM_SHIELD
     class baseCsr_c : public mDoGph_gInf_c::csr_c {
     public:
         class navi_c {
@@ -988,6 +1018,9 @@ public:
         static void particleExecute();
         static navi_c* getNavi() { return m_navi; }
 
+        dDlst_blo_c* getCsr() { return &field_0x8; }
+        void onNavi() { field_0x13d = 1; }
+
         /* 0x008 */ dDlst_blo_c field_0x8;
         /* 0x130 */ dDlst_blo_c::anm_c anm;
         /* 0x13C */ u8 field_0x13c;
@@ -1008,6 +1041,18 @@ public:
     };
 #endif
 
+    dComIfG_inf_c() { this->ct(); }
+    ~dComIfG_inf_c() {}
+    void ct();
+
+#if PLATFORM_WII || PLATFORM_SHIELD
+    static void createBaseCsr();
+
+    static baseCsr_c* getBaseCsr() {
+        return m_baseCsr;
+    }
+#endif
+
     /* 0x00000 */ dSv_info_c info;
     /* 0x00F38 */ dComIfG_play_c play;
     /* 0x05F64 */ dDlst_list_c drawlist;
@@ -1023,10 +1068,12 @@ public:
     /* 0x1DE09 */ u8 field_0x1de09;
     /* 0x1DE0A */ u8 field_0x1de0a;
     /* 0x1DE0B */ u8 mIsDebugMode;
-    /* 0x1DE0C */ u8 field_0x1de0c;
+    #if DEBUG
+    /* 0x1DE0C */ OSStopwatch mStopwatch;
+    #endif
 
     static __d_timer_info_c dComIfG_mTimerInfo;
-    #if PLATFORM_WII || VERSION == VERSION_SHIELD_DEBUG
+    #if PLATFORM_WII || PLATFORM_SHIELD
     static baseCsr_c* m_baseCsr;
     #endif
 };  // Size: 0x1DE10
@@ -1178,6 +1225,7 @@ int dComIfG_TimerEnd(int i_mode, int param_1);
 int dComIfG_TimerDeleteCheck(int);
 int dComIfG_TimerDeleteRequest(int i_mode);
 int dComLbG_PhaseHandler(request_of_phase_process_class*, request_of_phase_process_fn*, void*);
+BOOL dComIfG_isSceneResetButton();
 
 int dComIfGd_setSimpleShadow(cXyz* i_pos, f32 param_1, f32 param_2, cBgS_PolyInfo& param_3, s16 i_angle,
                              f32 param_5, _GXTexObj* i_tex);
@@ -1625,12 +1673,20 @@ inline u8 dComIfGs_getBombMax(u8 i_bombType) {
     return g_dComIfG_gameInfo.info.getPlayer().getItemMax().getBombNum(i_bombType);
 }
 
+inline void dComIfGs_setPohSpiritNum(u8 i_num) {
+    g_dComIfG_gameInfo.info.getPlayer().getCollect().setPohNum(i_num);
+}
+
 inline u8 dComIfGs_getPohSpiritNum() {
     return g_dComIfG_gameInfo.info.getPlayer().getCollect().getPohNum();
 }
 
 inline void dComIfGs_addPohSpiritNum() {
     g_dComIfG_gameInfo.info.getPlayer().getCollect().addPohNum();
+}
+
+inline BOOL dComIfGs_isCollectClothes(u8 i_clothesNo) {
+    return g_dComIfG_gameInfo.info.getPlayer().getCollect().isCollect(COLLECT_CLOTHING, i_clothesNo);
 }
 
 inline void dComIfGs_setCollectClothes(u8 i_clothesNo) {
@@ -1650,16 +1706,32 @@ inline BOOL dComIfGs_isCollectClothing(u8 i_clothesNo) {
                                                                       i_clothesNo);
 }
 
+inline void dComIfGs_offCollectClothes(u8 i_clothesNo) {
+    g_dComIfG_gameInfo.info.getPlayer().getCollect().offCollect(COLLECT_CLOTHING, i_clothesNo);
+}
+
 inline BOOL dComIfGs_isCollectSword(u8 i_swordNo) {
     return g_dComIfG_gameInfo.info.getPlayer().getCollect().isCollect(COLLECT_SWORD, i_swordNo);
+}
+
+inline void dComIfGs_offCollectSword(u8 i_swordNo) {
+    g_dComIfG_gameInfo.info.getPlayer().getCollect().offCollect(COLLECT_SWORD, i_swordNo);
 }
 
 inline BOOL dComIfGs_isCollectShield(u8 i_item) {
     return g_dComIfG_gameInfo.info.getPlayer().getCollect().isCollect(COLLECT_SHIELD, i_item);
 }
 
+inline void dComIfGs_offCollectShield(u8 i_shieldNo) {
+    g_dComIfG_gameInfo.info.getPlayer().getCollect().offCollect(COLLECT_SHIELD, i_shieldNo);
+}
+
 inline void dComIfGs_onCollectCrystal(u8 i_item) {
     g_dComIfG_gameInfo.info.getPlayer().getCollect().onCollectCrystal(i_item);
+}
+
+inline void dComIfGs_offCollectCrystal(u8 i_item) {
+    g_dComIfG_gameInfo.info.getPlayer().getCollect().offCollectCrystal(i_item);
 }
 
 inline bool dComIfGs_isCollectCrystal(u8 i_item) {
@@ -1672,6 +1744,10 @@ inline u8 dComIfGs_getCollectCrystal() {
 
 inline void dComIfGs_onCollectMirror(u8 i_item) {
     g_dComIfG_gameInfo.info.getPlayer().getCollect().onCollectMirror(i_item);
+}
+
+inline void dComIfGs_offCollectMirror(u8 i_item) {
+    g_dComIfG_gameInfo.info.getPlayer().getCollect().offCollectMirror(i_item);
 }
 
 inline bool dComIfGs_isCollectMirror(u8 i_item) {
@@ -2833,10 +2909,10 @@ inline u8 dComIfGp_att_getCatchChgItem() {
     return dComIfGp_getAttention()->getCatchChgItem();
 }
 
-inline void dComIfGp_att_CatchRequest(fopAc_ac_c* param_0, u8 param_1, f32 i_horizontalDist,
+inline int dComIfGp_att_CatchRequest(fopAc_ac_c* param_0, u8 param_1, f32 i_horizontalDist,
                                       f32 i_upDist, f32 i_downDist, s16 i_angle, int param_5) {
-    dComIfGp_getAttention()->CatchRequest(param_0, param_1, i_horizontalDist, i_upDist, i_downDist,
-                                         i_angle, param_5);
+    return dComIfGp_getAttention()->CatchRequest(param_0, param_1, i_horizontalDist, i_upDist,
+                                                 i_downDist, i_angle, param_5);
 }
 
 inline fopAc_ac_c* dComIfGp_att_getLookTarget() {
@@ -3334,6 +3410,22 @@ inline JPABaseEmitter* dComIfGp_particle_setColor(u16 param_0, const cXyz* i_pos
                                       NULL, NULL, NULL, -1, NULL);
 }
 
+inline u32 dComIfGp_particle_getHeapSize() {
+    return g_dComIfG_gameInfo.play.getParticle()->getHeapSize();
+}
+
+inline u32 dComIfGp_particle_getSceneHeapSize() {
+    return g_dComIfG_gameInfo.play.getParticle()->getSceneHeapSize();
+}
+
+inline int dComIfGp_particle_getEmitterNum() {
+    return g_dComIfG_gameInfo.play.getParticle()->getEmitterNum();
+}
+
+inline int dComIfGp_particle_getParticleNum() {
+    return g_dComIfG_gameInfo.play.getParticle()->getParticleNum();
+}
+
 inline dSmplMdl_draw_c* dComIfGp_getSimpleModel() {
     return g_dComIfG_gameInfo.play.getSimpleModel();
 }
@@ -3372,8 +3464,8 @@ inline void dComIfGp_setWindow(u8 i, f32 param_1, f32 param_2, f32 param_3, f32 
                                       camID, mode);
 }
 
-inline camera_class* dComIfGp_getCamera(int idx) {
-    return g_dComIfG_gameInfo.play.getCamera(idx);
+inline camera_process_class* dComIfGp_getCamera(int idx) {
+    return (camera_process_class*)g_dComIfG_gameInfo.play.getCamera(idx);
 }
 
 inline void dComIfGp_setCamera(int i, camera_class* cam) {
@@ -3499,7 +3591,7 @@ inline u8 dComIfGp_getItemLifeCountType() {
     return g_dComIfG_gameInfo.play.getItemLifeCountType();
 }
 
-inline void dComIfGp_setItemLifeCount(float amount, u8 type) {
+inline void dComIfGp_setItemLifeCount(f32 amount, u8 type) {
     g_dComIfG_gameInfo.play.setItemLifeCount(amount, type);
 }
 
@@ -3563,6 +3655,10 @@ inline void dComIfGp_setItemOilCount(s32 oil) {
     g_dComIfG_gameInfo.play.setItemOilCount(oil);
 }
 
+inline void dComIfGp_setItemMaxOilCount(s32 oil) {
+    g_dComIfG_gameInfo.play.setItemMaxOilCount(oil);
+}
+
 inline void dComIfGp_clearItemOilCount() {
     g_dComIfG_gameInfo.play.clearItemOilCount();
 }
@@ -3617,6 +3713,10 @@ inline void dComIfGp_setOxygenCount(s32 oxygen) {
 
 inline void dComIfGp_clearOxygenCount() {
     g_dComIfG_gameInfo.play.clearOxygenCount();
+}
+
+inline void dComIfGp_setMaxOxygenCount(s32 oxygen) {
+    g_dComIfG_gameInfo.play.setMaxOxygenCount(oxygen);
 }
 
 inline s32 dComIfGp_getMaxOxygenCount() {
@@ -3731,8 +3831,20 @@ inline bool dComIfGp_isNunSetFlag(u8 flag) {
     return g_dComIfG_gameInfo.play.isNunSetFlag(flag);
 }
 
-inline void dComIfGp_setNunStatus(u8 status, u8 param_1, u8 flag) {
-    g_dComIfG_gameInfo.play.setNunStatus(status, param_1, flag);
+inline void dComIfGp_setNunStatus(u8 status, u8 direction, u8 flag) {
+    g_dComIfG_gameInfo.play.setNunStatus(status, direction, flag);
+}
+
+inline void dComIfGp_getNunStatusForce() {
+    g_dComIfG_gameInfo.play.getNunStatusForce();
+}
+
+inline void dComIfGp_getNunSetFlagForce() {
+    g_dComIfG_gameInfo.play.getNunSetFlagForce();
+}
+
+inline void dComIfGp_setNunStatusForce(u8 status, u8 direction, u8 flag) {
+    g_dComIfG_gameInfo.play.setNunStatusForce(status, direction, flag);
 }
 
 inline u8 dComIfGp_getBottleStatus() {
@@ -3743,8 +3855,8 @@ inline bool dComIfGp_isBottleSetFlag(u8 flag) {
     return g_dComIfG_gameInfo.play.isBottleSetFlag(flag);
 }
 
-inline void dComIfGp_setBottleStatus(u8 param_0, u8 param_1) {
-    g_dComIfG_gameInfo.play.setBottleStatus(param_0, param_1);
+inline void dComIfGp_setBottleStatus(u8 status, u8 flag) {
+    g_dComIfG_gameInfo.play.setBottleStatus(status, flag);
 }
 
 inline u8 dComIfGp_getBottleStatusForce() {
@@ -3755,8 +3867,8 @@ inline u8 dComIfGp_getBottleSetFlagForce() {
     return g_dComIfG_gameInfo.play.getBottleSetFlagForce();
 }
 
-inline void dComIfGp_setBottleStatusForce(u8 param_0, u8 param_1) {
-    g_dComIfG_gameInfo.play.setBottleStatusForce(param_0, param_1);
+inline void dComIfGp_setBottleStatusForce(u8 status, u8 flag) {
+    g_dComIfG_gameInfo.play.setBottleStatusForce(status, flag);
 }
 
 inline u8 dComIfGp_getRemoConStatus() {
@@ -3767,8 +3879,20 @@ inline bool dComIfGp_isRemoConSetFlag(u8 flag) {
     return g_dComIfG_gameInfo.play.isRemoConSetFlag(flag);
 }
 
-inline void dComIfGp_setRemoConStatus(u8 status, u8 param_1, u8 flag) {
-    g_dComIfG_gameInfo.play.setRemoConStatus(status, param_1, flag);
+inline void dComIfGp_setRemoConStatus(u8 status, u8 direction, u8 flag) {
+    g_dComIfG_gameInfo.play.setRemoConStatus(status, direction, flag);
+}
+
+inline u8 dComIfGp_getRemoConStatusForce() {
+    return g_dComIfG_gameInfo.play.getRemoConStatusForce();
+}
+
+inline u8 dComIfGp_getRemoConSetFlagForce() {
+    return g_dComIfG_gameInfo.play.getRemoConSetFlagForce();
+}
+
+inline void dComIfGp_setRemoConStatusForce(u8 status, u8 direction, u8 flag) {
+    g_dComIfG_gameInfo.play.setRemoConStatusForce(status, direction, flag);
 }
 
 inline u8 dComIfGp_getDoStatus() {
@@ -3839,8 +3963,8 @@ inline bool dComIfGp_isCStickSetFlag(u8 flag) {
     return g_dComIfG_gameInfo.play.isCStickSetFlag(flag);
 }
 
-inline void dComIfGp_setCStickStatus(u8 status, u8 param_1, u8 flag) {
-    g_dComIfG_gameInfo.play.setCStickStatus(status, param_1, flag);
+inline void dComIfGp_setCStickStatus(u8 status, u8 direction, u8 flag) {
+    g_dComIfG_gameInfo.play.setCStickStatus(status, direction, flag);
 }
 
 inline u8 dComIfGp_getCStickStatusForce() {
@@ -3855,8 +3979,8 @@ inline u8 dComIfGp_getCStickSetFlagForce() {
     return g_dComIfG_gameInfo.play.getCStickSetFlagForce();
 }
 
-inline void dComIfGp_setCStickStatusForce(u8 status, u8 param_1, u8 flag) {
-    g_dComIfG_gameInfo.play.setCStickStatusForce(status, param_1, flag);
+inline void dComIfGp_setCStickStatusForce(u8 status, u8 direction, u8 flag) {
+    g_dComIfG_gameInfo.play.setCStickStatusForce(status, direction, flag);
 }
 
 inline u8 dComIfGp_getSButtonStatus() {
@@ -3967,6 +4091,18 @@ inline void dComIfGp_setNunZStatus(u8 param_0, u8 param_1) {
     g_dComIfG_gameInfo.play.setNunZStatus(param_0, param_1);
 }
 
+inline u8 dComIfGp_getNunZStatusForce() {
+    return g_dComIfG_gameInfo.play.getNunZStatusForce();
+}
+
+inline u8 dComIfGp_getNunZSetFlagForce() {
+    return g_dComIfG_gameInfo.play.getNunZSetFlagForce();
+}
+
+inline void dComIfGp_setNunZStatusForce(u8 status, u8 flag) {
+    g_dComIfG_gameInfo.play.setNunZStatusForce(status, flag);
+}
+
 inline u8 dComIfGp_getNunCStatus() {
     return g_dComIfG_gameInfo.play.getNunCStatus();
 }
@@ -3975,8 +4111,32 @@ inline bool dComIfGp_isNunCSetFlag(u8 flag) {
     return g_dComIfG_gameInfo.play.isNunCSetFlag(flag);
 }
 
-inline void dComIfGp_setNunCStatus(u8 param_0, u8 param_1) {
-    g_dComIfG_gameInfo.play.setNunCStatus(param_0, param_1);
+inline void dComIfGp_setNunCStatus(u8 status, u8 flag) {
+    g_dComIfG_gameInfo.play.setNunCStatus(status, flag);
+}
+
+inline u8 dComIfGp_getNunCStatusForce() {
+    return g_dComIfG_gameInfo.play.getNunCStatusForce();
+}
+
+inline u8 dComIfGp_getNunCSetFlagForce() {
+    return g_dComIfG_gameInfo.play.getNunCSetFlagForce();
+}
+
+inline void dComIfGp_setNunCStatusForce(u8 status, u8 flag) {
+    g_dComIfG_gameInfo.play.setNunCStatusForce(status, flag);
+}
+
+inline u8 dComIfGp_getTouchStatusForce() {
+    return g_dComIfG_gameInfo.play.getTouchStatusForce();
+}
+
+inline u8 dComIfGp_getTouchSetFlagForce() {
+    return g_dComIfG_gameInfo.play.getTouchSetFlagForce();
+}
+
+inline void dComIfGp_setTouchStatusForce(u8 status) {
+    g_dComIfG_gameInfo.play.setTouchStatusForce(status);
 }
 
 inline void dComIfGp_setSelectEquipClothes(u8 i_clothNo) {
@@ -4103,7 +4263,7 @@ inline void dComIfGp_onOxygenShowFlag() {
     g_dComIfG_gameInfo.play.setOxygenShowFlag(1);
 }
 
-inline u8 dComIfGp_2dShowCheck() {
+inline bool dComIfGp_2dShowCheck() {
     return g_dComIfG_gameInfo.play.show2dCheck();
 }
 
@@ -4251,14 +4411,14 @@ inline void dComIfGp_clearItemBombNumCount(u8 i_no) {
 }
 
 inline s16 dComIfGp_getItemMaxBombNumCount() {
-    return g_dComIfG_gameInfo.play.getItemMaxBombNumCount(fpcNm_ITEM_NORMAL_BOMB);
+    return g_dComIfG_gameInfo.play.getItemMaxBombNumCount(dItemNo_NORMAL_BOMB_e);
 }
 
 inline void dComIfGp_setNowVibration(u8 status) {
     g_dComIfG_gameInfo.play.setNowVibration(status);
 }
 
-inline u32 dComIfGp_getNowVibration() {
+inline u8 dComIfGp_getNowVibration() {
     return g_dComIfG_gameInfo.play.getNowVibration();
 }
 
@@ -4358,7 +4518,8 @@ inline int dComIfG_setObjectRes(const char* i_arcName, u8 i_mountDirection, JKRH
     return g_dComIfG_gameInfo.mResControl.setObjectRes(i_arcName, i_mountDirection, i_heap);
 }
 
-inline int dComIfG_setObjectRes(const char* i_arcName, void* i_archiveRes, u32 i_bufferSize) {
+inline int dComIfG_setObjectRes(const char* i_arcName, void* i_archiveRes, u32 i_bufferSize, JKRHeap* i_heap) {
+    UNUSED(i_heap);
     return g_dComIfG_gameInfo.mResControl.setObjectRes(i_arcName, i_archiveRes, i_bufferSize, NULL);
 }
 
@@ -4439,6 +4600,28 @@ inline BOOL dComIfG_isDebugMode() {
 inline u32 dComIfG_getTrigB(u32 i_padNo) {
     return mDoCPd_c::getTrig(i_padNo) & PAD_BUTTON_B;
 }
+
+inline u32 dComIfG_getObjectAllSize() {
+    return g_dComIfG_gameInfo.mResControl.getObjectAllSize();
+}
+
+inline u32 dComIfG_getStageAllSize() {
+    return g_dComIfG_gameInfo.mResControl.getStageAllSize();
+}
+
+inline u32 dComIfG_getObjectSize(const char* i_arcName) {
+    return g_dComIfG_gameInfo.mResControl.getObjectSize(i_arcName);
+}
+
+inline u32 dComIfG_getStageSize(const char* i_arcName) {
+    return g_dComIfG_gameInfo.mResControl.getStageSize(i_arcName);
+}
+
+#if DEBUG
+inline void dComIfG_initStopwatch() {
+    OSInitStopwatch(&g_dComIfG_gameInfo.mStopwatch, "dComIfG");
+}
+#endif
 
 inline int dComIfGd_setRealShadow(u32 param_0, s8 param_1, J3DModel* param_2, cXyz* param_3,
                                   f32 param_4, f32 param_5, dKy_tevstr_c* param_6) {

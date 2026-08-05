@@ -3,10 +3,10 @@
  * Model, Animation, and Heap Functions
  */
 
-#include "d/dolzel.h" // IWYU pragma: keep
+#include "m_Do/machine.h" // IWYU pragma: keep
 
-#include <dolphin/gf/GFPixel.h>
-#include <dolphin/gx.h>
+#include <gf/GFPixel.h>
+#include <gx.h>
 #include "JSystem/J3DGraphAnimator/J3DMaterialAnm.h"
 #include "JSystem/J3DGraphBase/J3DDrawBuffer.h"
 #include "JSystem/J3DGraphBase/J3DMaterial.h"
@@ -23,6 +23,7 @@
 #include "m_Do/m_Do_main.h"
 #include "m_Do/m_Do_mtx.h"
 #include <cstdio>
+#include <cstring>
 
 u8 mDoExt::CurrentHeapAdjustVerbose;
 u8 mDoExt::HeapAdjustVerbose;
@@ -70,11 +71,11 @@ static void mDoExt_setJ3DData(Mtx mtx, const J3DTransformInfo* transformInfo, u1
         *mtx_p++ *= sp0C.x;
         *mtx_p++ *= sp0C.x;
         *mtx_p++ *= sp0C.x;
-        *mtx_p++;
+        UNUSED(*mtx_p++);
         *mtx_p++ *= sp0C.y;
         *mtx_p++ *= sp0C.y;
         *mtx_p++ *= sp0C.y;
-        *mtx_p++;
+        UNUSED(*mtx_p++);
         *mtx_p++ *= sp0C.z;
         *mtx_p++ *= sp0C.z;
         *mtx_p++ *= sp0C.z;
@@ -540,13 +541,13 @@ void mDoExt_invisibleModel::entryJoint(cXyz* param_0) {
 }
 
 void mDoExt_invisibleModel::entryDL(cXyz* param_0) {
-    J3DDrawBuffer* buffer0 = j3dSys.getDrawBuffer(0);
-    J3DDrawBuffer* buffer1 = j3dSys.getDrawBuffer(1);
+    J3DDrawBuffer* buffer0 = j3dSys.getDrawBuffer(J3DSysDrawBuf_Opa);
+    J3DDrawBuffer* buffer1 = j3dSys.getDrawBuffer(J3DSysDrawBuf_Xlu);
     dComIfGd_setListZxlu();
     mDoExt_modelEntryDL(mModel);
     entryJoint(param_0);
-    j3dSys.setDrawBuffer(buffer0, 0);
-    j3dSys.setDrawBuffer(buffer1, 1);
+    j3dSys.setDrawBuffer(buffer0, J3DSysDrawBuf_Opa);
+    j3dSys.setDrawBuffer(buffer1, J3DSysDrawBuf_Xlu);
 }
 
 void mDoExt_setupShareTexture(J3DModelData* i_modelData, J3DModelData* i_shareModelData) {
@@ -3712,7 +3713,7 @@ J3DModel* mDoExt_J3DModel__create(J3DModelData* i_modelData, u32 i_modelFlag, u3
             bool hasSharedDlistObj =
                 i_modelData->getMaterialNodePointer(0)->getSharedDisplayListObj() != NULL;
             // Update the modelFlag if the model data passed in has a shared dlist object
-            if (hasSharedDlistObj != NULL) {
+            if (hasSharedDlistObj != false) {
                 if (i_modelData->isLocked()) {
                     i_modelFlag = J3DMdlFlag_UseSharedDL;
                 } else if (i_modelFlag == J3DMdlFlag_UseSharedDL) {

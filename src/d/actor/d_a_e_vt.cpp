@@ -167,6 +167,30 @@ static dCcD_SrcSph cc_vt_magic_src = {
     }  // mSphAttr
 };
 
+// !@bug The i<40 loops that index these arrays read one element past the end; on
+// GC/Wii the OOB reads land on adjacent rodata instead of a defined value.
+#if AVOID_UB
+static u8 va_tag_set_size[40] = {
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
+    0x01, 0x01, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02,
+    0x02, 0x00, 0x00, 0x00, 0x01, 0x01, 0x01, 0x01, 0x02, 0x02, 0x02, 0x02, 0x02,
+    0x00,
+};
+
+static u8 va_tag_set_num[40] = {
+    0x01, 0x0C, 0x16, 0x1F, 0x21, 0x2A, 0x2B, 0x02, 0x04, 0x0D, 0x0F, 0x15, 0x18,
+    0x20, 0x2C, 0x03, 0x05, 0x06, 0x0B, 0x10, 0x17, 0x19, 0x1A, 0x22, 0x24, 0x29,
+    0x2D, 0x34, 0x49, 0x52, 0x36, 0x3E, 0x54, 0x5C, 0x39, 0x41, 0x4C, 0x56, 0x5E,
+    0x00,
+};
+
+static f32 va_tag_offset[40] = {
+    20.0f, 20.0f, 20.0f, 20.0f, 20.0f, 0.0f,  40.0f, 0.0f, 30.0f, 10.0f, 0.0f,  0.0f,  20.0f,
+    0.0f,  10.0f, 20.0f, 40.0f, 0.0f,  20.0f, 0.0f,  0.0f, 20.0f, 0.0f,  10.0f, 0.0f,  0.0f,
+    20.0f, 10.0f, 20.0f, 30.0f, 0.0f,  10.0f, 20.0f, 0.0f, 0.0f,  10.0f, 20.0f, 30.0f, 0.0f,
+    0.0f,
+};
+#else
 static u8 va_tag_set_size[39] = {
     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
     0x01, 0x01, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02,
@@ -184,6 +208,7 @@ static f32 va_tag_offset[39] = {
     0.0f,  10.0f, 20.0f, 40.0f, 0.0f,  20.0f, 0.0f,  0.0f, 20.0f, 0.0f,  10.0f, 0.0f,  0.0f,
     20.0f, 10.0f, 20.0f, 30.0f, 0.0f,  10.0f, 20.0f, 0.0f, 0.0f,  10.0f, 20.0f, 30.0f, 0.0f,
 };
+#endif
 
 }  // namespace
 
@@ -1271,9 +1296,9 @@ void daE_VA_c::onRopeCutStatus(int param_0, int param_1, int param_2) {
 }
 
 void daE_VA_c::setVibRope(f32 param_0, f32 param_1) {
-    field_0x1336 += (s16)(param_1 * 7168.0f);
-    field_0x122c.y += (s16)(param_0 * cM_ssin(field_0x1336));
-    field_0x123e += (s16)(param_0 * 50.0f * cM_ssin(field_0x1336));
+    ANGLE_ADD(field_0x1336, param_1 * 7168.0f);
+    ANGLE_ADD(field_0x122c.y, param_0 * cM_ssin(field_0x1336));
+    ANGLE_ADD(field_0x123e, param_0 * 50.0f * cM_ssin(field_0x1336));
 }
 
 static s16 TAG_VIB_ANGLE[] = {
@@ -1441,7 +1466,7 @@ void daE_VA_c::executeDemoOpWait() {
 }
 
 void daE_VA_c::executeDemoOp() {
-    camera_class* camera = dComIfGp_getCamera(dComIfGp_getPlayerCameraID(0));
+    camera_process_class* camera = dComIfGp_getCamera(dComIfGp_getPlayerCameraID(0));
     cXyz sp2C;
     cXyz sp38;
     f32 old;
@@ -2917,7 +2942,7 @@ void daE_VA_c::executeOpaciFadeAway() {
 }
 
 void daE_VA_c::executeOpaciDeath() {
-    camera_class* camera = dComIfGp_getCamera(dComIfGp_getPlayerCameraID(0));
+    camera_process_class* camera = dComIfGp_getCamera(dComIfGp_getPlayerCameraID(0));
     daPy_py_c* player = daPy_getPlayerActorClass();
     cXyz sp24;
     cXyz sp30;
@@ -3903,20 +3928,20 @@ static actor_method_class l_daE_VA_Method = {
 };
 
 actor_process_profile_definition g_profile_E_VT = {
-    fpcLy_CURRENT_e,         // mLayerID
-    7,                       // mListID
-    fpcPi_CURRENT_e,         // mListPrio
-    PROC_E_VT,               // mProcName
-    &g_fpcLf_Method.base,   // sub_method
-    sizeof(daE_VA_c),        // mSize
-    0,                       // mSizeOther
-    0,                       // mParameters
-    &g_fopAc_Method.base,    // sub_method
-    756,                     // mPriority
-    &l_daE_VA_Method,        // sub_method
-    0x00040000,              // mStatus
-    fopAc_ENEMY_e,           // mActorType
-    fopAc_CULLBOX_CUSTOM_e,  // cullType
+    /* Layer ID     */ fpcLy_CURRENT_e,
+    /* List ID      */ 7,
+    /* List Prio    */ fpcPi_CURRENT_e,
+    /* Proc Name    */ fpcNm_E_VT_e,
+    /* Proc SubMtd  */ &g_fpcLf_Method.base,
+    /* Size         */ sizeof(daE_VA_c),
+    /* Size Other   */ 0,
+    /* Parameters   */ 0,
+    /* Leaf SubMtd  */ &g_fopAc_Method.base,
+    /* Draw Prio    */ fpcDwPi_E_VT_e,
+    /* Actor SubMtd */ &l_daE_VA_Method,
+    /* Status       */ fopAcStts_UNK_0x40000_e,
+    /* Group        */ fopAc_ENEMY_e,
+    /* Cull Type    */ fopAc_CULLBOX_CUSTOM_e,
 };
 
 AUDIO_INSTANCES;

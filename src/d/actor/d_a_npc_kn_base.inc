@@ -1,13 +1,14 @@
 #include "d/actor/d_a_npc_kn.h"
 #include "d/d_msg_object.h"
 #include "d/d_k_wmark.h"
+#include <cstring>
 
 void daNpc_Kn_c::tgHitCallBack(fopAc_ac_c* i_tgActor, dCcD_GObjInf* i_tgObjInf,
                                fopAc_ac_c* i_atActor, dCcD_GObjInf* i_atObjInf) {
     daNpc_Kn_c* kn_actor = (daNpc_Kn_c*)i_tgActor;
     u8 cut_type = 0;
     if (i_atActor != NULL) {
-        if (fopAcM_GetProfName(i_atActor) == PROC_ALINK) {
+        if (fopAcM_GetProfName(i_atActor) == fpcNm_ALINK_e) {
             cut_type = ((daPy_py_c*)i_atActor)->getCutType();
         } else {
             cut_type = 1;
@@ -703,11 +704,11 @@ void daNpc_Kn_c::setFootPrtcl(cXyz* param_0, f32 param_1) {
     }
 
     field_0x9F4.setEffectTwo(&tevStr, &current.pos, 0, 0, NULL,
-                             !mFootLOnGround && cross_l == true ? &foot_l_pos : NULL,
-                             !mFootROnGround && cross_r == true ? &foot_r_pos : NULL,
+                             !mFootLOnGround && cross_l == TRUE ? &foot_l_pos : NULL,
+                             !mFootROnGround && cross_r == TRUE ? &foot_r_pos : NULL,
                              &mCurAngle, param_0, fopAcM_GetRoomNo(this), 0.0f, speedF);
 
-    if (!mFootLOnGround && cross_l == true) {
+    if (!mFootLOnGround && cross_l == TRUE) {
         switch (foot_l_att) {
         case 3:
             break;
@@ -717,7 +718,7 @@ void daNpc_Kn_c::setFootPrtcl(cXyz* param_0, f32 param_1) {
         }
     }
 
-    if (!mFootROnGround && cross_r == true) {
+    if (!mFootROnGround && cross_r == TRUE) {
         switch (foot_r_att) {
         case 3:
             break;
@@ -1004,7 +1005,7 @@ BOOL daNpc_Kn_c::srchPlayerActor() {
 cXyz daNpc_Kn_c::getAttnPos(fopAc_ac_c* i_actor) {
     cXyz attn_pos(i_actor->attention_info.position);
 
-    if (fopAcM_GetName(i_actor) == PROC_ALINK) {
+    if (fopAcM_GetName(i_actor) == fpcNm_ALINK_e) {
         attn_pos.y -= static_cast<daPy_py_c*>(i_actor)->getAttentionOffsetY();
     }
 
@@ -1033,7 +1034,7 @@ BOOL daNpc_Kn_c::turn(s16 i_angle, int i_count, int i_direction) {
     }
 
     int offset = angle_diff * cM_ssin((s16)mTurnAmount);
-    mTurnAmount += (s16)(16384.0f / mTurnCount);
+    ANGLE_ADD(mTurnAmount, 16384.0f / mTurnCount);
 
     if ((u16)mTurnAmount < 0x4000) {
         mCurAngle.y = mStartAngle + offset;

@@ -71,7 +71,7 @@ int daAlink_c::setHeavyBoots(int param_0) {
 
             if (mProcID != PROC_BOOTS_EQUIP) {
                 procWaitInit();
-                field_0x2060->initOldFrameMorf(3.0f, 0, 35);
+                m_oldFrameCalc->initOldFrameMorf(3.0f, 0, 35);
                 return 1;
             }
         }
@@ -137,7 +137,7 @@ void daAlink_c::setMagneBootsMtx(cBgS_PolyInfo* i_polyinfo, int param_1) {
         }
     } else {
         // D_MN54 is the E3 Goron Mines Demo map
-        if (checkStageName("D_MN54") && getMoveBGActorName(*i_polyinfo, TRUE) == PROC_Obj_MagneArm) {
+        if (checkStageName("D_MN54") && getMoveBGActorName(*i_polyinfo, TRUE) == fpcNm_Obj_MagneArm_e) {
             fopAcM_onSwitch(this, 0x93);
         }
 
@@ -191,7 +191,7 @@ void daAlink_c::setMagneBootsMtx(cBgS_PolyInfo* i_polyinfo, int param_1) {
             shape_angle.y += angle;
             current.angle.y += angle;
             mPrevAngleY += angle;
-            field_0x310c += angle;
+            mCameraAngleY += angle;
         }
     }
 
@@ -382,7 +382,7 @@ int daAlink_c::procMagneBootsFly() {
 
         cLib_addCalcAngleS(&shape_angle.x, sp24.atan2sY_XZ() + -0x4000, 5, 0x1000, 0x100);
         cLib_addCalcAngleS(&shape_angle.y, sp24.atan2sX_Z(), 5, 0x1000, 0x100);
-        mProcVar2.field_0x300c += (s16)0x1C00;
+        ANGLE_ADD(mProcVar2.field_0x300c, 0x1C00);
     }
 
     return 1;

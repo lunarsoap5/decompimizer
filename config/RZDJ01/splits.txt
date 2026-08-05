@@ -23,43 +23,47 @@ d/d_cursor_mng.cpp:
 	.text       start:0x800073D4 end:0x8000820C
 	.data       start:0x803DE938 end:0x803DEA60
 	.sdata      start:0x8051B428 end:0x8051B460
-	.sbss       start:0x8051E5A8 end:0x8051E5C0
+	.sbss       start:0x8051E5A8 end:0x8051E5B0
 	.sdata2     start:0x8051F878 end:0x8051F890
+
+d/d_rvl_fb_copy.cpp:
+	.sbss       start:0x8051E5B0 end:0x8051E5B8
 
 m_Do/m_Do_main.cpp:
 	.text       start:0x8000820C end:0x80009024
 	.ctors      start:0x803BA744 end:0x803BA748
 	.data       start:0x803DEA60 end:0x803DED78
 	.bss        start:0x8042EEC0 end:0x8042F320
-	.sdata      start:0x8051B460 end:0x8051B4E0
-	.sbss       start:0x8051E5C0 end:0x8051E5E0
+	.sdata      start:0x8051B460 end:0x8051B4D8
+	.sbss       start:0x8051E5B8 end:0x8051E5E0
 	.sdata2     start:0x8051F890 end:0x8051F8A8
 
 m_Do/m_Do_printf.cpp:
 	.text       start:0x80009024 end:0x8000973C
 	.data       start:0x803DED78 end:0x803DEE30
 	.bss        start:0x8042F320 end:0x8042FB20
+	.sdata      start:0x8051B4D8 end:0x8051B4E0
 	.sbss       start:0x8051E5E0 end:0x8051E600
 
 m_Do/m_Do_audio.cpp:
 	.text       start:0x8000973C end:0x8000A0E0
 	.ctors      start:0x803BA748 end:0x803BA74C
-	.data       start:0x803DEE30 end:0x803DF0A8
+	.data       start:0x803DEE30 end:0x803DF090
 	.bss        start:0x8042FB20 end:0x80430ED8
 	.sdata      start:0x8051B4E0 end:0x8051B54C
-	.sbss       start:0x8051E600 end:0x8051E654
+	.sbss       start:0x8051E600 end:0x8051E650
 
 m_Do/m_Do_controller_pad.cpp:
 	.text       start:0x8000A0E0 end:0x8000A4F0
 	.bss        start:0x80430ED8 end:0x80430FE8
 	.sdata2     start:0x8051F8A8 end:0x8051F8C0
 
-m_Do/m_Re_controller_pad.cpp:
+m_Re/m_Re_controller_pad.cpp:
 	.text       start:0x8000A4F0 end:0x8000DF0C
 	.rodata     start:0x803BA900 end:0x803BA950
-	.data       start:0x803DF0A8 end:0x803DF0C0
+	.data       start:0x803DF090 end:0x803DF0C0
 	.bss        start:0x80430FE8 end:0x80438898
-	.sbss       start:0x8051E654 end:0x8051E660
+	.sbss       start:0x8051E650 end:0x8051E660
 	.sdata2     start:0x8051F8C0 end:0x8051F968
 
 m_Do/m_Do_graphic.cpp:
@@ -434,14 +438,15 @@ d/d_save_init.cpp:
 
 d/d_jnt_col.cpp:
 	.text       start:0x8003A27C end:0x8003B088
-	.data       start:0x803E76B8 end:0x803E77D0
-	.sdata      start:0x8051BA50 end:0x8051BA80
+	.data       start:0x803E76B8 end:0x803E7700
+	.sdata      start:0x8051BA50 end:0x8051BA68
 	.sdata2     start:0x8051FCA8 end:0x8051FCC8
 
 d/d_a_obj.cpp:
 	.text       start:0x8003B088 end:0x8003B92C
 	.rodata     start:0x803BC9F0 end:0x803BCA00
 	.bss        start:0x804961E8 end:0x80496248
+	.sdata      start:0x8051BA68 end:0x8051BA70
 	.sbss       start:0x8051E8C0 end:0x8051E8C8
 	.sdata2     start:0x8051FCC8 end:0x8051FCE0
 
@@ -455,6 +460,8 @@ d/d_a_item_static.cpp:
 d/d_a_shop_item_static.cpp:
 	.text       start:0x8003BAB8 end:0x8003BB20
 	.rodata     start:0x803BCA38 end:0x803BCE88
+	.data       start:0x803E7700 end:0x803E77D0
+	.sdata      start:0x8051BA70 end:0x8051BA80
 
 d/d_a_horse_static.cpp:
 	.text       start:0x8003BB20 end:0x8003BC78
@@ -1111,17 +1118,17 @@ d/d_meter_HIO.cpp:
 	.text       start:0x801E36C0 end:0x801E795C
 	.ctors      start:0x803BA7C0 end:0x803BA7C4
 	.rodata     start:0x803D61B8 end:0x803D63B0
-	.data       start:0x803FF5C0 end:0x803FF93C
+	.data       start:0x803FF5C0 end:0x803FF8B8
 	.bss        start:0x804A0A48 end:0x804A1FF0
-	.sdata      start:0x8051D1E0 end:0x8051D268
+	.sdata      start:0x8051D1E0 end:0x8051D260
 	.sbss       start:0x8051EC00 end:0x8051EC08
 	.sdata2     start:0x805221C8 end:0x80522478
 
 d/d_meter_button.cpp:
 	.text       start:0x801E795C end:0x801F2074
 	.rodata     start:0x803D63B0 end:0x803D6510
-	.data       start:0x803FF93C end:0x803FFA18
-	.sdata      start:0x8051D268 end:0x8051D270
+	.data       start:0x803FF8B8 end:0x803FFA18
+	.sdata      start:0x8051D260 end:0x8051D270
 	.sdata2     start:0x80522478 end:0x805224F0
 
 d/d_meter_haihai.cpp:
@@ -2307,40 +2314,40 @@ Z2AudioLib/Z2AudioMgr.cpp:
 	.sbss       start:0x8051EEF8 end:0x8051EF00
 	.sdata2     start:0x80523B40 end:0x80523B48
 
-Z2AudioLib/SpkSpeakerCtrl.cpp:
+Z2AudioCS/SpkSpeakerCtrl.cpp:
 	.text       start:0x802B1668 end:0x802B1FFC
 	.ctors      start:0x803BA87C end:0x803BA880
 	.bss        start:0x804A6898 end:0x804A69B8
 	.sbss       start:0x8051EF00 end:0x8051EF08
 
-Z2AudioLib/SpkSystem.cpp:
+Z2AudioCS/SpkSystem.cpp:
 	.text       start:0x802B1FFC end:0x802B22CC
 	.ctors      start:0x803BA880 end:0x803BA884
 	.bss        start:0x804A69B8 end:0x804A69D8
-	.sbss       start:0x8051EF08 end:0x8051EF1C
+	.sbss       start:0x8051EF08 end:0x8051EF18
 
-Z2AudioLib/SpkMixingBuffer.cpp:
+Z2AudioCS/SpkMixingBuffer.cpp:
 	.text       start:0x802B22CC end:0x802B2418
 	.sdata2     start:0x80523B48 end:0x80523B50
 
-Z2AudioLib/SpkWave.cpp:
+Z2AudioCS/SpkWave.cpp:
 	.text       start:0x802B2418 end:0x802B255C
 
-Z2AudioLib/SpkTable.cpp:
+Z2AudioCS/SpkTable.cpp:
 	.text       start:0x802B255C end:0x802B25E0
 
-Z2AudioLib/SpkData.cpp:
+Z2AudioCS/SpkData.cpp:
 	.text       start:0x802B25E0 end:0x802B26C8
 
-Z2AudioLib/SpkSound.cpp:
+Z2AudioCS/SpkSound.cpp:
 	.text       start:0x802B26C8 end:0x802B32D4
 	.ctors      start:0x803BA884 end:0x803BA888
 	.bss        start:0x804A69D8 end:0x804A69E8
 	.sdata2     start:0x80523B50 end:0x80523B78
 
-Z2AudioLib/Z2AudioCS.cpp:
+Z2AudioCS/Z2AudioCS.cpp:
 	.text       start:0x802B32D4 end:0x802B3594
-	.sbss       start:0x8051EF1C end:0x8051EF20
+	.sbss       start:0x8051EF18 end:0x8051EF20
 	.sdata2     start:0x80523B78 end:0x80523B80
 
 revolution/gf/GFGeometry.cpp:
@@ -3399,16 +3406,16 @@ revolution/ax/AXCL.c:
 	.text       start:0x80355604 end:0x80355634
 	.sbss       start:0x8051F618 end:0x8051F620
 
-revolution/ax/AXFXReverbHi.c:
+revolution/axfx/AXFXReverbHi.c:
 	.text       start:0x80355634 end:0x803556C0
 	.sdata2     start:0x80524438 end:0x80524440
 
-revolution/ax/AXFXReverbHiExp.c:
+revolution/axfx/AXFXReverbHiExp.c:
 	.text       start:0x803556C0 end:0x80356498
 	.data       start:0x804250C0 end:0x80425260
 	.sdata2     start:0x80524440 end:0x80524480
 
-revolution/ax/AXFXHooks.c:
+revolution/axfx/AXFXHooks.c:
 	.text       start:0x80356498 end:0x803564D0
 	.sdata      start:0x8051E298 end:0x8051E2A0
 
@@ -3519,7 +3526,7 @@ revolution/sc/scsystem.c:
 	.data       start:0x80425820 end:0x804259A0
 	.bss        start:0x804D5A40 end:0x804DDBE0
 	.sdata      start:0x8051E300 end:0x8051E3D8
-	.sbss       start:0x8051F65C end:0x8051F674
+	.sbss       start:0x8051F65C end:0x8051F670
 
 revolution/sc/scapi.c:
 	.text       start:0x80361624 end:0x80361A04
@@ -3541,7 +3548,7 @@ revolution/arc/arc.c:
 
 revolution/ipc/ipcMain.c:
 	.text       start:0x803623D8 end:0x8036245C
-	.sbss       start:0x8051F674 end:0x8051F688
+	.sbss       start:0x8051F670 end:0x8051F688
 
 revolution/ipc/ipcclt.c:
 	.text       start:0x8036245C end:0x80363B5C
@@ -4334,7 +4341,7 @@ TRK_MINNOW_DOLPHIN/debugger/embedded/MetroTRK/Os/dolphin/target_options.c:
 TRK_MINNOW_DOLPHIN/debugger/embedded/MetroTRK/Os/dolphin/UDP_Stubs.c:
 	.text       start:0x803B96A8 end:0x803B96F0
 
-TRK_MINNOW_DOLPHIN/gamedev/cust_connection/cc/exi2/GCN/EXI2_DDH_GCN/main.c:
+TRK_MINNOW_DOLPHIN/gamedev/cust_connection/cc/exi2/GCN/EXI2_GDEV_GCN/main.c:
 	.text       start:0x803B96F0 end:0x803B99B0
 	.bss        start:0x8051AF00 end:0x8051B41C
 	.sbss       start:0x8051F808 end:0x8051F810

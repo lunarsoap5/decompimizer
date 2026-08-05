@@ -5,7 +5,7 @@
 
 #include "d/actor/d_a_alink.h"
 #include "d/d_com_inf_game.h"
-#include "d/d_procname.h"
+#include "f_pc/f_pc_name.h"
 #include "d/actor/d_a_horse.h"
 #include "d/actor/d_a_npc_tk.h"
 #include "d/actor/d_a_obj_yobikusa.h"
@@ -23,7 +23,7 @@ static fopAc_ac_c* daAlink_searchWhistle(fopAc_ac_c* i_actor, void* i_data) {
 static fopAc_ac_c* daAlink_searchHawk(fopAc_ac_c* i_actor, void* i_data) {
     UNUSED(i_data);
 
-    if (fopAcM_GetName(i_actor) == PROC_NPC_TK) {
+    if (fopAcM_GetName(i_actor) == fpcNm_NPC_TK_e) {
         return i_actor;
     }
 
@@ -57,13 +57,13 @@ void daAlink_c::setHorseWhistleModel() {
     mHeldItemModel = initModel(loadAramBmd(dRes_ID_ALANM_BMD_AL_PEND_e, 0x3000), 0);
 
     mDoExt_setCurrentHeap(prev_heap);
-    mEquipItem = fpcNm_ITEM_HORSE_FLUTE;
+    mEquipItem = dItemNo_HORSE_FLUTE_e;
     field_0x2f94 = 2;
 }
 
 int daAlink_c::procGrassWhistleGetInit() {
-    if (mEquipItem != fpcNm_ITEM_NONE) {
-        return procPreActionUnequipInit(PROC_GRASS_WHISTLE_GET, field_0x27f4);
+    if (mEquipItem != dItemNo_NONE_e) {
+        return procPreActionUnequipInit(PROC_GRASS_WHISTLE_GET, mPriActorOwn);
     }
 
     commonProcInit(PROC_GRASS_WHISTLE_GET);
@@ -73,9 +73,9 @@ int daAlink_c::procGrassWhistleGetInit() {
 
     setSingleAnimeParam(ANM_BOTTLE_SWING_DOWN, &mpHIO->mItem.mBottle.m.mSwingDownAnm);
     mLeftHandIndex = 0xFE;
-    field_0x280c.setData(field_0x27f4);
+    field_0x280c.setData(mPriActorOwn);
 
-    daObjYobikusa_c* yobikusa_p = (daObjYobikusa_c*)field_0x27f4;
+    daObjYobikusa_c* yobikusa_p = (daObjYobikusa_c*)mPriActorOwn;
     mProcVar2.field_0x300c = yobikusa_p->getType();
     mProcVar3.field_0x300e = yobikusa_p->getPathID();
     mProcVar4.field_0x3010 = yobikusa_p->isPlayerCorrect();
@@ -93,7 +93,7 @@ int daAlink_c::procGrassWhistleGet() {
     if (checkAnmEnd(frameCtrl_p)) {
         procGrassWhistleWaitInit(mProcVar2.field_0x300c, mProcVar3.field_0x300e,
                                  mProcVar4.field_0x3010, mProcVar5.field_0x3012, &field_0x37c8);
-    } else if (mEquipItem == fpcNm_ITEM_NONE && frameCtrl_p->getFrame() >= 9.0f) {
+    } else if (mEquipItem == dItemNo_NONE_e && frameCtrl_p->getFrame() >= 9.0f) {
         setGrassWhistleModel(mProcVar2.field_0x300c);
 
         if (field_0x280c.getActor() != NULL) {
@@ -129,7 +129,7 @@ int daAlink_c::procGrassWhistleWaitInit(int param_0, int param_1, int param_2, s
         field_0x32cc = 0x532;
     } else {
         setSingleAnimeBase(ANM_WAIT);
-        mKeepItem = fpcNm_ITEM_NONE;
+        mKeepItem = dItemNo_NONE_e;
 
         if (param_0 == 0) {
             field_0x3198 = 0x100;

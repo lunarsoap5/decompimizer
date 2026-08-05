@@ -3,13 +3,17 @@
  * DVD Thread Manager
 */
 
+#include "m_Do/machine.h" // IWYU pragma: keep
+
 #include "m_Do/m_Do_dvd_thread.h"
 #include "JSystem/JAudio2/JASDvdThread.h"
+#include "JSystem/JAudio2/JASTaskThread.h"
 #include "JSystem/JKernel/JKRAramArchive.h"
 #include "JSystem/JKernel/JKRAssertHeap.h"
 #include "JSystem/JKernel/JKRDvdRipper.h"
 #include "JSystem/JKernel/JKRExpHeap.h"
 #include "JSystem/JKernel/JKRMemArchive.h"
+#include "JSystem/JKernel/JKRThread.h"
 #include "m_Do/m_Do_Reset.h"
 #include "m_Do/m_Do_controller_pad.h"
 #include "m_Do/m_Do_ext.h"
@@ -155,10 +159,10 @@ static void cb(void* param_0) {
 void mDoDvdThd_param_c::mainLoop() {
     mDoDvdThd_command_c* command;
     while (this->waitForKick() != 0) {
-        while (command = this->getFirstCommand()) {
+        while ((command = this->getFirstCommand())) {
             this->cut(command);
             if (mDoDvdThd::SyncWidthSound) {
-                JASDvd::getThreadPointer()->sendCmdMsg(cb, &command, 4);
+                JASDvd::getThreadPointer()->sendCmdMsg(cb, &command, sizeof(void*));
             } else {
                 cb(&command);
             }

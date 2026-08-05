@@ -30,7 +30,7 @@ int dMeterHaihai_c::_create() {
     JUT_ASSERT(0, fg != false);
     dPaneClass_showNullPane(mpHaihaiScreen);
 
-    mpParent = new CPaneMgr(mpHaihaiScreen, 'n_all', 2, NULL);
+    mpParent = new CPaneMgr(mpHaihaiScreen, MULTI_CHAR('n_all'), 2, NULL);
     JUT_ASSERT(0, mpParent != NULL);
 
     OSInitFastCast();
@@ -99,28 +99,28 @@ void dMeterHaihai_c::draw() {
     }
 
     if (direction & DIR_DOWN_e || i_forceDraw) {
-        mpParent->getPanePtr()->translate(x_pos[0] + 304.0f, y_pos[0] + 224.0f);
+        mpParent->getPanePtr()->translate(x_pos[0] + FB_WIDTH_BASE / 2, y_pos[0] + FB_HEIGHT_BASE / 2);
         mpParent->getPanePtr()->rotate(mpParent->getPanePtr()->getWidth() / 2,
                                        mpParent->getPanePtr()->getHeight() / 2, ROTATE_Z, 0.0f);
         mpHaihaiScreen->draw(0.0f, 0.0f, dComIfGp_getCurrentGrafPort());
     }
 
     if (direction & DIR_RIGHT_e || i_forceDraw) {
-        mpParent->getPanePtr()->translate(x_pos[1] + 304.0f, y_pos[1] + 224.0f);
+        mpParent->getPanePtr()->translate(x_pos[1] + FB_WIDTH_BASE / 2, y_pos[1] + FB_HEIGHT_BASE / 2);
         mpParent->getPanePtr()->rotate(mpParent->getPanePtr()->getWidth() / 2,
                                        mpParent->getPanePtr()->getHeight() / 2, ROTATE_Z, 90.0f);
         mpHaihaiScreen->draw(0.0f, 0.0f, dComIfGp_getCurrentGrafPort());
     }
 
     if (direction & DIR_UP_e || i_forceDraw) {
-        mpParent->getPanePtr()->translate(x_pos[0] + 304.0f, 224.0f - y_pos[0]);
+        mpParent->getPanePtr()->translate(x_pos[0] + FB_WIDTH_BASE / 2, FB_HEIGHT_BASE / 2 - y_pos[0]);
         mpParent->getPanePtr()->rotate(mpParent->getPanePtr()->getWidth() / 2,
                                        mpParent->getPanePtr()->getHeight() / 2, ROTATE_Z, 180.0f);
         mpHaihaiScreen->draw(0.0f, 0.0f, dComIfGp_getCurrentGrafPort());
     }
 
     if (direction & DIR_LEFT_e || i_forceDraw) {
-        mpParent->getPanePtr()->translate(304.0f - x_pos[1], y_pos[1] + 224.0f);
+        mpParent->getPanePtr()->translate(FB_WIDTH_BASE / 2 - x_pos[1], y_pos[1] + FB_HEIGHT_BASE / 2);
         mpParent->getPanePtr()->rotate(mpParent->getPanePtr()->getWidth() / 2,
                                        mpParent->getPanePtr()->getHeight() / 2, ROTATE_Z, 270.0f);
         mpHaihaiScreen->draw(0.0f, 0.0f, dComIfGp_getCurrentGrafPort());
@@ -128,8 +128,8 @@ void dMeterHaihai_c::draw() {
 }
 
 void dMeterHaihai_c::drawHaihai(u8 i_direction) {
-    f32 center_x = 304.0f;
-    f32 center_y = 224.0f;
+    f32 center_x = FB_WIDTH_BASE / 2;
+    f32 center_y = FB_HEIGHT_BASE / 2;
 
     if (mType == 1) {
         center_x += (3.0f + g_drawHIO.mScrollArrowCenterPosX);
@@ -300,9 +300,9 @@ void dMeterHaihai_c::playBckAnime(J2DAnmTransformKey* i_bck) {
         }
 
         i_bck->setFrame(mBckFrame);
-        mpHaihaiScreen->search('n_anim')->setAnimation(i_bck);
-        mpHaihaiScreen->search('n_anim')->animationTransform();
-        mpHaihaiScreen->search('n_anim')->setAnimation((J2DAnmTransform*)NULL);
+        mpHaihaiScreen->search(MULTI_CHAR('n_anim'))->setAnimation(i_bck);
+        mpHaihaiScreen->search(MULTI_CHAR('n_anim'))->animationTransform();
+        mpHaihaiScreen->search(MULTI_CHAR('n_anim'))->setAnimation((J2DAnmTransform*)NULL);
     }
 }
 
@@ -323,8 +323,8 @@ void dMeterHaihai_c::playBtkAnime(J2DAnmTextureSRTKey* i_btk) {
         }
 
         i_btk->setFrame(mBtkFrame);
-        mpHaihaiScreen->search('yaji00')->setAnimation(i_btk);
-        mpHaihaiScreen->search('yaji01')->setAnimation(i_btk);
+        mpHaihaiScreen->search(MULTI_CHAR('yaji00'))->setAnimation(i_btk);
+        mpHaihaiScreen->search(MULTI_CHAR('yaji01'))->setAnimation(i_btk);
     }
 }
 
@@ -345,7 +345,7 @@ void dMeterHaihai_c::playBpkAnime(J2DAnmColor* i_bpk) {
         }
 
         i_bpk->setFrame(mBpkFrame);
-        mpHaihaiScreen->search('npc_l1')->setAnimation(i_bpk);
-        mpHaihaiScreen->search('yaji_l')->setAnimation(i_bpk);
+        mpHaihaiScreen->search(MULTI_CHAR('npc_l1'))->setAnimation(i_bpk);
+        mpHaihaiScreen->search(MULTI_CHAR('yaji_l'))->setAnimation(i_bpk);
     }
 }

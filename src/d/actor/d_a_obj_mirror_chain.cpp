@@ -352,7 +352,7 @@ int daObjMirrorChain_c::draw() {
 
         cXyz* quad = mScissorBegin.getQuad();
         PSMTXMultVecArray(mpModel->getBaseTRMtx(), l_offsetScissor, quad, 4);
-        j3dSys.setDrawBuffer(dComIfGd_getXluListBG(), 0);
+        j3dSys.setDrawBuffer(dComIfGd_getXluListBG(), J3DSysDrawBuf_Opa);
         mScissorEnd.entryPacket();
         mDoExt_modelUpdateDL(mpPortalModel);
         mScissorBegin.entryPacket();
@@ -505,18 +505,18 @@ static actor_method_class l_daObjMirrorChain_Method = {
 };
 
 actor_process_profile_definition g_profile_Obj_MirrorChain = {
-    fpcLy_CURRENT_e,
-    3,
-    fpcPi_CURRENT_e,
-    PROC_Obj_MirrorChain,
-    &g_fpcLf_Method.base,
-    sizeof(daObjMirrorChain_c),
-    0,
-    0,
-    &g_fopAc_Method.base,
-    0x2A9,
-    &l_daObjMirrorChain_Method,
-    0x44000,
-    fopAc_ACTOR_e,
-    fopAc_CULLBOX_CUSTOM_e,
+    /* Layer ID     */ fpcLy_CURRENT_e,
+    /* List ID      */ 3,
+    /* List Prio    */ fpcPi_CURRENT_e,
+    /* Proc Name    */ fpcNm_Obj_MirrorChain_e,
+    /* Proc SubMtd  */ &g_fpcLf_Method.base,
+    /* Size         */ sizeof(daObjMirrorChain_c),
+    /* Size Other   */ 0,
+    /* Parameters   */ 0,
+    /* Leaf SubMtd  */ &g_fopAc_Method.base,
+    /* Draw Prio    */ fpcDwPi_Obj_MirrorChain_e,
+    /* Actor SubMtd */ &l_daObjMirrorChain_Method,
+    /* Status       */ fopAcStts_UNK_0x40000_e | fopAcStts_UNK_0x4000_e,
+    /* Group        */ fopAc_ACTOR_e,
+    /* Cull Type    */ fopAc_CULLBOX_CUSTOM_e,
 };

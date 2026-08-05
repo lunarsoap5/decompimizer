@@ -591,7 +591,7 @@ void daB_DS_c::mZsMoveChk() {
         }
 
         angle_y = fopAcM_searchPlayerAngleY(this);
-        angle_y += (s16)cM_rndFX(0x2000);
+        ANGLE_ADD(angle_y, cM_rndFX(0x2000));
     }
 
     if (!daPy_getPlayerActorClass()->checkSpinnerRide() || mAction == ACT_DAMAGE ||
@@ -774,7 +774,7 @@ void daB_DS_c::mCreateTrap(bool param_0) {
                 angle.x = 0;
                 angle.y = 0;
                 angle.z = 0;
-                mTrapID[i] = fopAcM_createChild(PROC_Obj_Lv6TogeTrap, fopAcM_GetID(this), params,
+                mTrapID[i] = fopAcM_createChild(fpcNm_Obj_Lv6TogeTrap_e, fopAcM_GetID(this), params,
                                                 &current.pos, fopAcM_GetRoomNo(this), &angle,
                                                 &trap_scale, -1, NULL);
                 trap_count++;
@@ -811,7 +811,7 @@ void daB_DS_c::mCreateTrap(bool param_0) {
             }
 
             mTrapID[i] =
-                fopAcM_createChild(PROC_Obj_Lv6TogeTrap, fopAcM_GetID(this), 0x27104DFF, &pos,
+                fopAcM_createChild(fpcNm_Obj_Lv6TogeTrap_e, fopAcM_GetID(this), 0x27104DFF, &pos,
                                    fopAcM_GetRoomNo(this), &angle, &trap_scale, -1, NULL);
             if (mBackboneLevel == 2) {
                 angle.y += 0x2AAA;
@@ -834,7 +834,7 @@ void daB_DS_c::mCreateTrap(bool param_0) {
                     angle.y = mBirthAngle02_dt[i] + mBirthAngle01_dt[j * 2];
                     pos.y = mBirthYpos02_dt[i];
                     mTrapID[idx] =
-                        fopAcM_createChild(PROC_Obj_Lv6TogeTrap, fopAcM_GetID(this), params, &pos,
+                        fopAcM_createChild(fpcNm_Obj_Lv6TogeTrap_e, fopAcM_GetID(this), params, &pos,
                                            fopAcM_GetRoomNo(this), &angle, &trap_scale, -1, NULL);
                 }
             }
@@ -1045,7 +1045,7 @@ void daB_DS_c::neck_set() {
         angl.x = -mae.atan2sY_XZ() * 2.0f;
         if (mAction == ACT_BREATH_ATTACK) {
             angl.x = mBh2AttackAngleF;
-            angl.x += (s16)(mBackboneLevel * 200);
+            ANGLE_ADD(angl.x, mBackboneLevel * 200);
         }
 
         if (angl.x > 0x2000) {
@@ -1117,7 +1117,7 @@ bool daB_DS_c::mCutTypeCheck() {
 }
 
 bool daB_DS_c::startDemoCheck() {
-    camera_class* camera = dComIfGp_getCamera(dComIfGp_getPlayerCameraID(0));
+    camera_process_class* camera = dComIfGp_getCamera(dComIfGp_getPlayerCameraID(0));
 
     if (daPy_py_c::checkNowWolf()) {
         return false;
@@ -1160,7 +1160,7 @@ bool daB_DS_c::doYoMessage() {
 }
 
 void daB_DS_c::executeOpeningDemo() {
-    camera_class* camera = dComIfGp_getCamera(dComIfGp_getPlayerCameraID(0));
+    camera_process_class* camera = dComIfGp_getCamera(dComIfGp_getPlayerCameraID(0));
     daPy_py_c* pla = daPy_getPlayerActorClass();
 
     dBgS_GndChk gnd_chk;
@@ -1283,7 +1283,7 @@ void daB_DS_c::executeOpeningDemo() {
 
         dComIfGp_event_reset();
         dComIfGs_onZoneSwitch(0, fopAcM_GetRoomNo(this));
-        fopAcM_OffStatus(this, 0x4000);
+        fopAcM_OffStatus(this, fopAcStts_UNK_0x4000_e);
         mMode++;
         // fallthrough
     }
@@ -1857,7 +1857,7 @@ void daB_DS_c::damageSet() {
 }
 
 void daB_DS_c::damageHitCamera() {
-    camera_class* camera = dComIfGp_getCamera(dComIfGp_getPlayerCameraID(0));
+    camera_process_class* camera = dComIfGp_getCamera(dComIfGp_getPlayerCameraID(0));
     cXyz offset, pos;
 
     mDoMtx_YrotS(*calc_mtx, field_0x7d0);
@@ -1948,7 +1948,7 @@ void daB_DS_c::executeDamage() {
     static u16 eff_spHit_id[2] = {0x8BD9, 0x8BDA};
     static u16 eff_LastSmoke_id[4] = {0x8C25, 0x8C26, 0x8C27, 0x8C28};
 
-    camera_class* camera = dComIfGp_getCamera(dComIfGp_getPlayerCameraID(0));
+    camera_process_class* camera = dComIfGp_getCamera(dComIfGp_getPlayerCameraID(0));
     daPy_py_c* pla = daPy_getPlayerActorClass();
     csXyz angle = shape_angle;
     cXyz sp1BC, sp1B0;
@@ -2063,7 +2063,7 @@ void daB_DS_c::executeDamage() {
 
                 if (mStaltroopID[i] == 0) {
                     mStaltroopID[i] =
-                        fopAcM_createChild(PROC_E_ZS, fopAcM_GetID(this), 1, &sp1B0,
+                        fopAcM_createChild(fpcNm_E_ZS_e, fopAcM_GetID(this), 1, &sp1B0,
                                            fopAcM_GetRoomNo(this), &angle, NULL, -1, NULL);
                 }
             }
@@ -2072,7 +2072,7 @@ void daB_DS_c::executeDamage() {
                 for (int i = 0; i < 5; i++) {
                     if (mStaltroop2ID[i] == 0) {
                         mStaltroop2ID[i] =
-                            fopAcM_createChild(PROC_E_ZS, fopAcM_GetID(this), 2, &current.pos,
+                            fopAcM_createChild(fpcNm_E_ZS_e, fopAcM_GetID(this), 2, &current.pos,
                                                fopAcM_GetRoomNo(this), NULL, NULL, -1, NULL);
                     }
                 }
@@ -2299,7 +2299,7 @@ void daB_DS_c::executeDamage() {
         p2_angle.y = 0;
         p2_angle.x = 0;
 
-        fopAcM_create(PROC_B_DS, param | TYPE_BATTLE_2, &current.pos, fopAcM_GetRoomNo(this),
+        fopAcM_create(fpcNm_B_DS_e, param | TYPE_BATTLE_2, &current.pos, fopAcM_GetRoomNo(this),
                       &p2_angle, NULL, 0xff);
         mMode = 101;
         // fallthrough
@@ -2414,7 +2414,7 @@ void daB_DS_c::breath_smokeSet() {
 
         cXyz bullet_pos = mBulletPos;
 
-        fopAcM_create(PROC_B_DS, TYPE_BULLET_A, &bullet_pos, fopAcM_GetRoomNo(this), &bullet_angle,
+        fopAcM_create(fpcNm_B_DS_e, TYPE_BULLET_A, &bullet_pos, fopAcM_GetRoomNo(this), &bullet_angle,
                       NULL, 0xff);
     }
 }
@@ -2548,7 +2548,7 @@ void daB_DS_c::executeBreathSearch() {
 }
 
 void daB_DS_c::executeBattle2OpeningDemo() {
-    camera_class* camera = dComIfGp_getCamera(dComIfGp_getPlayerCameraID(0));
+    camera_process_class* camera = dComIfGp_getCamera(dComIfGp_getPlayerCameraID(0));
     daPy_py_c* pla = daPy_getPlayerActorClass();
     cXyz vec, center, eye, unused;
     center.zero();
@@ -2920,7 +2920,7 @@ void daB_DS_c::mFuwafuwaSet(bool param_0) {
 }
 
 void daB_DS_c::mBattle2BreathFireSet(u32 i_params) {
-    fopAcM_createChild(PROC_B_DS, fopAcM_GetID(this), i_params, &mMouthPos, fopAcM_GetRoomNo(this),
+    fopAcM_createChild(fpcNm_B_DS_e, fopAcM_GetID(this), i_params, &mMouthPos, fopAcM_GetRoomNo(this),
                        &shape_angle, NULL, -1, NULL);
     mCreateFireBreath = false;
 }
@@ -2959,11 +2959,11 @@ void daB_DS_c::mSetFirstPos() {
 }
 
 bool daB_DS_c::mChkScreenIn() {
-    camera_class* camera = dComIfGp_getCamera(0);
+    camera_process_class* camera = dComIfGp_getCamera(0);
     cXyz vec1, vec2;
 
-    vec2 = camera->lookat.eye - camera->lookat.center;
-    vec1 = camera->lookat.eye - current.pos;
+    vec2 = camera->view.lookat.eye - camera->view.lookat.center;
+    vec1 = camera->view.lookat.eye - current.pos;
     return abs((s16)(vec1.atan2sX_Z() - vec2.atan2sX_Z())) < 0x3000;
 }
 
@@ -3254,7 +3254,7 @@ void daB_DS_c::executeBattle2Tired() {
 }
 
 void daB_DS_c::executeBattle2Damage() {
-    camera_class* camera = dComIfGp_getCamera(dComIfGp_getPlayerCameraID(0));
+    camera_process_class* camera = dComIfGp_getCamera(dComIfGp_getPlayerCameraID(0));
     daPy_py_c* pla = daPy_getPlayerActorClass();
 
     JPABaseEmitter* emitter;
@@ -3634,7 +3634,7 @@ void daB_DS_c::executeBattle2Dead() {
     };
     static u16 eff_Demo_sasi_id[2] = {0x8BF8, 0x8BF9};
 
-    camera_class* camera = dComIfGp_getCamera(dComIfGp_getPlayerCameraID(0));
+    camera_process_class* camera = dComIfGp_getCamera(dComIfGp_getPlayerCameraID(0));
     csXyz particle_angle = shape_angle;
     cXyz mae, ato;
     cXyz particle_scale(1.5f, 1.5f, 1.5f);
@@ -5160,7 +5160,7 @@ int daB_DS_c::execute() {
 
     if (!mIsOpeningDemo) {
         s16 hand_x_ang_target = -6000;
-        hand_x_ang_target += (s16)(mBackboneLevel * 1000);
+        ANGLE_ADD(hand_x_ang_target, mBackboneLevel * 1000);
         if (handX_ang > -4000) {
             handX_ang = -4000;
         }
@@ -5182,7 +5182,7 @@ int daB_DS_c::execute() {
             }
 
             if (jnt_pos.y < chk_pos.y) {
-                handL_ang += (s16)(fabsf(jnt_pos.y - chk_pos.y) * 10.0f);
+                ANGLE_ADD(handL_ang, fabsf(jnt_pos.y - chk_pos.y) * 10.0f);
                 var_r25 = true;
 
                 if (field_0x84d & 1) {
@@ -5205,7 +5205,7 @@ int daB_DS_c::execute() {
             }
 
             if (jnt_pos.y < chk_pos.y) {
-                handR_ang += (s16)(fabsf(jnt_pos.y - chk_pos.y) * 10.0f);
+                ANGLE_ADD(handR_ang, fabsf(jnt_pos.y - chk_pos.y) * 10.0f);
                 var_r25 = true;
                 if (field_0x84d & 2) {
                     if ((int)mpMorf->getFrame() >= 34 && (int)mpMorf->getFrame() < 41) {
@@ -5496,7 +5496,7 @@ cPhs_Step daB_DS_c::create() {
                 mAcch.Set(fopAcM_GetPosition_p(this), fopAcM_GetOldPosition_p(this), this, 1,
                           &mAcchCir, fopAcM_GetSpeed_p(this), NULL, NULL);
                 mAcch.CrrPos(dComIfG_Bgsp());
-                fopAcM_OnStatus(this, 0x4000);
+                fopAcM_OnStatus(this, fopAcStts_UNK_0x4000_e);
             }
 
             setActionMode(8, 0);
@@ -5607,7 +5607,7 @@ cPhs_Step daB_DS_c::create() {
                     fopAcM_onSwitch(this, bitSw);
                 }
 
-                fopAcM_OnStatus(this, 0x4000);
+                fopAcM_OnStatus(this, fopAcStts_UNK_0x4000_e);
 
                 if (cDmr_SkipInfo == 0 && !dComIfGs_isZoneSwitch(5, fopAcM_GetRoomNo(this))) {
                     mDrawZant = false;
@@ -5691,20 +5691,20 @@ static actor_method_class l_daB_DS_Method = {
 };
 
 actor_process_profile_definition g_profile_B_DS = {
-    fpcLy_CURRENT_e,
-    4,
-    fpcPi_CURRENT_e,
-    PROC_B_DS,
-    &g_fpcLf_Method.base,
-    sizeof(daB_DS_c),
-    0,
-    0,
-    &g_fopAc_Method.base,
-    0xDC,
-    &l_daB_DS_Method,
-    0x4040000,
-    fopAc_ENEMY_e,
-    fopAc_CULLBOX_CUSTOM_e,
+    /* Layer ID     */ fpcLy_CURRENT_e,
+    /* List ID      */ 4,
+    /* List Prio    */ fpcPi_CURRENT_e,
+    /* Proc Name    */ fpcNm_B_DS_e,
+    /* Proc SubMtd  */ &g_fpcLf_Method.base,
+    /* Size         */ sizeof(daB_DS_c),
+    /* Size Other   */ 0,
+    /* Parameters   */ 0,
+    /* Leaf SubMtd  */ &g_fopAc_Method.base,
+    /* Draw Prio    */ fpcDwPi_B_DS_e,
+    /* Actor SubMtd */ &l_daB_DS_Method,
+    /* Status       */ fopAcStts_BOSS_e | fopAcStts_UNK_0x40000_e,
+    /* Group        */ fopAc_ENEMY_e,
+    /* Cull Type    */ fopAc_CULLBOX_CUSTOM_e,
 };
 
 AUDIO_INSTANCES;

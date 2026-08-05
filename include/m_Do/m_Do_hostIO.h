@@ -2,7 +2,7 @@
 #define M_DO_M_DO_HOSTIO_H
 
 #include "JSystem/JHostIO/JORReflexible.h"
-#include <string>
+#include <cstring>
 
 class mDoHIO_child_c {
 public:
@@ -21,22 +21,6 @@ public:
     /* 0x00 */ char mName[24];
     /* 0x18 */ u8 unk18;
     /* 0x1C */ JORReflexible* mPt;
-};
-
-class mDoHIO_entry_c : public JORReflexible {
-public:
-#if DEBUG
-    mDoHIO_entry_c();
-    void entryHIO(const char* i_name);
-    void removeHIO();
-
-    virtual ~mDoHIO_entry_c();
-
-    /* 0x4 */ s8 mNo;
-    /* 0x5 */ u8 mCount;
-#else
-    virtual ~mDoHIO_entry_c() {}
-#endif
 };
 
 class mDoHIO_subRoot_c : public JORReflexible {
@@ -66,6 +50,22 @@ public:
     virtual ~mDoHIO_root_c();
 
     /* 0x4 */ mDoHIO_subRoot_c mSub;
+};
+
+class mDoHIO_entry_c : public JORReflexible {
+public:
+#if DEBUG
+    mDoHIO_entry_c();
+    void entryHIO(const char* i_name);
+    void removeHIO();
+
+    virtual ~mDoHIO_entry_c();
+
+    /* 0x4 */ s8 mNo;
+    /* 0x5 */ u8 mCount;
+#else
+    virtual ~mDoHIO_entry_c() {}
+#endif
 };
 
 extern mDoHIO_root_c mDoHIO_root;

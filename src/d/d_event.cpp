@@ -13,6 +13,7 @@
 #include "rando/seed/seed.h"
 #include "rando/rando.h"
 #include "SSystem/SComponent/c_counter.h"
+#include <cstring>
 
 namespace {
 static u8 event_debug_evnt() {
@@ -232,9 +233,9 @@ int dEvt_control_c::commonCheck(dEvt_order_c* order, u16 condition, u16 command)
 int dEvt_control_c::talkCheck(dEvt_order_c* order) {
     char* eventname = "DEFAULT_TALK";
     fopAc_ac_c* actor = order->mpTargetActor;
-    if ((fopAcM_GetName(actor) == PROC_Tag_Mhint && ((daTagMhint_c*)actor)->checkNoAttention()) ||
-        (fopAcM_GetName(actor) == PROC_Tag_Mstop && ((daTagMstop_c*)actor)->checkNoAttention()) ||
-        fopAcM_GetName(actor) == PROC_MIDNA)
+    if ((fopAcM_GetName(actor) == fpcNm_Tag_Mhint_e && ((daTagMhint_c*)actor)->checkNoAttention()) ||
+        (fopAcM_GetName(actor) == fpcNm_Tag_Mstop_e && ((daTagMstop_c*)actor)->checkNoAttention()) ||
+        fopAcM_GetName(actor) == fpcNm_MIDNA_e)
     {
         daMidna_c* midna = (daMidna_c*)daPy_py_c::getMidnaActor();
         if (!daPy_py_c::checkNowWolf() || midna->checkNoDraw()) {
@@ -304,7 +305,7 @@ int dEvt_control_c::talkXyCheck(dEvt_order_c* order) {
         return 0;
     }
 
-    if (dComIfGp_getSelectItem(itemIndex) == fpcNm_ITEM_NONE) {
+    if (dComIfGp_getSelectItem(itemIndex) == dItemNo_NONE_e) {
         return 0;
     }
 
@@ -382,7 +383,7 @@ int dEvt_control_c::talkEnd() {
     }
 
     daItemBase_c* item = (daItemBase_c*)fopAcM_getItemEventPartner(NULL);
-    if (item != NULL && fopAcM_GetName(item) == PROC_ITEM) {
+    if (item != NULL && fopAcM_GetName(item) == fpcNm_ITEM_e) {
         item->dead();
     }
 
@@ -587,7 +588,7 @@ int dEvt_control_c::endProc() {
     field_0xec = 0xFF;
     mTalkXyType = 0;
     mUnkEventId = 255;
-    mPreItemNo = fpcNm_ITEM_NONE;
+    mPreItemNo = dItemNo_NONE_e;
     dComIfGp_getEventManager().setStartDemo(-2);
     return 1;
 }
@@ -1140,7 +1141,7 @@ int dEvt_control_c::Step() {
 
 int dEvt_control_c::moveApproval(void* param_0) {
     fopAc_ac_c* actor = (fopAc_ac_c*)param_0;
-    if (fopAcM_CheckStatus(actor, 0x20000)) {
+    if (fopAcM_CheckStatus(actor, fopAcStts_NOPAUSE_e)) {
         return 2;
     }
 
@@ -1170,11 +1171,11 @@ int dEvt_control_c::moveApproval(void* param_0) {
         break;
     }
 
-    if (fopAcM_CheckStatus(actor, 0x8000)) {
+    if (fopAcM_CheckStatus(actor, fopAcStts_STAFF_PRIMARY_e)) {
         return 2;
     }
 
-    if (fopAcM_CheckStatus(actor, 0x800)) {
+    if (fopAcM_CheckStatus(actor, fopAcStts_STAFF_EXTRA_e)) {
         return 1;
     }
 
@@ -1183,7 +1184,7 @@ int dEvt_control_c::moveApproval(void* param_0) {
         return 0;
     }
 
-    if (mMode == dEvt_mode_TALK_e && fopAcM_CheckStatus(actor, 0x40)) {
+    if (mMode == dEvt_mode_TALK_e && fopAcM_CheckStatus(actor, fopAcStts_UNK_0x40_e)) {
         return 1;
     }
 
@@ -1191,15 +1192,15 @@ int dEvt_control_c::moveApproval(void* param_0) {
         return 1;
     }
 
-    if ((getMode() == 3 || getMode() == dEvt_mode_TALK_e) && fopAcM_CheckStatus(actor, 0x4000000)) {
+    if ((getMode() == 3 || getMode() == dEvt_mode_TALK_e) && fopAcM_CheckStatus(actor, fopAcStts_BOSS_e)) {
         return 0;
     }
 
-    if (fopAcM_CheckStatus(actor, 0x4000)) {
+    if (fopAcM_CheckStatus(actor, fopAcStts_UNK_0x4000_e)) {
         return 1;
     }
 
-    if (fopAcM_CheckStatus(actor, 0x2000)) {
+    if (fopAcM_CheckStatus(actor, fopAcStts_CARRY_NOW_e)) {
         return 1;
     }
 
@@ -1229,7 +1230,7 @@ void dEvt_control_c::remove() {
     mStageEventDt = NULL;
     mUnkEventId = 255;
     mTalkXyType = 0;
-    mPreItemNo = fpcNm_ITEM_NONE;
+    mPreItemNo = dItemNo_NONE_e;
     mEventFlag = 0;
     mFlag2 = 0;
     mChangeActor = NULL;

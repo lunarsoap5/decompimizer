@@ -15,10 +15,11 @@
 #include "Z2AudioLib/Z2SoundHandles.h"
 
 #if PLATFORM_WII || PLATFORM_SHIELD
-#include "Z2AudioLib/Z2AudioCS.h"
+#include "Z2AudioCS/Z2AudioCS.h"
 #endif
 
 Z2AudioMgr* Z2AudioMgr::mAudioMgrPtr;
+u8 gMuffleOutOfRangeMic = false;
 
 Z2AudioMgr::Z2AudioMgr() : mSoundStarter(true) {
     mAudioMgrPtr = this;
@@ -29,15 +30,15 @@ Z2AudioMgr::Z2AudioMgr() : mSoundStarter(true) {
 void Z2AudioMgr::init(JKRSolidHeap* heap, u32 memSize, void* baaData, JKRArchive* seqArc) {
     JAU_JASInitializer JASInitializer;
     JASInitializer.audioMemSize_ = memSize;
-    JASInitializer.field_0x1c = 140;
+    JASInitializer.mJasTrackPoolSize = 140;
     JASInitializer.dspLevel_ = 1.3f;
     JASInitializer.waveArcDir_ = "Audiores/Waves/";
     JASInitializer.initJASystem(heap);
 
     JAU_JAIInitializer JAIInitializer;
-    JAIInitializer.field_0x0 = 78;
-    JAIInitializer.field_0x4 = 4;
-    JAIInitializer.field_0xc = 48;
+    JAIInitializer.mJaiSePoolSize = 78;
+    JAIInitializer.mJaiSeqPoolSize = 4;
+    JAIInitializer.mJaiSoundChildPoolSize = 48;
     JAIInitializer.initJAInterface();
     
     JAISeMgr* seMgr = mSoundMgr.getSeMgr();
@@ -143,7 +144,7 @@ void Z2AudioMgr::init(JKRSolidHeap* heap, u32 memSize, void* baaData, JKRArchive
 }
 
 void Z2AudioMgr::setOutputMode(u32 mode) {
-    if (mode <= 2) {
+    if (mode <= JAS_OUTPUT_SURROUND) {
         JAISetOutputMode(mode);
     }
 }

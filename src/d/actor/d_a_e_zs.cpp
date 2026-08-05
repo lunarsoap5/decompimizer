@@ -221,13 +221,13 @@ void daE_ZS_c::executeAppear() {
                 if (field_0x65c > -2.0f) {
                     field_0x65c = 0.0f;
                     offWolfNoLock();
-                    fopAcM_OnStatus(this, 0x200000);
+                    fopAcM_OnStatus(this, fopAcStts_UNK_0x200000_e);
                     setActionMode(1, 0);
                 }
             } else {
                 if (mpMorf->isStop()) {
                     offWolfNoLock();
-                    fopAcM_OnStatus(this, 0x200000);
+                    fopAcM_OnStatus(this, fopAcStts_UNK_0x200000_e);
                     setActionMode(1, 0);
                 }
             }
@@ -348,7 +348,7 @@ void daE_ZS_c::executeDrive() {
             }
 
             onWolfNoLock();
-            fopAcM_OffStatus(this, 0x200000);
+            fopAcM_OffStatus(this, fopAcStts_UNK_0x200000_e);
             mSound.startCreatureSound(Z2SE_EN_ZS_DISAPPEAR, 0, -1);
             field_0x673 = 1;
             mCyl.OffTgSetBit();
@@ -495,8 +495,8 @@ int daE_ZS_c::CreateHeap() {
     return 1;
 }
 
-static void useHeapInit(fopAc_ac_c* i_this) {
-    static_cast<daE_ZS_c*>(i_this)->CreateHeap();
+static int useHeapInit(fopAc_ac_c* i_this) {
+    return static_cast<daE_ZS_c*>(i_this)->CreateHeap();
 }
 
 int daE_ZS_c::create() {
@@ -504,7 +504,7 @@ int daE_ZS_c::create() {
     int phase = dComIfG_resLoad(&mPhase, "E_ZS");
     if (phase == cPhs_COMPLEATE_e) {
         OS_REPORT("E_ZS PARAM %x\n", fopAcM_GetParam(this));
-        if (!fopAcM_entrySolidHeap(this, (heapCallbackFunc)useHeapInit, 0xFC0)) {
+        if (!fopAcM_entrySolidHeap(this, useHeapInit, 0xFC0)) {
             return cPhs_ERROR_e;
         }
 
@@ -570,18 +570,18 @@ static actor_method_class l_daE_ZS_Method = {
 };
 
 actor_process_profile_definition g_profile_E_ZS = {
-  fpcLy_CURRENT_e,        // mLayerID
-  7,                      // mListID
-  fpcPi_CURRENT_e,        // mListPrio
-  PROC_E_ZS,              // mProcName
-  &g_fpcLf_Method.base,  // sub_method
-  sizeof(daE_ZS_c),       // mSize
-  0,                      // mSizeOther
-  0,                      // mParameters
-  &g_fopAc_Method.base,   // sub_method
-  170,                    // mPriority
-  &l_daE_ZS_Method,       // sub_method
-  0x00040100,             // mStatus
-  fopAc_ENEMY_e,          // mActorType
-  fopAc_CULLBOX_CUSTOM_e, // cullType
+    /* Layer ID     */ fpcLy_CURRENT_e,
+    /* List ID      */ 7,
+    /* List Prio    */ fpcPi_CURRENT_e,
+    /* Proc Name    */ fpcNm_E_ZS_e,
+    /* Proc SubMtd  */ &g_fpcLf_Method.base,
+    /* Size         */ sizeof(daE_ZS_c),
+    /* Size Other   */ 0,
+    /* Parameters   */ 0,
+    /* Leaf SubMtd  */ &g_fopAc_Method.base,
+    /* Draw Prio    */ fpcDwPi_E_ZS_e,
+    /* Actor SubMtd */ &l_daE_ZS_Method,
+    /* Status       */ fopAcStts_UNK_0x40000_e | fopAcStts_CULL_e,
+    /* Group        */ fopAc_ENEMY_e,
+    /* Cull Type    */ fopAc_CULLBOX_CUSTOM_e,
 };

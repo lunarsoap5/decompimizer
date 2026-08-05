@@ -46,11 +46,11 @@ void daAlink_c::freezeTimerDamage() {
     }
 
     if (escapeTrigger()) {
-        mProcVar0.field_0x3008 -= (s16)2;
+        S16_SUB(mProcVar0.field_0x3008, 2);
     }
 
     if (checkInputOnR() && abs((s16)(mStickAngle - mPrevStickAngle)) > 0x1000) {
-        mProcVar0.field_0x3008 -= (s16)2;
+        S16_SUB(mProcVar0.field_0x3008, 2);
     }
 
     if (mProcVar0.field_0x3008 < 0) {
@@ -505,7 +505,7 @@ BOOL daAlink_c::checkDamageAction() {
             poly_dmg_flags = 0;
         }
     } else if (mIceDamageWaitTimer > 3) {
-        mIceDamageWaitTimer -= (s16)3;
+        S16_SUB(mIceDamageWaitTimer, 3);
     } else {
         mIceDamageWaitTimer = 0;
     }
@@ -586,7 +586,7 @@ BOOL daAlink_c::checkDamageAction() {
         if (tghit_ac != NULL) {
             tghit_ac_name = fopAcM_GetName(tghit_ac);
         } else {
-            tghit_ac_name = PROC_ALINK;
+            tghit_ac_name = fpcNm_ALINK_e;
         }
 
         dCcD_GObjInf* tghit_gobj = var_r29->GetTgHitGObj();
@@ -622,7 +622,7 @@ BOOL daAlink_c::checkDamageAction() {
                 seStartOnlyReverb(Z2SE_AL_BURN_START);
             }
 
-            if ((mProcID != PROC_GUARD_ATTACK || (tghit_ac_name != PROC_E_TK_BALL && tghit_ac_name != PROC_KN_BULLET)) && !checkModeFlg(0x4000000)) {
+            if ((mProcID != PROC_GUARD_ATTACK || (tghit_ac_name != fpcNm_E_TK_BALL_e && tghit_ac_name != fpcNm_KN_BULLET_e)) && !checkModeFlg(0x4000000)) {
                 if (at_spl == 10 || at_spl == 11 || at_spl == 9) {
                     return procGuardBreakInit();
                 }
@@ -634,7 +634,7 @@ BOOL daAlink_c::checkDamageAction() {
                                 return procHorseHangInit(var_r29, 0);
                             }
                         } else if (at_spl == 8 || checkModeFlg(0x70C52)) {
-                            if (!checkModeFlg(0x400) && mEquipItem != fpcNm_ITEM_IRONBALL) {
+                            if (!checkModeFlg(0x400) && mEquipItem != dItemNo_IRONBALL_e) {
                                 setSmallGuard(var_r29);
                             }
                         } else {
@@ -1189,7 +1189,7 @@ int daAlink_c::procCoLargeDamage() {
             }
         }
     } else if (checkBoarSingleBattle()) {
-        if (!checkUnderMove0BckNoArc(ANM_FALL) && field_0x2060->getOldFrameRate() < 0.1f) {
+        if (!checkUnderMove0BckNoArc(ANM_FALL) && m_oldFrameCalc->getOldFrameRate() < 0.1f) {
             if (mProcVar5.field_0x3012 != 0) {
                 mProcVar5.field_0x3012--;
             } else {
@@ -1625,7 +1625,7 @@ int daAlink_c::procCoElecDamageInit(fopAc_ac_c* i_tgHitActor, dCcD_GObjInf* i_tg
     }
 
     if (i_tgHitActor != NULL) {
-        i_tgHitActor->actor_status |= 0x800;
+        i_tgHitActor->actor_status |= fopAcStts_STAFF_EXTRA_e;
     }
 
     commonProcInit(PROC_ELEC_DAMAGE);
@@ -1635,7 +1635,7 @@ int daAlink_c::procCoElecDamageInit(fopAc_ac_c* i_tgHitActor, dCcD_GObjInf* i_tg
     daAlink_ANM anm;
     daAlink_WANM wolf_anm;
     if ((mLinkAcch.ChkGroundHit() && !temp_r27) || checkMagneBootsOn()) {
-        if (mEquipItem == fpcNm_ITEM_IRONBALL) {
+        if (mEquipItem == dItemNo_IRONBALL_e) {
             setIronBallWaitUpperAnime(1);
         }
         anm = ANM_ELEC_STUN_GND;
@@ -1657,7 +1657,7 @@ int daAlink_c::procCoElecDamageInit(fopAc_ac_c* i_tgHitActor, dCcD_GObjInf* i_tg
 
             if (getZoraSwim()) {
                 current.pos.y += 50.0f;
-                field_0x3080 += (s16)0x4000;
+                ANGLE_ADD(field_0x3080, 0x4000);
             }
         }
     }
@@ -1806,7 +1806,7 @@ int daAlink_c::procDkCaught() {
     f32 var_f30;
     if (checkInputOnR()) {
         if (getDirectionFromCurrentAngle() == DIR_BACKWARD) {
-            current.angle.y += 0x8000;
+            ANGLE_ADD_2(current.angle.y, 0x8000);
             mNormalSpeed *= -1.0f;
         }
 
@@ -1963,7 +1963,7 @@ int daAlink_c::procCoLavaReturnInit(BOOL i_isSandReturn) {
         mGndPolyAtt1 = 0xFF;
         offModeFlg(0x40000);
 
-        field_0x2060->getOldFrameTransInfo(0)->mTranslate.y += field_0x3458;
+        m_oldFrameCalc->getOldFrameTransInfo(0)->mTranslate.y += field_0x3458;
         mSinkShapeOffset -= field_0x3458;
         field_0x2f99 = 0;
         field_0x32cc = 5;
@@ -2010,7 +2010,7 @@ int daAlink_c::procCoSwimFreezeReturnInit() {
     }
 
     onNoResetFlg0(FLG0_SWIM_UP);
-    J3DTransformInfo* transInfo = field_0x2060->getOldFrameTransInfo(0);
+    J3DTransformInfo* transInfo = m_oldFrameCalc->getOldFrameTransInfo(0);
 
     f32 var_f31;
     if (checkWolf()) {
