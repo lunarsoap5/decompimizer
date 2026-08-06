@@ -850,7 +850,7 @@ void item_func_TRIFORCE_PIECE() {
     // If we have enough pieces to complete the game, load the credits. If not, display the current count.
     if (dComIfGs_getTriforcePieceNum() >= g_seedInfo.getHeaderPtr()->getTriforcePieceReqCount())
     {
-        // trigger game end
+        rollCredits();
     }
     else
     {

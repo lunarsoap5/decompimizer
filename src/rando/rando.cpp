@@ -730,3 +730,17 @@ bool checkFoolishItemEffectReady()
     }
     return true;
 }
+
+void rollCredits()
+{
+    dComIfGs_setTransformStatus(0);
+    dComIfGs_setLastSceneMode(0);
+    dComIfGs_setStartPoint(0x15);
+
+    dStage_nextStage_c* nextStagePtr = dComIfGp_getNextStagePtr();
+    strncpy(nextStagePtr->getName(), allStages[Ganondorf_Defeated], sizeof(char[8]) - 1);
+    nextStagePtr->setRoomNo(0);
+    nextStagePtr->setPoint(0x15);
+    nextStagePtr->setLayer(0x9);
+    dComIfGp_setEnableNextStage();
+}

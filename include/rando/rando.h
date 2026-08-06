@@ -105,6 +105,7 @@ public:
 
 void checkSetHCBkFlag(u8 req, u8 currentCount);
 void checkSetHCBarrierFlag(u8 req, u8 currentCount);
+void rollCredits();
 
 extern randoInfo_c g_randoInfo;
 
