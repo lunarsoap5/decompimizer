@@ -217,7 +217,7 @@ static u32 getFontCCColorTable(u8 i_colorNo, u8 i_fukiKind) {
         0x4B96D7FF, 0xBFBFBFFF,
     };
 
-    if (i_colorNo > 8) {
+    if (i_colorNo > 11) {
         return 0xFFFFFFFF;
     }
 
@@ -253,7 +253,7 @@ static u32 getFontGCColorTable(u8 i_colorNo, u8 i_fukiKind) {
         0x4B96D7FF, 0xBFBFBFFF,
     };
 
-    if (i_colorNo > 8) {
+    if (i_colorNo > 11) {
         return 0xFFFFFFFF;
     }
 
