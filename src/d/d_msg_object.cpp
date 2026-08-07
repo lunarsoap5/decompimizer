@@ -28,6 +28,7 @@
 #include "m_Do/m_Do_lib.h"
 #include "JSystem/JKernel/JKRExpHeap.h"
 #include "rando/seed/seed.h"
+#include "rando/rando.h"
 
 static void dMsgObject_addFundRaising(s16 param_0);
 static void dMsgObject_addTotalPayment(s16 param_0);
@@ -1168,6 +1169,12 @@ void dMsgObject_c::inputProc() {
                 }
             } else {
                 dMsgObject_addTotalPayment(getInputValue());
+                // This is just a placeholder for now until I get the donation amount added to the seed
+                bool isTrillWinCondition = false;
+                if (isTrillWinCondition && dMsgObject_getTotalPayment() >= 100)
+                {
+                    rollCredits();
+                }
                 fpcM_Search((fpcLyIt_JudgeFunc)dMsgObject_searchSSItem, this);
             }
             dMeter2Info_offShopTalkFlag();
@@ -2415,6 +2422,15 @@ u16 dMsgObject_getTotalPayment() {
 }
 
 void dMsgObject_setTotalPayment(u16 price) {
+    dComIfGs_setEventReg(0xfcff, (price & 0xff00) >> 8);
+    dComIfGs_setEventReg(0xfbff, price & 0xff);
+}
+
+void dMsgObject_removeTotalPayment(u16 price) {
+    if (price > dMsgObject_getTotalPayment())
+    {
+        price = 0;
+    }
     dComIfGs_setEventReg(0xfcff, (price & 0xff00) >> 8);
     dComIfGs_setEventReg(0xfbff, price & 0xff);
 }

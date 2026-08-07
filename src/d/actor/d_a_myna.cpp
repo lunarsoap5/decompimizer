@@ -634,7 +634,8 @@ void daMyna_c::greet_wait_move() {
 }
 
 void daMyna_c::greet_talk_init() {
-    dMsgObject_setTotalPayment(0);
+    dMsgObject_removeTotalPayment(dMsgObject_getTotalPrice());
+    //dMsgObject_setTotalPayment(0);
     dMsgObject_setTotalPrice(0);
     field_0x922 = dMsgObject_getTotalPayment();
     field_0x920 = dMsgObject_getTotalPrice();
@@ -1121,7 +1122,8 @@ void daMyna_c::attack2_talk_move() {
         dComIfGp_event_reset();
         field_0x828 = NULL;
         field_0x92C = 7;
-        dMsgObject_setTotalPayment(0);
+        dMsgObject_removeTotalPayment(dMsgObject_getTotalPrice());
+        //dMsgObject_setTotalPayment(0);
         dMsgObject_setTotalPrice(0);
         field_0x922 = dMsgObject_getTotalPayment();
         field_0x920 = dMsgObject_getTotalPrice();
