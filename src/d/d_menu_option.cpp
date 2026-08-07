@@ -299,6 +299,10 @@ void dMenu_Option_c::_create() {
 
     // Change Z Button color
     static_cast<J2DPicture*>(mpBackScreen->search('g_zbtn'))->setBlackWhite(JUtility::TColor(0, 19, 127, 0), JUtility::TColor(0x9b, 0x6e, 0xab, 255));
+
+
+    // Change Brightness screen A button color
+    static_cast<J2DPicture*>(mpTVScreen->search('a_btn1'))->setBlackWhite(JUtility::TColor(0, 19, 127, 0), JUtility::TColor(0x9b, 0x6e, 0xab, 255));
 }
 
 void dMenu_Option_c::_delete() {

@@ -3183,6 +3183,12 @@ void dFile_select_c::screenSet() {
     mpFadePict->setBlackWhite(black, white);
     mpFadePict->setAlpha(0);
     #endif
+
+    // Change A button color
+    static_cast<J2DPicture*>(fileSel.Scr->search('wabtn'))->setBlackWhite(JUtility::TColor(0, 19, 127, 0), JUtility::TColor(0x9b, 0x6e, 0xab, 255));
+
+    // Change B Button color
+    static_cast<J2DPicture*>(fileSel.Scr->search('wbbtn'))->setBlackWhite(JUtility::TColor(0, 19, 127, 0), JUtility::TColor(0x9b, 0x6e, 0xab, 255));
 }
 
 void dFile_select_c::screenSetCopySel() {

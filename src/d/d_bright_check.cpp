@@ -121,6 +121,9 @@ void dBrightCheck_c::screenSet() {
             mBrightCheck.mMsgString->getString(0x55B, check_text, NULL, NULL, NULL, 0);
         }
     }
+
+    // Change A button color
+    static_cast<J2DPicture*>(mBrightCheck.Scr->search('a_btn1'))->setBlackWhite(JUtility::TColor(0, 19, 127, 0), JUtility::TColor(0x9b, 0x6e, 0xab, 255));
 }
 
 typedef void (dBrightCheck_c::*procFunc)();

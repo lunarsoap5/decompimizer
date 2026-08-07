@@ -410,6 +410,12 @@ void dMenu_save_c::screenSet() {
     }
 
     mWarning = new dFile_warning_c(mpArchive, 0);
+
+        // Change A button color
+    static_cast<J2DPicture*>(mSaveSel.Scr->search('wabtn'))->setBlackWhite(JUtility::TColor(0, 19, 127, 0), JUtility::TColor(0x9b, 0x6e, 0xab, 255));
+
+    // Change B Button color
+    static_cast<J2DPicture*>(mSaveSel.Scr->search('wbbtn'))->setBlackWhite(JUtility::TColor(0, 19, 127, 0), JUtility::TColor(0x9b, 0x6e, 0xab, 255));
 }
 
 
