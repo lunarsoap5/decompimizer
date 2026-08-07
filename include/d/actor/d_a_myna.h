@@ -116,6 +116,7 @@ public:
     void setAnimeType(u8, f32);
     void playDefaultWaitAnime();
     void setDefaultWaitAnime(u8);
+    void dMsgObject_removeTotalPayment(s16);
     virtual ~daMyna_c() {}
 
     daMyna_c() {}

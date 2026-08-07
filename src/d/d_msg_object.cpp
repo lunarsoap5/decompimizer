@@ -2426,15 +2426,6 @@ void dMsgObject_setTotalPayment(u16 price) {
     dComIfGs_setEventReg(0xfbff, price & 0xff);
 }
 
-void dMsgObject_removeTotalPayment(u16 price) {
-    if (price > dMsgObject_getTotalPayment())
-    {
-        price = 0;
-    }
-    dComIfGs_setEventReg(0xfcff, (price & 0xff00) >> 8);
-    dComIfGs_setEventReg(0xfbff, price & 0xff);
-}
-
 void dMsgObject_addTotalPayment(s16 price) {
     dMsgObject_getMsgObjectClass()->addNowTotalPayment(price);
     price += dMsgObject_getTotalPayment();

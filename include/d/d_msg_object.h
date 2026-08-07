@@ -347,7 +347,6 @@ u16 dMsgObject_getTotalPrice();
 void dMsgObject_setTotalPrice(u16 param_0);
 u16 dMsgObject_getTotalPayment();
 void dMsgObject_setTotalPayment(u16 param_0);
-void dMsgObject_removeTotalPayment(u16 param_0);
 
 inline dMsgObject_c* dMsgObject_getMsgObjectClass() {
     return dComIfGp_getMsgObjectClass();

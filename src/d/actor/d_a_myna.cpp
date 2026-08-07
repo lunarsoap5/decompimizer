@@ -326,6 +326,15 @@ int daMyna_c::baseMotion06(int param_0) {
     return 1;
 }
 
+void daMyna_c::dMsgObject_removeTotalPayment(s16 price) {
+    if (price > dMsgObject_getTotalPayment())
+    {
+        price = 0;
+    }
+    dComIfGs_setEventReg(0xfcff, (price & 0xff00) >> 8);
+    dComIfGs_setEventReg(0xfbff, price & 0xff);
+}
+
 daMyna_c::BaseMotionFunc daMyna_c::mBaseMotionTBL[] = {
     &daMyna_c::baseMotion00, &daMyna_c::baseMotion01, &daMyna_c::baseMotion02,
     &daMyna_c::baseMotion03, &daMyna_c::baseMotion04, &daMyna_c::baseMotion05,

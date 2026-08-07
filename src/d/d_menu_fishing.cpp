@@ -358,6 +358,12 @@ void dMenu_Fishing_c::screenSetDoIcon() {
         mpAButtonString[i]->setString(0x20, "");
         mpBButtonString[i]->setString(0x20, "");
     }
+
+    // Change A button color
+    static_cast<J2DPicture*>(mpIconScreen->search('a_btn'))->setBlackWhite(JUtility::TColor(0, 19, 127, 0), JUtility::TColor(0x9b, 0x6e, 0xab, 255));
+
+    // Change B Button color
+    static_cast<J2DPicture*>(mpIconScreen->search('b_btn'))->setBlackWhite(JUtility::TColor(0, 19, 127, 0), JUtility::TColor(0x9b, 0x6e, 0xab, 255));
 }
 
 void dMenu_Fishing_c::setAButtonString(u16 i_stringID) {
