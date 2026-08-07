@@ -8,8 +8,38 @@
         "Subdirectory": "timg/"
       },
       {
-        // Custom Mirror Shard icon
-        "FileName": "zz_01_mirror_shard.bti",
+        // Custom Mirror Shard icon created by MelonSpeedruns
+        "FileName": "zz_01_mirror_shard1.bti",
+        "Subdirectory": "timg/"
+      },
+      {
+        // Custom Mirror Shard icon created by MelonSpeedruns
+        "FileName": "zz_02_mirror_shard2.bti",
+        "Subdirectory": "timg/"
+      },
+      {
+        // Custom Mirror Shard icon created by MelonSpeedruns
+        "FileName": "zz_03_mirror_shard3.bti",
+        "Subdirectory": "timg/"
+      },
+      {
+        // Custom Mirror Shard icon created by MelonSpeedruns
+        "FileName": "zz_04_mirror_shard4.bti",
+        "Subdirectory": "timg/"
+      },
+      {
+        // Custom Fused Shadow icon created by MelonSpeedruns
+        "FileName": "zz_05_fused_shadow1.bti",
+        "Subdirectory": "timg/"
+      },
+      {
+        // Custom Fused Shadow icon created by MelonSpeedruns
+        "FileName": "zz_06_fused_shadow2.bti",
+        "Subdirectory": "timg/"
+      },
+      {
+        // Custom Fused Shadow icon created by MelonSpeedruns
+        "FileName": "zz_07_fused_shadow3.bti",
         "Subdirectory": "timg/"
       }
     ]

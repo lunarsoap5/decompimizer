@@ -1394,7 +1394,7 @@ void dMeterButton_c::screenInitButton() {
     OS_REPORT("exit dMeterButton_c::screenInitButton\n");
 
     // Change A button color
-    static_cast<J2DPicture*>(mpButtonScreen->search('a_btn'))->setBlackWhite(JUtility::TColor(0, 19, 127, 0), JUtility::TColor(0x9b, 0x6e, 0xab, 255));
+    static_cast<J2DPicture*>(mpButtonScreen->search('a_btn1'))->setBlackWhite(JUtility::TColor(0, 19, 127, 0), JUtility::TColor(0x9b, 0x6e, 0xab, 255));
 
     // Change B Button color
     static_cast<J2DPicture*>(mpButtonScreen->search('b_btn'))->setBlackWhite(JUtility::TColor(0, 19, 127, 0), JUtility::TColor(0x9b, 0x6e, 0xab, 255));

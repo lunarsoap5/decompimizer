@@ -390,6 +390,13 @@ void daDitem_c::set_pos() {
             pos.y += 15.0f;
             break;
         }
+        case dItemNo_FUSED_SHADOW_1_e:
+        case dItemNo_FUSED_SHADOW_2_e:
+        case dItemNo_FUSED_SHADOW_3_e:
+        {
+            pos.y += 10.0f;
+            break;
+        }
         case dItemNo_MASTER_SWORD_e:
         case dItemNo_LIGHT_SWORD_e:
         {

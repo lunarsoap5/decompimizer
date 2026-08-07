@@ -2420,6 +2420,15 @@ dMenu_Fmap2DTop_c::dMenu_Fmap2DTop_c(JKRExpHeap* i_heap, STControl* i_stick) {
     mSelectRegionNo = 0xFF;
 
     setHIO(true);
+
+    // Change A button color
+        static_cast<J2DPicture*>(mpTitleScreen->search('a_btn'))->setBlackWhite(JUtility::TColor(0, 19, 127, 0), JUtility::TColor(0x9b, 0x6e, 0xab, 255));
+
+        // Change B Button color
+        static_cast<J2DPicture*>(mpTitleScreen->search('b_btn1'))->setBlackWhite(JUtility::TColor(0, 19, 127, 0), JUtility::TColor(0x9b, 0x6e, 0xab, 255));
+    
+        // Change Z Button color
+        static_cast<J2DPicture*>(mpTitleScreen->search('zbtn'))->setBlackWhite(JUtility::TColor(0, 19, 127, 0), JUtility::TColor(0x9b, 0x6e, 0xab, 255));
 }
 
 dMenu_Fmap2DTop_c::~dMenu_Fmap2DTop_c() {
