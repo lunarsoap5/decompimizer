@@ -2,22 +2,22 @@
 // Howl Screen
 //
 
-#include "d/dolzel.h" // IWYU pragma: keep
+#include "d/dolzel.h"  // IWYU pragma: keep
 
-#include "d/d_msg_scrn_howl.h"
-#include "m_Do/m_Do_controller_pad.h"
-#include "m_Do/m_Do_graphic.h"
-#include "d/d_msg_object.h"
-#include "d/d_pane_class.h"
+#include "JSystem/J2DGraph/J2DGrafContext.h"
+#include "JSystem/J2DGraph/J2DScreen.h"
+#include "JSystem/JUtility/JUTAssert.h"
+#include "JSystem/JUtility/JUTTexture.h"
+#include "Z2AudioLib/Z2WolfHowlMgr.h"
 #include "d/actor/d_a_alink.h"
 #include "d/d_meter2.h"
 #include "d/d_meter2_draw.h"
 #include "d/d_meter2_info.h"
-#include "JSystem/JUtility/JUTTexture.h"
-#include "JSystem/JUtility/JUTAssert.h"
-#include "JSystem/J2DGraph/J2DGrafContext.h"
-#include "JSystem/J2DGraph/J2DScreen.h"
-#include "Z2AudioLib/Z2WolfHowlMgr.h"
+#include "d/d_msg_object.h"
+#include "d/d_msg_scrn_howl.h"
+#include "d/d_pane_class.h"
+#include "m_Do/m_Do_controller_pad.h"
+#include "m_Do/m_Do_graphic.h"
 
 // POSIX already defines a macro with this name, but we know that this specific name is
 // used in TP based on assertion messages. This redefinition is scoped to this TU which
@@ -26,24 +26,20 @@
 #undef LINE_MAX
 #endif
 #define LINE_MAX 30
-//TODO: This is likely an enum value based on its name
+// TODO: This is likely an enum value based on its name
 #define PLOT_BUFFER_MAX_e 0x300
 
 typedef void (dMsgScrnHowl_c::*dMsgScrnHowl_cFunc)();
 
 static dMsgScrnHowl_cFunc init_proc[5] = {
-    &dMsgScrnHowl_c::guide_on_init,
-    &dMsgScrnHowl_c::guide_off_init,
-    &dMsgScrnHowl_c::guide_stop_init,
-    &dMsgScrnHowl_c::guide_demo_play_init,
+    &dMsgScrnHowl_c::guide_on_init,       &dMsgScrnHowl_c::guide_off_init,
+    &dMsgScrnHowl_c::guide_stop_init,     &dMsgScrnHowl_c::guide_demo_play_init,
     &dMsgScrnHowl_c::guide_off_test_init,
 };
 
 static dMsgScrnHowl_cFunc process[5] = {
-    &dMsgScrnHowl_c::guide_on_proc,
-    &dMsgScrnHowl_c::guide_off_proc,
-    &dMsgScrnHowl_c::guide_stop_proc,
-    &dMsgScrnHowl_c::guide_demo_play_proc,
+    &dMsgScrnHowl_c::guide_on_proc,       &dMsgScrnHowl_c::guide_off_proc,
+    &dMsgScrnHowl_c::guide_stop_proc,     &dMsgScrnHowl_c::guide_demo_play_proc,
     &dMsgScrnHowl_c::guide_off_test_proc,
 };
 
@@ -54,13 +50,18 @@ dMsgScrnHowl_c::dMsgScrnHowl_c() {
         MULTI_CHAR('ylinen04'),
     };
     static u64 tlinen_tag[7] = {
-        MULTI_CHAR('tlinen00'), MULTI_CHAR('tlinen01'), MULTI_CHAR('tlinen02'), MULTI_CHAR('tlinen03'), MULTI_CHAR('tlinen04'), MULTI_CHAR('tlinen05'), MULTI_CHAR('tlinen06'),
+        MULTI_CHAR('tlinen00'), MULTI_CHAR('tlinen01'), MULTI_CHAR('tlinen02'),
+        MULTI_CHAR('tlinen03'), MULTI_CHAR('tlinen04'), MULTI_CHAR('tlinen05'),
+        MULTI_CHAR('tlinen06'),
     };
     static u64 tline_tag[7] = {
-        MULTI_CHAR('tline00'), MULTI_CHAR('tline01'), MULTI_CHAR('tline02'), MULTI_CHAR('tline03'), MULTI_CHAR('tlinen04'), MULTI_CHAR('tline05'), MULTI_CHAR('tline06'),
+        MULTI_CHAR('tline00'),  MULTI_CHAR('tline01'), MULTI_CHAR('tline02'), MULTI_CHAR('tline03'),
+        MULTI_CHAR('tlinen04'), MULTI_CHAR('tline05'), MULTI_CHAR('tline06'),
     };
     static u64 tlines_tag[7] = {
-        MULTI_CHAR('tlines00'), MULTI_CHAR('tlines01'), MULTI_CHAR('tlines02'), MULTI_CHAR('tlines03'), MULTI_CHAR('tlines04'), MULTI_CHAR('tlines05'), MULTI_CHAR('tlines06'),
+        MULTI_CHAR('tlines00'), MULTI_CHAR('tlines01'), MULTI_CHAR('tlines02'),
+        MULTI_CHAR('tlines03'), MULTI_CHAR('tlines04'), MULTI_CHAR('tlines05'),
+        MULTI_CHAR('tlines06'),
     };
 
     init();
@@ -187,24 +188,28 @@ dMsgScrnHowl_c::dMsgScrnHowl_c() {
     field_0x27a0 = 0.0f;
     field_0x27a4 = 1.0f;
     field_0x27a8 = 0.0f;
-    ResTIMG const* res = (ResTIMG const*) dComIfGp_getMsgArchive(5)->getResource('TIMG', "tt_ginnouroko_s3tc.bti");
+    ResTIMG const* res =
+        (ResTIMG const*)dComIfGp_getMsgArchive(5)->getResource('TIMG', "tt_ginnouroko_s3tc.bti");
     mpDot = new J2DPicture(res);
     JUT_ASSERT(275, mpDot != NULL);
     mpDot->setWhite(JUtility::TColor(0xff, 0xff, 0x71, 0xff));
     res = (ResTIMG const*)dComIfGp_getMsgArchive(5)->getResource('TIMG', "tt_black_32.bti");
     mpGuideDot = new J2DPicture(res);
     JUT_ASSERT(280, mpGuideDot != NULL);
-    mpGuideDot->setBlackWhite(((J2DPicture*)mpScreen->search(MULTI_CHAR('line00')))->getBlack(), ((J2DPicture*)mpScreen->search(MULTI_CHAR('line00')))->getWhite());
+    mpGuideDot->setBlackWhite(((J2DPicture*)mpScreen->search(MULTI_CHAR('line00')))->getBlack(),
+                              ((J2DPicture*)mpScreen->search(MULTI_CHAR('line00')))->getWhite());
     res = (ResTIMG const*)dComIfGp_getMain2DArchive()->getResource('TIMG', "tt_iastarRR.bti");
     mpTopBall = new J2DPicture(res);
     JUT_ASSERT(287, mpTopBall != NULL);
-    mpTopBall->setBlackWhite(g_MsgObject_HIO_c.mHowlHIO.mDotBlack, g_MsgObject_HIO_c.mHowlHIO.mDotWhite);
-    
+    mpTopBall->setBlackWhite(g_MsgObject_HIO_c.mHowlHIO.mDotBlack,
+                             g_MsgObject_HIO_c.mHowlHIO.mDotWhite);
+
     ;
     for (int i = 0; i < 5; i++) {
         mpTopBallTail[i] = new J2DPicture(res);
         JUT_ASSERT(292, mpTopBallTail[i] != NULL);
-        mpTopBallTail[i]->setBlackWhite(g_MsgObject_HIO_c.mHowlHIO.mDotBlack, g_MsgObject_HIO_c.mHowlHIO.mDotWhite);
+        mpTopBallTail[i]->setBlackWhite(g_MsgObject_HIO_c.mHowlHIO.mDotBlack,
+                                        g_MsgObject_HIO_c.mHowlHIO.mDotWhite);
     }
     field_0x2134 = 0;
     field_0x1988 = mpScreen->search(MULTI_CHAR('line00'))->getWidth();
@@ -227,6 +232,10 @@ dMsgScrnHowl_c::dMsgScrnHowl_c() {
         field_0x2138 = getGuideDataSize();
     }
     resetLine();
+
+    // Change A button color
+    static_cast<J2DPicture*>(mpScreen->search('abtn'))
+        ->setBlackWhite(JUtility::TColor(0, 19, 127, 0), JUtility::TColor(0x9b, 0x6e, 0xab, 255));
 }
 
 dMsgScrnHowl_c::~dMsgScrnHowl_c() {
@@ -266,7 +275,8 @@ dMsgScrnHowl_c::~dMsgScrnHowl_c() {
     }
     delete mpWaveTex;
     mpWaveTex = NULL;
-    dComIfGp_getMsgArchive(5)->removeResourceAll();;
+    dComIfGp_getMsgArchive(5)->removeResourceAll();
+    ;
 }
 
 void dMsgScrnHowl_c::exec() {
@@ -280,7 +290,7 @@ void dMsgScrnHowl_c::exec() {
     if (field_0x2799 != field_0x2798) {
         (this->*init_proc[field_0x2798])();
     }
-    
+
     f32 alphaRate = mpPmP_c->getAlphaRate();
     f32 fVar1;
     f32 fVar2;
@@ -326,8 +336,7 @@ void dMsgScrnHowl_c::drawSelf() {
     grafContext->setScissor();
 }
 
-void dMsgScrnHowl_c::guide_on_init() {
-}
+void dMsgScrnHowl_c::guide_on_init() {}
 
 void dMsgScrnHowl_c::guide_on_proc() {
     if (daAlink_getAlinkActorClass()->getWolfHowlTimer() == 0) {
@@ -346,8 +355,7 @@ void dMsgScrnHowl_c::guide_on_proc() {
     }
 }
 
-void dMsgScrnHowl_c::guide_off_init() {
-}
+void dMsgScrnHowl_c::guide_off_init() {}
 
 void dMsgScrnHowl_c::guide_off_proc() {
     calcMain();
@@ -360,8 +368,7 @@ void dMsgScrnHowl_c::guide_off_proc() {
     resetLine();
 }
 
-void dMsgScrnHowl_c::guide_stop_init() {
-}
+void dMsgScrnHowl_c::guide_stop_init() {}
 
 void dMsgScrnHowl_c::guide_stop_proc() {
     field_0x180[field_0x2124] =
@@ -393,7 +400,8 @@ void dMsgScrnHowl_c::guide_demo_play_proc() {
     if (mPlotTime == 30) {
         startGuideMelody = true;
     }
-    field_0x17c = daAlink_getAlinkActorClass()->getWolfHowlMgrP()->startGuideMelody(startGuideMelody);
+    field_0x17c =
+        daAlink_getAlinkActorClass()->getWolfHowlMgrP()->startGuideMelody(startGuideMelody);
     if (mPlotTime >= 30) {
         if (field_0x17c == 0) {
             if (field_0x279a != 0) {
@@ -406,14 +414,11 @@ void dMsgScrnHowl_c::guide_demo_play_proc() {
     }
 }
 
-void dMsgScrnHowl_c::guide_off_test_init() {
-}
+void dMsgScrnHowl_c::guide_off_test_init() {}
 
-void dMsgScrnHowl_c::guide_off_test_proc() {
-}
+void dMsgScrnHowl_c::guide_off_test_proc() {}
 
-void dMsgScrnHowl_c::fukiScale(f32 param_0) {
-}
+void dMsgScrnHowl_c::fukiScale(f32 param_0) {}
 
 void dMsgScrnHowl_c::fukiTrans(f32 param_0, f32 param_1) {
     mpPmP_c->paneTrans(param_0, param_1);
@@ -468,7 +473,7 @@ void dMsgScrnHowl_c::drawWave() {
     f32 local_e4 = field_0x180[sVar14];
     s32 uVar6 = g_MsgObject_HIO_c.mHowlHIO.mWaveformDotLen;
     s32 local_80 = field_0x2128 - 1 - uVar6;
-    f32 fVar4 =  (30 - daAlink_getAlinkActorClass()->getWolfHowlMgrP()->getReleaseTimer()) / 30.0f;
+    f32 fVar4 = (30 - daAlink_getAlinkActorClass()->getWolfHowlMgrP()->getReleaseTimer()) / 30.0f;
     if (local_80 < 0) {
         local_80 = 0;
     }
@@ -477,12 +482,9 @@ void dMsgScrnHowl_c::drawWave() {
     Vec this_02 = field_0x140;
     f32 fVar1 = mDoGph_gInf_c::getWidthF() / FB_WIDTH;
     f32 fVar2 = mDoGph_gInf_c::getHeightF() / FB_HEIGHT;
-    grafContext->scissor(
-        (fVar12.x - mDoGph_gInf_c::getMinXF()) / fVar1 - 16.0f,
-        (fVar12.y / fVar2) / fVar2 - 16.0f,
-        32.0f + (this_02.x - fVar12.x) / fVar1,
-        32.0f + ((this_02.y - fVar12.y) + 2.0f)
-        );
+    grafContext->scissor((fVar12.x - mDoGph_gInf_c::getMinXF()) / fVar1 - 16.0f,
+                         (fVar12.y / fVar2) / fVar2 - 16.0f, 32.0f + (this_02.x - fVar12.x) / fVar1,
+                         32.0f + ((this_02.y - fVar12.y) + 2.0f));
     grafContext->setScissor();
     bool bVar5 = true;
     if (field_0x2798 == 0) {
@@ -527,9 +529,8 @@ void dMsgScrnHowl_c::drawWave() {
                         f32 f17 = (fVar2 - local_c8) / 5.0f;
                         for (int iVar15 = 0; iVar15 < 5; iVar15++) {
                             mpTopBallTail[iVar15]->setAlpha(cVar9);
-                            mpTopBallTail[iVar15]->draw(local_c4 - fVar8 / 2,
-                                                        local_c8 - fVar9 / 2, fVar8, fVar9,
-                                                        false, false, false);
+                            mpTopBallTail[iVar15]->draw(local_c4 - fVar8 / 2, local_c8 - fVar9 / 2,
+                                                        fVar8, fVar9, false, false, false);
                             local_c4 += f19;
                             local_c8 += f17;
                         }
@@ -565,10 +566,8 @@ void dMsgScrnHowl_c::drawWave() {
             }
             if (local_dc > 0.0f) {
                 mpTopBall->setAlpha(255.0f * local_dc * fVar4);
-                mpTopBall->draw(
-                    f17 - fVar1 / 2,
-                    f18 - fVar2 / 2, fVar1,
-                    fVar2, false, false, false);
+                mpTopBall->draw(f17 - fVar1 / 2, f18 - fVar2 / 2, fVar1, fVar2, false, false,
+                                false);
             }
         }
     }
@@ -619,7 +618,7 @@ void dMsgScrnHowl_c::drawGuide() {
                 TStack_114.set(0xff, 0xff, 0xff, 0xff);
                 f32 local_118;
                 f32 local_11c;
-                switch(dVar4) {
+                switch (dVar4) {
                 case 1:
                     local_108.set(g_MsgObject_HIO_c.mHowlHIO.mGuideUpperBlack);
                     local_110.set(g_MsgObject_HIO_c.mHowlHIO.mAnswerUpperBlack);
@@ -683,8 +682,8 @@ void dMsgScrnHowl_c::drawGuide() {
                 }
             }
             if (dVar16 > 0.0f) {
-                mpGuideDot->setAlpha(
-                    dVar16 * (mpScreen->search(MULTI_CHAR('line00'))->getAlpha() * mpPmP_c->getAlphaRate()));
+                mpGuideDot->setAlpha(dVar16 * (mpScreen->search(MULTI_CHAR('line00'))->getAlpha() *
+                                               mpPmP_c->getAlphaRate()));
                 mpGuideDot->draw((2.0f + (local_f0 - local_f8 / 2)), (local_f4 - local_fc / 2),
                                  local_f8, local_fc, false, false, false);
             }
@@ -780,9 +779,9 @@ void dMsgScrnHowl_c::drawGuide2() {
                 }
             }
             if (guideAlpha > 0.0f && local_94 > 0.0f) {
-                mpGuideDot->setAlpha(local_94 *
-                                     (guideAlpha * (mpScreen->search(MULTI_CHAR('line00'))->getAlpha() *
-                                                    mpPmP_c->getAlphaRate())));
+                mpGuideDot->setAlpha(
+                    local_94 * (guideAlpha * (mpScreen->search(MULTI_CHAR('line00'))->getAlpha() *
+                                              mpPmP_c->getAlphaRate())));
                 mpGuideDot->draw(2.0f + (local_a0 - local_a8 / 2), local_a4 - local_ac / 2,
                                  local_a8, local_ac, false, false, false);
             }
@@ -816,8 +815,9 @@ void dMsgScrnHowl_c::drawEffect() {
     Vec vec2 = field_0x140;
     mDoGph_gInf_c::getHeightF();
     grafContext->scissor(
-        (vec1.x - mDoGph_gInf_c::getMinXF()) / (mDoGph_gInf_c::getWidthF() / FB_WIDTH), field_0x2118,
-        12.0f + ((vec2.x - vec1.x) / (mDoGph_gInf_c::getWidthF() / FB_WIDTH)), field_0x2120);
+        (vec1.x - mDoGph_gInf_c::getMinXF()) / (mDoGph_gInf_c::getWidthF() / FB_WIDTH),
+        field_0x2118, 12.0f + ((vec2.x - vec1.x) / (mDoGph_gInf_c::getWidthF() / FB_WIDTH)),
+        field_0x2120);
     grafContext->setScissor();
     u8 timer = daAlink_getAlinkActorClass()->getWolfHowlMgrP()->getReleaseTimer();
     u8 screenAlpha = mpScreen->search(MULTI_CHAR('line00'))->getAlpha();
@@ -862,7 +862,9 @@ void dMsgScrnHowl_c::calcWave() {
     }
     if (field_0x2798 != 3) {
         s8 i_onNum = daAlink_getAlinkActorClass()->getOnLineNum();
-        if (i_onNum >= 0 && mPlotTime >= 30 && daAlink_getAlinkActorClass()->getWolfHowlTimer() != 0) {
+        if (i_onNum >= 0 && mPlotTime >= 30 &&
+            daAlink_getAlinkActorClass()->getWolfHowlTimer() != 0)
+        {
             JUT_ASSERT(1439, i_onNum < LINE_MAX);
             JUT_ASSERT(1439, mPlotTime <= PLOT_BUFFER_MAX_e);
             field_0x2158[i_onNum]++;
@@ -872,7 +874,8 @@ void dMsgScrnHowl_c::calcWave() {
         }
     }
 
-    field_0x180[field_0x2132] = getNowPlotPitch(-daAlink_getAlinkActorClass()->getWolfHowlMgrP()->getNowInputValue());
+    field_0x180[field_0x2132] =
+        getNowPlotPitch(-daAlink_getAlinkActorClass()->getWolfHowlMgrP()->getNowInputValue());
     field_0x1b14[field_0x2132] = g_MsgObject_HIO_c.mHowlHIO.mWaveformDotLen;
 }
 
@@ -915,7 +918,8 @@ void dMsgScrnHowl_c::moveLineV(bool param_0) {
         fVar1 = (mpLineV[0]->getCenterPosX() - mpLineV[0]->getInitCenterPosX());
         fVar1 -= field_0x1980;
     }
-    f32 dVar8 = (mpLineV[0]->getInitCenterPosX() - mpLineV[1]->getInitCenterPosX()) - g_MsgObject_HIO_c.mHowlHIO.mLineSpaceOffset;
+    f32 dVar8 = (mpLineV[0]->getInitCenterPosX() - mpLineV[1]->getInitCenterPosX()) -
+                g_MsgObject_HIO_c.mHowlHIO.mLineSpaceOffset;
     if (fVar1 < dVar7) {
         fVar1 -= dVar8;
     }
@@ -991,9 +995,11 @@ s16 dMsgScrnHowl_c::addCountGuide(s16 param_0) {
 f32 dMsgScrnHowl_c::getNowPlotPitch(f32 param_0) {
     if (param_0 < 0.0f) {
         param_0 *= -1.0f;
-        return mpLineH[1]->getGlobalCenterPosY() + (param_0 * (mpLineH[0]->getGlobalCenterPosY() - mpLineH[1]->getGlobalCenterPosY()));
+        return mpLineH[1]->getGlobalCenterPosY() +
+               (param_0 * (mpLineH[0]->getGlobalCenterPosY() - mpLineH[1]->getGlobalCenterPosY()));
     }
-    return mpLineH[1]->getGlobalCenterPosY() + (param_0 * (mpLineH[2]->getGlobalCenterPosY() -  mpLineH[1]->getGlobalCenterPosY()));
+    return mpLineH[1]->getGlobalCenterPosY() +
+           (param_0 * (mpLineH[2]->getGlobalCenterPosY() - mpLineH[1]->getGlobalCenterPosY()));
 }
 
 f32 dMsgScrnHowl_c::getPlotPitch(f32 param_0) {

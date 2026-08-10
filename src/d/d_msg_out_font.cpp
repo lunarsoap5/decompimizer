@@ -1,10 +1,10 @@
-#include "d/dolzel.h" // IWYU pragma: keep
+#include "d/dolzel.h"  // IWYU pragma: keep
 
-#include "d/d_msg_out_font.h"
 #include "JSystem/J2DGraph/J2DTextBox.h"
 #include "JSystem/JUtility/JUTTexture.h"
 #include "d/d_meter2_info.h"
 #include "d/d_msg_object.h"
+#include "d/d_msg_out_font.h"
 #include "f_op/f_op_msg_mng.h"
 
 COutFontSet_c::COutFontSet_c() {
@@ -31,8 +31,13 @@ void COutFontSet_c::drawFont(J2DTextBox* i_textbox, u8 i_type, f32 i_posX, f32 i
     mSizeX = i_sizeX;
     mSizeY = i_sizeY;
     mAlpha = i_alpha;
-    mColor = i_color;
     mType = i_type;
+    if (mType == 0x1B)  // Heart Icon
+    {
+        mColor = JUtility::TColor(0x9b, 0x6e, 0xab, 255);
+    } else {
+        mColor = i_color;
+    }
 }
 
 COutFont_c::COutFont_c(u8 param_0) {
@@ -99,25 +104,30 @@ void COutFont_c::createPane() {
         switch (i) {
         // A Button
         case 0:
-            mpPane[i]->setBlackWhite(JUtility::TColor(0, 19, 127, 0), JUtility::TColor(0x9b, 0x6e, 0xab, 255));
+            mpPane[i]->setBlackWhite(JUtility::TColor(0, 19, 127, 0),
+                                     JUtility::TColor(0x9b, 0x6e, 0xab, 255));
             break;
         // B Button
         case 1:
-            mpPane[i]->setBlackWhite(JUtility::TColor(0, 19, 127, 0), JUtility::TColor(0x9b, 0x6e, 0xab, 255));
+            mpPane[i]->setBlackWhite(JUtility::TColor(0, 19, 127, 0),
+                                     JUtility::TColor(0x9b, 0x6e, 0xab, 255));
             break;
         // B Button
         case 2:
-            mpPane[i]->setBlackWhite(JUtility::TColor(0, 19, 127, 0), JUtility::TColor(0x9b, 0x6e, 0xab, 255));
+            mpPane[i]->setBlackWhite(JUtility::TColor(0, 19, 127, 0),
+                                     JUtility::TColor(0x9b, 0x6e, 0xab, 255));
             break;
         case 3:
         case 4:
         // X Button
         case 5:
-            mpPane[i]->setBlackWhite(JUtility::TColor(0, 19, 127, 0), JUtility::TColor(0x9b, 0x6e, 0xab, 255));
+            mpPane[i]->setBlackWhite(JUtility::TColor(0, 19, 127, 0),
+                                     JUtility::TColor(0x9b, 0x6e, 0xab, 255));
             break;
         // Y Button
         case 6:
-            mpPane[i]->setBlackWhite(JUtility::TColor(0, 19, 127, 0), JUtility::TColor(0x9b, 0x6e, 0xab, 255));
+            mpPane[i]->setBlackWhite(JUtility::TColor(0, 19, 127, 0),
+                                     JUtility::TColor(0x9b, 0x6e, 0xab, 255));
             break;
         case 8:
             if (field_0x242 == 0x1) {
@@ -159,7 +169,8 @@ void COutFont_c::createPane() {
             break;
         // A Button - Action
         case 0x17:
-            mpPane[i]->setBlackWhite(JUtility::TColor(0, 19, 127, 0), JUtility::TColor(0x9b, 0x6e, 0xab, 255));
+            mpPane[i]->setBlackWhite(JUtility::TColor(0, 19, 127, 0),
+                                     JUtility::TColor(0x9b, 0x6e, 0xab, 255));
             break;
         case 0x18:
             mpPane[i]->setBlackWhite(JUtility::TColor(0, 0, 0, 0),
@@ -175,7 +186,8 @@ void COutFont_c::createPane() {
             break;
         // Heart
         case 0x1b:
-            mpPane[i]->setBlackWhite(JUtility::TColor(0, 19, 127, 0), JUtility::TColor(0x9b, 0x6e, 0xab, 255));
+            mpPane[i]->setBlackWhite(JUtility::TColor(0, 19, 127, 0),
+                                     JUtility::TColor(0x9b, 0x6e, 0xab, 255));
             break;
         case 0x1c:
         case 0x2b:

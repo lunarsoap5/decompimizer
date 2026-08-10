@@ -3,17 +3,17 @@
  * UI Epona Dash Spurs
  */
 
-#include "d/dolzel.h" // IWYU pragma: keep
+#include "d/dolzel.h"  // IWYU pragma: keep
 
-#include "d/d_meter_hakusha.h"
+#include <cstring>
 #include "JSystem/J2DGraph/J2DGrafContext.h"
 #include "JSystem/J2DGraph/J2DScreen.h"
 #include "d/d_com_inf_game.h"
 #include "d/d_meter2_draw.h"
 #include "d/d_meter2_info.h"
 #include "d/d_meter_HIO.h"
+#include "d/d_meter_hakusha.h"
 #include "d/d_pane_class.h"
-#include <cstring>
 
 dMeterHakusha_c::dMeterHakusha_c(void* i_screen) {
     field_0x004 = (J2DScreen*)i_screen;
@@ -26,7 +26,8 @@ dMeterHakusha_c::~dMeterHakusha_c() {
 
 int dMeterHakusha_c::_create() {
     static u64 haku_tag[] = {
-        MULTI_CHAR('haku_n00'), MULTI_CHAR('haku_n01'), MULTI_CHAR('haku_n02'), MULTI_CHAR('haku_n03'), MULTI_CHAR('haku_n04'), MULTI_CHAR('haku_n05'),
+        MULTI_CHAR('haku_n00'), MULTI_CHAR('haku_n01'), MULTI_CHAR('haku_n02'),
+        MULTI_CHAR('haku_n03'), MULTI_CHAR('haku_n04'), MULTI_CHAR('haku_n05'),
     };
 
     for (int i = 0; i < 6; i++) {
@@ -98,6 +99,10 @@ int dMeterHakusha_c::_create() {
 
     mButtonAPosX = 0.0f;
     mButtonAPosY = 0.0f;
+
+    // Change A button color
+    static_cast<J2DPicture*>(mpButtonScreen->search('a_btn1'))
+        ->setBlackWhite(JUtility::TColor(0, 19, 127, 0), JUtility::TColor(0x9b, 0x6e, 0xab, 255));
     return cPhs_COMPLEATE_e;
 }
 
@@ -141,8 +146,7 @@ void dMeterHakusha_c::draw() {
                     g_drawHIO.mSpurIconPikariBackOuter, g_drawHIO.mSpurIconPikariBackInner);
             } else {
                 dMeter2Info_getMeterClass()->getMeterDrawPtr()->drawPikariHakusha(
-                    center.x, center.y, mHakushaAnimFrame[i],
-                    g_drawHIO.mSpurIconRevivePikariScale,
+                    center.x, center.y, mHakushaAnimFrame[i], g_drawHIO.mSpurIconRevivePikariScale,
                     g_drawHIO.mSpurIconRevivePikariFrontOuter,
                     g_drawHIO.mSpurIconRevivePikariFrontInner,
                     g_drawHIO.mSpurIconRevivePikariBackOuter,

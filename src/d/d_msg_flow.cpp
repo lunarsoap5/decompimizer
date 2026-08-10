@@ -1,23 +1,23 @@
-#include "d/dolzel.h" // IWYU pragma: keep
+#include "d/dolzel.h"  // IWYU pragma: keep
 
-#include "d/d_msg_flow.h"
+#include <cstring>
+#include "SSystem/SComponent/c_math.h"
 #include "d/actor/d_a_alink.h"
-#include "d/d_com_static.h"
-#include "d/d_item.h"
-#include "d/d_msg_object.h"
-#include "d/d_shop_system.h"
-#include "d/d_meter2_info.h"
-#include "f_op/f_op_msg_mng.h"
-#include "m_Do/m_Do_graphic.h"
 #include "d/actor/d_a_midna.h"
 #include "d/actor/d_a_myna.h"
 #include "d/actor/d_a_obj_ss_base.h"
-#include "rando/rando.h"
-#include "rando/tools/tools.h"
+#include "d/d_com_static.h"
+#include "d/d_item.h"
+#include "d/d_meter2_info.h"
+#include "d/d_msg_flow.h"
+#include "d/d_msg_object.h"
+#include "d/d_shop_system.h"
+#include "f_op/f_op_msg_mng.h"
+#include "m_Do/m_Do_graphic.h"
 #include "rando/data/stages.h"
+#include "rando/rando.h"
 #include "rando/seed/seed.h"
-#include "SSystem/SComponent/c_math.h"
-#include <cstring>
+#include "rando/tools/tools.h"
 
 dMsgFlow_c::dMsgFlow_c() {
     mNonStopJunpFlowFlag = 0;
@@ -26,7 +26,8 @@ dMsgFlow_c::dMsgFlow_c() {
 
 dMsgFlow_c::~dMsgFlow_c() {}
 
-void dMsgFlow_c::init(fopAc_ac_c* i_partner, int i_flowID, int param_2, fopAc_ac_c** i_talkPartners) {
+void dMsgFlow_c::init(fopAc_ac_c* i_partner, int i_flowID, int param_2,
+                      fopAc_ac_c** i_talkPartners) {
     if (!dMsgObject_isTalkNowCheck()) {
         if (i_talkPartners == NULL) {
             dComIfGp_setMesgCameraInfoActor(NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
@@ -44,7 +45,7 @@ void dMsgFlow_c::init(fopAc_ac_c* i_partner, int i_flowID, int param_2, fopAc_ac
 
         if (param_2 == 0) {
             setInitValue(1);
-            
+
             mFlow_p = getMsgDataBlock("FLW1");
             JUT_ASSERT(121, NULL != mFlow_p);
 
@@ -80,7 +81,8 @@ void dMsgFlow_c::init(fopAc_ac_c* i_partner, int i_flowID, int param_2, fopAc_ac
     }
 }
 
-void dMsgFlow_c::initWord(fopAc_ac_c* i_partner, const char* i_word, u8 i_outputType, int param_3, fopAc_ac_c** param_4) {
+void dMsgFlow_c::initWord(fopAc_ac_c* i_partner, const char* i_word, u8 i_outputType, int param_3,
+                          fopAc_ac_c** param_4) {
     int flowID = 0x1324;
     dMsgObject_setWord(i_word);
     dMsgObject_setSelectWord(0, "");
@@ -113,7 +115,7 @@ int dMsgFlow_c::checkOpenDoor(fopAc_ac_c* i_speaker_p, int* param_2) {
     while ((nodeIdx != 0xFFFF && !var_r27) && !var_r25) {
         u8 type = mFlowNodeTBL[nodeIdx].message.type;
 
-        switch(type) {
+        switch (type) {
         case NODETYPE_MESSAGE_e: {
             msg_node = &mFlowNodeTBL[nodeIdx].message;
             nodeIdx = msg_node->next_node_idx;
@@ -123,7 +125,7 @@ int dMsgFlow_c::checkOpenDoor(fopAc_ac_c* i_speaker_p, int* param_2) {
         case NODETYPE_BRANCH_e: {
             branch_node = (mesg_flow_node_branch*)&mFlowNodeTBL[nodeIdx].branch;
 
-            switch(branch_node->query_idx) {
+            switch (branch_node->query_idx) {
             case 0:
             case 4:
             case 7:
@@ -134,7 +136,8 @@ int dMsgFlow_c::checkOpenDoor(fopAc_ac_c* i_speaker_p, int* param_2) {
                 break;
             }
 
-            u16 query_ret = (this->*mQueryList[branch_node->query_idx])(branch_node, i_speaker_p, 0);
+            u16 query_ret =
+                (this->*mQueryList[branch_node->query_idx])(branch_node, i_speaker_p, 0);
             u16 spE = branch_node->next_node_idx + query_ret;
             nodeIdx = mFlowIdxTBL[spE];
             break;
@@ -142,7 +145,7 @@ int dMsgFlow_c::checkOpenDoor(fopAc_ac_c* i_speaker_p, int* param_2) {
         case NODETYPE_EVENT_e: {
             event_node = &mFlowNodeTBL[nodeIdx].event;
 
-            switch(event_node->event_idx) {
+            switch (event_node->event_idx) {
             case 12:
                 var_r27 = TRUE;
                 break;
@@ -474,7 +477,7 @@ int dMsgFlow_c::setSelectMsg(mesg_flow_node* i_flowNode_p, mesg_flow_node* param
         OS_REPORT("flow:%d, msg:%d(%d), speaker:NULL\n", mFlow, msg_no, temp_r25);
     }
 #endif
-    
+
     if (mMsg != fpcM_ERROR_PROCESS_ID_e) {
         msg_class* aMsg_p = NULL;
         aMsg_p = fopMsgM_SearchByID(mMsg);
@@ -518,7 +521,7 @@ int dMsgFlow_c::setNormalMsg(mesg_flow_node* i_flowNode_p, fopAc_ac_c* i_speaker
         OS_REPORT("flow:%d, msg:%d, speaker:NULL\n", mFlow, msg_no);
     }
 #endif
-    
+
     if (mMsg != fpcM_ERROR_PROCESS_ID_e) {
         msg_class* aMsg_p = NULL;
         aMsg_p = fopMsgM_SearchByID(mMsg);
@@ -551,20 +554,27 @@ int dMsgFlow_c::messageNodeProc(fopAc_ac_c* i_speaker_p, fopAc_ac_c** i_talkPart
             u16 aNextNodeIndex = flowNode_p->next_node_idx;
             JUT_ASSERT(1051, 0xFFFF != aNextNodeIndex);
 
-            if (mSelType == SELTYPE_VERTICAL_e && mFlowNodeTBL[aNextNodeIndex].message.type == NODETYPE_MESSAGE_e) {
+            if (mSelType == SELTYPE_VERTICAL_e &&
+                mFlowNodeTBL[aNextNodeIndex].message.type == NODETYPE_MESSAGE_e)
+            {
                 JUT_ASSERT(1056, NODETYPE_MESSAGE_e == mFlowNodeTBL[aNextNodeIndex].message.type);
-                if (setSelectMsg(&mFlowNodeTBL[mNodeIdx].message, &mFlowNodeTBL[aNextNodeIndex].message, i_speaker_p)) {
+                if (setSelectMsg(&mFlowNodeTBL[mNodeIdx].message,
+                                 &mFlowNodeTBL[aNextNodeIndex].message, i_speaker_p))
+                {
                     mNodeIdx = aNextNodeIndex;
                     mSelType = SELTYPE_NONE_e;
                     field_0x25 = 0;
                 }
-            } else if (mSelType == SELTYPE_HORIZONTAL_e && mFlowNodeTBL[aNextNodeIndex].message.type == NODETYPE_BRANCH_e) {
+            } else if (mSelType == SELTYPE_HORIZONTAL_e &&
+                       mFlowNodeTBL[aNextNodeIndex].message.type == NODETYPE_BRANCH_e)
+            {
                 if (setNormalMsg(&mFlowNodeTBL[mNodeIdx].message, i_speaker_p)) {
                     mSelType = SELTYPE_NONE_e;
                     field_0x25 = 0;
                 }
             } else {
-                OS_REPORT("★sel select mesg ===> %d, %d, %d\n", mSelType, aNextNodeIndex, mFlowNodeTBL[aNextNodeIndex].message.type);
+                OS_REPORT("★sel select mesg ===> %d, %d, %d\n", mSelType, aNextNodeIndex,
+                          mFlowNodeTBL[aNextNodeIndex].message.type);
                 JUT_ASSERT(1077, FALSE);
             }
         } else {
@@ -618,7 +628,9 @@ int dMsgFlow_c::messageNodeProc(fopAc_ac_c* i_speaker_p, fopAc_ac_c** i_talkPart
             setNodeIndex(flowNode_p->next_node_idx, i_talkPartners);
 
             mesg_flow_node* var_r26 = &mFlowNodeTBL[flowNode_p->next_node_idx].message;
-            if (var_r26->field_0x1 == 0x15 || var_r26->field_0x1 == 0x20 || var_r26->field_0x1 == 0x21) {
+            if (var_r26->field_0x1 == 0x15 || var_r26->field_0x1 == 0x20 ||
+                var_r26->field_0x1 == 0x21)
+            {
                 return 0;
             }
 
@@ -663,10 +675,12 @@ int dMsgFlow_c::eventNodeProc(fopAc_ac_c* i_speaker_p, fopAc_ac_c** i_talkPartne
             int msgNum;
             /*
             if (daAlink_getAlinkActorClass()->getMidnaMsgNum() == 0xFFFF) {
-                msgNum = dStage_FileList_dt_GetMsg(dComIfGp_roomControl_getStatusRoomDt(dComIfGp_roomControl_getStayNo())->getFileListInfo());
+                msgNum =
+            dStage_FileList_dt_GetMsg(dComIfGp_roomControl_getStatusRoomDt(dComIfGp_roomControl_getStayNo())->getFileListInfo());
             }*/
-            // We want midna to use the same starting message ID so we can consistently modify her text.
-            msgNum = 0xbb8; //daAlink_getAlinkActorClass()->getMidnaMsgNum();
+            // We want midna to use the same starting message ID so we can consistently modify her
+            // text.
+            msgNum = 0xbb8;  // daAlink_getAlinkActorClass()->getMidnaMsgNum();
             daAlink_getAlinkActorClass()->setMidnaMsg();
 
             setInitValueGroupChange(msgNum, i_talkPartners);
@@ -768,14 +782,14 @@ queryFunc dMsgFlow_c::mQueryList[56] = {
     &dMsgFlow_c::query041, &dMsgFlow_c::query042, &dMsgFlow_c::query043, &dMsgFlow_c::query044,
     &dMsgFlow_c::query045, &dMsgFlow_c::query046, &dMsgFlow_c::query047, &dMsgFlow_c::query048,
     &dMsgFlow_c::query049, &dMsgFlow_c::query050, &dMsgFlow_c::query051, &dMsgFlow_c::query052,
-    &dMsgFlow_c::query053, &dMsgFlow_c::query054, &dMsgFlow_c::query055, &dMsgFlow_c::query056
-};
+    &dMsgFlow_c::query053, &dMsgFlow_c::query054, &dMsgFlow_c::query055, &dMsgFlow_c::query056};
 
 #if DEBUG
 void dMsgFlow_c::dbgPrint() {}
 #endif
 
-u16 dMsgFlow_c::query001(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_speaker_p, int param_2) {
+u16 dMsgFlow_c::query001(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_speaker_p,
+                         int param_2) {
     const u16 prm0 = i_flowNode_p->param;
     u16 ret = dComIfGs_isEventBit(dSv_event_flag_c::saveBitLabels[prm0]) == false;
 
@@ -788,11 +802,14 @@ u16 dMsgFlow_c::query001(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_spea
     return ret;
 }
 
-u16 dMsgFlow_c::query002(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_speaker_p, int param_2) {
+u16 dMsgFlow_c::query002(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_speaker_p,
+                         int param_2) {
     u16 ret;
     if (daPy_py_c::checkNowWolf()) {
         ret = 1;
-    } else if (daPy_getPlayerActorClass()->checkHorseRide() || daPy_getPlayerActorClass()->checkBoarRide()) {
+    } else if (daPy_getPlayerActorClass()->checkHorseRide() ||
+               daPy_getPlayerActorClass()->checkBoarRide())
+    {
         ret = 2;
     } else {
         ret = 0;
@@ -807,7 +824,8 @@ u16 dMsgFlow_c::query002(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_spea
     return ret;
 }
 
-u16 dMsgFlow_c::query003(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_speaker_p, int param_2) {
+u16 dMsgFlow_c::query003(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_speaker_p,
+                         int param_2) {
     const u16 prm0 = i_flowNode_p->param;
     u16 ret = cM_rndF(prm0);
 
@@ -820,8 +838,8 @@ u16 dMsgFlow_c::query003(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_spea
     return ret;
 }
 
-
-u16 dMsgFlow_c::query004(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_speaker_p, int param_2) {
+u16 dMsgFlow_c::query004(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_speaker_p,
+                         int param_2) {
     const u16 prm0 = i_flowNode_p->param;
     u16 ret;
 
@@ -837,10 +855,11 @@ u16 dMsgFlow_c::query004(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_spea
         OS_REPORT("flow:%d, ret:%d, prm0:%d\n", mFlow, ret, prm0);
     }
 
-    return ret;    
+    return ret;
 }
 
-u16 dMsgFlow_c::query005(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_speaker_p, int param_2) {
+u16 dMsgFlow_c::query005(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_speaker_p,
+                         int param_2) {
     msg_class* aMsg_p = fopMsgM_SearchByID(mMsg);
     JUT_ASSERT(1668, NULL != aMsg_p);
 
@@ -856,7 +875,8 @@ u16 dMsgFlow_c::query005(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_spea
     return ret;
 }
 
-u16 dMsgFlow_c::query006(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_speaker_p, int param_2) {
+u16 dMsgFlow_c::query006(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_speaker_p,
+                         int param_2) {
     u16 ret = query005(i_flowNode_p, i_speaker_p, 0);
     mChoiceNo = ret;
 
@@ -869,7 +889,8 @@ u16 dMsgFlow_c::query006(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_spea
     return ret;
 }
 
-u16 dMsgFlow_c::query007(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_speaker_p, int param_2) {
+u16 dMsgFlow_c::query007(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_speaker_p,
+                         int param_2) {
     const u16 prm0 = i_flowNode_p->param;
     u16 ret;
 
@@ -900,7 +921,8 @@ u16 dMsgFlow_c::query007(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_spea
     return ret;
 }
 
-u16 dMsgFlow_c::query008(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_speaker_p, int param_2) {
+u16 dMsgFlow_c::query008(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_speaker_p,
+                         int param_2) {
     const u16 prm0 = i_flowNode_p->param;
     u16 ret = daNpcKakashi_getSwdTutorialStep() - 1 != prm0;
 
@@ -913,7 +935,8 @@ u16 dMsgFlow_c::query008(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_spea
     return ret;
 }
 
-u16 dMsgFlow_c::query009(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_speaker_p, int param_2) {
+u16 dMsgFlow_c::query009(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_speaker_p,
+                         int param_2) {
     u16 ret = daNpcKakashi_getSwdTutorialResult() == FALSE;
 
     if (param_2 != 0) {
@@ -925,7 +948,8 @@ u16 dMsgFlow_c::query009(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_spea
     return ret;
 }
 
-u16 dMsgFlow_c::query010(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_speaker_p, int param_2) {
+u16 dMsgFlow_c::query010(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_speaker_p,
+                         int param_2) {
     u16 ret = daNpcKakashi_getSuccessCount() != 1;
 
     if (param_2 != 0) {
@@ -937,7 +961,8 @@ u16 dMsgFlow_c::query010(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_spea
     return ret;
 }
 
-u16 dMsgFlow_c::query011(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_speaker_p, int param_2) {
+u16 dMsgFlow_c::query011(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_speaker_p,
+                         int param_2) {
     const u16 prm0 = i_flowNode_p->param;
     u16 ret = dComIfGs_isTmpBit((u16)dSv_event_tmp_flag_c::tempBitLabels[prm0]) == FALSE;
 
@@ -950,7 +975,8 @@ u16 dMsgFlow_c::query011(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_spea
     return ret;
 }
 
-u16 dMsgFlow_c::query012(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_speaker_p, int param_2) {
+u16 dMsgFlow_c::query012(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_speaker_p,
+                         int param_2) {
     const int prm0 = i_flowNode_p->param;
     u16 ret = dComIfGs_isTbox(prm0) == FALSE;
 
@@ -963,7 +989,8 @@ u16 dMsgFlow_c::query012(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_spea
     return ret;
 }
 
-u16 dMsgFlow_c::query013(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_speaker_p, int param_2) {
+u16 dMsgFlow_c::query013(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_speaker_p,
+                         int param_2) {
     const int prm0 = i_flowNode_p->param;
     u16 ret = dComIfGs_isSaveSwitch(prm0) == FALSE;
 
@@ -976,7 +1003,8 @@ u16 dMsgFlow_c::query013(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_spea
     return ret;
 }
 
-u16 dMsgFlow_c::query014(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_speaker_p, int param_2) {
+u16 dMsgFlow_c::query014(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_speaker_p,
+                         int param_2) {
     const int prm0 = i_flowNode_p->param;
     u16 ret = dComIfGs_isSaveItem(prm0) == FALSE;
 
@@ -989,7 +1017,8 @@ u16 dMsgFlow_c::query014(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_spea
     return ret;
 }
 
-u16 dMsgFlow_c::query015(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_speaker_p, int param_2) {
+u16 dMsgFlow_c::query015(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_speaker_p,
+                         int param_2) {
     const int prm0 = i_flowNode_p->param;
     u16 ret = dComIfGs_isSaveDunSwitch(prm0) == FALSE;
 
@@ -1002,7 +1031,8 @@ u16 dMsgFlow_c::query015(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_spea
     return ret;
 }
 
-u16 dMsgFlow_c::query016(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_speaker_p, int param_2) {
+u16 dMsgFlow_c::query016(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_speaker_p,
+                         int param_2) {
     const int prm0 = i_flowNode_p->param;
     u16 ret = dComIfGs_isSaveDunItem(prm0) == FALSE;
 
@@ -1015,14 +1045,15 @@ u16 dMsgFlow_c::query016(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_spea
     return ret;
 }
 
-u16 dMsgFlow_c::query017(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_speaker_p, int param_2) {
+u16 dMsgFlow_c::query017(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_speaker_p,
+                         int param_2) {
     const int prm0 = i_flowNode_p->param;
     int roomNo = -1;
-    
+
     if (i_speaker_p != NULL) {
         roomNo = fopAcM_GetRoomNo(i_speaker_p);
     }
-    
+
     u16 ret = dComIfGs_isZoneSwitch(prm0, roomNo) == FALSE;
 
     if (param_2 != 0) {
@@ -1034,14 +1065,15 @@ u16 dMsgFlow_c::query017(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_spea
     return ret;
 }
 
-u16 dMsgFlow_c::query018(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_speaker_p, int param_2) {
+u16 dMsgFlow_c::query018(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_speaker_p,
+                         int param_2) {
     const int prm0 = i_flowNode_p->param;
     int roomNo = -1;
-    
+
     if (i_speaker_p != NULL) {
         roomNo = fopAcM_GetRoomNo(i_speaker_p);
     }
-    
+
     u16 ret = dComIfGs_isZoneItem(prm0, roomNo) == FALSE;
 
     if (param_2 != 0) {
@@ -1053,14 +1085,15 @@ u16 dMsgFlow_c::query018(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_spea
     return ret;
 }
 
-u16 dMsgFlow_c::query019(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_speaker_p, int param_2) {
+u16 dMsgFlow_c::query019(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_speaker_p,
+                         int param_2) {
     const int prm0 = i_flowNode_p->param;
     int roomNo = -1;
-    
+
     if (i_speaker_p != NULL) {
         roomNo = fopAcM_GetRoomNo(i_speaker_p);
     }
-    
+
     u16 ret = dComIfGs_isOneZoneSwitch(prm0, roomNo) == FALSE;
 
     if (param_2 != 0) {
@@ -1072,14 +1105,15 @@ u16 dMsgFlow_c::query019(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_spea
     return ret;
 }
 
-u16 dMsgFlow_c::query020(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_speaker_p, int param_2) {
+u16 dMsgFlow_c::query020(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_speaker_p,
+                         int param_2) {
     const int prm0 = i_flowNode_p->param;
     int roomNo = -1;
-    
+
     if (i_speaker_p != NULL) {
         roomNo = fopAcM_GetRoomNo(i_speaker_p);
     }
-    
+
     u16 ret = dComIfGs_isOneZoneItem(prm0, roomNo) == FALSE;
 
     if (param_2 != 0) {
@@ -1091,7 +1125,8 @@ u16 dMsgFlow_c::query020(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_spea
     return ret;
 }
 
-u16 dMsgFlow_c::query021(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_speaker_p, int param_2) {
+u16 dMsgFlow_c::query021(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_speaker_p,
+                         int param_2) {
     const u8 prm0 = i_flowNode_p->param;
     u16 ret = 0;
 
@@ -1124,7 +1159,7 @@ u16 dMsgFlow_c::query021(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_spea
 #if (PLATFORM_WII || PLATFORM_SHIELD)
             || dComIfGs_getItem(dComIfGs_getSelectItemIndex(3), true) == prm0
 #endif
-           )
+        )
         {
             ret = 1;
         }
@@ -1139,7 +1174,8 @@ u16 dMsgFlow_c::query021(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_spea
     return ret;
 }
 
-u16 dMsgFlow_c::query022(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_speaker_p, int param_2) {
+u16 dMsgFlow_c::query022(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_speaker_p,
+                         int param_2) {
     const u8 prm0 = i_flowNode_p->param;
     u16 ret = checkItemGet(prm0 & 0xFF, 1) ? 0 : 1;
 
@@ -1152,7 +1188,8 @@ u16 dMsgFlow_c::query022(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_spea
     return ret;
 }
 
-u16 dMsgFlow_c::query023(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_speaker_p, int param_2) {
+u16 dMsgFlow_c::query023(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_speaker_p,
+                         int param_2) {
     const u8 prm0 = i_flowNode_p->param;
     int i_bagNum = 3 - dComIfGs_checkBombBag(dItemNo_NONE_e);
     JUT_ASSERT(2312, i_bagNum >= 0);
@@ -1168,20 +1205,23 @@ u16 dMsgFlow_c::query023(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_spea
     return ret;
 }
 
-u16 dMsgFlow_c::query024(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_speaker_p, int param_2) {
+u16 dMsgFlow_c::query024(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_speaker_p,
+                         int param_2) {
     const u8 prm0 = i_flowNode_p->param;
     u16 ret = dComIfGs_getArrowNum() >= prm0 ? 0 : 1;
 
     if (param_2 != 0) {
         // "Normal Arrow Count Check"
         OS_REPORT("\x1B[44;33mノ−マル矢数チェック　　　　　　　　\x1B[m|:");
-        OS_REPORT("flow:%d, ret:%d, prm0:%d, arrow(%d/%d)\n", mFlow, ret, prm0, dComIfGs_getArrowNum(), dComIfGs_getArrowMax());
+        OS_REPORT("flow:%d, ret:%d, prm0:%d, arrow(%d/%d)\n", mFlow, ret, prm0,
+                  dComIfGs_getArrowNum(), dComIfGs_getArrowMax());
     }
 
     return ret;
 }
 
-u16 dMsgFlow_c::query025(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_speaker_p, int param_2) {
+u16 dMsgFlow_c::query025(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_speaker_p,
+                         int param_2) {
     const u8 prm0 = i_flowNode_p->param;
     u16 ret = dComIfGs_checkEmptyBottle() >= prm0 ? 0 : 1;
 
@@ -1194,7 +1234,8 @@ u16 dMsgFlow_c::query025(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_spea
     return ret;
 }
 
-u16 dMsgFlow_c::query026(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_speaker_p, int param_2) {
+u16 dMsgFlow_c::query026(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_speaker_p,
+                         int param_2) {
     dShopSystem_c* shop_ac = (dShopSystem_c*)i_speaker_p;
     const int prm0 = i_flowNode_p->param;
     u16 ret = shop_ac->isFlag(7);
@@ -1208,7 +1249,8 @@ u16 dMsgFlow_c::query026(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_spea
     return ret;
 }
 
-u16 dMsgFlow_c::query027(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_speaker_p, int param_2) {
+u16 dMsgFlow_c::query027(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_speaker_p,
+                         int param_2) {
     u8 prm0 = i_flowNode_p->param & 0xFF;
     if (prm0 == 0) {
         prm0 = dComIfGp_getNeedLightDropNum() & 0xFF;
@@ -1219,30 +1261,35 @@ u16 dMsgFlow_c::query027(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_spea
     if (param_2 != 0) {
         // "Light Drop Check"
         OS_REPORT("\x1B[44;33m光の雫チェック　　　　　　　　　　\x1B[m|:");
-        OS_REPORT("flow:%d, ret:%d, prm0:%d  ( %d / %d)\n", mFlow, ret, prm0, dComIfGs_getLightDropNum(dComIfGp_getStartStageDarkArea()), dComIfGp_getNeedLightDropNum());
+        OS_REPORT("flow:%d, ret:%d, prm0:%d  ( %d / %d)\n", mFlow, ret, prm0,
+                  dComIfGs_getLightDropNum(dComIfGp_getStartStageDarkArea()),
+                  dComIfGp_getNeedLightDropNum());
     }
 
     return ret;
 }
 
-u16 dMsgFlow_c::query028(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_speaker_p, int param_2) {
+u16 dMsgFlow_c::query028(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_speaker_p,
+                         int param_2) {
     const u16 prm0 = i_flowNode_p->param;
     u16 ret = dMeter2Info_getTimeMs() <= prm0 * 1000 + 999 ? 0 : 1;
 
     dMeter2Info_setMsgTimeMs(dMeter2Info_getTimeMs() <= prm0 * 1000 + 999 ?
-                             (prm0 * 1000 + 999) - dMeter2Info_getTimeMs() :
-                             (dMeter2Info_getTimeMs() - prm0 * 1000) + 999);
+                                 (prm0 * 1000 + 999) - dMeter2Info_getTimeMs() :
+                                 (dMeter2Info_getTimeMs() - prm0 * 1000) + 999);
 
     if (param_2 != 0) {
         // "Goat-Herd Time Check"
         OS_REPORT("\x1B[44;33m:牛追いタイム分岐　　　　　　　　　　\x1B[m|:");
-        OS_REPORT("flow:%d, ret:%d, prm0:%d  time:%dms\n", mFlow, ret, prm0, dMeter2Info_getTimeMs());
+        OS_REPORT("flow:%d, ret:%d, prm0:%d  time:%dms\n", mFlow, ret, prm0,
+                  dMeter2Info_getTimeMs());
     }
 
     return ret;
 }
 
-u16 dMsgFlow_c::query029(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_speaker_p, int param_2) {
+u16 dMsgFlow_c::query029(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_speaker_p,
+                         int param_2) {
     u8 ret = 1;
     if (dComIfGs_getOil() == 0 || dComIfGs_getMaxOil() == 0) {
         ret = 2;
@@ -1259,7 +1306,8 @@ u16 dMsgFlow_c::query029(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_spea
     return ret;
 }
 
-u16 dMsgFlow_c::query030(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_speaker_p, int param_2) {
+u16 dMsgFlow_c::query030(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_speaker_p,
+                         int param_2) {
     u8 ret = dComIfGs_getTmpReg(0xFBFF);
 
     if (param_2 != 0) {
@@ -1271,7 +1319,8 @@ u16 dMsgFlow_c::query030(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_spea
     return ret;
 }
 
-u16 dMsgFlow_c::query031(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_speaker_p, int param_2) {
+u16 dMsgFlow_c::query031(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_speaker_p,
+                         int param_2) {
     const int prm0 = i_flowNode_p->param;
     int reg = dComIfGs_getEventReg(0xFF1F);
     u8 ret = 1;
@@ -1292,7 +1341,8 @@ u16 dMsgFlow_c::query031(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_spea
     return ret;
 }
 
-u16 dMsgFlow_c::query032(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_speaker_p, int param_2) {
+u16 dMsgFlow_c::query032(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_speaker_p,
+                         int param_2) {
     const int prm0 = i_flowNode_p->param;
 
     u8 ret = 1;
@@ -1309,7 +1359,8 @@ u16 dMsgFlow_c::query032(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_spea
     return ret;
 }
 
-u16 dMsgFlow_c::query033(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_speaker_p, int param_2) {
+u16 dMsgFlow_c::query033(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_speaker_p,
+                         int param_2) {
     u8 ret = 1;
     if (daPy_getPlayerActorClass()->checkUseKandelaar(1)) {
         ret = 0;
@@ -1326,20 +1377,23 @@ u16 dMsgFlow_c::query033(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_spea
     return ret;
 }
 
-u16 dMsgFlow_c::query034(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_speaker_p, int param_2) {
+u16 dMsgFlow_c::query034(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_speaker_p,
+                         int param_2) {
     u8 ret = 0;
     ret = (int)(dComIfGs_getTime() * (1.0f / 15.0f)) & 0xFF;
 
     if (param_2 != 0) {
         // "Time Check"
         OS_REPORT("\x1B[44;33m:時間チェック　　\x1B[m|:");
-        OS_REPORT("flow:%d, ret:%d, TIME:%d\n", mFlow, ret, (int)(dComIfGs_getTime() * (1.0f / 15.0f)));
+        OS_REPORT("flow:%d, ret:%d, TIME:%d\n", mFlow, ret,
+                  (int)(dComIfGs_getTime() * (1.0f / 15.0f)));
     }
 
     return ret;
 }
 
-u16 dMsgFlow_c::query035(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_speaker_p, int param_2) {
+u16 dMsgFlow_c::query035(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_speaker_p,
+                         int param_2) {
     const int prm0 = i_flowNode_p->param;
     u8 ret = 0;
     if (dComIfGs_getMagic() < prm0) {
@@ -1355,7 +1409,8 @@ u16 dMsgFlow_c::query035(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_spea
     return ret;
 }
 
-u16 dMsgFlow_c::query036(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_speaker_p, int param_2) {
+u16 dMsgFlow_c::query036(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_speaker_p,
+                         int param_2) {
     msg_class* aMsg_p = fopMsgM_SearchByID(mMsg);
     JUT_ASSERT(2751, NULL != aMsg_p);
 
@@ -1373,7 +1428,8 @@ u16 dMsgFlow_c::query036(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_spea
     return ret;
 }
 
-u16 dMsgFlow_c::query037(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_speaker_p, int param_2) {
+u16 dMsgFlow_c::query037(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_speaker_p,
+                         int param_2) {
     msg_class* aMsg_p = fopMsgM_SearchByID(mMsg);
     JUT_ASSERT(2789, NULL != aMsg_p);
 
@@ -1391,7 +1447,8 @@ u16 dMsgFlow_c::query037(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_spea
     return ret;
 }
 
-u16 dMsgFlow_c::query038(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_speaker_p, int param_2) {
+u16 dMsgFlow_c::query038(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_speaker_p,
+                         int param_2) {
     const int prm0 = i_flowNode_p->param;
 
     u8 BombBag;
@@ -1406,7 +1463,7 @@ u16 dMsgFlow_c::query038(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_spea
     }
 
     u8 ret = 0;
-    switch(dComIfGs_getItem((u8)(BombBag + SLOT_15), false)) {
+    switch (dComIfGs_getItem((u8)(BombBag + SLOT_15), false)) {
     case dItemNo_NORMAL_BOMB_e:
         ret = 1;
         break;
@@ -1427,9 +1484,10 @@ u16 dMsgFlow_c::query038(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_spea
     }
 
     return ret;
-} 
+}
 
-u16 dMsgFlow_c::query039(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_speaker_p, int param_2) {
+u16 dMsgFlow_c::query039(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_speaker_p,
+                         int param_2) {
     const int prm0 = i_flowNode_p->param;
 
     u8 BombBag = dComIfGs_getTmpReg(0xFBFF) - 1;
@@ -1446,13 +1504,15 @@ u16 dMsgFlow_c::query039(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_spea
     if (param_2 != 0) {
         // "Normal Bomb over MAX Check"
         OS_REPORT("\x1B[44;33m:通常爆弾ＭＡＸ超えチェック　　\x1B[m|:");
-        OS_REPORT("flow:%d, ret:%d,  param:%d, BombBag:%d, BombNum:%d, BombMax:%d\n", mFlow, ret, prm0, BombBag, BombNum, BombMax);
+        OS_REPORT("flow:%d, ret:%d,  param:%d, BombBag:%d, BombNum:%d, BombMax:%d\n", mFlow, ret,
+                  prm0, BombBag, BombNum, BombMax);
     }
 
     return ret;
 }
 
-u16 dMsgFlow_c::query040(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_speaker_p, int param_2) {
+u16 dMsgFlow_c::query040(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_speaker_p,
+                         int param_2) {
     const int prm0 = i_flowNode_p->param;
 
     u8 BombBag;
@@ -1478,7 +1538,7 @@ u16 dMsgFlow_c::query040(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_spea
     } else {
         ret = 1;
     }
-    
+
     if (param_2 != 0) {
         // "Bomb contents count Check"
         OS_REPORT("\x1B[44;33m:ボム袋中身個数チェック　　\x1B[m|:");
@@ -1488,7 +1548,8 @@ u16 dMsgFlow_c::query040(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_spea
     return ret;
 }
 
-u16 dMsgFlow_c::query041(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_speaker_p, int param_2) {
+u16 dMsgFlow_c::query041(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_speaker_p,
+                         int param_2) {
     const int prm0 = i_flowNode_p->param;
 
     u8 BombBag = dComIfGs_getTmpReg(0xFBFF) - 1;
@@ -1505,20 +1566,21 @@ u16 dMsgFlow_c::query041(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_spea
     if (param_2 != 0) {
         // "Water Bomb over MAX Check"
         OS_REPORT("\x1B[44;33m:水中爆弾ＭＡＸ超えチェック　　\x1B[m|:");
-        OS_REPORT("flow:%d, ret:%d,  param:%d, BombBag:%d, BombNum:%d, BombMax:%d\n", mFlow, ret, prm0, BombBag, BombNum, BombMax);
+        OS_REPORT("flow:%d, ret:%d,  param:%d, BombBag:%d, BombNum:%d, BombMax:%d\n", mFlow, ret,
+                  prm0, BombBag, BombNum, BombMax);
     }
 
     return ret;
 }
 
-u16 dMsgFlow_c::query042(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_speaker_p, int param_2) {
+u16 dMsgFlow_c::query042(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_speaker_p,
+                         int param_2) {
     daMidna_c* midna_p = daPy_py_c::getMidnaActor();
 
     u8 ret = 0;
 
     // If transform everywhere is enabled, we can skip most of the checks here.
-    if (!g_randoInfo.checkValidTransformAnywhere())
-    {
+    if (!g_randoInfo.checkValidTransformAnywhere()) {
         if (strcmp("F_SP116", dComIfGp_getStartStageName()) == 0 && dComIfGs_isSaveDunSwitch(60)) {
             ret = 4;
         } else if (midna_p->checkNpcNear()) {
@@ -1526,10 +1588,9 @@ u16 dMsgFlow_c::query042(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_spea
         } else if (midna_p->checkNpcFar()) {
             ret = 2;
         }
-    } 
+    }
     // Regardless of transform status, we want to check for the PoT fog.
-    if (g_env_light.mEvilInitialized & 0x80) 
-    {
+    if (g_env_light.mEvilInitialized & 0x80) {
         ret = 3;
     }
 
@@ -1542,7 +1603,8 @@ u16 dMsgFlow_c::query042(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_spea
     return ret;
 }
 
-u16 dMsgFlow_c::query043(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_speaker_p, int param_2) {
+u16 dMsgFlow_c::query043(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_speaker_p,
+                         int param_2) {
     const int prm0 = i_flowNode_p->param;
     u8 BombBag = dComIfGs_getTmpReg(0xFBFF) - 1;
     u8 BombNum = dComIfGs_getBombNum(BombBag);
@@ -1564,7 +1626,8 @@ u16 dMsgFlow_c::query043(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_spea
     return ret;
 }
 
-u16 dMsgFlow_c::query044(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_speaker_p, int param_2) {
+u16 dMsgFlow_c::query044(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_speaker_p,
+                         int param_2) {
     u8 ret;
     if (daAlink_getAlinkActorClass()->checkAcceptDungeonWarpAlink(0)) {
         ret = 0;
@@ -1581,7 +1644,8 @@ u16 dMsgFlow_c::query044(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_spea
     return ret;
 }
 
-u16 dMsgFlow_c::query045(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_speaker_p, int param_2) {
+u16 dMsgFlow_c::query045(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_speaker_p,
+                         int param_2) {
     u8 insectNum = dComIfGs_checkGetInsectNum();
     u8 ret = 0;
     if (insectNum == 0) {
@@ -1605,7 +1669,8 @@ u16 dMsgFlow_c::query045(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_spea
     return ret;
 }
 
-u16 dMsgFlow_c::query046(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_speaker_p, int param_2) {
+u16 dMsgFlow_c::query046(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_speaker_p,
+                         int param_2) {
     u8 ret = dComIfGs_checkInsectBottle();
 
     if (param_2 != 0) {
@@ -1617,7 +1682,8 @@ u16 dMsgFlow_c::query046(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_spea
     return ret;
 }
 
-u16 dMsgFlow_c::query047(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_speaker_p, int param_2) {
+u16 dMsgFlow_c::query047(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_speaker_p,
+                         int param_2) {
     u8 ret = 0;
 
     if (param_2 != 0) {
@@ -1630,7 +1696,8 @@ u16 dMsgFlow_c::query047(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_spea
     return ret;
 }
 
-u16 dMsgFlow_c::query048(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_speaker_p, int param_2) {
+u16 dMsgFlow_c::query048(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_speaker_p,
+                         int param_2) {
     u8 ret = dMeter2Info_getNewLetterNum();
 
     if (ret > 2) {
@@ -1650,26 +1717,25 @@ u16 dMsgFlow_c::query048(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_spea
     return ret;
 }
 
-u16 dMsgFlow_c::query049(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_speaker_p, int param_2) {
+u16 dMsgFlow_c::query049(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_speaker_p,
+                         int param_2) {
     u8 num = dComIfGs_getPohSpiritNum();
 
-    // If we have 60 souls, we want to make sure we get the 20 poe reward before allowing the player to get the 60 poe reward.
+    // If we have 60 souls, we want to make sure we get the 20 poe reward before allowing the player
+    // to get the 60 poe reward.
     u8 ret = 0;
     if (num == 0) {
         ret = 0;
-    } else if (num <= 19)  {
+    } else if (num <= 19) {
         ret = 1;
     } else if (num <= 39) {
         ret = 2;
     } else if (num <= 59) {
         ret = 3;
     } else {
-        if (!dComIfGs_isEventBit(0x4D80))
-        {
+        if (!dComIfGs_isEventBit(0x4D80)) {
             ret = 3;
-        }
-        else
-        {
+        } else {
             ret = 4;
         }
     }
@@ -1683,7 +1749,8 @@ u16 dMsgFlow_c::query049(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_spea
     return ret;
 }
 
-u16 dMsgFlow_c::query050(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_speaker_p, int param_2) {
+u16 dMsgFlow_c::query050(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_speaker_p,
+                         int param_2) {
     const int num = i_flowNode_p->param;
     u8 ret;
     if (num <= dMsgObject_getOffering()) {
@@ -1701,7 +1768,8 @@ u16 dMsgFlow_c::query050(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_spea
     return ret;
 }
 
-u16 dMsgFlow_c::query051(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_speaker_p, int param_2) {
+u16 dMsgFlow_c::query051(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_speaker_p,
+                         int param_2) {
     int num = dComIfGp_getMessageCountNumber();
     u8 ret;
     if (num == 0) {
@@ -1725,9 +1793,11 @@ u16 dMsgFlow_c::query051(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_spea
     return ret;
 }
 
-u16 dMsgFlow_c::query052(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_speaker_p, int param_2) {
+u16 dMsgFlow_c::query052(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_speaker_p,
+                         int param_2) {
     u8 ret = 0;
-    if (daPy_getPlayerActorClass()->checkWaterInMove() || dComIfGp_checkPlayerStatus0(0, 0x100000)) {
+    if (daPy_getPlayerActorClass()->checkWaterInMove() || dComIfGp_checkPlayerStatus0(0, 0x100000))
+    {
         ret = 1;
     }
 
@@ -1740,9 +1810,15 @@ u16 dMsgFlow_c::query052(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_spea
     return ret;
 }
 
-u16 dMsgFlow_c::query053(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_speaker_p, int param_2) {
+u16 dMsgFlow_c::query053(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_speaker_p,
+                         int param_2) {
     u8 ret = 0;
-    if (daPy_getPlayerActorClass()->checkEquipHeavyBoots()) {
+
+    if (daPy_getPlayerActorClass()->checkEquipHeavyBoots() ||
+        (playerIsInRoomStage(0, allStages[Zoras_Domain]) &&
+         (daAlink_getAlinkActorClass()->checkZoraWearAbility() ||
+          daAlink_getAlinkActorClass()->checkMagicArmorWearAbility())))
+    {
         ret = 1;
     }
 
@@ -1756,15 +1832,16 @@ u16 dMsgFlow_c::query053(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_spea
 }
 
 // Convenience query fn for returning static value
-u16 dMsgFlow_c::query054(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_speaker_p, int param_2) {
-
+u16 dMsgFlow_c::query054(mesg_flow_node_branch* i_flowNode_p, fopAc_ac_c* i_speaker_p,
+                         int param_2) {
     return i_flowNode_p->param;
 }
 
 // Can change time of day
 u16 dMsgFlow_c::query055(mesg_flow_node_branch*, fopAc_ac_c*, int) {
-    // This function is based on query044 which is used to determine whether to show the Midna menu which includes
-    // "Warp" or not. We also add a check to ensure the current environment is not twilight. "R_SP161" is STAR tent.
+    // This function is based on query044 which is used to determine whether to show the Midna menu
+    // which includes "Warp" or not. We also add a check to ensure the current environment is not
+    // twilight. "R_SP161" is STAR tent.
     if (!dKy_darkworld_check() && !daAlink_c::checkForestOldCentury() &&
         (daAlink_c::checkField() || daAlink_c::checkCastleTown()) &&
         !daAlink_c::checkStageName(allStages[Star_Game]))
@@ -1774,14 +1851,15 @@ u16 dMsgFlow_c::query055(mesg_flow_node_branch*, fopAc_ac_c*, int) {
     return 1;
 }
 
-// Return 0 if can return to dungeon entrance, 1 if in dungeon but can only return to spawn, or 2 if not in dungeon.
+// Return 0 if can return to dungeon entrance, 1 if in dungeon but can only return to spawn, or 2 if
+// not in dungeon.
 u16 dMsgFlow_c::query056(mesg_flow_node_branch*, fopAc_ac_c*, int) {
     uint8_t stageIDX = getCurrentStageID();
-    if (stageIDX <= 29)
-    {
+    if (stageIDX <= 29) {
         // Commenting out until re figure out the return to spawn stuff
         // In a Dungeon or (mini)boss room.
-        const ReturnPlace* returnPlace = g_seedInfo.getReturnPlaceSectionPtr()->getReturnPlace(stageIDX, -1, -1, -1);
+        const ReturnPlace* returnPlace =
+            g_seedInfo.getReturnPlaceSectionPtr()->getReturnPlace(stageIDX, -1, -1, -1);
         if (returnPlace != NULL && returnPlace->getStageIDX() != 0xFF)
             return 0;
         else
@@ -1789,8 +1867,6 @@ u16 dMsgFlow_c::query056(mesg_flow_node_branch*, fopAc_ac_c*, int) {
     }
     return 2;
 }
-
-
 
 eventFunc dMsgFlow_c::mEventList[46] = {
     &dMsgFlow_c::event000, &dMsgFlow_c::event001, &dMsgFlow_c::event002, &dMsgFlow_c::event003,
@@ -1818,8 +1894,7 @@ int dMsgFlow_c::event000(mesg_flow_node_event* i_flowNode_p, fopAc_ac_c* i_speak
 
     if (prm0 != 0) {
         dComIfGs_onEventBit(dSv_event_flag_c::saveBitLabels[prm0]);
-        if (prm0 == 0x21c)
-        {
+        if (prm0 == 0x21c) {
             offWarashibeItem(dItemNo_LETTER_e);
         }
     }
@@ -2082,7 +2157,8 @@ int dMsgFlow_c::event016(mesg_flow_node_event* i_flowNode_p, fopAc_ac_c* i_speak
 
     // "Item Selection Start"
     OS_REPORT("\x1B[44;32m商品選択開始　　　　　　　　　　　　\x1B[m|:");
-    OS_REPORT("flow:%d, prm0:%d, prm1:%d, prm2:%d, prm3:%d\n", mFlow, prm[0], prm[1], prm[2], prm[3]);
+    OS_REPORT("flow:%d, prm0:%d, prm1:%d, prm2:%d, prm3:%d\n", mFlow, prm[0], prm[1], prm[2],
+              prm[3]);
 
     return 1;
 }
@@ -2152,7 +2228,8 @@ int dMsgFlow_c::event018(mesg_flow_node_event* i_flowNode_p, fopAc_ac_c* i_speak
 
     // "Event Direction"
     OS_REPORT("\x1B[44;32mイベント演出　　　　　　　　　　　　\x1B[m|:");
-    OS_REPORT("flow:%d, prm0:%d, prm1:%d, prm2:%d, prm3:%d\n", mFlow, field_0x42, field_0x43, field_0x44, field_0x45);
+    OS_REPORT("flow:%d, prm0:%d, prm1:%d, prm2:%d, prm3:%d\n", mFlow, field_0x42, field_0x43,
+              field_0x44, field_0x45);
 
     return 1;
 }
@@ -2305,7 +2382,8 @@ int dMsgFlow_c::event027(mesg_flow_node_event* i_flowNode_p, fopAc_ac_c* i_speak
 #endif
     getParam(aParam8, i_flowNode_p->params);
 
-    JUT_ASSERT(4509, (aParam8[0] >= 0 && aParam8[0] <= dSv_player_item_c::BOMB_BAG_MAX) || (aParam8[0] == 4));
+    JUT_ASSERT(4509, (aParam8[0] >= 0 && aParam8[0] <= dSv_player_item_c::BOMB_BAG_MAX) ||
+                         (aParam8[0] == 4));
 
     u8 BombBag;
     if (aParam8[0] >= 1 && aParam8[0] < 4) {
@@ -2378,8 +2456,9 @@ int dMsgFlow_c::event027(mesg_flow_node_event* i_flowNode_p, fopAc_ac_c* i_speak
 
     // "Bomb Supply"
     OS_REPORT("\x1B[44;32m爆弾補給　　　　　　　　　　　\x1B[m|:");
-    OS_REPORT("flow:%d, prm0:%d, prm1:%d, prm2:%d, BombBag:%d\n", mFlow, aParam8[0], aParam8[1], prm1, BombBag);
- 
+    OS_REPORT("flow:%d, prm0:%d, prm1:%d, prm2:%d, BombBag:%d\n", mFlow, aParam8[0], aParam8[1],
+              prm1, BombBag);
+
     return 1;
 }
 
@@ -2541,7 +2620,9 @@ int dMsgFlow_c::event035(mesg_flow_node_event* i_flowNode_p, fopAc_ac_c* i_speak
         dComIfGs_setItem(SLOT_19, dItemNo_NONE_e);
     } else if (prm0 == dItemNo_RAFRELS_MEMO_e) {
         dComIfGs_setItem(SLOT_7, dItemNo_NONE_e);
-    } else if (prm0 == dItemNo_LETTER_e || prm0 == dItemNo_BILL_e || prm0 == dItemNo_WOOD_STATUE_e || prm0 == dItemNo_IRIAS_PENDANT_e) {
+    } else if (prm0 == dItemNo_LETTER_e || prm0 == dItemNo_BILL_e ||
+               prm0 == dItemNo_WOOD_STATUE_e || prm0 == dItemNo_IRIAS_PENDANT_e)
+    {
         offWarashibeItem(prm0);
     }
 
@@ -2658,12 +2739,9 @@ int dMsgFlow_c::event043(mesg_flow_node_event* i_flowNode_p, fopAc_ac_c* i_speak
 
 // Handle ToD change
 int dMsgFlow_c::event044(mesg_flow_node_event* i_flowNode_p, fopAc_ac_c* i_speaker_p) {
-    if (daPy_py_c::checkNowWolf())
-    {
+    if (daPy_py_c::checkNowWolf()) {
         g_randoInfo.setHasPendingToDChange(true);
-    }
-    else
-    {
+    } else {
         g_randoInfo.handleTimeOfDayChange();
     }
     return 1;
@@ -2674,7 +2752,7 @@ int dMsgFlow_c::event045(mesg_flow_node_event* i_flowNode_p, fopAc_ac_c* i_speak
     u16 prm0;
     getParam(&prm0, &prm1, i_flowNode_p->params);
 
-    bool isReturnToDungeonEntrance = prm1 !=0;
+    bool isReturnToDungeonEntrance = prm1 != 0;
     g_seedInfo.handleReturnToLocation(isReturnToDungeonEntrance);
     return 1;
 }

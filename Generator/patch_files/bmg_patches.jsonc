@@ -491,8 +491,7 @@
         "ChangeData": {
           "text": [
             "{1a05000001}You got a {1a06ff000001}Fused Shadow{1a06ff000000}!",
-            "It feels {1a06ff000001}warm{1a06ff000000} to",
-            "the touch.."
+            "It feels {1a06ff000001}warm{1a06ff000000} to the touch.."
           ]
         }
       },
@@ -503,8 +502,8 @@
         "ChangeData": {
           "text": [
             "{1a05000001}You got a {1a06ff000001}Fused Shadow{1a06ff000000}!",
-            "It feels {1a06ff00000a}wet{1a06ff000000} and",
-            "smells like fish.."
+            "It feels {1a06ff00000a}wet{1a06ff000000} and smells",
+            "like fish.."
           ]
         }
       },
