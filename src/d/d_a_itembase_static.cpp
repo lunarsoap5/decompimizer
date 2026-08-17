@@ -3,11 +3,11 @@
  *
  */
 
-#include "d/dolzel.h" // IWYU pragma: keep
+#include "d/dolzel.h"  // IWYU pragma: keep
 
-#include "d/d_a_itembase_static.h"
 #include "SSystem/SComponent/c_lib.h"
 #include "d/actor/d_a_itembase.h"
+#include "d/d_a_itembase_static.h"
 #include "d/d_item_data.h"
 
 u8 daItemBase_c::getItemNo() {
@@ -50,7 +50,7 @@ bool daItemBase_c::chkDead() {
 int CheckItemCreateHeap(fopAc_ac_c* i_this) {
     daItemBase_c* a_this = static_cast<daItemBase_c*>(i_this);
 
-    u8 item_no = a_this->getItemNo();
+    u8 item_no = a_this->mFieldItemId;
     return a_this->CreateItemHeap(dItem_data::getArcName(item_no), dItem_data::getBmdName(item_no),
                                   dItem_data::getBtkName(item_no), dItem_data::getBpkName(item_no),
                                   dItem_data::getBckName(item_no), dItem_data::getBxaName(item_no),
@@ -60,23 +60,20 @@ int CheckItemCreateHeap(fopAc_ac_c* i_this) {
 int CheckFieldItemCreateHeap(fopAc_ac_c* i_this) {
     daItemBase_c* a_this = static_cast<daItemBase_c*>(i_this);
 
-    u8 item_no = a_this->getItemNo();
+    u8 item_no = a_this->mFieldItemId;
 
-    switch (item_no)
-    {
-        case dItemNo_EMPTY_BOTTLE_e:
-        case dItemNo_HALF_MILK_BOTTLE_e:
-        case dItemNo_OIL_BOTTLE3_e:
-        case dItemNo_DROP_BOTTLE_e:
-        case dItemNo_LINKS_SAVINGS_e:
-        case dItemNo_POU_SPIRIT_e:
-        {
-            return CheckItemCreateHeap(i_this);
-        }
-        default:
-        {
-            break;
-        }
+    switch (item_no) {
+    case dItemNo_EMPTY_BOTTLE_e:
+    case dItemNo_HALF_MILK_BOTTLE_e:
+    case dItemNo_OIL_BOTTLE3_e:
+    case dItemNo_DROP_BOTTLE_e:
+    case dItemNo_LINKS_SAVINGS_e:
+    case dItemNo_POU_SPIRIT_e: {
+        return CheckItemCreateHeap(i_this);
+    }
+    default: {
+        break;
+    }
     }
     return a_this->CreateItemHeap(
         dItem_data::getFieldArc(item_no), dItem_data::getItemBmdName(item_no),

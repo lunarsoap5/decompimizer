@@ -1,19 +1,19 @@
 /**
  * @file d_a_obj_kantera.cpp
- * 
-*/
+ *
+ */
 
-#include "d/dolzel_rel.h" // IWYU pragma: keep
+#include "d/dolzel_rel.h"  // IWYU pragma: keep
 
+#include "SSystem/SComponent/c_math.h"
 #include "d/actor/d_a_obj_kantera.h"
 #include "d/actor/d_a_player.h"
-#include "SSystem/SComponent/c_math.h"
 #include "d/d_a_itembase_static.h"
 #include "d/d_com_inf_game.h"
 #include "d/d_item.h"
 #include "d/d_item_data.h"
-#include "f_pc/f_pc_name.h"
 #include "f_op/f_op_actor_mng.h"
+#include "f_pc/f_pc_name.h"
 
 const static dCcD_SrcCyl l_cyl_src = {
     {
@@ -27,8 +27,8 @@ const static dCcD_SrcCyl l_cyl_src = {
             {0.0f, 0.0f, 0.0f},  // mCenter
             20.0f,               // mRadius
             40.0f                // mHeight
-        }                        // mCyl
-    }                            // mCylAttr
+        }  // mCyl
+    }  // mCylAttr
 };
 
 static f32 Reflect(cXyz* i_xyz, cBgS_PolyInfo const& param_2, f32 param_3) {
@@ -38,7 +38,7 @@ static f32 Reflect(cXyz* i_xyz, cBgS_PolyInfo const& param_2, f32 param_3) {
         f32 dVar5 = i_xyz->absXZ();
         C_VECReflect(i_xyz, &acStack_3c.mNormal, &cStack_48);
         *i_xyz = (cStack_48 * dVar5) * param_3;
-       return i_xyz->absXZ();
+        return i_xyz->absXZ();
     }
 
     return 0.0f;
@@ -92,6 +92,7 @@ int daItemKantera_c::create() {
         field_0x937 = 1;
     }
     m_itemNo = 0x48;
+    mFieldItemId = m_itemNo;
     if (checkItemGet(m_itemNo, 1)) {
         return cPhs_ERROR_e;
     }
@@ -253,12 +254,9 @@ static int daItemKantera_Create(fopAc_ac_c* i_this) {
     return static_cast<daItemKantera_c*>(i_this)->create();
 }
 
-
 static actor_method_class l_daItemKantera_Method = {
-    (process_method_func)daItemKantera_Create,
-    (process_method_func)daItemKantera_Delete,
-    (process_method_func)daItemKantera_Execute,
-    NULL,
+    (process_method_func)daItemKantera_Create,  (process_method_func)daItemKantera_Delete,
+    (process_method_func)daItemKantera_Execute, NULL,
     (process_method_func)daItemKantera_Draw,
 };
 

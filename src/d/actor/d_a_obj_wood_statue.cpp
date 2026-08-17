@@ -1,9 +1,9 @@
 /**
  * @file d_a_obj_wood_statue.cpp
- * 
-*/
+ *
+ */
 
-#include "d/dolzel_rel.h" // IWYU pragma: keep
+#include "d/dolzel_rel.h"  // IWYU pragma: keep
 
 #include "d/actor/d_a_obj_wood_statue.h"
 #include "d/actor/d_a_player.h"
@@ -11,22 +11,22 @@
 #include "d/d_com_inf_game.h"
 #include "d/d_item_data.h"
 #include "d/d_s_play.h"
+#include "rando/rando.h"
 
 const static dCcD_SrcCyl l_cyl_src = {
     {
-        {0x0, {{0x0, 0x0, 0x0}, {0xFFFFFFFF, 0x11}, 0x59}}, // mObj
-        {dCcD_SE_NONE, 0x0, 0x0, 0x0, 0x0}, // mGObjAt
-        {dCcD_SE_NONE, 0x0, 0x0, 0x0, 0x4}, // mGObjTg
-        {0x0}, // mGObjCo
-    }, // mObjInf
+        {0x0, {{0x0, 0x0, 0x0}, {0xFFFFFFFF, 0x11}, 0x59}},  // mObj
+        {dCcD_SE_NONE, 0x0, 0x0, 0x0, 0x0},                  // mGObjAt
+        {dCcD_SE_NONE, 0x0, 0x0, 0x0, 0x4},                  // mGObjTg
+        {0x0},                                               // mGObjCo
+    },                                                       // mObjInf
     {
-            {
-                {0.0f, 0.0f, 0.0f}, // mCenter
-                20.0f, // mRadius
-                40.0f // mHeight
-            } // mCyl
-    }
-};
+        {
+            {0.0f, 0.0f, 0.0f},  // mCenter
+            20.0f,               // mRadius
+            40.0f                // mHeight
+        }  // mCyl
+    }};
 
 static char* l_arcName = "O_wood";
 
@@ -80,8 +80,7 @@ static void lifeGetTgCallBack(fopAc_ac_c* i_this, dCcD_GObjInf* param_2, fopAc_a
 
     if (statue != NULL &&
         (param_4->ChkAtType(AT_TYPE_40) || param_4->ChkAtType(AT_TYPE_BOOMERANG)) &&
-        !dComIfGp_event_runCheck() &&
-        !statue->chkStatus(daObjWStatue_c::STATUS_BOOMERANG_CARRY))
+        !dComIfGp_event_runCheck() && !statue->chkStatus(daObjWStatue_c::STATUS_BOOMERANG_CARRY))
     {
         statue->actionInitBoomerangCarry();
     }
@@ -124,8 +123,8 @@ int daObjWStatue_c::Create() {
     initBaseMtx();
     fopAcM_SetMtx(this, mpModel->getBaseTRMtx());
     mAcchCir.SetWall(30.0f, 30.0f);
-    mAcch.Set(fopAcM_GetPosition_p(this), fopAcM_GetOldPosition_p(this), this, 1,
-                     &mAcchCir, fopAcM_GetSpeed_p(this), NULL, NULL);
+    mAcch.Set(fopAcM_GetPosition_p(this), fopAcM_GetOldPosition_p(this), this, 1, &mAcchCir,
+              fopAcM_GetSpeed_p(this), NULL, NULL);
     mCcStts.Init(0, 0xff, this);
     mCcCyl.Set(l_cyl_src);
     mCcCyl.SetStts(&mCcStts);
@@ -139,7 +138,7 @@ int daObjWStatue_c::Create() {
     eventInfo.setArchiveName(l_arcName);
     mEventIdx = (s16)dComIfGp_getEventManager().getEventIdx(this, l_eventName, 0xff);
 
-    #if DEBUG
+#if DEBUG
     if (mEventIdx == -1) {
         // Wooden statue: Event acquisition failure
         OS_REPORT_ERROR("木彫りの像：イベント取得失敗\n");
@@ -147,9 +146,9 @@ int daObjWStatue_c::Create() {
     } else {
         return 1;
     }
-    #else
+#else
     return 1;
-    #endif
+#endif
 }
 
 int daObjWStatue_c::__CreateHeap() {
@@ -158,7 +157,8 @@ int daObjWStatue_c::__CreateHeap() {
 
 int daObjWStatue_c::create() {
     fopAcM_ct(this, daObjWStatue_c);
-    m_itemNo = dItemNo_WOOD_STATUE_e;
+    m_itemNo = g_randoInfo.getEventItem(dItemNo_WOOD_STATUE_e);  // Search for rando check first
+    mFieldItemId = dItemNo_WOOD_STATUE_e;
     if (fopAcM_isSwitch(this, getSwbit2())) {
         return cPhs_ERROR_e;
     }
@@ -173,10 +173,10 @@ int daObjWStatue_c::create() {
             return cPhs_ERROR_e;
         }
 
-        #if DEBUG
+#if DEBUG
         // Wooden statue
         l_HIO.entryHIO("木彫りの像");
-        #endif
+#endif
     }
     return rv;
 }
@@ -293,11 +293,11 @@ int daObjWStatue_c::actionSwOnWait() {
     switch (field_0x93a) {
     case 0:
         if (iVar2 == NULL) {
-            #if DEBUG
+#if DEBUG
             mRespawnTimer = l_HIO.mRespawnTimer;
-            #else
+#else
             mRespawnTimer = 30;
-            #endif
+#endif
             field_0x93a = 1;
         }
         break;
@@ -387,7 +387,7 @@ void daObjWStatue_c::demoProc() {
         }
     }
 
-    switch(actIdx) {
+    switch (actIdx) {
     case 0:
         if (cLib_calcTimer(&mRespawnTimer) == 0) {
             dComIfGp_evmng_cutEnd(mStaffIdx);
@@ -452,9 +452,9 @@ void daObjWStatue_c::setListStart() {}
 int daObjWStatue_c::_delete() {
     DeleteBase(dItem_data::getFieldArc(m_itemNo));
 
-    #if DEBUG
+#if DEBUG
     l_HIO.removeHIO(this);
-    #endif
+#endif
 
     return 1;
 }

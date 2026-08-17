@@ -66,7 +66,4 @@ private:
     /* 0x94C */ dPa_followEcallBack mCallbacks[2];
 };
 
-STATIC_ASSERT(sizeof(daObjWStatue_c) == 0x974);
-
-
 #endif /* D_A_OBJ_WOOD_STATUE_H */

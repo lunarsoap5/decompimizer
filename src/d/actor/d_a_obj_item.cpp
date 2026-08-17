@@ -3,12 +3,12 @@
  * Item (Rupee, Arrow, Heart, etc) Object Actor
  */
 
-#include "d/dolzel.h" // IWYU pragma: keep
+#include "d/dolzel.h"  // IWYU pragma: keep
 
-#include "d/actor/d_a_obj_item.h"
 #include "SSystem/SComponent/c_math.h"
-#include "d/d_a_itembase_static.h"
+#include "d/actor/d_a_obj_item.h"
 #include "d/actor/d_a_player.h"
+#include "d/d_a_itembase_static.h"
 #include "d/d_com_inf_game.h"
 #include "d/d_item.h"
 #include "d/d_item_data.h"
@@ -46,7 +46,7 @@ void daItem_c::setBaseMtx() {
     if (mpModel != NULL) {
         mpModel->setBaseScale(scale);
 
-        switch (m_itemNo) {
+        switch (mFieldItemId) {
         case dItemNo_GREEN_RUPEE_e:
         case dItemNo_BLUE_RUPEE_e:
         case dItemNo_YELLOW_RUPEE_e:
@@ -133,8 +133,8 @@ void daItem_c::CreateInit() {
     mCcCyl.SetCoHitCallback(itemGetCoCallBack);
     mCcCyl.SetTgHitCallback(itemGetTgCallBack);
 
-    f32 cylHeight = dItem_data::getH(m_itemNo);
-    f32 cylRadius = dItem_data::getR(m_itemNo);
+    f32 cylHeight = dItem_data::getH(mFieldItemId);
+    f32 cylRadius = dItem_data::getR(mFieldItemId);
 
     if (scale.x > 1.0f) {
         cylHeight *= scale.x;
@@ -153,49 +153,43 @@ void daItem_c::CreateInit() {
     show();
 
     // Adjust item scale based on item ID
-    switch(m_itemNo)
-    {
-        case dItemNo_KAKERA_HEART_e:
-        case dItemNo_UTAWA_HEART_e:
-        case dItemNo_ARROW_10_e:
-        case dItemNo_ARROW_20_e:
-        case dItemNo_ARROW_30_e:
-        case dItemNo_GREEN_RUPEE_e:
-        case dItemNo_BLUE_RUPEE_e:
-        case dItemNo_YELLOW_RUPEE_e:
-        case dItemNo_RED_RUPEE_e:
-        case dItemNo_PURPLE_RUPEE_e:
-        case dItemNo_ORANGE_RUPEE_e:
-        case dItemNo_SILVER_RUPEE_e:
-        case dItemNo_HEART_e:
-        {
-            mItemScale.setall(1.0f);
-            break;
-        }
-
-        case dItemNo_BOW_e:
-        {
-            mItemScale.setall(1.5f);
-            break;
-        }
-
-        case dItemNo_MASTER_SWORD_e:
-        case dItemNo_LIGHT_SWORD_e:
-        case dItemNo_MIRROR_PIECE_1_e:
-        case dItemNo_MIRROR_PIECE_2_e:
-        case dItemNo_MIRROR_PIECE_3_e:
-        case dItemNo_MIRROR_PIECE_4_e:
-        {
-            mItemScale.setall(0.7f);
-            break;
-        }
-        default:
-        {
-            mItemScale.setall(2.0f);
-            break;
-        }
+    switch (mFieldItemId) {
+    case dItemNo_KAKERA_HEART_e:
+    case dItemNo_UTAWA_HEART_e:
+    case dItemNo_ARROW_10_e:
+    case dItemNo_ARROW_20_e:
+    case dItemNo_ARROW_30_e:
+    case dItemNo_GREEN_RUPEE_e:
+    case dItemNo_BLUE_RUPEE_e:
+    case dItemNo_YELLOW_RUPEE_e:
+    case dItemNo_RED_RUPEE_e:
+    case dItemNo_PURPLE_RUPEE_e:
+    case dItemNo_ORANGE_RUPEE_e:
+    case dItemNo_SILVER_RUPEE_e:
+    case dItemNo_HEART_e: {
+        mItemScale.setall(1.0f);
+        break;
     }
-    
+
+    case dItemNo_BOW_e: {
+        mItemScale.setall(1.5f);
+        break;
+    }
+
+    case dItemNo_MASTER_SWORD_e:
+    case dItemNo_LIGHT_SWORD_e:
+    case dItemNo_MIRROR_PIECE_1_e:
+    case dItemNo_MIRROR_PIECE_2_e:
+    case dItemNo_MIRROR_PIECE_3_e:
+    case dItemNo_MIRROR_PIECE_4_e: {
+        mItemScale.setall(0.7f);
+        break;
+    }
+    default: {
+        mItemScale.setall(2.0f);
+        break;
+    }
+    }
 
     switch (daItem_prm::getType(this)) {
     case TYPE_BOOM_HIT_e:
@@ -228,8 +222,8 @@ void daItem_c::CreateInit() {
     /*if (m_itemNo == dItemNo_BOOMERANG) {
         itemGetNextExecute();
     } else */
-    if ((m_itemNo == dItemNo_ORANGE_RUPEE_e || m_itemNo == dItemNo_SILVER_RUPEE_e) &&
-               mSparkleEmtr.getEmitter() == NULL)
+    if ((mFieldItemId == dItemNo_ORANGE_RUPEE_e || mFieldItemId == dItemNo_SILVER_RUPEE_e) &&
+        mSparkleEmtr.getEmitter() == NULL)
     {
         dComIfGp_particle_set(0x0C14, &mSparklePos, NULL, NULL, -1, &mSparkleEmtr, -1, NULL, NULL,
                               NULL);
@@ -288,6 +282,13 @@ int daItem_c::_daItem_create() {
     }
 
     m_itemNo = daItem_prm::getItemNo(this);
+
+    // If we have an override for the field model of an item, use that. If not, just use whatever
+    // the item is.
+    mFieldItemId = setID;
+    if (mFieldItemId == 0xFF) {
+        mFieldItemId = m_itemNo;
+    }
     BOOL flag = dItem_data::chkFlag(m_itemNo, 2);
 
 #if DEBUG
@@ -297,15 +298,16 @@ int daItem_c::_daItem_create() {
         return cPhs_ERROR_e;
     }
 
-    if (m_itemNo == dItemNo_SMALL_KEY_e || m_itemNo == dItemNo_KANTERA_e || m_itemNo == dItemNo_LIGHT_DROP_e ||
-        m_itemNo == dItemNo_UTAWA_HEART_e || m_itemNo == dItemNo_KAKERA_HEART_e)
+    if (m_itemNo == dItemNo_SMALL_KEY_e || m_itemNo == dItemNo_KANTERA_e ||
+        m_itemNo == dItemNo_LIGHT_DROP_e || m_itemNo == dItemNo_UTAWA_HEART_e ||
+        m_itemNo == dItemNo_KAKERA_HEART_e)
     {
         // "Item is not handled by fpcNm_(ITEM): <%d>\n"
         OS_REPORT_ERROR("fpcNm_(ITEM)では扱わないアイテムです<%d>\n", m_itemNo);
         JUT_ASSERT(0, FALSE);
         return cPhs_ERROR_e;
-    } else if (m_itemNo == dItemNo_BOMB_5_e || m_itemNo == dItemNo_BOMB_10_e || m_itemNo == dItemNo_BOMB_20_e ||
-               m_itemNo == dItemNo_BOMB_30_e)
+    } else if (m_itemNo == dItemNo_BOMB_5_e || m_itemNo == dItemNo_BOMB_10_e ||
+               m_itemNo == dItemNo_BOMB_20_e || m_itemNo == dItemNo_BOMB_30_e)
     {
         // "Bomb Replenish Items are no longer in use!\n"
         OS_REPORT_ERROR("補給アイテムの爆弾は使用不可になりました！\n");
@@ -323,10 +325,10 @@ int daItem_c::_daItem_create() {
     if (flag) {
         CreateInit();
     } else {
-        phase_state = dComIfG_resLoad(&mPhase, dItem_data::getFieldArc(m_itemNo));
+        phase_state = dComIfG_resLoad(&mPhase, dItem_data::getFieldArc(mFieldItemId));
         if (phase_state == cPhs_COMPLEATE_e) {
             if (!fopAcM_entrySolidHeap(this, CheckFieldItemCreateHeap,
-                                       dItem_data::getFieldHeapSize(m_itemNo)))
+                                       dItem_data::getFieldHeapSize(mFieldItemId)))
             {
                 return cPhs_ERROR_e;
             }
@@ -343,7 +345,7 @@ int daItem_c::_daItem_execute() {
     CountTimer();
 
     eyePos = current.pos;
-    eyePos.y += (f32)dItem_data::getH(m_itemNo) / 2;
+    eyePos.y += (f32)dItem_data::getH(mFieldItemId) / 2;
 
     attention_info.position = current.pos;
 
@@ -385,7 +387,7 @@ int daItem_c::_daItem_execute() {
     mLastPos = current.pos;
     field_0x95f = (fopAcM_checkHookCarryNow(this) >> 0x14) & 1;
 
-    if (m_itemNo == dItemNo_ORANGE_RUPEE_e || m_itemNo == dItemNo_SILVER_RUPEE_e) {
+    if (mFieldItemId == dItemNo_ORANGE_RUPEE_e || mFieldItemId == dItemNo_SILVER_RUPEE_e) {
         mSparklePos = current.pos;
         mSparklePos.y += 18.0f;
     }
@@ -408,11 +410,11 @@ int daItem_c::_daItem_draw() {
 int daItem_c::_daItem_delete() {
     mSound.deleteObject();
 
-    if (m_itemNo == dItemNo_ORANGE_RUPEE_e || m_itemNo == dItemNo_SILVER_RUPEE_e) {
+    if (mFieldItemId == dItemNo_ORANGE_RUPEE_e || mFieldItemId == dItemNo_SILVER_RUPEE_e) {
         mSparkleEmtr.remove();
     }
 
-    DeleteBase(dItem_data::getFieldArc(m_itemNo));
+    DeleteBase(dItem_data::getFieldArc(mFieldItemId));
     return 1;
 }
 
@@ -504,7 +506,7 @@ void daItem_c::procMainSimpleGetDemo() {
 void daItem_c::procInitGetDemoEvent() {
     hide();
 
-    if (m_itemNo == dItemNo_ORANGE_RUPEE_e || m_itemNo == dItemNo_SILVER_RUPEE_e) {
+    if (mFieldItemId == dItemNo_ORANGE_RUPEE_e || mFieldItemId == dItemNo_SILVER_RUPEE_e) {
         mSparkleEmtr.remove();
     }
 
@@ -526,11 +528,11 @@ void daItem_c::procWaitGetDemoEvent() {
             dComIfGp_event_setItemPartnerId(m_item_id);
         }
     } else {
-        if (m_itemNo == dItemNo_BOOMERANG_e) {
+        /* if (m_itemNo == dItemNo_BOOMERANG_e) {
             fopAcM_orderItemEvent(this, 0, 0);
             eventInfo.onCondition(dEvtCnd_CANGETITEM_e);
             return;
-        }
+        }*/
 
         if (cLib_calcTimer<u8>(&field_0x9c1) == 0 || checkItemGet(m_itemNo, 1)) {
             if (fopAcM_delete(m_item_id)) {
@@ -564,8 +566,8 @@ void daItem_c::procInitBoomerangCarry() {
     scale = mItemScale;
     mBoomerangMove.initOffset(&current.pos);
 
-    u8 height = dItem_data::getH(m_itemNo);
-    u8 radius = dItem_data::getR(m_itemNo);
+    u8 height = dItem_data::getH(mFieldItemId);
+    u8 radius = dItem_data::getR(mFieldItemId);
     mCcCyl.SetR((f32)radius * 2.0f);
     mCcCyl.SetH((f32)height * 2.0f);
     mCcCyl.OnCoSPrmBit(1);
@@ -644,7 +646,9 @@ void daItem_c::procMainBoomHitWait() {
     if (mCcCyl.ChkTgHit()) {
         cCcD_Obj* hit_obj = mCcCyl.GetTgHitObj();
 
-        if (hit_obj != NULL && (hit_obj->ChkAtType(AT_TYPE_BOOMERANG) || hit_obj->ChkAtType(AT_TYPE_BOMB))) {
+        if (hit_obj != NULL &&
+            (hit_obj->ChkAtType(AT_TYPE_BOOMERANG) || hit_obj->ChkAtType(AT_TYPE_BOMB)))
+        {
             m_get_timer = 100;
 
             show();
@@ -748,7 +752,7 @@ void daItem_c::mode_wait() {
         mAcch.SetGrndNone();
     }
 
-    switch (m_itemNo) {
+    switch (mFieldItemId) {
     case dItemNo_HEART_e:
         itemActionForHeart();
         break;
@@ -793,7 +797,7 @@ void daItem_c::mode_water() {
     }
 
     f32 scale = 1.0f;
-    switch (m_itemNo) {
+    switch (mFieldItemId) {
     case dItemNo_HEART_e:
         scale = 0.5f;
         break;
@@ -830,7 +834,7 @@ void daItem_c::itemGetNextExecute() {
         setFlag(FLAG_INIT_GET_ITEM_e);
         BOOL haveItem = false;
 
-        switch (m_itemNo) {
+        switch (mFieldItemId) {
         /*case dItemNo_HEART:
         case dItemNo_GREEN_RUPEE:
         case dItemNo_ARROW_10:
@@ -866,12 +870,12 @@ void daItem_c::itemGetNextExecute() {
                 itemGet();
             }
             break;
-        //case dItemNo_BOOMERANG:
-        //    procInitGetDemoEvent();
-        //    break;
+        // case dItemNo_BOOMERANG:
+        //     procInitGetDemoEvent();
+        //     break;
         default:
             // "[daItem_c] Get process not defined[%d]\n"
-            //OS_REPORT_ERROR("[daItem_c]ゲット処理が定義されていません[%d]\n", m_itemNo);
+            // OS_REPORT_ERROR("[daItem_c]ゲット処理が定義されていません[%d]\n", m_itemNo);
             // All non rupee/ammo items are given by default
             procInitSimpleGetDemo();
             itemGet();
@@ -931,7 +935,7 @@ void daItem_c::itemGet() {
         execItemGet(m_itemNo);*/
     default:
         // "[daItem_c] Get process not defined[%d]\n"
-        //OS_REPORT_ERROR("[daItem_c]ゲット処理が定義されていません[%d]\n", m_itemNo);
+        // OS_REPORT_ERROR("[daItem_c]ゲット処理が定義されていません[%d]\n", m_itemNo);
         // Give all items that don't have a special case.
         mDoAud_seStart(Z2SE_CONSUMP_ITEM_GET, NULL, 0, 0);
         execItemGet(m_itemNo);
@@ -1126,7 +1130,7 @@ int daItem_c::initAction() {
     initSpeed(FALSE);
     initAngle();
 
-    if (isHeart(m_itemNo)) {
+    if (isHeart(mFieldItemId)) {
         speedF = (cM_rndF(5.0f) + 20.0f) - 15.0f;
         shape_angle.z = cM_rndFX(getData().mHeartTilt);
     }
@@ -1179,7 +1183,7 @@ void daItem_c::initFlag() {
         break;
     }
 
-    if (dItem_data::chkFlag(m_itemNo, 1)) {
+    if (dItem_data::chkFlag(mFieldItemId, 1)) {
         setFlag(FLAG_NO_TIMER_e);
     }
 }
@@ -1212,21 +1216,19 @@ procFunc daItem_c::mFuncPtr[] = {
     &daItem_c::procMainForceGet,      NULL,
 };
 
-const dCcD_SrcCyl daItem_c::m_cyl_src = {
-    {
-        {0, {{0, 0, 0}, {0xFFFFFFFF, 17}, 0x59}},
-        {dCcD_SE_NONE, 0, 0, 0, {0}},
-        {dCcD_SE_NONE, 0, 0, 0, {4}},
-        {0},
-    },
-    {
-        {
-            {0.0f, 0.0f, 0.0f},
-            10.0f,
-            50.0f,
-        },
-    }
-};
+const dCcD_SrcCyl daItem_c::m_cyl_src = {{
+                                             {0, {{0, 0, 0}, {0xFFFFFFFF, 17}, 0x59}},
+                                             {dCcD_SE_NONE, 0, 0, 0, {0}},
+                                             {dCcD_SE_NONE, 0, 0, 0, {4}},
+                                             {0},
+                                         },
+                                         {
+                                             {
+                                                 {0.0f, 0.0f, 0.0f},
+                                                 10.0f,
+                                                 50.0f,
+                                             },
+                                         }};
 
 void daItem_c::initSpeed(BOOL i_noTypeChk) {
     daPy_py_c* player = daPy_getPlayerActorClass();
@@ -1236,7 +1238,7 @@ void daItem_c::initSpeed(BOOL i_noTypeChk) {
     u8 type = daItem_prm::getType(this);
 
     if (!i_noTypeChk) {
-        if (type == TYPE_WAIT_e || type == TYPE_BOOM_HIT_e || m_itemNo == dItemNo_BOOMERANG_e) {
+        if (type == TYPE_WAIT_e || type == TYPE_BOOM_HIT_e || mFieldItemId == dItemNo_BOOMERANG_e) {
             y_speed = 0.0f;
             speedf = 0.0f;
         } else if (type == TYPE_LAUNCH_NO_RND_e || type == TYPE_FIXED_PLACE_e) {

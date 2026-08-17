@@ -37,6 +37,4 @@ private:
     /* 0x934 */ u8 mStatus;
 };
 
-STATIC_ASSERT(sizeof(daObjSword_c) == 0x938);
-
 #endif /* D_A_OBJ_SWORD_H */

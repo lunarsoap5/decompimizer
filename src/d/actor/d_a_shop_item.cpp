@@ -3,31 +3,30 @@
  * Shop Item Actor
  */
 
-#include "d/dolzel_rel.h" // IWYU pragma: keep
+#include "d/dolzel_rel.h"  // IWYU pragma: keep
 
-#include "d/actor/d_a_shop_item.h"
 #include "JSystem/JKernel/JKRSolidHeap.h"
+#include "d/actor/d_a_shop_item.h"
 #include "d/d_com_inf_game.h"
-#include "m_Do/m_Do_lib.h"
 #include "d/d_item_data.h"
+#include "m_Do/m_Do_lib.h"
 #include "rando/data/stages.h"
 
 const char* daShopItem_c::getShopArcname() {
     // If the item is 0xFF we want to show sold out.
     // If not, show the item ID
     switch (m_itemNo) {
-        case dItemNo_NONE_e:
-            if (strcmp("R_SP160", dComIfGp_getStartStageName()) == 0) {
-                mShopItemID = SHOP_ITEMNO_ARMOR_SOLD;
-            } else {
-                mShopItemID = SHOP_ITEMNO_SOLD;
-            }
-            break;
-        default:
-        {
-            mShopItemID = daShopItem_prm::getShopItemNo(this);
-            break;
+    case dItemNo_NONE_e:
+        if (strcmp("R_SP160", dComIfGp_getStartStageName()) == 0) {
+            mShopItemID = SHOP_ITEMNO_ARMOR_SOLD;
+        } else {
+            mShopItemID = SHOP_ITEMNO_SOLD;
         }
+        break;
+    default: {
+        mShopItemID = daShopItem_prm::getShopItemNo(this);
+        break;
+    }
 
     /*
     case dItemNo_OIL_BOTTLE:
@@ -98,34 +97,29 @@ const char* daShopItem_c::getShopArcname() {
         return NULL;
     */}
 
-    // Sera's shop is different as it is not created by TGSPITM actors and is instead created by Sera's actor manually.
-    if (strcmp(allStages[Ordon_Village_Interiors], dComIfGp_getStartStageName()) == 0) 
-    {
+    // Sera's shop is different as it is not created by TGSPITM actors and is instead created by
+    // Sera's actor manually.
+    if (strcmp(allStages[Ordon_Village_Interiors], dComIfGp_getStartStageName()) == 0) {
         switch (m_itemNo) {
-            case dItemNo_PACHINKO_e:
-            {
-                mShopItemID = SHOP_ITEM_SERA_SLINGSHOT;
-                break;
-            }
-            case dItemNo_MILK_BOTTLE_e:
-            {
-                mShopItemID = SHOP_ITEM_SERA_MILK;
-                break;
-            }
-            case dItemNo_OIL_BOTTLE_e:
-            {
-                mShopItemID = SHOP_ITEM_SERA_OIL;
-                break;
-            }
-            case dItemNo_BEE_CHILD_e:
-            {
-                mShopItemID = SHOP_ITEM_SERA_LARVA;
-                break;
-            }
-            
+        case dItemNo_PACHINKO_e: {
+            mShopItemID = SHOP_ITEM_SERA_SLINGSHOT;
+            break;
+        }
+        case dItemNo_MILK_BOTTLE_e: {
+            mShopItemID = SHOP_ITEM_SERA_MILK;
+            break;
+        }
+        case dItemNo_OIL_BOTTLE_e: {
+            mShopItemID = SHOP_ITEM_SERA_OIL;
+            break;
+        }
+        case dItemNo_BEE_CHILD_e: {
+            mShopItemID = SHOP_ITEM_SERA_LARVA;
+            break;
+        }
         };
     }
-    
+
     return mData[mShopItemID].get_arcName();
 }
 
@@ -142,18 +136,15 @@ u16 daShopItem_c::getHeapSize() {
     u8 a_ShopItemID = getShopItemID();
     u16 heapSize;
 
-    if (a_ShopItemID == SHOP_ITEMNO_ARMOR_SOLD)
-    {
+    if (a_ShopItemID == SHOP_ITEMNO_ARMOR_SOLD) {
         heapSize = 0x43a0;
-    }
-    else
-    {
+    } else {
         heapSize = 0x810;
     }
     OS_REPORT("ShopItemID [%u]\n", a_ShopItemID);
     ASSERT(a_ShopItemID < SHOP_ITEMNO_MAX);
 
-    return heapSize; //HeapSizeTbl[a_ShopItemID];
+    return heapSize;  // HeapSizeTbl[a_ShopItemID];
 }
 
 void daShopItem_c::CreateInit() {
@@ -268,6 +259,7 @@ int daShopItem_c::_create() {
     mAngleX = 0;
     mAngleY = 0;
     m_itemNo = daShopItem_prm::getItemNo(this);
+    mFieldItemId = m_itemNo;
 
     if (getShopArcname() == NULL) {
         // "Display model archive name doesn't exist![%d]\n"

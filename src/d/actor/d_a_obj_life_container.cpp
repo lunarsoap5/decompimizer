@@ -1,33 +1,32 @@
 /**
  * @file d_a_obj_life_container.cpp
- * 
-*/
+ *
+ */
 
-#include "d/dolzel_rel.h" // IWYU pragma: keep
+#include "d/dolzel_rel.h"  // IWYU pragma: keep
 
-#include "d/actor/d_a_obj_life_container.h"
-#include "d/d_com_inf_game.h"
-#include "d/actor/d_a_player.h"
-#include "d/d_item_data.h"
-#include "d/actor/d_a_alink.h"
-#include "SSystem/SComponent/c_math.h"
 #include <cstring>
+#include "SSystem/SComponent/c_math.h"
+#include "d/actor/d_a_alink.h"
+#include "d/actor/d_a_obj_life_container.h"
+#include "d/actor/d_a_player.h"
+#include "d/d_com_inf_game.h"
+#include "d/d_item_data.h"
 
 const static dCcD_SrcCyl l_cyl_src = {
     {
-        {0x0, {{0x0, 0x0, 0x0}, {0xffffffff, 0x11}, 0x59}}, // mObj
-        {dCcD_SE_NONE, 0x0, 0x0, 0x0, 0x0}, // mGObjAt
-        {dCcD_SE_NONE, 0x0, 0x0, 0x0, 0x4}, // mGObjTg
-        {0x0}, // mGObjCo
-    }, // mObjInf
+        {0x0, {{0x0, 0x0, 0x0}, {0xffffffff, 0x11}, 0x59}},  // mObj
+        {dCcD_SE_NONE, 0x0, 0x0, 0x0, 0x0},                  // mGObjAt
+        {dCcD_SE_NONE, 0x0, 0x0, 0x0, 0x4},                  // mGObjTg
+        {0x0},                                               // mGObjCo
+    },                                                       // mObjInf
     {
         {
-            {0.0f, 0.0f, 0.0f}, // mCenter
-            20.0f, // mRadius
-            40.0f // mHeight
-        } // mCyl
-    }
-};
+            {0.0f, 0.0f, 0.0f},  // mCenter
+            20.0f,               // mRadius
+            40.0f                // mHeight
+        }  // mCyl
+    }};
 
 static f32 Reflect(cXyz* i_vec, cBgS_PolyInfo const& i_wallpoly, f32 i_scale) {
     cM3dGPla plane;
@@ -48,7 +47,8 @@ static void lifeGetTgCallBack(fopAc_ac_c* i_tgActor, dCcD_GObjInf* i_tgObjInf,
                               fopAc_ac_c* i_atActor, dCcD_GObjInf* i_atObjInf) {
     if (i_tgActor != NULL &&
         (i_atObjInf->ChkAtType(AT_TYPE_40) || i_atObjInf->ChkAtType(AT_TYPE_BOOMERANG)) &&
-        !dComIfGp_event_runCheck() && !((daObjLife_c*)i_tgActor)->chkStatus(daObjLife_c::STATUS_BOOMERANG_CARRY_e))
+        !dComIfGp_event_runCheck() &&
+        !((daObjLife_c*)i_tgActor)->chkStatus(daObjLife_c::STATUS_BOOMERANG_CARRY_e))
     {
         ((daObjLife_c*)i_tgActor)->actionInitBoomerangCarry();
     }
@@ -56,7 +56,9 @@ static void lifeGetTgCallBack(fopAc_ac_c* i_tgActor, dCcD_GObjInf* i_tgObjInf,
 
 static void lifeGetCoCallBack(fopAc_ac_c* i_coActorA, dCcD_GObjInf* i_coObjInfA,
                               fopAc_ac_c* i_coActorB, dCcD_GObjInf* i_coObjInfB) {
-    if (i_coActorA != NULL && i_coActorB != NULL && i_coActorB == (fopAc_ac_c*)dComIfGp_getLinkPlayer()) {
+    if (i_coActorA != NULL && i_coActorB != NULL &&
+        i_coActorB == (fopAc_ac_c*)dComIfGp_getLinkPlayer())
+    {
         if (!daPy_getPlayerActorClass()->checkCanoeRide()) {
             ((daObjLife_c*)i_coActorA)->initActionOrderGetDemo();
         }
@@ -69,7 +71,7 @@ void daObjLife_c::initBaseMtx() {
 
 void daObjLife_c::setBaseMtx() {
     mpModel->setBaseScale(scale);
-    
+
     mDoMtx_stack_c::transS(current.pos);
     mDoMtx_stack_c::ZXYrotM(shape_angle);
     mpModel->setBaseTRMtx(mDoMtx_stack_c::get());
@@ -81,15 +83,16 @@ int daObjLife_c::Create() {
     fopAcM_SetMtx(this, mpModel->getBaseTRMtx());
 
     mAcchCir.SetWall(30.0f, 30.0f);
-    mAcch.Set(fopAcM_GetPosition_p(this), fopAcM_GetOldPosition_p(this), this, 1, &mAcchCir, fopAcM_GetSpeed_p(this), NULL, NULL);
-    
+    mAcch.Set(fopAcM_GetPosition_p(this), fopAcM_GetOldPosition_p(this), this, 1, &mAcchCir,
+              fopAcM_GetSpeed_p(this), NULL, NULL);
+
     mCcStts.Init(0, 0xFF, this);
     mCcCyl.Set(l_cyl_src);
     mCcCyl.SetStts(&mCcStts);
     mCcCyl.SetCoHitCallback(lifeGetCoCallBack);
     mCcCyl.SetTgHitCallback(lifeGetTgCallBack);
-    mCcCyl.SetR(dItem_data::getR(m_itemNo));
-    mCcCyl.SetH(dItem_data::getH(m_itemNo));
+    mCcCyl.SetR(dItem_data::getR(mFieldItemId));
+    mCcCyl.SetH(dItem_data::getH(mFieldItemId));
 
     fopAcM_SetCullSize(this, fopAc_CULLSPHERE_0_e);
     fopAcM_SetGravity(this, -3.2f);
@@ -104,39 +107,38 @@ int daObjLife_c::Create() {
 }
 
 void daObjLife_c::setEffect() {
-
     // We don't want rupees or poe souls to sparkle. They are bright enough.
-    switch(m_itemNo)
-    {
-        case dItemNo_GREEN_RUPEE_e:
-        case dItemNo_BLUE_RUPEE_e:
-        case dItemNo_RED_RUPEE_e:
-        case dItemNo_YELLOW_RUPEE_e:
-        case dItemNo_LINKS_SAVINGS_e:
-        case dItemNo_PURPLE_RUPEE_e:
-        case dItemNo_ORANGE_RUPEE_e:
-        case dItemNo_SILVER_RUPEE_e:
-        case dItemNo_POU_SPIRIT_e:
-        {
-            return;
-        }
-        default:
-        {
-            break;
-        }
+    switch (mFieldItemId) {
+    case dItemNo_GREEN_RUPEE_e:
+    case dItemNo_BLUE_RUPEE_e:
+    case dItemNo_RED_RUPEE_e:
+    case dItemNo_YELLOW_RUPEE_e:
+    case dItemNo_LINKS_SAVINGS_e:
+    case dItemNo_PURPLE_RUPEE_e:
+    case dItemNo_ORANGE_RUPEE_e:
+    case dItemNo_SILVER_RUPEE_e:
+    case dItemNo_POU_SPIRIT_e: {
+        return;
+    }
+    default: {
+        break;
+    }
     }
     cXyz size(1.5f, 1.5f, 1.5f);
 
     if (mEffect0.getEmitter() == NULL) {
-        dComIfGp_particle_set(0x8DE, &current.pos, NULL, &size, 0xFF, &mEffect0, -1, NULL, NULL, NULL);
+        dComIfGp_particle_set(0x8DE, &current.pos, NULL, &size, 0xFF, &mEffect0, -1, NULL, NULL,
+                              NULL);
     }
 
     if (mEffect1.getEmitter() == NULL) {
-        dComIfGp_particle_set(0x8DF, &current.pos, NULL, &size, 0xFF, &mEffect1, -1, NULL, NULL, NULL);
+        dComIfGp_particle_set(0x8DF, &current.pos, NULL, &size, 0xFF, &mEffect1, -1, NULL, NULL,
+                              NULL);
     }
 
     if (mEffect2.getEmitter() == NULL) {
-        dComIfGp_particle_set(0x8E0, &current.pos, NULL, &size, 0xFF, &mEffect2, -1, NULL, NULL, NULL);
+        dComIfGp_particle_set(0x8E0, &current.pos, NULL, &size, 0xFF, &mEffect2, -1, NULL, NULL,
+                              NULL);
     }
 }
 
@@ -166,6 +168,10 @@ int daObjLife_c::create() {
     }
 
     m_itemNo = getItemNo();
+    mFieldItemId = setID;
+    if (mFieldItemId == 0xFF) {
+        mFieldItemId = m_itemNo;
+    }
     if (m_itemNo != dItemNo_KAKERA_HEART_e && m_itemNo != dItemNo_UTAWA_HEART_e) {
         // "Heart Container: Item No is incorrect!<%d>\n"
         OS_REPORT_ERROR("ハートの器：アイテム番号が不正です！<%d>\n", m_itemNo);
@@ -179,7 +185,7 @@ int daObjLife_c::create() {
         return cPhs_ERROR_e;
     }*/
 
-    int phase_state = dComIfG_resLoad(&mPhase, dItem_data::getFieldArc(m_itemNo));
+    int phase_state = dComIfG_resLoad(&mPhase, dItem_data::getFieldArc(mFieldItemId));
     if (phase_state == cPhs_COMPLEATE_e) {
         if (!fopAcM_entrySolidHeap(this, CheckFieldItemCreateHeap, 0x4000)) {
             return cPhs_ERROR_e;
@@ -312,13 +318,14 @@ int daObjLife_c::initActionOrderGetDemo() {
 
     endEffect00();
     endEffect02();
-    
+
     hide();
 
     fopAcM_orderItemEvent(this, 0, 0);
     eventInfo.onCondition(dEvtCnd_CANGETITEM_e);
 
-    mItemId = fopAcM_createItemForTrBoxDemo(&current.pos, m_itemNo, -1, fopAcM_GetRoomNo(this), NULL, NULL);
+    mItemId = fopAcM_createItemForTrBoxDemo(&current.pos, m_itemNo, -1, fopAcM_GetRoomNo(this),
+                                            NULL, NULL);
     JUT_ASSERT(699, mItemId != fpcM_ERROR_PROCESS_ID_e);
 
     setStatus(STATUS_ORDER_GET_DEMO_e);
@@ -328,7 +335,7 @@ int daObjLife_c::initActionOrderGetDemo() {
 int daObjLife_c::actionOrderGetDemo() {
     if (eventInfo.checkCommandItem()) {
         setStatus(STATUS_GET_DEMO_e);
-        
+
         if (mItemId != fpcM_ERROR_PROCESS_ID_e) {
             dComIfGp_event_setItemPartnerId(mItemId);
         }
@@ -382,8 +389,8 @@ int daObjLife_c::actionInitBoomerangCarry() {
     mCcCyl.OnTgSPrmBit(1);
     mCcCyl.OnCoSPrmBit(1);
 
-    f32 height = dItem_data::getH(m_itemNo) * 4.0f;
-    f32 radius = dItem_data::getR(m_itemNo) * 4.0f;
+    f32 height = dItem_data::getH(mFieldItemId) * 4.0f;
+    f32 radius = dItem_data::getR(mFieldItemId) * 4.0f;
     mCcCyl.SetR(radius);
     mCcCyl.SetH(height);
 
@@ -433,62 +440,50 @@ void daObjLife_c::calcScale() {
 }
 
 int daObjLife_c::execute() {
-    static int (daObjLife_c::*l_demoFunc[])() = {
-        &daObjLife_c::actionWait,
-        &daObjLife_c::actionOrderGetDemo,
-        &daObjLife_c::actionGetDemo,
-        &daObjLife_c::actionSwOnWait,
-        &daObjLife_c::actionBoomerangCarry,
-        &daObjLife_c::actionWait2,
+    static int (daObjLife_c::* l_demoFunc[])() = {
+        &daObjLife_c::actionWait,           &daObjLife_c::actionOrderGetDemo,
+        &daObjLife_c::actionGetDemo,        &daObjLife_c::actionSwOnWait,
+        &daObjLife_c::actionBoomerangCarry, &daObjLife_c::actionWait2,
     };
 
     static const char* hpStages[] = {
-        "F_SP121",
-        "F_SP126",
-        "F_SP117",
-        "D_MN10A",
-        "D_MN08A",};
+        "F_SP121", "F_SP126", "F_SP117", "D_MN10A", "D_MN08A",
+    };
     uint32_t totalHpStages = sizeof(hpStages) / sizeof(hpStages[0]);
-    for (uint32_t i = 0; i < totalHpStages; i++)
-    {
-        if (daAlink_c::checkStageName(hpStages[i]))
-        {
-            // For stages where we replace other actors with HP/HCs, we want them to stay in their original place and rotate normally
+    for (uint32_t i = 0; i < totalHpStages; i++) {
+        if (daAlink_c::checkStageName(hpStages[i])) {
+            // For stages where we replace other actors with HP/HCs, we want them to stay in their
+            // original place and rotate normally
             gravity = 0.0f;
             mRotateSpeed = 0x226;
         }
     }
 
-    switch (m_itemNo)
-    {
-        case dItemNo_UTAWA_HEART_e:
-        case dItemNo_KAKERA_HEART_e:
-        case dItemNo_ARROW_10_e:
-        case dItemNo_ARROW_20_e:
-        case dItemNo_ARROW_30_e:
-        {
-            scale.y = 1.0f;
-            break;
-        }
-        case dItemNo_BOW_e:
-        {
-            scale.y = 1.5f;
-            break;
-        }
-        case dItemNo_MASTER_SWORD_e:
-        case dItemNo_LIGHT_SWORD_e:
-        case dItemNo_MIRROR_PIECE_1_e:
-        case dItemNo_MIRROR_PIECE_2_e:
-        case dItemNo_MIRROR_PIECE_3_e:
-        case dItemNo_MIRROR_PIECE_4_e:
-        {
-            scale.y = 0.7f;
-            break;
-        }
-        default:
-        {
-            scale.y = 2.0f;
-        }
+    switch (mFieldItemId) {
+    case dItemNo_UTAWA_HEART_e:
+    case dItemNo_KAKERA_HEART_e:
+    case dItemNo_ARROW_10_e:
+    case dItemNo_ARROW_20_e:
+    case dItemNo_ARROW_30_e: {
+        scale.y = 1.0f;
+        break;
+    }
+    case dItemNo_BOW_e: {
+        scale.y = 1.5f;
+        break;
+    }
+    case dItemNo_MASTER_SWORD_e:
+    case dItemNo_LIGHT_SWORD_e:
+    case dItemNo_MIRROR_PIECE_1_e:
+    case dItemNo_MIRROR_PIECE_2_e:
+    case dItemNo_MIRROR_PIECE_3_e:
+    case dItemNo_MIRROR_PIECE_4_e: {
+        scale.y = 0.7f;
+        break;
+    }
+    default: {
+        scale.y = 2.0f;
+    }
     }
 
     mPrevSpeed = speed;
@@ -553,7 +548,7 @@ int daObjLife_c::_delete() {
     endEffect00();
     endEffect02();
 
-    DeleteBase(dItem_data::getFieldArc(m_itemNo));
+    DeleteBase(dItem_data::getFieldArc(mFieldItemId));
     return 1;
 }
 
@@ -574,10 +569,8 @@ static int daObjLife_Create(fopAc_ac_c* i_this) {
 }
 
 static actor_method_class l_daObjLife_Method = {
-    (process_method_func)daObjLife_Create,
-    (process_method_func)daObjLife_Delete,
-    (process_method_func)daObjLife_Execute,
-    (process_method_func)NULL,
+    (process_method_func)daObjLife_Create,  (process_method_func)daObjLife_Delete,
+    (process_method_func)daObjLife_Execute, (process_method_func)NULL,
     (process_method_func)daObjLife_Draw,
 };
 
@@ -593,7 +586,8 @@ actor_process_profile_definition g_profile_Obj_LifeContainer = {
     /* Leaf SubMtd  */ &g_fopAc_Method.base,
     /* Draw Prio    */ fpcDwPi_Obj_LifeContainer_e,
     /* Actor SubMtd */ &l_daObjLife_Method,
-    /* Status       */ fopAcStts_UNK_0x80000_e | fopAcStts_UNK_0x40000_e | fopAcStts_UNK_0x4000_e | fopAcStts_CULL_e,
+    /* Status       */ fopAcStts_UNK_0x80000_e | fopAcStts_UNK_0x40000_e | fopAcStts_UNK_0x4000_e |
+        fopAcStts_CULL_e,
     /* Group        */ fopAc_ACTOR_e,
     /* Cull Type    */ fopAc_CULLBOX_CUSTOM_e,
 };

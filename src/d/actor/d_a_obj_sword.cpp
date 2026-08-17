@@ -1,9 +1,9 @@
 /**
-* @file d_a_obj_sword.cpp
+ * @file d_a_obj_sword.cpp
  *
  */
 
-#include "d/dolzel_rel.h" // IWYU pragma: keep
+#include "d/dolzel_rel.h"  // IWYU pragma: keep
 
 #include "d/actor/d_a_obj_sword.h"
 #include "d/actor/d_a_player.h"
@@ -27,8 +27,8 @@ void daObjSword_c::setBaseMtx() {
 int daObjSword_c::Create() {
     initBaseMtx();
     fopAcM_SetMtx(this, mpModel->getBaseTRMtx());
-    fopAcM_setCullSizeBox(this, l_cull_box.min.x, l_cull_box.min.y, l_cull_box.min.z, l_cull_box.max.x,
-                          l_cull_box.max.y, l_cull_box.max.z);
+    fopAcM_setCullSizeBox(this, l_cull_box.min.x, l_cull_box.min.y, l_cull_box.min.z,
+                          l_cull_box.max.x, l_cull_box.max.y, l_cull_box.max.z);
     fopAcM_OnCarryType(this, fopAcM_CARRY_UNK_30);
     show();
     execute();
@@ -37,12 +37,16 @@ int daObjSword_c::Create() {
 
 cPhs_Step daObjSword_c::create() {
     fopAcM_ct(this, daObjSword_c);
-    m_itemNo = g_randoInfo.getEventItem(dItemNo_SWORD_e); // Search for rando check first
+    m_itemNo = g_randoInfo.getEventItem(dItemNo_SWORD_e);  // Search for rando check first
+    mFieldItemId = setID;
+    if (mFieldItemId == 0xFF) {
+        mFieldItemId = m_itemNo;
+    }
     if (fopAcM_isItem(this, getItemBit())) {
         return cPhs_ERROR_e;
     }
 
-    cPhs_Step phase = dComIfG_resLoad(&mPhase, dItem_data::getFieldArc(m_itemNo));
+    cPhs_Step phase = dComIfG_resLoad(&mPhase, dItem_data::getFieldArc(mFieldItemId));
     if (phase == cPhs_COMPLEATE_e) {
         if (!fopAcM_entrySolidHeap(this, CheckFieldItemCreateHeap, 0x4000)) {
             return cPhs_ERROR_e;
@@ -121,7 +125,7 @@ int daObjSword_c::draw() {
 }
 
 int daObjSword_c::_delete() {
-    DeleteBase(dItem_data::getFieldArc(m_itemNo));
+    DeleteBase(dItem_data::getFieldArc(mFieldItemId));
     return 1;
 }
 

@@ -3,8 +3,8 @@
 
 #include "SSystem/SComponent/c_lib.h"
 #include "d/actor/d_a_itembase.h"
-#include "d/d_particle.h"
 #include "d/actor/d_a_player.h"
+#include "d/d_particle.h"
 
 class daItem_c;
 typedef void (daItem_c::*procFunc)();
@@ -25,11 +25,11 @@ public:
     };
 
     enum Flag_e {
-        FLAG_UNK_2_e         = (1 << 1),
-        FLAG_NO_MOVE_e       = (1 << 2),
-        FLAG_NO_TIMER_e      = (1 << 3),
+        FLAG_UNK_2_e = (1 << 1),
+        FLAG_NO_MOVE_e = (1 << 2),
+        FLAG_NO_TIMER_e = (1 << 3),
         FLAG_INIT_GET_ITEM_e = (1 << 4),
-        FLAG_DELETE_ITEM_e   = (1 << 5),
+        FLAG_DELETE_ITEM_e = (1 << 5),
     };
 
     enum Mode_e {

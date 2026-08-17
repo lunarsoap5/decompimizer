@@ -1,12 +1,12 @@
 #ifndef D_A_D_A_ITEMBASE_H
 #define D_A_D_A_ITEMBASE_H
 
+#include "SSystem/SComponent/c_phase.h"
+#include "d/d_a_itembase_static.h"
 #include "d/d_bg_s_acch.h"
 #include "d/d_cc_d.h"
-#include "d/d_a_itembase_static.h"
 #include "f_op/f_op_actor_mng.h"
 #include "m_Do/m_Do_ext.h"
-#include "SSystem/SComponent/c_phase.h"
 
 struct daItemBase_data {
     /* 0x00 */ f32 mGravity;
@@ -79,6 +79,7 @@ public:
     /* 0x928 */ s16 m_get_timer;
     /* 0x92A */ u8 m_itemNo;
     /* 0x92B */ u8 field_0x92b;
+    /* 0x92C */ u8 mFieldItemId;
 };
 
 #endif /* D_A_D_A_ITEMBASE_H */

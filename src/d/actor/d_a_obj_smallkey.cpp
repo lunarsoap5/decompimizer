@@ -1,33 +1,32 @@
 /**
  * @file d_a_obj_smallkey.cpp
- * 
-*/
+ *
+ */
 
-#include "d/dolzel_rel.h" // IWYU pragma: keep
+#include "d/dolzel_rel.h"  // IWYU pragma: keep
 
+#include <cstring>
 #include "d/actor/d_a_obj_smallkey.h"
-#include "d/d_com_inf_game.h"
 #include "d/actor/d_a_player.h"
+#include "d/d_com_inf_game.h"
 #include "d/d_item_data.h"
 #include "d/d_tresure.h"
 #include "f_op/f_op_camera_mng.h"
-#include <cstring>
 
 const static dCcD_SrcCyl l_cyl_src = {
     {
-        {0x0, {{0x0, 0x0, 0x0}, {0xffffffff, 0x11}, 0x59}}, // mObj
-        {dCcD_SE_NONE, 0x0, 0x0, 0x0, 0x0}, // mGObjAt
-        {dCcD_SE_NONE, 0x0, 0x0, 0x0, 0x4}, // mGObjTg
-        {0x0}, // mGObjCo
-    }, // mObjInf
+        {0x0, {{0x0, 0x0, 0x0}, {0xffffffff, 0x11}, 0x59}},  // mObj
+        {dCcD_SE_NONE, 0x0, 0x0, 0x0, 0x0},                  // mGObjAt
+        {dCcD_SE_NONE, 0x0, 0x0, 0x0, 0x4},                  // mGObjTg
+        {0x0},                                               // mGObjCo
+    },                                                       // mObjInf
     {
         {
-            {0.0f, 0.0f, 0.0f}, // mCenter
-            20.0f, // mRadius
-            40.0f // mHeight
-        } // mCyl
-    }
-};
+            {0.0f, 0.0f, 0.0f},  // mCenter
+            20.0f,               // mRadius
+            40.0f                // mHeight
+        }  // mCyl
+    }};
 
 static void* searchParentSub(void* i_actor, void* i_data) {
     fopAc_ac_c* a_actor = (fopAc_ac_c*)i_actor;
@@ -72,12 +71,14 @@ static f32 Reflect(cXyz* i_vec, cBgS_PolyInfo const& i_polyinfo, f32 i_scale) {
     return 0.0f;
 }
 
-static void keyGetTgCallBack(fopAc_ac_c* i_tgActor, dCcD_GObjInf* i_tgObjInf,
-                             fopAc_ac_c* i_atActor, dCcD_GObjInf* i_atObjInf) {
+static void keyGetTgCallBack(fopAc_ac_c* i_tgActor, dCcD_GObjInf* i_tgObjInf, fopAc_ac_c* i_atActor,
+                             dCcD_GObjInf* i_atObjInf) {
     daKey_c* a_tgActor = (daKey_c*)i_tgActor;
 
     if (a_tgActor != NULL) {
-        if ((i_atObjInf->ChkAtType(AT_TYPE_40) || i_atObjInf->ChkAtType(AT_TYPE_BOOMERANG)) && !dComIfGp_event_runCheck() && !a_tgActor->chkStatus(6)) {
+        if ((i_atObjInf->ChkAtType(AT_TYPE_40) || i_atObjInf->ChkAtType(AT_TYPE_BOOMERANG)) &&
+            !dComIfGp_event_runCheck() && !a_tgActor->chkStatus(6))
+        {
             a_tgActor->actionInitBoomerangCarry();
         }
     }
@@ -112,7 +113,8 @@ int daKey_c::Create() {
     fopAcM_SetMtx(this, mpModel->getBaseTRMtx());
 
     mAcchCir.SetWall(30.0f, 30.0f);
-    mAcch.Set(fopAcM_GetPosition_p(this), fopAcM_GetOldPosition_p(this), this, 1, &mAcchCir, fopAcM_GetSpeed_p(this), NULL, NULL);
+    mAcch.Set(fopAcM_GetPosition_p(this), fopAcM_GetOldPosition_p(this), this, 1, &mAcchCir,
+              fopAcM_GetSpeed_p(this), NULL, NULL);
 
     mCcStts.Init(0, 0xFF, this);
     mCcCyl.Set(l_cyl_src);
@@ -121,7 +123,7 @@ int daKey_c::Create() {
     mCcCyl.SetTgHitCallback(keyGetTgCallBack);
     mCcCyl.SetR(dItem_data::getR(m_itemNo));
     mCcCyl.SetH(dItem_data::getH(m_itemNo));
-    
+
     fopAcM_SetCullSize(this, fopAc_CULLSPHERE_0_e);
 
     if (getSwNo() == 0xFF) {
@@ -156,6 +158,7 @@ int daKey_c::create() {
     }
 
     m_itemNo = dItemNo_SMALL_KEY_e;
+    mFieldItemId = m_itemNo;
 
     if (dComIfGs_isTbox(getSaveBitNo())) {
         return cPhs_ERROR_e;
@@ -213,7 +216,9 @@ int daKey_c::actionInit() {
     void* pparent = fpcM_Search(searchParentSub, this);
     if (pparent != NULL) {
         parentActorID = fopAcM_GetID(pparent);
-        if (fopAcM_GetProfName(pparent) == fpcNm_OBJ_GM_e || fopAcM_GetProfName(pparent) == fpcNm_E_ZM_e) {
+        if (fopAcM_GetProfName(pparent) == fpcNm_OBJ_GM_e ||
+            fopAcM_GetProfName(pparent) == fpcNm_E_ZM_e)
+        {
             hide();
             actionParentWaitInit();
         } else if (fopAcM_GetProfName(pparent) == fpcNm_E_GB_e) {
@@ -311,7 +316,8 @@ int daKey_c::initActionOrderGetDemo() {
     fopAcM_orderItemEvent(this, 0, 0);
     eventInfo.onCondition(8);
 
-    mItemId = fopAcM_createItemForTrBoxDemo(&current.pos, m_itemNo, -1, fopAcM_GetRoomNo(this), NULL, NULL);
+    mItemId = fopAcM_createItemForTrBoxDemo(&current.pos, m_itemNo, -1, fopAcM_GetRoomNo(this),
+                                            NULL, NULL);
     JUT_ASSERT(699, mItemId != fpcM_ERROR_PROCESS_ID_e);
 
     setStatus(STATUS_ORDER_GET_DEMO_e);
@@ -406,14 +412,15 @@ int daKey_c::actionBoomerangCarry() {
 
 void daKey_c::effectSet() {
     if (mEffect[0].getEmitter() == NULL) {
-        cXyz eff_scale[] = {  // needs to be an array to match...
-            cXyz(1.0f, 1.0f, 1.0f)
-        };
+        cXyz eff_scale[] = {// needs to be an array to match...
+                            cXyz(1.0f, 1.0f, 1.0f)};
         mEffRot = shape_angle;
         mEffRot.x = -0x4000;
 
-        dComIfGp_particle_set(0x82BE, &current.pos, &mEffRot, &eff_scale[0], 0xFF, &mEffect[0], fopAcM_GetRoomNo(this), NULL, NULL, NULL);
-        dComIfGp_particle_set(0x82BF, &current.pos, &mEffRot, &eff_scale[0], 0xFF, &mEffect[1], fopAcM_GetRoomNo(this), NULL, NULL, NULL);
+        dComIfGp_particle_set(0x82BE, &current.pos, &mEffRot, &eff_scale[0], 0xFF, &mEffect[0],
+                              fopAcM_GetRoomNo(this), NULL, NULL, NULL);
+        dComIfGp_particle_set(0x82BF, &current.pos, &mEffRot, &eff_scale[0], 0xFF, &mEffect[1],
+                              fopAcM_GetRoomNo(this), NULL, NULL, NULL);
     }
 }
 
@@ -477,15 +484,10 @@ int daKey_c::actionE_GB() {
 }
 
 int daKey_c::execute() {
-    static int (daKey_c::*l_demoFunc[])() = {
-        &daKey_c::actionInit,
-        &daKey_c::actionParentWait,
-        &daKey_c::actionWait,
-        &daKey_c::actionOrderGetDemo,
-        &daKey_c::actionGetDemo,
-        &daKey_c::actionSwOnWait,
-        &daKey_c::actionBoomerangCarry,
-        &daKey_c::actionE_GB,
+    static int (daKey_c::* l_demoFunc[])() = {
+        &daKey_c::actionInit,           &daKey_c::actionParentWait, &daKey_c::actionWait,
+        &daKey_c::actionOrderGetDemo,   &daKey_c::actionGetDemo,    &daKey_c::actionSwOnWait,
+        &daKey_c::actionBoomerangCarry, &daKey_c::actionE_GB,
     };
 
     mPrevSpeed = speed;
@@ -542,10 +544,8 @@ static int daKey_Create(fopAc_ac_c* i_this) {
 }
 
 static actor_method_class l_daKey_Method = {
-    (process_method_func)daKey_Create,
-    (process_method_func)daKey_Delete,
-    (process_method_func)daKey_Execute,
-    (process_method_func)NULL,
+    (process_method_func)daKey_Create,  (process_method_func)daKey_Delete,
+    (process_method_func)daKey_Execute, (process_method_func)NULL,
     (process_method_func)daKey_Draw,
 };
 

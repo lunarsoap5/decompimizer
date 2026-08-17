@@ -1,33 +1,33 @@
 /**
  * @file d_a_obj_shield.cpp
- * 
-*/
+ *
+ */
 
-#include "d/dolzel_rel.h" // IWYU pragma: keep
+#include "d/dolzel_rel.h"  // IWYU pragma: keep
 
+#include <cmath>
+#include "SSystem/SComponent/c_math.h"
 #include "d/actor/d_a_obj_shield.h"
 #include "d/actor/d_a_player.h"
-#include "SSystem/SComponent/c_math.h"
-#include "d/d_com_inf_game.h"
 #include "d/d_cc_d.h"
+#include "d/d_com_inf_game.h"
 #include "d/d_item_data.h"
 #include "rando/rando.h"
-#include <cmath>
 
 const static dCcD_SrcCyl l_cyl_src = {
     {
-        {0x0, {{0x0, 0x0, 0x0}, {0xffffffff, 0x11}, 0x59}}, // mObj
-        {dCcD_SE_NONE, 0x0, 0x0, 0x0, 0x0}, // mGObjAt
-        {dCcD_SE_NONE, 0x0, 0x0, 0x0, 0x4}, // mGObjTg
-        {0x0}, // mGObjCo
-    }, // mObjInf
+        {0x0, {{0x0, 0x0, 0x0}, {0xffffffff, 0x11}, 0x59}},  // mObj
+        {dCcD_SE_NONE, 0x0, 0x0, 0x0, 0x0},                  // mGObjAt
+        {dCcD_SE_NONE, 0x0, 0x0, 0x0, 0x4},                  // mGObjTg
+        {0x0},                                               // mGObjCo
+    },                                                       // mObjInf
     {
         {
-            {0.0f, 0.0f, 0.0f}, // mCenter
-            20.0f, // mRadius
-            40.0f // mHeight
-        } // mCyl
-    } // mCylAttr
+            {0.0f, 0.0f, 0.0f},  // mCenter
+            20.0f,               // mRadius
+            40.0f                // mHeight
+        }  // mCyl
+    }  // mCylAttr
 };
 
 static f32 Reflect(cXyz* pSpeed, cBgS_PolyInfo const& param_2, f32 param_3) {
@@ -65,7 +65,8 @@ void daItemShield_c::setBaseMtx() {
     rotation.x = field_0x944.x * cM_scos(mRotAngleCoeff * 2000) - field_0x944.x;
     rotation.z = field_0x944.z * cM_scos(2000 * (mRotAngleCoeff + 8)) - field_0x944.z;
     mDoMtx_stack_c::transS(current.pos.x, current.pos.y, current.pos.z);
-    // mDoMtx_stack_c::ZXYrotM(shape_angle.x, shape_angle.y, shape_angle.z); - prevent modification of the hanging item Y rot.
+    // mDoMtx_stack_c::ZXYrotM(shape_angle.x, shape_angle.y, shape_angle.z); - prevent modification
+    // of the hanging item Y rot.
     if (fopAcM_GetGravity(this) == 0.0f) {
         mDoMtx_stack_c::transM(-20.0f, 0.0f, -15.0f);
         mDoMtx_stack_c::YrotM(field_0x950);
@@ -80,13 +81,13 @@ int daItemShield_c::Create() {
     initBaseMtx();
     fopAcM_SetMtx(this, mpModel->getBaseTRMtx());
     mAcchCir.SetWall(30.0f, 30.0f);
-    mAcch.Set(fopAcM_GetPosition_p(this), fopAcM_GetOldPosition_p(this), this, 1,
-                     &mAcchCir, fopAcM_GetSpeed_p(this), NULL, NULL);
+    mAcch.Set(fopAcM_GetPosition_p(this), fopAcM_GetOldPosition_p(this), this, 1, &mAcchCir,
+              fopAcM_GetSpeed_p(this), NULL, NULL);
     mCcStts.Init(0, 0xff, this);
     mCcCyl.Set(l_cyl_src);
     mCcCyl.SetStts(&mCcStts);
-    mCcCyl.SetR(dItem_data::getR(m_itemNo));
-    mCcCyl.SetH(dItem_data::getH(m_itemNo));
+    mCcCyl.SetR(dItem_data::getR(mFieldItemId));
+    mCcCyl.SetH(dItem_data::getH(mFieldItemId));
     fopAcM_SetCullSize(this, fopAc_CULLSPHERE_0_e);
     actionWaitInit();
     if (fopAcM_isSwitch(this, getSwBit())) {
@@ -109,7 +110,11 @@ int daItemShield_c::__CreateHeap() {
 
 int daItemShield_c::create() {
     fopAcM_ct(this, daItemShield_c);
-    m_itemNo = g_randoInfo.getEventItem(dItemNo_WOOD_SHIELD_e); // Search for rando check first
+    m_itemNo = g_randoInfo.getEventItem(dItemNo_WOOD_SHIELD_e);  // Search for rando check first
+    mFieldItemId = setID;
+    if (mFieldItemId == 0xFF) {
+        mFieldItemId = m_itemNo;
+    }
     if (fopAcM_isSwitch(this, getSwBit2())) {
         OS_REPORT("木の盾：もう取ったので出ません\n");
         return cPhs_ERROR_e;
@@ -120,11 +125,11 @@ int daItemShield_c::create() {
     if (getSwBit() == 0xff) {
         OS_REPORT("[43;30m木の盾：スイッチビット指定がありません！\n\x1b[m");
     }
-    int rv = dComIfG_resLoad(&mPhase, dItem_data::getFieldArc(m_itemNo));
+    int rv = dComIfG_resLoad(&mPhase, dItem_data::getFieldArc(mFieldItemId));
     if (rv == cPhs_COMPLEATE_e) {
         if (fopAcM_entrySolidHeap(this, CheckFieldItemCreateHeap, 0x820) == 0) {
             return cPhs_ERROR_e;
-        } 
+        }
         if (!Create()) {
             return cPhs_ERROR_e;
         }
@@ -140,7 +145,7 @@ void daItemShield_c::bg_check() {
         }
         current.angle.y = cM_atan2s(speed.x, speed.z);
     }
-    if ( mAcch.ChkGroundLanding()) {
+    if (mAcch.ChkGroundLanding()) {
         cXyz acStack_38(speed);
         if (speedF > 5.0f) {
             Reflect(&acStack_38, mAcchCir, dVar6);
@@ -284,8 +289,7 @@ void daItemShield_c::event_proc_call() {
 void daItemShield_c::actionWaitCamDemo() {
     if (field_0x937) {
         setAction(ACTION_ORDER_CAM_DEMO);
-        fopAcM_orderOtherEventId(this, mEventIdx, mEvId,
-                                                 0xffff, 0, 1);
+        fopAcM_orderOtherEventId(this, mEventIdx, mEvId, 0xffff, 0, 1);
         eventInfo.onCondition(dEvtCnd_CANDEMO_e);
     }
 }
@@ -294,8 +298,7 @@ void daItemShield_c::actionOrderCamDemo() {
     if (eventInfo.checkCommandDemoAccrpt()) {
         setAction(ACTION_CAM_DEMO);
     } else {
-        fopAcM_orderOtherEventId(this, mEventIdx, mEvId,
-                                                 0xffff, 0, 1);
+        fopAcM_orderOtherEventId(this, mEventIdx, mEvId, 0xffff, 0, 1);
         eventInfo.onCondition(dEvtCnd_CANDEMO_e);
     }
 }
@@ -307,8 +310,7 @@ void daItemShield_c::actionCamDemo() {
     }
 }
 
-void daItemShield_c::actionCamDemoEnd() {
-}
+void daItemShield_c::actionCamDemoEnd() {}
 
 int daItemShield_c::execute() {
     field_0x938 = speed;
@@ -339,7 +341,7 @@ int daItemShield_c::draw() {
 }
 
 int daItemShield_c::_delete() {
-    daItemBase_c::DeleteBase(dItem_data::getFieldArc(m_itemNo));
+    daItemBase_c::DeleteBase(dItem_data::getFieldArc(mFieldItemId));
     return 1;
 }
 
@@ -363,10 +365,8 @@ static int daItemShield_Create(fopAc_ac_c* i_this) {
 }
 
 static actor_method_class l_daItemShield_Method = {
-    (process_method_func)daItemShield_Create,
-    (process_method_func)daItemShield_Delete,
-    (process_method_func)daItemShield_Execute,
-    NULL,
+    (process_method_func)daItemShield_Create,  (process_method_func)daItemShield_Delete,
+    (process_method_func)daItemShield_Execute, NULL,
     (process_method_func)daItemShield_Draw,
 };
 

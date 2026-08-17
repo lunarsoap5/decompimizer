@@ -22,6 +22,4 @@ public:
     int _delete();
 };
 
-STATIC_ASSERT(sizeof(daObjZCloth_c) == 0x92C);
-
 #endif /* D_A_OBJ_ZCLOTH_H */

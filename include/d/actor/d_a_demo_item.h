@@ -1,9 +1,9 @@
 #ifndef D_A_DEMO_ITEM_H
 #define D_A_DEMO_ITEM_H
 
-#include "f_op/f_op_actor_mng.h"
 #include "d/actor/d_a_itembase.h"
 #include "d/d_particle.h"
+#include "f_op/f_op_actor_mng.h"
 
 /**
  * @ingroup actors-unsorted
@@ -76,8 +76,6 @@ private:
     /* 0x9A8 */ Z2SoundObjSimple mSound;
 };
 
-STATIC_ASSERT(sizeof(daDitem_c) == 0x9c8);
-
 namespace daDitem_prm {
 inline u8 getFlag(daDitem_c* i_this) {
     return (fopAcM_GetParam(i_this) >> 0x10) & 0xFF;
@@ -86,6 +84,6 @@ inline u8 getFlag(daDitem_c* i_this) {
 inline u8 getNo(daDitem_c* i_this) {
     return fopAcM_GetParam(i_this) & 0xFF;
 }
-};
+};  // namespace daDitem_prm
 
 #endif /* D_A_DEMO_ITEM_H */

@@ -3,12 +3,12 @@
  * Object - Zora Armor
  */
 
-#include "d/dolzel_rel.h" // IWYU pragma: keep
+#include "d/dolzel_rel.h"  // IWYU pragma: keep
 
 #include "d/actor/d_a_obj_zcloth.h"
+#include "d/d_a_itembase_static.h"
 #include "d/d_com_inf_game.h"
 #include "d/d_item_data.h"
-#include "d/d_a_itembase_static.h"
 #include "f_pc/f_pc_name.h"
 
 void daObjZCloth_c::initBaseMtx() {
@@ -32,14 +32,17 @@ int daObjZCloth_c::Create() {
 int daObjZCloth_c::create() {
     fopAcM_ct(this, daObjZCloth_c);
     m_itemNo = 0x31;
-    int phase = dComIfG_resLoad(&mPhase, dItem_data::getFieldArc(m_itemNo));
+    mFieldItemId = setID;
+    if (mFieldItemId == 0xFF) {
+        mFieldItemId = m_itemNo;
+    }
+    int phase = dComIfG_resLoad(&mPhase, dItem_data::getFieldArc(mFieldItemId));
     if (phase == cPhs_COMPLEATE_e) {
         if (!fopAcM_entrySolidHeap(this, (heapCallbackFunc)CheckFieldItemCreateHeap, 0x2fb0)) {
             return cPhs_ERROR_e;
-        }
-        else if (!Create()) {
+        } else if (!Create()) {
             return cPhs_ERROR_e;
-        } 
+        }
     }
     return phase;
 }
@@ -55,9 +58,9 @@ int daObjZCloth_c::draw() {
 }
 
 int daObjZCloth_c::_delete() {
-    dComIfG_resDelete(&mPhase, dItem_data::getFieldArc(m_itemNo)); 
+    dComIfG_resDelete(&mPhase, dItem_data::getFieldArc(mFieldItemId));
     return 1;
-}  
+}
 
 static int daObjZCloth_Draw(daObjZCloth_c* i_this) {
     return i_this->draw();
@@ -79,10 +82,8 @@ static int daObjZCloth_Create(fopAc_ac_c* i_this) {
 }
 
 static actor_method_class l_daObjZCloth_Method = {
-    (process_method_func)daObjZCloth_Create,
-    (process_method_func)daObjZCloth_Delete,
-    (process_method_func)daObjZCloth_Execute,
-    (process_method_func)NULL,
+    (process_method_func)daObjZCloth_Create,  (process_method_func)daObjZCloth_Delete,
+    (process_method_func)daObjZCloth_Execute, (process_method_func)NULL,
     (process_method_func)daObjZCloth_Draw,
 };
 

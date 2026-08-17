@@ -78,7 +78,4 @@ private:
     /* 0x954 */ s16 field_0x954;
 };
 
-STATIC_ASSERT(sizeof(daItemShield_c) == 0x958);
-
-
 #endif /* D_A_OBJ_SHIELD_H */

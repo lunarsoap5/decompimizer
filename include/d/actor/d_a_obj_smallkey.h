@@ -1,9 +1,9 @@
 #ifndef D_A_OBJ_SMALLKEY_H
 #define D_A_OBJ_SMALLKEY_H
 
-#include "f_op/f_op_actor_mng.h"
 #include "d/actor/d_a_itembase.h"
 #include "d/d_particle.h"
+#include "f_op/f_op_actor_mng.h"
 
 /**
  * @ingroup actors-objects
@@ -65,9 +65,7 @@ public:
     void setStatus(u8 i_status) { mStatus = i_status; }
     bool chkStatus(u8 i_status) { return mStatus == i_status; }
 
-    void setPos(cXyz i_pos) {
-        current.pos = i_pos;
-    }
+    void setPos(cXyz i_pos) { current.pos = i_pos; }
 
     void startMove(f32 i_speedF, f32 i_speedY) {
         speedF = i_speedF;
@@ -96,8 +94,5 @@ public:
     /* 0x978 */ cXyz field_0x978;
     /* 0x984 */ u8 field_0x984;
 };
-
-STATIC_ASSERT(sizeof(daKey_c) == 0x988);
-
 
 #endif /* D_A_OBJ_SMALLKEY_H */
