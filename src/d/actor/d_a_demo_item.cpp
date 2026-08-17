@@ -1,19 +1,19 @@
 /**
  * @file d_a_demo_item.cpp
- * 
-*/
+ *
+ */
 
-#include "d/dolzel_rel.h" // IWYU pragma: keep
+#include "d/dolzel_rel.h"  // IWYU pragma: keep
 
+#include <cstring>
+#include "JSystem/J3DGraphBase/J3DMaterial.h"
+#include "Z2AudioLib/Z2Instances.h"
 #include "d/actor/d_a_demo_item.h"
+#include "d/actor/d_a_player.h"
+#include "d/d_a_itembase_static.h"
 #include "d/d_com_inf_game.h"
 #include "d/d_item.h"
 #include "d/d_item_data.h"
-#include "d/d_a_itembase_static.h"
-#include "d/actor/d_a_player.h"
-#include "JSystem/J3DGraphBase/J3DMaterial.h"
-#include "Z2AudioLib/Z2Instances.h"
-#include <cstring>
 
 static cXyz l_player_offset = cXyz(0.0f, 115.0f, 54.0f);
 
@@ -23,13 +23,11 @@ static cXyz l_horse_offset = cXyz(0.0f, 20.0f, 54.0f);
 
 #if DEBUG
 
-class DitemHIO_c 
-: public mDoHIO_entry_c 
-{
+class DitemHIO_c : public mDoHIO_entry_c {
 public:
     ~DitemHIO_c() {}
     void genMessage(JORMContext*) {}
-    
+
     /* 0x08 */ cXyz field_0x08;
     /* 0x14 */ u16 field_0x14;
     /* 0x16 */ u16 field_0x16;
@@ -64,7 +62,7 @@ static const GXColor l_light_color = {0x8C, 0x7C, 0x6A, 0xFF};
 int daDitem_c::CreateInit() {
     fopAcM_SetMtx(this, mpModel->getBaseTRMtx());
     fopAcM_setCullSizeBox2(this, mpModel->getModelData());
-    
+
     hide();
 
     field_0x93d = daDitem_prm::getFlag(this);
@@ -120,34 +118,44 @@ void daDitem_c::actionStart() {
         if (m_itemNo == dItemNo_UTAWA_HEART_e || m_itemNo == dItemNo_KAKERA_HEART_e) {
             JPABaseEmitter* emitter = field_0x96c.getEmitter();
             if (emitter == NULL) {
-                dComIfGp_particle_set(0x8DE, &current.pos, NULL, NULL, 0xFF, &field_0x96c, -1, NULL, NULL, NULL);
+                dComIfGp_particle_set(0x8DE, &current.pos, NULL, NULL, 0xFF, &field_0x96c, -1, NULL,
+                                      NULL, NULL);
             }
 
             emitter = field_0x980.getEmitter();
             if (emitter == NULL) {
-                dComIfGp_particle_set(0x8DF, &current.pos, NULL, NULL, 0xFF, &field_0x96c, -1, NULL, NULL, NULL);
+                dComIfGp_particle_set(0x8DF, &current.pos, NULL, NULL, 0xFF, &field_0x96c, -1, NULL,
+                                      NULL, NULL);
             }
 
             mParticleAlpha = 0xFF;
         }
 
-        if ((m_itemNo == dItemNo_ORANGE_RUPEE_e || m_itemNo == dItemNo_SILVER_RUPEE_e) && field_0x96c.getEmitter() == NULL) {
+        if ((m_itemNo == dItemNo_ORANGE_RUPEE_e || m_itemNo == dItemNo_SILVER_RUPEE_e) &&
+            field_0x96c.getEmitter() == NULL)
+        {
             cXyz scale(0.55f, 0.55f, 0.55f);
-            dComIfGp_particle_set(0xC14, &field_0x99c, NULL, &scale, 0xFF, &field_0x96c, -1, NULL, NULL, NULL);
+            dComIfGp_particle_set(0xC14, &field_0x99c, NULL, &scale, 0xFF, &field_0x96c, -1, NULL,
+                                  NULL, NULL);
         }
 
         if (m_itemNo == dItemNo_WALLET_LV3_e && field_0x96c.getEmitter() == NULL) {
             cXyz scale(1.2f, 1.2f, 1.2f);
-            dComIfGp_particle_set(0xC14, &field_0x99c, NULL, &scale, 0xFF, &field_0x96c, -1, NULL, NULL, NULL);
+            dComIfGp_particle_set(0xC14, &field_0x99c, NULL, &scale, 0xFF, &field_0x96c, -1, NULL,
+                                  NULL, NULL);
         }
 
         if (m_itemNo == dItemNo_CHUCHU_RARE_e && field_0x96c.getEmitter() == NULL) {
             cXyz scale(0.8f, 0.8f, 0.8f);
-            dComIfGp_particle_set(0xC14, &field_0x99c, NULL, &scale, 0xFF, &field_0x96c, -1, NULL, NULL, NULL);
+            dComIfGp_particle_set(0xC14, &field_0x99c, NULL, &scale, 0xFF, &field_0x96c, -1, NULL,
+                                  NULL, NULL);
         }
 
-        if ((m_itemNo == dItemNo_FAIRY_DROP_e || m_itemNo == dItemNo_DROP_BOTTLE_e) && field_0x96c.getEmitter() == NULL) {
-            dComIfGp_particle_set(0x8C15, &field_0x99c, NULL, NULL, 0xFF, &field_0x96c, -1, NULL, NULL, NULL);
+        if ((m_itemNo == dItemNo_FAIRY_DROP_e || m_itemNo == dItemNo_DROP_BOTTLE_e) &&
+            field_0x96c.getEmitter() == NULL)
+        {
+            dComIfGp_particle_set(0x8C15, &field_0x99c, NULL, NULL, 0xFF, &field_0x96c, -1, NULL,
+                                  NULL, NULL);
         }
 
         if (isInsect(m_itemNo)) {
@@ -182,7 +190,9 @@ void daDitem_c::actionEvent() {
                 onEventReg(0, 1);
             } else if (strcmp(dComIfGp_getStartStageName(), "F_SP121") == 0 && room_no == 6) {
                 onEventReg(0, 2);
-            } else if (strcmp(dComIfGp_getStartStageName(), "D_SB06") == 0 && room_no == 1 && dComIfG_play_c::getLayerNo(0) == 2) {
+            } else if (strcmp(dComIfGp_getStartStageName(), "D_SB06") == 0 && room_no == 1 &&
+                       dComIfG_play_c::getLayerNo(0) == 2)
+            {
                 onEventReg(0, 3);
             } else if (strcmp(dComIfGp_getStartStageName(), "F_SP115") == 0 && room_no == 0) {
                 onEventReg(0, 4);
@@ -192,7 +202,9 @@ void daDitem_c::actionEvent() {
                 onEventReg(0, 6);
             } else if (strcmp(dComIfGp_getStartStageName(), "F_SP121") == 0 && room_no == 11) {
                 onEventReg(1, 0);
-            } else if (strcmp(dComIfGp_getStartStageName(), "D_SB06") == 0 && room_no == 1 && dComIfG_play_c::getLayerNo(0) == 0) {
+            } else if (strcmp(dComIfGp_getStartStageName(), "D_SB06") == 0 && room_no == 1 &&
+                       dComIfG_play_c::getLayerNo(0) == 0)
+            {
                 onEventReg(1, 1);
             } else if (strcmp(dComIfGp_getStartStageName(), "F_SP110") == 0 && room_no == 0) {
                 onEventReg(1, 2);
@@ -295,10 +307,12 @@ void daDitem_c::actionEnd() {
 
 void daDitem_c::setInsectEffect() {
     if (!chkArgFlag(0x2) && !chkArgFlag(0x4)) {
-        field_0x994 = dComIfGp_particle_set(0xA1B, &current.pos, &home.angle, NULL, 0xFF, NULL, -1, NULL, NULL, NULL);
+        field_0x994 = dComIfGp_particle_set(0xA1B, &current.pos, &home.angle, NULL, 0xFF, NULL, -1,
+                                            NULL, NULL, NULL);
     }
 
-    field_0x998 = dComIfGp_particle_set(0xA1C, &current.pos, &home.angle, NULL, 0xFF, NULL, -1, NULL, NULL, NULL);
+    field_0x998 = dComIfGp_particle_set(0xA1C, &current.pos, &home.angle, NULL, 0xFF, NULL, -1,
+                                        NULL, NULL, NULL);
 }
 
 void daDitem_c::followInsectEffect() {
@@ -378,35 +392,30 @@ void daDitem_c::set_pos() {
     }
 
     cLib_offsetPos(&pos, &sp38, player->shape_angle.y, &offset);
-    
+
     // Adjust position based on item.
-    switch(m_itemNo)
-    {
-        case dItemNo_MIRROR_PIECE_1_e:
-        case dItemNo_MIRROR_PIECE_2_e:
-        case dItemNo_MIRROR_PIECE_3_e:
-        case dItemNo_MIRROR_PIECE_4_e:
-        {
-            pos.y += 15.0f;
-            break;
-        }
-        case dItemNo_FUSED_SHADOW_1_e:
-        case dItemNo_FUSED_SHADOW_2_e:
-        case dItemNo_FUSED_SHADOW_3_e:
-        {
-            pos.y += 5.0f;
-            break;
-        }
-        case dItemNo_MASTER_SWORD_e:
-        case dItemNo_LIGHT_SWORD_e:
-        {
-            pos.y -= 10.f;
-            break;
-        }
-        default:
-        {
-            break;
-        }
+    switch (m_itemNo) {
+    case dItemNo_MIRROR_PIECE_1_e:
+    case dItemNo_MIRROR_PIECE_2_e:
+    case dItemNo_MIRROR_PIECE_3_e:
+    case dItemNo_MIRROR_PIECE_4_e: {
+        pos.y += 15.0f;
+        break;
+    }
+    case dItemNo_FUSED_SHADOW_1_e:
+    case dItemNo_FUSED_SHADOW_2_e:
+    case dItemNo_FUSED_SHADOW_3_e: {
+        pos.y += 5.0f;
+        break;
+    }
+    case dItemNo_MASTER_SWORD_e:
+    case dItemNo_LIGHT_SWORD_e: {
+        pos.y -= 10.f;
+        break;
+    }
+    default: {
+        break;
+    }
     }
     current.pos = pos;
 }
@@ -433,7 +442,9 @@ void daDitem_c::settingEffectLight() {
 void daDitem_c::set_mtx() {
     mpModel->setBaseScale(scale);
 
-    if (m_itemNo != dItemNo_DUNGEON_EXIT_e && m_itemNo != dItemNo_DUNGEON_BACK_e && m_itemNo != dItemNo_LV7_DUNGEON_EXIT_e && m_itemNo != dItemNo_DUNGEON_EXIT_2_e) {
+    if (m_itemNo != dItemNo_DUNGEON_EXIT_e && m_itemNo != dItemNo_DUNGEON_BACK_e &&
+        m_itemNo != dItemNo_LV7_DUNGEON_EXIT_e && m_itemNo != dItemNo_DUNGEON_EXIT_2_e)
+    {
         s16 var_r28 = 0xFFFF / 250;
         fopAcM_addAngleY(this, current.angle.y + var_r28, var_r28);
     }
@@ -452,7 +463,7 @@ void daDitem_c::setListStart() {}
 
 void daDitem_c::draw_WOOD_STICK() {
     static const char nodisp_mat[] = "parts_m";
-    
+
     J3DModelData* modelData = mpModel->getModelData();
     JUTNameTab* nametab = modelData->getMaterialTable().getMaterialName();
 
@@ -473,7 +484,10 @@ int daDitem_c::Delete() {
         field_0x980.remove();
     }
 
-    if (m_itemNo == dItemNo_ORANGE_RUPEE_e || m_itemNo == dItemNo_SILVER_RUPEE_e || m_itemNo == dItemNo_WALLET_LV3_e || m_itemNo == dItemNo_FAIRY_DROP_e || m_itemNo == dItemNo_DROP_BOTTLE_e || m_itemNo == dItemNo_CHUCHU_RARE_e) {
+    if (m_itemNo == dItemNo_ORANGE_RUPEE_e || m_itemNo == dItemNo_SILVER_RUPEE_e ||
+        m_itemNo == dItemNo_WALLET_LV3_e || m_itemNo == dItemNo_FAIRY_DROP_e ||
+        m_itemNo == dItemNo_DROP_BOTTLE_e || m_itemNo == dItemNo_CHUCHU_RARE_e)
+    {
         field_0x96c.remove();
     }
 
@@ -507,6 +521,8 @@ int daDitem_c::create() {
 
         m_itemNo = dItemNo_GREEN_RUPEE_e;
     }
+
+    mFieldItemId = m_itemNo;
 
     int phase_state = dComIfG_resLoad(&mPhase, dItem_data::getArcName(m_itemNo));
     if (phase_state == cPhs_COMPLEATE_e) {
@@ -549,47 +565,41 @@ int daDitem_c::execute() {
     eyePos = current.pos;
     eyePos.y += mpModel->getModelData()->getJointNodePointer(0)->getMax()->y * 0.5f;
 
-    // Certain items use field models that are too big to fit in link's hands so we want to scale them down to fit.
-    switch(m_itemNo)
-    {
-        case dItemNo_ORANGE_RUPEE_e:
-        case dItemNo_SILVER_RUPEE_e:
-        {
-            field_0x99c = current.pos;
-            field_0x99c.y += 10.0f;
-            break;
-        }
-        case dItemNo_WALLET_LV3_e:
-        case dItemNo_CHUCHU_RARE_e:
-        {
-            field_0x99c = current.pos;
-            field_0x99c.y += 15.0f;
-            break;
-        }
-        case dItemNo_FAIRY_DROP_e:
-        case dItemNo_DROP_BOTTLE_e:
-        {
-            field_0x99c = current.pos;
-            break;
-        }
-        case dItemNo_MIRROR_PIECE_1_e:
-        case dItemNo_MIRROR_PIECE_2_e:
-        case dItemNo_MIRROR_PIECE_3_e:
-        case dItemNo_MIRROR_PIECE_4_e:
-        {
-            scale.x = 0.05f;
-            break;
-        }
-        case dItemNo_MASTER_SWORD_e:
-        case dItemNo_LIGHT_SWORD_e:
-        {
-            scale.x = 0.001f;
-            break;
-        }
-        default:
-        {
-            break;
-        }
+    // Certain items use field models that are too big to fit in link's hands so we want to scale
+    // them down to fit.
+    switch (m_itemNo) {
+    case dItemNo_ORANGE_RUPEE_e:
+    case dItemNo_SILVER_RUPEE_e: {
+        field_0x99c = current.pos;
+        field_0x99c.y += 10.0f;
+        break;
+    }
+    case dItemNo_WALLET_LV3_e:
+    case dItemNo_CHUCHU_RARE_e: {
+        field_0x99c = current.pos;
+        field_0x99c.y += 15.0f;
+        break;
+    }
+    case dItemNo_FAIRY_DROP_e:
+    case dItemNo_DROP_BOTTLE_e: {
+        field_0x99c = current.pos;
+        break;
+    }
+    case dItemNo_MIRROR_PIECE_1_e:
+    case dItemNo_MIRROR_PIECE_2_e:
+    case dItemNo_MIRROR_PIECE_3_e:
+    case dItemNo_MIRROR_PIECE_4_e: {
+        scale.x = 0.05f;
+        break;
+    }
+    case dItemNo_MASTER_SWORD_e:
+    case dItemNo_LIGHT_SWORD_e: {
+        scale.x = 0.001f;
+        break;
+    }
+    default: {
+        break;
+    }
     }
 
     mSound.framework(0, dComIfGp_getReverb(fopAcM_GetRoomNo(this)));
@@ -616,10 +626,8 @@ static int daDitem_Draw(daDitem_c* i_this) {
 }
 
 static actor_method_class l_daDitem_Method = {
-    (process_method_func)daDitem_Create,
-    (process_method_func)daDitem_Delete,
-    (process_method_func)daDitem_Execute,
-    (process_method_func)NULL,
+    (process_method_func)daDitem_Create,  (process_method_func)daDitem_Delete,
+    (process_method_func)daDitem_Execute, (process_method_func)NULL,
     (process_method_func)daDitem_Draw,
 };
 

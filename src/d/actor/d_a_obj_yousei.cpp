@@ -1,28 +1,29 @@
 /**
  * @file d_a_obj_yousei.cpp
- * 
-*/
+ *
+ */
 
-#include "d/dolzel_rel.h" // IWYU pragma: keep
+#include "d/dolzel_rel.h"  // IWYU pragma: keep
 
+#include "Z2AudioLib/Z2Instances.h"
 #include "d/actor/d_a_obj_yousei.h"
 #include "d/d_com_inf_game.h"
-#include "d/d_s_play.h"
 #include "d/d_item.h"
+#include "d/d_s_play.h"
 #include "rando/rando.h"
-#include "Z2AudioLib/Z2Instances.h"
+#include "rando/tools/verifyItemFunctions.h"
 
 void daObjYOUSEI_c::InitCcSph() {
     const static dCcD_SrcSph ccSphSrc = {
         {
-            {0x0, {{0x0, 0x0, 0x0}, {0x14002, 0x11}, 0x75}}, // mObj
-            {dCcD_SE_STONE, 0x0, 0x0, 0x0, 0x0}, // mGObjAt
-            {dCcD_SE_NONE, 0x0, 0x0, 0x0, 0x0}, // mGObjTg
-            {0x0}, // mGObjCo
-        }, // mObjInf
+            {0x0, {{0x0, 0x0, 0x0}, {0x14002, 0x11}, 0x75}},  // mObj
+            {dCcD_SE_STONE, 0x0, 0x0, 0x0, 0x0},              // mGObjAt
+            {dCcD_SE_NONE, 0x0, 0x0, 0x0, 0x0},               // mGObjTg
+            {0x0},                                            // mGObjCo
+        },                                                    // mObjInf
         {
-            {{0.0f, 0.0f, 0.0f}, 40.0f} // mSph
-        } // mSphAttr
+            {{0.0f, 0.0f, 0.0f}, 40.0f}  // mSph
+        }  // mSphAttr
     };
 
     mCcStts.Init(1, 0, this);
@@ -42,7 +43,9 @@ int daObjYOUSEI_c::CreateHeap() {
     void* modelData = dComIfG_getObjectRes("Always", 0x21);
     JUT_ASSERT(177, modelData != NULL);
 
-    mpModelMorf = new mDoExt_McaMorfSO((J3DModelData*)modelData, NULL, NULL, (J3DAnmTransform*)dComIfG_getObjectRes("Always", 0xF), 2, 0.4f, 0, -1, &mSound, 0x80000, 0x11000084);
+    mpModelMorf = new mDoExt_McaMorfSO((J3DModelData*)modelData, NULL, NULL,
+                                       (J3DAnmTransform*)dComIfG_getObjectRes("Always", 0xF), 2,
+                                       0.4f, 0, -1, &mSound, 0x80000, 0x11000084);
     if (mpModelMorf == NULL) {
         return 0;
     }
@@ -95,15 +98,12 @@ void daObjYOUSEI_c::MoveAction() {
     case 1:
         if (field_0x5d6 == 100 && mPrm != 0) {
             // If the fairy has a check, give it and set the flag. If not, just give a normal fairy.
-            if (isEnabled)
-            {
+            if (isEnabled) {
                 dComIfGs_onItem(getFlag(), -1);
                 g_randoInfo.addItemToEventQueue(getItem());
-            }
-            else
-            {
+            } else {
                 execItemGet(dItemNo_RECOVERY_FAILY_e);
-            }  
+            }
         }
 
         f32 var_f31 = (25.0f + yREG_F(16)) / field_0x5d6;
@@ -155,9 +155,12 @@ void daObjYOUSEI_c::MoveAction() {
         fopAcM_delete(this);
     }
 
-    field_0x604 = dComIfGp_particle_set(field_0x604, 0x72F, &current.pos, &tevStr, &shape_angle, NULL, 0xFF, NULL, -1, NULL, NULL, NULL);
-    field_0x60c = dComIfGp_particle_set(field_0x60c, 0x730, &current.pos, &tevStr, &shape_angle, NULL, 0xFF, NULL, -1, NULL, NULL, NULL);
-    field_0x610 = dComIfGp_particle_set(field_0x610, 0x732, &current.pos, &tevStr, &shape_angle, NULL, 0xFF, NULL, -1, NULL, NULL, NULL);
+    field_0x604 = dComIfGp_particle_set(field_0x604, 0x72F, &current.pos, &tevStr, &shape_angle,
+                                        NULL, 0xFF, NULL, -1, NULL, NULL, NULL);
+    field_0x60c = dComIfGp_particle_set(field_0x60c, 0x730, &current.pos, &tevStr, &shape_angle,
+                                        NULL, 0xFF, NULL, -1, NULL, NULL, NULL);
+    field_0x610 = dComIfGp_particle_set(field_0x610, 0x732, &current.pos, &tevStr, &shape_angle,
+                                        NULL, 0xFF, NULL, -1, NULL, NULL, NULL);
 }
 
 void daObjYOUSEI_c::BinAction() {
@@ -193,8 +196,10 @@ void daObjYOUSEI_c::BinAction() {
     cLib_addCalc(&speedF, mSpeedFTarget, 0.02f + yREG_F(7), 5.0f, 0.0f);
     cLib_addCalcAngleS2(&current.angle.y, mAngleTarget, 3, 0x1000);
 
-    field_0x604 = dComIfGp_particle_set(field_0x604, 0x72F, &current.pos, &tevStr, &shape_angle, NULL, 0xFF, NULL, -1, NULL, NULL, NULL);
-    field_0x608 = dComIfGp_particle_set(field_0x608, 0x731, &current.pos, &tevStr, &shape_angle, NULL, 0xFF, NULL, -1, NULL, NULL, NULL);
+    field_0x604 = dComIfGp_particle_set(field_0x604, 0x72F, &current.pos, &tevStr, &shape_angle,
+                                        NULL, 0xFF, NULL, -1, NULL, NULL, NULL);
+    field_0x608 = dComIfGp_particle_set(field_0x608, 0x731, &current.pos, &tevStr, &shape_angle,
+                                        NULL, 0xFF, NULL, -1, NULL, NULL, NULL);
 }
 
 static u8 data_804D1830;
@@ -208,7 +213,9 @@ void daObjYOUSEI_c::LinkChk() {
     cXyz sp14;
 
     if (current.pos.abs(player_pos) < 500.0f && 0.0f == fopAcM_GetSpeedF(player)) {
-        if (player->checkItemSwordEquip() && current.pos.y - player_pos.y < 130.0f && !player->checkAttentionLock() && (data_804D1830 == 0 || field_0x5ac != 0)) {
+        if (player->checkItemSwordEquip() && current.pos.y - player_pos.y < 130.0f &&
+            !player->checkAttentionLock() && (data_804D1830 == 0 || field_0x5ac != 0))
+        {
             data_804D1830 = 1;
             field_0x5ac = 1;
 
@@ -231,7 +238,9 @@ void daObjYOUSEI_c::LinkChk() {
             }
 
             field_0x5f8 = sp14;
-        } else if ((data_804D1831 == 0 || field_0x5ad != 0) && current.pos.y - player_pos.y > 130.0f && current.pos.y - player_pos.y < 200.0f) {
+        } else if ((data_804D1831 == 0 || field_0x5ad != 0) &&
+                   current.pos.y - player_pos.y > 130.0f && current.pos.y - player_pos.y < 200.0f)
+        {
             data_804D1831 = 1;
             field_0x5ad = 1;
             mAnmSpeed = 0.50999999f;
@@ -243,7 +252,10 @@ void daObjYOUSEI_c::LinkChk() {
                 cLib_addCalcAngleS2(&current.angle.y, mAngleTarget, 2, 0x600);
             }
 
-            if (current.pos.abs(sp14) < 50.0f + TREG_F(2) && current.pos.y > sp14.y && (current.angle.y - mAngleTarget) < 0x2000 && (current.angle.y - mAngleTarget) > -0x2000) {
+            if (current.pos.abs(sp14) < 50.0f + TREG_F(2) && current.pos.y > sp14.y &&
+                (current.angle.y - mAngleTarget) < 0x2000 &&
+                (current.angle.y - mAngleTarget) > -0x2000)
+            {
                 mAction = 3;
                 mMode = 2;
             }
@@ -276,7 +288,9 @@ void daObjYOUSEI_c::WaitAction() {
     f32 var_f31 = 0.0f;
 
     daPy_py_c* player = daPy_getPlayerActorClass();
-    if (dComIfGs_getLife() != dComIfGs_getMaxLifeGauge() && 0.0f != fopAcM_GetSpeedF(player) && LinkSearch()) {
+    if (/* dComIfGs_getLife() != dComIfGs_getMaxLifeGauge() &&*/ 0.0f != fopAcM_GetSpeedF(player) &&
+        LinkSearch())
+    {
         var_f30 = 1.0f + nREG_F(1);
         var_f28 = 50.0f + nREG_F(3);
         mTimers[0] = 150;
@@ -387,21 +401,24 @@ void daObjYOUSEI_c::WaitAction() {
     }
 
     if (sp18 == 0) {
-        field_0x604 = dComIfGp_particle_set(field_0x604, 0x72F, &current.pos, &tevStr, &shape_angle, NULL, 0xFF, NULL, -1, NULL, NULL, NULL);
-        field_0x608 = dComIfGp_particle_set(field_0x608, 0x731, &current.pos, &tevStr, &shape_angle, NULL, 0xFF, NULL, -1, NULL, NULL, NULL);
+        field_0x604 = dComIfGp_particle_set(field_0x604, 0x72F, &current.pos, &tevStr, &shape_angle,
+                                            NULL, 0xFF, NULL, -1, NULL, NULL, NULL);
+        field_0x608 = dComIfGp_particle_set(field_0x608, 0x731, &current.pos, &tevStr, &shape_angle,
+                                            NULL, 0xFF, NULL, -1, NULL, NULL, NULL);
     }
 
     if (mTimers[3] == 0) {
-        if (dComIfGs_getLife() == dComIfGs_getMaxLifeGauge()) {
-            if (field_0x5d6 != 0 && mPrm == 5) {
-                LinkChk();
-            } else {
-                LinkChk();
-            }
+        // if (dComIfGs_getLife() == dComIfGs_getMaxLifeGauge()) {
+        if (field_0x5d6 != 0 && mPrm == 5) {
+            LinkChk();
+        } else {
+            LinkChk();
         }
+        //}
     }
 
-    cLib_addCalcAngleS2(&current.angle.y, mAngleTarget, (26.0f - var_f29) + nREG_S(0), (field_0x61a + 0x1000));
+    cLib_addCalcAngleS2(&current.angle.y, mAngleTarget, (26.0f - var_f29) + nREG_S(0),
+                        (field_0x61a + 0x1000));
 }
 
 void daObjYOUSEI_c::LinkAction() {
@@ -545,8 +562,10 @@ void daObjYOUSEI_c::LinkAction() {
     }
 
     if (sp18 == 0) {
-        field_0x604 = dComIfGp_particle_set(field_0x604, 0x72F, &current.pos, &tevStr, &shape_angle, NULL, 0xFF, NULL, -1, NULL, NULL, NULL);
-        field_0x608 = dComIfGp_particle_set(field_0x608, 0x731, &current.pos, &tevStr, &shape_angle, NULL, 0xFF, NULL, -1, NULL, NULL, NULL);
+        field_0x604 = dComIfGp_particle_set(field_0x604, 0x72F, &current.pos, &tevStr, &shape_angle,
+                                            NULL, 0xFF, NULL, -1, NULL, NULL, NULL);
+        field_0x608 = dComIfGp_particle_set(field_0x608, 0x731, &current.pos, &tevStr, &shape_angle,
+                                            NULL, 0xFF, NULL, -1, NULL, NULL, NULL);
     }
 
     field_0x5f8 = sp38;
@@ -626,7 +645,9 @@ bool daObjYOUSEI_c::CheckWater() {
     gnd_chk.SetPos(&pos);
     pos.y = dComIfG_Bgsp().GroundCross(&gnd_chk);
 
-    if (-G_CM3D_F_INF != pos.y && dComIfG_Bgsp().GetPolyAtt0(gnd_chk) == 7 && current.pos.y - pos.y < 50.0f+ yREG_F(0)) {
+    if (-G_CM3D_F_INF != pos.y && dComIfG_Bgsp().GetPolyAtt0(gnd_chk) == 7 &&
+        current.pos.y - pos.y < 50.0f + yREG_F(0))
+    {
         return true;
     }
 
@@ -647,9 +668,9 @@ void daObjYOUSEI_c::Action() {
                 mBoomerangMove.bgCheckAfterOffset(&current.pos);
             } else {
                 field_0x5af = 0;
-                if (dComIfGs_getLife() != dComIfGs_getMaxLifeGauge()) {
-                    CareAction();
-                }
+                // if (dComIfGs_getLife() != dComIfGs_getMaxLifeGauge()) {
+                CareAction();
+                //}
                 home.pos = current.pos;
                 CheckGround();
             }
@@ -658,10 +679,10 @@ void daObjYOUSEI_c::Action() {
         mAcch.CrrPos(dComIfG_Bgsp());
 
         if (mDistToPlayer < 50.0f && current.pos.y - sLink_Pos->y < 200.0f) {
-            if (dComIfGs_getLife() != dComIfGs_getMaxLifeGauge()) {
-                CareAction();
-                field_0x5af = 0;
-            }
+            // if (dComIfGs_getLife() != dComIfGs_getMaxLifeGauge()) {
+            CareAction();
+            field_0x5af = 0;
+            //}
         }
 
         if (fopAcM_checkHookCarryNow(this)) {
@@ -699,15 +720,17 @@ void daObjYOUSEI_c::ObjHit() {
                 mBoomerangMove.initOffset(&current.pos);
             }
         } else if (hit_obj->ChkAtType(AT_TYPE_NORMAL_SWORD)) {
-            if (mDistToPlayer < 130.0f + TREG_F(5) && dComIfGs_getLife() != dComIfGs_getMaxLifeGauge()) {
+            if (mDistToPlayer < 130.0f + TREG_F(5) /* &&
+                dComIfGs_getLife() != dComIfGs_getMaxLifeGauge()*/)
+            {
                 CareAction();
             } else {
                 mTimers[2] = 80.0f + TREG_F(3);
             }
         } else {
-            if (dComIfGs_getLife() != dComIfGs_getMaxLifeGauge()) {
-                CareAction();
-            }
+            // if (dComIfGs_getLife() != dComIfGs_getMaxLifeGauge()) {
+            CareAction();
+            //}
         }
 
         mCcSph.ClrTgHit();
@@ -775,7 +798,8 @@ int daObjYOUSEI_c::Draw() {
 
     cXyz sp8;
     sp8.set(current.pos.x, 100.0f + current.pos.y, current.pos.z);
-    dComIfGd_setSimpleShadow(&current.pos, mAcch.GetGroundH(), 25.0f, mAcch.m_gnd, 0, 0.8f, dDlst_shadowControl_c::getSimpleTex());
+    dComIfGd_setSimpleShadow(&current.pos, mAcch.GetGroundH(), 25.0f, mAcch.m_gnd, 0, 0.8f,
+                             dDlst_shadowControl_c::getSimpleTex());
     return 1;
 }
 
@@ -796,12 +820,9 @@ int daObjYOUSEI_c::create() {
     }
 
     mPrm = getType();
-    if (dComIfGs_isItem(getFlag(), -1))
-    {
+    if (!dComIfGs_isItem(getFlag(), -1)) {
         isEnabled = true;
-    }
-    else
-    {
+    } else {
         isEnabled = false;
     }
 
@@ -810,7 +831,7 @@ int daObjYOUSEI_c::create() {
         mPrm = 0;
         break;
     case 1:
-             /* dSv_event_flag_c::F_0501 - sub-dungeon - Cave of Ordeals - B10 first arrival */
+        /* dSv_event_flag_c::F_0501 - sub-dungeon - Cave of Ordeals - B10 first arrival */
         if (!dComIfGs_isEventBit(dSv_event_flag_c::saveBitLabels[501])) {
             return cPhs_ERROR_e;
         }
@@ -818,21 +839,21 @@ int daObjYOUSEI_c::create() {
         break;
     case 2:
         mPrm = 2;
-             /* dSv_event_flag_c::F_0502 - sub-dungeon - Cave of Ordeals - B20 first arrival */
+        /* dSv_event_flag_c::F_0502 - sub-dungeon - Cave of Ordeals - B20 first arrival */
         if (!dComIfGs_isEventBit(dSv_event_flag_c::saveBitLabels[502])) {
             return cPhs_ERROR_e;
         }
         break;
     case 3:
         mPrm = 3;
-             /* dSv_event_flag_c::F_0503 - sub-dungeon - Cave of Ordeals - B30 first arrival */
+        /* dSv_event_flag_c::F_0503 - sub-dungeon - Cave of Ordeals - B30 first arrival */
         if (!dComIfGs_isEventBit(dSv_event_flag_c::saveBitLabels[503])) {
             return cPhs_ERROR_e;
         }
         break;
     case 4:
         mPrm = 4;
-             /* dSv_event_flag_c::F_0504 - sub-dungeon - Cave of Ordeals - B40 first arrival */
+        /* dSv_event_flag_c::F_0504 - sub-dungeon - Cave of Ordeals - B40 first arrival */
         if (!dComIfGs_isEventBit(dSv_event_flag_c::saveBitLabels[504])) {
             return cPhs_ERROR_e;
         }
@@ -843,9 +864,18 @@ int daObjYOUSEI_c::create() {
     }
 
     // Init fairy color if the flag hasn't been set.
-    if (isEnabled)
-    {
-        setColor(255, 15, 15, 255); // Major Item - Red
+    if (isEnabled) {
+        if (isMajorItem(getItem())) {
+            setColor(255, 15, 15, 255);  // Major Item - Red
+        } else if (getItem() == dItemNo_PURPLE_RUPEE_e) {
+            setColor(135, 0, 255, 255);  // Poe - Purple
+        } else if (isKeyItem(getItem())) {
+            setColor(50, 255, 5, 255);  // Key - Green
+        } else if ((getItem() > 0xBF) && (getItem() < 0xD8)) {
+            setColor(245, 255, 5, 255);  // Golden Bug - Yellow
+        } else {
+            setColor(0, 0, 0, 255);  // Junk - No Emitter
+        }
     }
 
     gravity = nREG_F(0);
@@ -854,7 +884,8 @@ int daObjYOUSEI_c::create() {
 
     mTimers[2] = 80.0f + TREG_F(3);
     mAcchCir.SetWall(100.0f, 30.0f);
-    mAcch.Set(fopAcM_GetPosition_p(this), fopAcM_GetOldPosition_p(this), this, 1, &mAcchCir, fopAcM_GetSpeed_p(this), NULL, NULL);
+    mAcch.Set(fopAcM_GetPosition_p(this), fopAcM_GetOldPosition_p(this), this, 1, &mAcchCir,
+              fopAcM_GetSpeed_p(this), NULL, NULL);
 
     fopAcM_SetMtx(this, mpModelMorf->getModel()->getBaseTRMtx());
     fopAcM_SetMin(this, -50.0f, -50.0f, -50.0f);
@@ -883,10 +914,8 @@ static int daObjYOUSEI_IsDelete(daObjYOUSEI_c* i_this) {
 }
 
 static actor_method_class l_daObjYOUSEI_Method = {
-    (process_method_func)daObjYOUSEI_Create,
-    (process_method_func)daObjYOUSEI_Delete,
-    (process_method_func)daObjYOUSEI_Execute,
-    (process_method_func)daObjYOUSEI_IsDelete,
+    (process_method_func)daObjYOUSEI_Create,  (process_method_func)daObjYOUSEI_Delete,
+    (process_method_func)daObjYOUSEI_Execute, (process_method_func)daObjYOUSEI_IsDelete,
     (process_method_func)daObjYOUSEI_Draw,
 };
 

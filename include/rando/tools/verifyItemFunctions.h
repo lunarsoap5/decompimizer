@@ -3,6 +3,8 @@
 
 #include "dolphin/types.h"
 
+bool isMajorItem(uint);
+bool isKeyItem(uint);
 bool haveItem(uint item);
 uint getProgressiveSword();
 uint getProgressiveBow();
