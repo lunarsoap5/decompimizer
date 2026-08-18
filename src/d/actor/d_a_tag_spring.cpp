@@ -11,8 +11,9 @@
 #include "d/d_debug_viewer.h"
 #include "f_pc/f_pc_name.h"
 
-class daTagSpring_HIO_c : public mDoHIO_entry_c {
-public:
+class daTagSpring_HIO_c: public mDoHIO_entry_c
+{
+   public:
     daTagSpring_HIO_c();
 
     void genMessage(JORMContext*);
@@ -22,16 +23,18 @@ public:
     u8 field_0x8;
 };
 
-daTagSpring_HIO_c::daTagSpring_HIO_c() {
+daTagSpring_HIO_c::daTagSpring_HIO_c()
+{
     draw_range = 0;
-    recovery_time = 30;
+    recovery_time = 10;
     field_0x8 = 1;
 }
 
 #if DEBUG
 daTagSpring_HIO_c l_HIO;
 
-void daTagSpring_HIO_c::genMessage(JORMContext* ctx) {
+void daTagSpring_HIO_c::genMessage(JORMContext* ctx)
+{
     // "Spirit spring"
     ctx->genLabel("精霊の泉", 0);
     // "Draw range"
@@ -41,24 +44,29 @@ void daTagSpring_HIO_c::genMessage(JORMContext* ctx) {
 }
 #endif
 
-void daTagSpring_c::initBaseMtx() {
+void daTagSpring_c::initBaseMtx()
+{
     setBaseMtx();
 }
 
-void daTagSpring_c::setBaseMtx() {
+void daTagSpring_c::setBaseMtx()
+{
     mDoMtx_stack_c::transS(current.pos.x, current.pos.y, current.pos.z);
     mDoMtx_stack_c::ZXYrotM(shape_angle.x, shape_angle.y, shape_angle.z);
 }
 
-int daTagSpring_c::Create() {
+int daTagSpring_c::Create()
+{
     initBaseMtx();
     return 1;
 }
 
-int daTagSpring_c::create() {
+int daTagSpring_c::create()
+{
     fopAcM_ct(this, daTagSpring_c);
 
-    if (!Create()) {
+    if (!Create())
+    {
         return cPhs_ERROR_e;
     }
 
@@ -70,58 +78,72 @@ int daTagSpring_c::create() {
     return cPhs_COMPLEATE_e;
 }
 
-int daTagSpring_c::execute() {
-    if (getSwbit() != 0xFF) {
-        if (!fopAcM_isSwitch(this, getSwbit())) {
+int daTagSpring_c::execute()
+{
+    if (getSwbit() != 0xFF)
+    {
+        if (!fopAcM_isSwitch(this, getSwbit()))
+        {
             return 1;
         }
     }
 
-    if (dComIfGp_event_runCheck()) {
+    if (dComIfGp_event_runCheck())
+    {
         return 1;
     }
 
     fopAc_ac_c* player_p = daPy_getPlayerActorClass();
 
     if (checkArea() && fopAcM_wt_c::waterCheck(&player_p->current.pos) &&
-        (!dComIfGp_checkPlayerStatus0(0, 0x100000) &&
-             fopAcM_wt_c::getWaterY() > player_p->current.pos.y ||
+        (!dComIfGp_checkPlayerStatus0(0, 0x100000) && fopAcM_wt_c::getWaterY() > player_p->current.pos.y ||
          dComIfGp_checkPlayerStatus0(0, 0x100000)))
     {
-        if (mTimer != 0) {
+        if (mTimer != 0)
+        {
             mTimer--;
-        } else {
+        }
+        else
+        {
 #if DEBUG
             mTimer = l_HIO.recovery_time;
 #else
-            mTimer = 30;
+            mTimer = 10;
 #endif
             dComIfGp_setItemLifeCount(1.0f, 1);
         }
-    } else {
+    }
+    else
+    {
 #if DEBUG
         mTimer = l_HIO.recovery_time;
 #else
-        mTimer = 30;
+        mTimer = 10;
 #endif
     }
 
     return 1;
 }
 
-bool daTagSpring_c::checkArea() {
+bool daTagSpring_c::checkArea()
+{
     fopAc_ac_c* player_p = daPy_getPlayerActorClass();
-    if (player_p->current.pos.absXZ(current.pos) < (scale.x * 1000.0f)) {
+    if (player_p->current.pos.absXZ(current.pos) < (scale.x * 1000.0f))
+    {
         return 1;
-    } else {
+    }
+    else
+    {
         return 0;
     }
 }
 
-int daTagSpring_c::draw() {
+int daTagSpring_c::draw()
+{
 #if DEBUG
-    if (l_HIO.draw_range) {
-        GXColor color = (GXColor){0, 0, 0xff, 0x80};
+    if (l_HIO.draw_range)
+    {
+        GXColor color = (GXColor) {0, 0, 0xff, 0x80};
         dDbVw_drawCylinderXlu(current.pos, scale.x * 1000.0f, 100.0f, color, 1);
     }
 #endif
@@ -129,7 +151,8 @@ int daTagSpring_c::draw() {
     return 1;
 }
 
-int daTagSpring_c::_delete() {
+int daTagSpring_c::_delete()
+{
 #if DEBUG
     l_HIO.removeHIO();
 #endif
@@ -137,20 +160,24 @@ int daTagSpring_c::_delete() {
     return 1;
 }
 
-static int daTagSpring_Draw(daTagSpring_c* i_this) {
+static int daTagSpring_Draw(daTagSpring_c* i_this)
+{
     return i_this->draw();
 }
 
-static int daTagSpring_Execute(daTagSpring_c* i_this) {
+static int daTagSpring_Execute(daTagSpring_c* i_this)
+{
     return i_this->execute();
 }
 
-static int daTagSpring_Delete(daTagSpring_c* i_this) {
+static int daTagSpring_Delete(daTagSpring_c* i_this)
+{
     int id = fopAcM_GetID(i_this);
     return i_this->_delete();
 }
 
-static int daTagSpring_Create(daTagSpring_c* i_this) {
+static int daTagSpring_Create(daTagSpring_c* i_this)
+{
     int id = fopAcM_GetID(i_this);
     return i_this->create();
 }

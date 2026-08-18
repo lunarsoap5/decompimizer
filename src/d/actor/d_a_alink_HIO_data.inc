@@ -7,7 +7,7 @@ const daAlinkHIO_basic_c1 daAlinkHIO_basic_c0::m = {
 	-10000,
 	8000,
 	1,
-	30,
+	10,
 	400,
 	600,
 	16384,

@@ -868,7 +868,7 @@ int daObjYOUSEI_c::create() {
         if (isMajorItem(getItem())) {
             setColor(255, 15, 15, 255);  // Major Item - Red
         } else if (getItem() == dItemNo_PURPLE_RUPEE_e) {
-            setColor(135, 0, 255, 255);  // Poe - Purple
+            setColor(50, 0, 255, 255);  // Poe - Purple
         } else if (isKeyItem(getItem())) {
             setColor(50, 255, 5, 255);  // Key - Green
         } else if ((getItem() > 0xBF) && (getItem() < 0xD8)) {
