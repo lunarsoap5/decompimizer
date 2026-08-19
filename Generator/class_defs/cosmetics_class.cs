@@ -294,7 +294,7 @@ public static class CosmeticFunctions
                             0,
                             TextureRecolorType.Greyscale,
                             new RgbaColor(180, 30, 30, 255), 
-                            new RgbaColor(111, 196, 251, 255),
+                            new RgbaColor(76,119,180, 255),
                             25
                         ),
                     ]
