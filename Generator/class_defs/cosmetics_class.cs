@@ -91,6 +91,15 @@ public static class CosmeticFunctions
                             new RgbaColor(0x9b, 0x6e, 0xab, 255),
                             25
                         ),
+                        // Memo Icon
+                        new TextureRecolorOptions(
+                            @"timg/im_kakioki_48.bti",
+                            0,
+                            TextureRecolorType.Greyscale,
+                            new RgbaColor(180, 30, 30, 255),
+                            new RgbaColor(77, 53, 41, 255),
+                            25
+                        ),
                     ]
                 ),
                 // Mmdl - Magic Armor
@@ -285,7 +294,7 @@ public static class CosmeticFunctions
                             0,
                             TextureRecolorType.Greyscale,
                             new RgbaColor(180, 30, 30, 255), 
-                            new RgbaColor(34, 32, 65, 255),
+                            new RgbaColor(111, 196, 251, 255),
                             25
                         ),
                     ]

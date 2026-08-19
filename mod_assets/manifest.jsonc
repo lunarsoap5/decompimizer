@@ -41,6 +41,11 @@
         // Custom Fused Shadow icon created by MelonSpeedruns
         "FileName": "zz_07_fused_shadow3.bti",
         "Subdirectory": "timg/"
+      },
+      {
+        // Custom Sketch icron created by Lunar
+        "FileName": "zz_08_kakioki_48.bti",
+        "Subdirectory": "timg/"
       }
     ]
   },
