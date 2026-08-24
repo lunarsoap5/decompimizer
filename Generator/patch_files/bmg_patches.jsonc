@@ -1041,13 +1041,13 @@
           }
         }
       },
-      {
+      { // Check for custom flag before allowing player to buy CT arrows
         "Operation": "modify",
         "Section": "FLW1",
         "Index": "0x9C9",
         "ChangeData": {
           "Data": {
-            "flwTable": ["0202000103320862"]
+            "flwTable": [ "0202000103320862" ]
           }
         }
       },
@@ -1096,7 +1096,7 @@
   {
     "FilePath": "res/Msgus/Bmgres5/zel_05.bmg",
     "Changes": [
-      { // Check for custom flag before allowing player to buy CT arrows
+      {
         "Operation": "modify",
         "Section": "FLW1",
         "Index": "0x5",
@@ -1131,7 +1131,7 @@
   {
     "FilePath": "res/Msgus/Bmgres6/zel_06.bmg",
     "Changes": [
-      {
+      { // Patch Coro to check event flag
         "Operation": "modify",
         "Section": "FLW1",
         "Index": "0x4F",
@@ -1141,7 +1141,7 @@
           }
         }
       },
-      {
+      { // Adjust message to jump past un-necessary flag check
         "Operation": "modify",
         "Section": "FLW1",
         "Index": "0xA5",
@@ -1151,7 +1151,7 @@
           }
         }
       },
-      {
+      { // Initialize new flow from Twilight State
         "Operation": "modify",
         "Section": "FLW1",
         "Index": "0xEE",
@@ -1161,7 +1161,7 @@
           }
         }
       },
-      {
+      { // Patch coro to check event flag
         "Operation": "modify",
         "Section": "FLW1",
         "Index": "0xFF",
@@ -1171,7 +1171,7 @@
           }
         }
       },
-      {
+      { // Adjust message flow for Coro Key
         "Operation": "modify",
         "Section": "FLW1",
         "Index": "0x1A4",
@@ -1181,7 +1181,7 @@
           }
         }
       },
-      {
+      { // Set event bit for lantern check
         "Operation": "modify",
         "Section": "FLW1",
         "Index": "0x1A9",
@@ -1191,7 +1191,7 @@
           }
         }
       },
-      {
+      { // Allow flow state for Lantern check
         "Operation": "modify",
         "Section": "FLW1",
         "Index": "0x1AA",
@@ -1201,7 +1201,7 @@
           }
         }
       },
-      {
+      { // Check if player has gotten key from Coro
         "Operation": "modify",
         "Section": "FLW1",
         "Index": "0x1B3",
@@ -1211,7 +1211,7 @@
           }
         }
       },
-      {
+      { // Patch Coro to check event flag
         "Operation": "modify",
         "Section": "FLW1",
         "Index": "0x1C2",
@@ -1221,7 +1221,7 @@
           }
         }
       },
-      {
+      { // Check flag for coros bottle bought
         "Operation": "modify",
         "Section": "FLW1",
         "Index": "0x1C4",
