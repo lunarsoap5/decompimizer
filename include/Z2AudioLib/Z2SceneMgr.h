@@ -6,16 +6,16 @@
 
 s8 dComIfGp_getReverb(int roomNo);
 
-class Z2SceneMgr : public JASGlobalInstance<Z2SceneMgr> {
-public:
+class Z2SceneMgr: public JASGlobalInstance<Z2SceneMgr>
+{
+   public:
     Z2SceneMgr();
     void setInDarkness(bool inDarkness);
     void setSceneExist(bool isSceneExist);
     void setFadeOutStart(u8 fadeType);
     void setFadeInStart(u8 fadeType);
     void setSceneName(char* spot, s32 room, s32 layer);
-    void sceneChange(JAISoundID bgm, u8 seWave1, u8 seWave2, u8 bgmWave1, u8 bgmWave2, u8 demoWave,
-                     bool);
+    void sceneChange(JAISoundID bgm, u8 seWave1, u8 seWave2, u8 bgmWave1, u8 bgmWave2, u8 demoWave, bool);
     void framework();
     void load1stDynamicWave();
     void _load1stWaveInner_1();
@@ -46,8 +46,10 @@ public:
     s32 getSeLoadStatus(u32 wave) { return getWaveLoadStatus(wave, 0); }
     s32 getBgmLoadStatus(u32 wave) { return getWaveLoadStatus(wave, 1); }
     u8 getDemoSeWaveNum() { return loadedDemoWave; }
+    u8 getLoadedSeWave1() { return loadedSeWave_1; }
+    u8 getLoadedSeWave2() { return loadedSeWave_2; }
 
-private:
+   private:
     /* 0x00 */ JAISoundID BGM_ID;
     /* 0x04 */ int sceneNum;
     /* 0x08 */ int timer;
@@ -70,13 +72,15 @@ private:
     /* 0x1C */ bool inGame;
     /* 0x1D */ bool sceneExist;
     /* 0x1E */ bool inDarkness_;
-};  // Size = 0x20
+}; // Size = 0x20
 
-inline Z2SceneMgr* Z2GetSceneMgr() {
+inline Z2SceneMgr* Z2GetSceneMgr()
+{
     return JASGlobalInstance<Z2SceneMgr>::getInstance();
 }
 
-enum Z2Scene {
+enum Z2Scene
+{
     /* 0x00 */ Z2SCENE_ORDON_RANCH,
     /* 0x01 */ Z2SCENE_ORDON_VILLAGE,
     /* 0x02 */ Z2SCENE_ORDON_INTERIOR,

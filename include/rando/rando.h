@@ -22,8 +22,9 @@ enum EventItemStatus
     CLEAR_QUEUE,
 };
 
-class randoInfo_c {
-public:
+class randoInfo_c
+{
+   public:
     randoInfo_c() { mInitialized = false; }
 
     int _create();
@@ -42,34 +43,35 @@ public:
     void handleTimeSpeed();
     void offLoad();
     bool checkFoolishItemEffectReady();
+    void handleFoolishItem();
 
-    u8 getGiveItemToPlayerStatus() { return eventItemStatus;}
-    u16 getLastButtonInput() { return m_LastButtonInput;}
-    float getPrevFrameAnalogR() { return prevFrameAnalogR;}
+    u8 getGiveItemToPlayerStatus() { return eventItemStatus; }
+    u16 getLastButtonInput() { return m_LastButtonInput; }
+    float getPrevFrameAnalogR() { return prevFrameAnalogR; }
     u8 getTimeChange() { return mTimeChange; }
     bool getRoomReloadingState() { return roomReloadingState; }
     bool getHasPendingToDChange() { return hasPendingToDChange; }
-    J2DPicture* getDPadIconPtr() { return dPadIconPtr;}
-    J2DPicture* getBigKeyIconPtr() { return bigKeyIconPtr;}
-    J2DPicture* getDunMapIconPtr() { return dunMapIconPtr;}
-    J2DPicture* getDunCompassIconPtr() { return dunCompassIconPtr;}
-    bool getDrawBigKey() { return drawBigKey;}
-    GXColor getGlobalRGB() { return globalRGB;}
-    bool getShowTriforceCount() { return isShowTriforceCount;}
-    
-    void setGiveItemToPlayerStatus(u8 status) { eventItemStatus = status;}
-    void setLastButtonInput(u16 buttonInput) { m_LastButtonInput = buttonInput;}
-    void setPrevFrameAnalogR(float value) { prevFrameAnalogR = value;}
+    J2DPicture* getDPadIconPtr() { return dPadIconPtr; }
+    J2DPicture* getBigKeyIconPtr() { return bigKeyIconPtr; }
+    J2DPicture* getDunMapIconPtr() { return dunMapIconPtr; }
+    J2DPicture* getDunCompassIconPtr() { return dunCompassIconPtr; }
+    bool getDrawBigKey() { return drawBigKey; }
+    GXColor getGlobalRGB() { return globalRGB; }
+    bool getShowTriforceCount() { return isShowTriforceCount; }
+
+    void setGiveItemToPlayerStatus(u8 status) { eventItemStatus = status; }
+    void setLastButtonInput(u16 buttonInput) { m_LastButtonInput = buttonInput; }
+    void setPrevFrameAnalogR(float value) { prevFrameAnalogR = value; }
     void setHasPendingToDChange(bool hasPending) { hasPendingToDChange = hasPending; }
     void setTimeChange(u8 newTimeChange) { mTimeChange = newTimeChange; }
     void setRoomReloadingState(bool newState) { roomReloadingState = newState; }
-    void setDPadIconPtr(J2DPicture* ptr) { dPadIconPtr = ptr;}
-    void setBigKeyIconPtr(J2DPicture* ptr) { bigKeyIconPtr = ptr;}
-    void setDunMapIconPtr(J2DPicture* ptr) { dunMapIconPtr = ptr;}
-    void setDunCompassIconPtr(J2DPicture* ptr) { dunCompassIconPtr = ptr;}
+    void setDPadIconPtr(J2DPicture* ptr) { dPadIconPtr = ptr; }
+    void setBigKeyIconPtr(J2DPicture* ptr) { bigKeyIconPtr = ptr; }
+    void setDunMapIconPtr(J2DPicture* ptr) { dunMapIconPtr = ptr; }
+    void setDunCompassIconPtr(J2DPicture* ptr) { dunCompassIconPtr = ptr; }
     void setDrawBigKey(bool val) { drawBigKey = val; }
-    void showTriforceCount() { isShowTriforceCount = true;}
-    void hideTriforceCount() { isShowTriforceCount = false;}
+    void showTriforceCount() { isShowTriforceCount = true; }
+    void hideTriforceCount() { isShowTriforceCount = false; }
 
     bool mInitialized;
     u8 eventItemStatus;
@@ -101,6 +103,7 @@ public:
     bool drawBigKey;
     dStage_startStage_c lastSavableStart;
     GXColor globalRGB;
+    u8 mFoolishItemCount;
 };
 
 void checkSetHCBkFlag(u8 req, u8 currentCount);
@@ -109,4 +112,4 @@ void rollCredits();
 
 extern randoInfo_c g_randoInfo;
 
-#endif  // RANDO_H
+#endif // RANDO_H

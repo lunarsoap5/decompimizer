@@ -273,12 +273,14 @@ static void (*item_func_ptr[256])() = {
     item_func_noentry,
 };
 
-inline void getItemFunc(u8 i_itemNo) {
+inline void getItemFunc(u8 i_itemNo)
+{
     dComIfGs_onItemFirstBit(i_itemNo);
     item_func_ptr[i_itemNo]();
 }
 
-void execItemGet(u8 i_itemNo) {
+void execItemGet(u8 i_itemNo)
+{
     i_itemNo = verifyProgressiveItem(i_itemNo);
     getItemFunc(i_itemNo);
 }
@@ -542,162 +544,193 @@ static int (*item_getcheck_func_ptr[256])() = {
     item_getcheck_func_noentry,
 };
 
-inline int getCheckItemFunc(u8 i_itemNo) {
+inline int getCheckItemFunc(u8 i_itemNo)
+{
     return item_getcheck_func_ptr[i_itemNo]();
 }
 
-int checkItemGet(u8 i_itemNo, int i_default) {
+int checkItemGet(u8 i_itemNo, int i_default)
+{
     int result = getCheckItemFunc(i_itemNo);
 
-    if (result == -1) {
+    if (result == -1)
+    {
         result = i_default;
     }
 
     return result;
 }
 
-void item_func_HEART() {
+void item_func_HEART()
+{
     dComIfGp_setItemLifeCount(4.0f, 0);
 }
 
-void item_func_GREEN_RUPEE() {
+void item_func_GREEN_RUPEE()
+{
     dComIfGp_setItemRupeeCount(1);
 }
 
-void item_func_BLUE_RUPEE() {
+void item_func_BLUE_RUPEE()
+{
     dComIfGp_setItemRupeeCount(5);
 }
 
-void item_func_YELLOW_RUPEE() {
+void item_func_YELLOW_RUPEE()
+{
     dComIfGp_setItemRupeeCount(10);
 }
 
-void item_func_RED_RUPEE() {
+void item_func_RED_RUPEE()
+{
     dComIfGp_setItemRupeeCount(20);
 }
 
-void item_func_PURPLE_RUPEE() {
+void item_func_PURPLE_RUPEE()
+{
     dComIfGp_setItemRupeeCount(50);
 }
 
-void item_func_ORANGE_RUPEE() {
+void item_func_ORANGE_RUPEE()
+{
     dComIfGp_setItemRupeeCount(100);
 }
 
-void item_func_SILVER_RUPEE() {
+void item_func_SILVER_RUPEE()
+{
     dComIfGp_setItemRupeeCount(200);
 }
 
-void item_func_S_MAGIC() {
+void item_func_S_MAGIC()
+{
     dComIfGp_setItemMagicCount(4);
 }
 
-void item_func_L_MAGIC() {
+void item_func_L_MAGIC()
+{
     dComIfGp_setItemMagicCount(8);
 }
 
-void item_func_BOMB_5() {
+void item_func_BOMB_5()
+{
     addBombCount(dItemNo_NORMAL_BOMB_e, 5);
 }
 
-void item_func_BOMB_10() {
+void item_func_BOMB_10()
+{
     addBombCount(dItemNo_NORMAL_BOMB_e, 10);
 }
 
-void item_func_BOMB_20() {
+void item_func_BOMB_20()
+{
     addBombCount(dItemNo_NORMAL_BOMB_e, 20);
 }
 
-void item_func_BOMB_30() {
+void item_func_BOMB_30()
+{
     addBombCount(dItemNo_NORMAL_BOMB_e, 30);
 }
 
-void item_func_ARROW_10() {
+void item_func_ARROW_10()
+{
     dComIfGp_setItemArrowNumCount(10);
 }
 
-void item_func_ARROW_20() {
+void item_func_ARROW_20()
+{
     dComIfGp_setItemArrowNumCount(20);
 }
 
-void item_func_ARROW_30() {
+void item_func_ARROW_30()
+{
     dComIfGp_setItemArrowNumCount(30);
 }
 
-void item_func_ARROW_1() {
+void item_func_ARROW_1()
+{
     dComIfGp_setItemArrowNumCount(1);
 }
 
-void item_func_PACHINKO_SHOT() {
+void item_func_PACHINKO_SHOT()
+{
     dComIfGp_setItemPachinkoNumCount(50);
 }
 
-void item_func_FOOLISH_ITEM() {
-    /*
-    Pasting rando code until framework is implemented
+void item_func_FOOLISH_ITEM()
+{
     // Failsafe: Make sure the count does not somehow exceed 100
-        rando::customItems::FoolishItems* foolishItemsPtr = rando::gRandomizer->getFoolishItemsPtr();
-        const uint32_t triggerCount = foolishItemsPtr->getTriggerCount();
-        if (triggerCount < 100)
-        {
-            foolishItemsPtr->setTriggerCount(static_cast<uint8_t>(triggerCount + 1));
-        }
-    */
+    uint32_t triggerCount = g_randoInfo.mFoolishItemCount;
+    if (triggerCount < 100)
+    {
+        g_randoInfo.mFoolishItemCount++;
+    }
 }
 
-void item_func_ORDON_PORTAL() {
+void item_func_ORDON_PORTAL()
+{
     dComIfGs_onStageSwitch(0x0, 0x34); // Unlock Ordon Portal
 }
 
-void item_func_SOUTH_FARON_PORTAL() {
+void item_func_SOUTH_FARON_PORTAL()
+{
     dComIfGs_onStageSwitch(0x2, 0x47); // Unlock S Faron Portal
 }
 
-void item_func_WATER_BOMB_5() {
+void item_func_WATER_BOMB_5()
+{
     addBombCount(dItemNo_WATER_BOMB_e, 5);
 }
 
-void item_func_WATER_BOMB_10() {
+void item_func_WATER_BOMB_10()
+{
     addBombCount(dItemNo_WATER_BOMB_e, 10);
 }
 
-void item_func_WATER_BOMB_20() {
+void item_func_WATER_BOMB_20()
+{
     addBombCount(dItemNo_WATER_BOMB_e, 15);
 }
 
-void item_func_WATER_BOMB_30() {
+void item_func_WATER_BOMB_30()
+{
     addBombCount(dItemNo_WATER_BOMB_e, 3);
 }
 
-void item_func_BOMB_INSECT_5() {
+void item_func_BOMB_INSECT_5()
+{
     addBombCount(dItemNo_POKE_BOMB_e, 5);
 }
 
-void item_func_BOMB_INSECT_10() {
+void item_func_BOMB_INSECT_10()
+{
     addBombCount(dItemNo_POKE_BOMB_e, 10);
 }
 
-void item_func_BOMB_INSECT_20() {
+void item_func_BOMB_INSECT_20()
+{
     addBombCount(dItemNo_POKE_BOMB_e, 3);
 }
 
 void item_func_BOMB_INSECT_30() {}
 
-void item_func_RECOVER_FAILY() {
+void item_func_RECOVER_FAILY()
+{
     dComIfGp_setItemLifeCount(32.0f, 0);
 }
 
 void item_func_TRIPLE_HEART() {}
 
-void item_func_SMALL_KEY() {
+void item_func_SMALL_KEY()
+{
     dComIfGp_setItemKeyNumCount(1);
 }
 
-void item_func_KAKERA_HEART() {
+void item_func_KAKERA_HEART()
+{
     dComIfGp_setItemMaxLifeCount(1);
 
     u8 maxLife = dComIfGs_getMaxLife() + 1;
-    
+
     // Check if we have enough hearts to break the barrier.
     checkSetHCBarrierFlag(HC_Hearts, maxLife);
 
@@ -705,7 +738,8 @@ void item_func_KAKERA_HEART() {
     checkSetHCBkFlag(HC_BK_Hearts, maxLife);
 }
 
-void item_func_UTUWA_HEART() {
+void item_func_UTUWA_HEART()
+{
     dComIfGp_setItemMaxLifeCount(5);
 
     f32 max_life = dComIfGs_getMaxLifeGauge();
@@ -716,7 +750,7 @@ void item_func_UTUWA_HEART() {
     // dComIfGs_onStageLife();
 
     u8 maxLife = dComIfGs_getMaxLife() + 5;
-    
+
     // Check if we have enough hearts to break the barrier.
     checkSetHCBarrierFlag(HC_Hearts, maxLife);
 
@@ -724,38 +758,46 @@ void item_func_UTUWA_HEART() {
     checkSetHCBkFlag(HC_BK_Hearts, maxLife);
 }
 
-void item_func_MAP() {
+void item_func_MAP()
+{
     dComIfGs_onDungeonItemMap();
 }
 
-void item_func_COMPUS() {
+void item_func_COMPUS()
+{
     dComIfGs_onDungeonItemCompass();
 }
 
-void item_func_DUNGEON_EXIT() {
+void item_func_DUNGEON_EXIT()
+{
     dComIfGs_onDungeonItemWarp();
     dComIfGs_setItem(SLOT_18, dItemNo_DUNGEON_EXIT_e);
 }
 
-void item_func_BOSS_KEY() {
+void item_func_BOSS_KEY()
+{
     dComIfGs_onDungeonItemBossKey();
 }
 
-void item_func_DUNGEON_BACK() {
+void item_func_DUNGEON_BACK()
+{
     dComIfGs_setItem(SLOT_18, dItemNo_DUNGEON_BACK_e);
 }
 
-void item_func_SWORD() {
+void item_func_SWORD()
+{
     dComIfGs_setCollectSword(COLLECT_ORDON_SWORD);
     dComIfGs_setSelectEquipSword(dItemNo_SWORD_e);
 }
 
-void item_func_MASTER_SWORD() {
+void item_func_MASTER_SWORD()
+{
     dComIfGs_setCollectSword(COLLECT_MASTER_SWORD);
     dComIfGs_setSelectEquipSword(dItemNo_MASTER_SWORD_e);
 }
 
-void item_func_WOOD_SHIELD() {
+void item_func_WOOD_SHIELD()
+{
     dComIfGs_setCollectShield(COLLECT_WOODEN_SHIELD);
     dComIfGs_setSelectEquipShield(dItemNo_WOOD_SHIELD_e);
 }
@@ -764,15 +806,18 @@ void item_func_SHIELD() {}
 
 void item_func_HYLIA_SHIELD() {}
 
-void item_func_TKS_LETTER() {
+void item_func_TKS_LETTER()
+{
     dComIfGs_setItem(SLOT_18, dItemNo_TKS_LETTER_e);
 }
 
-void item_func_WEAR_CASUAL() {
+void item_func_WEAR_CASUAL()
+{
     dComIfGs_setSelectEquipClothes(dItemNo_WEAR_CASUAL_e);
 }
 
-void item_func_WEAR_KOKIRI() {
+void item_func_WEAR_KOKIRI()
+{
     dComIfGs_setCollectClothes(KOKIRI_CLOTHES_FLAG);
     dComIfGs_setSelectEquipClothes(dItemNo_WEAR_KOKIRI_e);
 }
@@ -781,20 +826,24 @@ void item_func_ARMOR() {}
 
 void item_func_WEAR_ZORA() {}
 
-void item_func_MAGIC_LV1() {
+void item_func_MAGIC_LV1()
+{
     dComIfGs_onEventBit(0xD04); // Can transform at will
     dComIfGs_onEventBit(0x501); // Midna Charge Unlocked
 }
 
-void item_func_DUNGEON_EXIT_2() {
+void item_func_DUNGEON_EXIT_2()
+{
     dComIfGs_setItem(SLOT_18, dItemNo_DUNGEON_EXIT_e);
 }
 
-void item_func_WALLET_LV1() {
+void item_func_WALLET_LV1()
+{
     dComIfGs_setWalletSize(WALLET);
 }
 
-void item_func_WALLET_LV2() {
+void item_func_WALLET_LV2()
+{
     dComIfGs_setWalletSize(BIG_WALLET);
     // Putting rando code here until the framework gets built:
     /*
@@ -819,7 +868,8 @@ void item_func_WALLET_LV2() {
     */
 }
 
-void item_func_WALLET_LV3() {
+void item_func_WALLET_LV3()
+{
     dComIfGs_setWalletSize(GIANT_WALLET);
     // Putting rando code here until the framework gets built:
     /*
@@ -844,7 +894,8 @@ void item_func_WALLET_LV3() {
     */
 }
 
-void item_func_TRIFORCE_PIECE() {
+void item_func_TRIFORCE_PIECE()
+{
     dComIfGs_addTriforcePiece();
 
     // If we have enough pieces to complete the game, load the credits. If not, display the current count.
@@ -858,148 +909,181 @@ void item_func_TRIFORCE_PIECE() {
     }
 }
 
-void item_func_UPPER_ZORAS_RIVER_PORTAL() {
+void item_func_UPPER_ZORAS_RIVER_PORTAL()
+{
     dComIfGs_onStageSwitch(0x4, 0x17); // Talked to Iza before portal
     dComIfGs_onStageSwitch(0x4, 0x37); // Talked to Iza after portal
     dComIfGs_onStageSwitch(0x4, 0x15); // Unlock UZR Portal
-    dComIfGs_onEventBit(0xB80); // Declined to help Iza
-    dComIfGs_onEventBit(0x1304); // Talked to Iza before UZR portal
-    dComIfGs_onEventBit(0xB02); // Iza 1 Minigame Unlocked
+    dComIfGs_onEventBit(0xB80);        // Declined to help Iza
+    dComIfGs_onEventBit(0x1304);       // Talked to Iza before UZR portal
+    dComIfGs_onEventBit(0xB02);        // Iza 1 Minigame Unlocked
 }
 
-void item_func_CASTLE_TOWN_PORTAL() {
+void item_func_CASTLE_TOWN_PORTAL()
+{
     dComIfGs_onStageSwitch(0x6, 0x3); // Unlock Castle Town Portal
 }
 
-void item_func_GERUDO_DESERT_PORTAL() {
+void item_func_GERUDO_DESERT_PORTAL()
+{
     dComIfGs_onStageSwitch(0xA, 0x15); // Unlock Desrt Portal
 }
 
-void item_func_NORTH_FARON_PORTAL() {
+void item_func_NORTH_FARON_PORTAL()
+{
     dComIfGs_onStageSwitch(0x2, 0x2); // Unlock N Faron Portal
 }
 
-void item_func_ZORAS_JEWEL() {
-    if (item_getcheck_func_FISHING_ROD_1()) {
+void item_func_ZORAS_JEWEL()
+{
+    if (item_getcheck_func_FISHING_ROD_1())
+    {
         dComIfGs_setRodTypeLevelUp();
-    } else {
+    }
+    else
+    {
         dComIfGs_setItem(SLOT_20, dItemNo_ZORAS_JEWEL_e);
     }
 }
 
-void item_func_HAWK_EYE() {
+void item_func_HAWK_EYE()
+{
     dComIfGs_setItem(SLOT_5, dItemNo_HAWK_EYE_e);
 }
 
-void item_func_WOOD_STICK() {
+void item_func_WOOD_STICK()
+{
     dComIfGs_setCollectSword(COLLECT_WOODEN_SWORD);
     dComIfGs_setSelectEquipSword(dItemNo_WOOD_STICK_e);
 
-    //dComIfGs_onSwitch(28, dComIfGp_roomControl_getStayNo());
+    // dComIfGs_onSwitch(28, dComIfGp_roomControl_getStayNo());
 }
 
-void item_func_BOOMERANG() {
+void item_func_BOOMERANG()
+{
     dComIfGs_setItem(SLOT_0, dItemNo_BOOMERANG_e);
 }
 
-void item_func_SPINNER() {
+void item_func_SPINNER()
+{
     dComIfGs_setItem(SLOT_2, dItemNo_SPINNER_e);
 }
 
-void item_func_IRONBALL() {
+void item_func_IRONBALL()
+{
     dComIfGs_setItem(SLOT_6, dItemNo_IRONBALL_e);
 }
 
-void item_func_BOW() {
+void item_func_BOW()
+{
     dComIfGs_setItem(SLOT_4, dItemNo_BOW_e);
     dComIfGs_setArrowNum(30);
     dComIfGs_setArrowMax(30);
 }
 
-void item_func_HOOKSHOT() {
+void item_func_HOOKSHOT()
+{
     dComIfGs_setItem(SLOT_9, dItemNo_HOOKSHOT_e);
 }
 
-void item_func_HVY_BOOTS() {
+void item_func_HVY_BOOTS()
+{
     dComIfGs_setItem(SLOT_3, dItemNo_HVY_BOOTS_e);
 }
 
-void item_func_COPY_ROD() {
+void item_func_COPY_ROD()
+{
     dComIfGs_setItem(SLOT_8, dItemNo_COPY_ROD_e);
 }
 
-void item_func_W_HOOKSHOT() {
+void item_func_W_HOOKSHOT()
+{
     dComIfGs_setItem(SLOT_9, dItemNo_NONE_e);
     dComIfGs_setItem(SLOT_10, dItemNo_W_HOOKSHOT_e);
 }
 
-void item_func_KANTERA() {
+void item_func_KANTERA()
+{
     dComIfGs_setMaxOil(21600);
     dComIfGs_setOil(21600);
     dComIfGs_setItem(SLOT_1, dItemNo_KANTERA_e);
 }
 
-void item_func_LIGHT_SWORD() {
+void item_func_LIGHT_SWORD()
+{
     dComIfGs_setCollectSword(COLLECT_LIGHT_SWORD);
     dMeter2Info_setSword(dItemNo_LIGHT_SWORD_e, false);
 }
 
-void item_func_FISHING_ROD_1() {
+void item_func_FISHING_ROD_1()
+{
     dComIfGs_setItem(SLOT_20, dItemNo_FISHING_ROD_1_e);
 }
 
-void item_func_PACHINKO() {
+void item_func_PACHINKO()
+{
     u8 pachinko_max = dComIfGs_getPachinkoMax();
     dComIfGp_setItemPachinkoNumCount(pachinko_max);
     dComIfGs_setItem(SLOT_23, dItemNo_PACHINKO_e);
 }
 
-void item_func_COPY_ROD_2() {
+void item_func_COPY_ROD_2()
+{
     dComIfGs_onEventBit(0x2580); // Power up dominion rod
 }
 
-void item_func_KAKARIKO_GORGE_PORTAL() {
+void item_func_KAKARIKO_GORGE_PORTAL()
+{
     dComIfGs_onStageSwitch(0x6, 0x15); // Unlock Gorge Portal
 }
 
-void item_func_KAKARIKO_VILLAGE_PORTAL() {
+void item_func_KAKARIKO_VILLAGE_PORTAL()
+{
     dComIfGs_onStageSwitch(0x3, 0x1F); // Unlock Kak Portal
 }
 
 void item_func_BOMB_BAG_LV2() {}
 
-void item_func_BOMB_BAG_LV1() {
+void item_func_BOMB_BAG_LV1()
+{
     dComIfGs_setEmptyBombBag(dItemNo_NORMAL_BOMB_e, 30);
 }
 
-void item_func_BOMB_IN_BAG() {
+void item_func_BOMB_IN_BAG()
+{
     dComIfGs_setEmptyBombBag(dItemNo_NORMAL_BOMB_e, 30);
 }
 
-void item_func_DEATH_MOUNTAIN_PORTAL() {
+void item_func_DEATH_MOUNTAIN_PORTAL()
+{
     dComIfGs_onStageSwitch(0x3, 0x15); // Unlock DM Portal
 }
 
-void item_func_LIGHT_ARROW() {
+void item_func_LIGHT_ARROW()
+{
     dComIfGs_setItem(SLOT_4, dItemNo_LIGHT_ARROW_e);
 }
 
-void item_func_ARROW_LV1() {
+void item_func_ARROW_LV1()
+{
     dComIfGs_setArrowNum(60);
     dComIfGs_setArrowMax(60);
 }
 
-void item_func_ARROW_LV2() {
+void item_func_ARROW_LV2()
+{
     dComIfGs_setArrowNum(60);
     dComIfGs_setArrowMax(60);
 }
 
-void item_func_ARROW_LV3() {
+void item_func_ARROW_LV3()
+{
     dComIfGs_setArrowNum(100);
     dComIfGs_setArrowMax(100);
 }
 
-void item_func_ZORAS_DOMAIN_PORTAL() {
+void item_func_ZORAS_DOMAIN_PORTAL()
+{
     dComIfGs_onStageSwitch(0x4, 0x2); // Unlock ZD Portal
 }
 
@@ -1019,59 +1103,73 @@ void item_func_JEWEL_BEE_ROD() {}
 
 void item_func_JEWEL_WORM_ROD() {}
 
-void item_func_EMPTY_BOTTLE() {
+void item_func_EMPTY_BOTTLE()
+{
     dComIfGs_setEmptyBottle();
 }
 
-void item_func_RED_BOTTLE() {
+void item_func_RED_BOTTLE()
+{
     dComIfGs_setEmptyBottleItemIn(dItemNo_RED_BOTTLE_e);
 }
 
-void item_func_GREEN_BOTTLE() {
+void item_func_GREEN_BOTTLE()
+{
     dComIfGs_setEmptyBottleItemIn(dItemNo_GREEN_BOTTLE_e);
 }
 
-void item_func_BLUE_BOTTLE() {
+void item_func_BLUE_BOTTLE()
+{
     dComIfGs_setEmptyBottleItemIn(dItemNo_BLUE_BOTTLE_e);
 }
 
-void item_func_MILK_BOTTLE() {
+void item_func_MILK_BOTTLE()
+{
     dComIfGs_setEmptyBottleItemIn(dItemNo_MILK_BOTTLE_e);
 }
 
-void item_func_HALF_MILK_BOTTLE() {
+void item_func_HALF_MILK_BOTTLE()
+{
     dComIfGs_setEmptyBottle(dItemNo_HALF_MILK_BOTTLE_e);
 }
 
-void item_func_OIL_BOTTLE() {
+void item_func_OIL_BOTTLE()
+{
     dComIfGs_setEmptyBottleItemIn(dItemNo_OIL_BOTTLE_e);
 }
 
-void item_func_WATER_BOTTLE() {
+void item_func_WATER_BOTTLE()
+{
     dComIfGs_setEmptyBottleItemIn(dItemNo_WATER_BOTTLE_e);
 }
 
-void item_func_OIL_BOTTLE2() {
+void item_func_OIL_BOTTLE2()
+{
     dComIfGs_setEmptyBottleItemIn(dItemNo_OIL_BOTTLE_e);
 }
 
-void item_func_RED_BOTTLE2() {
+void item_func_RED_BOTTLE2()
+{
     dComIfGs_setEmptyBottleItemIn(dItemNo_RED_BOTTLE_e);
 }
 
-void item_func_UGLY_SOUP() {
+void item_func_UGLY_SOUP()
+{
     dComIfGs_setEmptyBottleItemIn(dItemNo_UGLY_SOUP_e);
 }
 
-void item_func_HOT_SPRING() {
+void item_func_HOT_SPRING()
+{
     dComIfGs_setEmptyBottleItemIn(dItemNo_HOT_SPRING_e);
 }
 
-void item_func_FAIRY_BOTTLE() {
+void item_func_FAIRY_BOTTLE()
+{
     dComIfGs_setEmptyBottleItemIn(dItemNo_FAIRY_e);
 }
 
-void item_func_HOT_SPRING2() {
+void item_func_HOT_SPRING2()
+{
     dComIfGs_setEmptyBottleItemIn(dItemNo_HOT_SPRING_e);
 }
 
@@ -1079,100 +1177,121 @@ void item_func_OIL2() {}
 
 void item_func_OIL() {}
 
-void item_func_NORMAL_BOMB() {
+void item_func_NORMAL_BOMB()
+{
     dComIfGs_setEmptyBombBag(dItemNo_NORMAL_BOMB_e, 60);
 }
 
-void item_func_WATER_BOMB() {
+void item_func_WATER_BOMB()
+{
     dComIfGs_setEmptyBombBag();
     dComIfGs_setEmptyBombBagItemIn(dItemNo_WATER_BOMB_e, true);
 }
 
-void item_func_POKE_BOMB() {
+void item_func_POKE_BOMB()
+{
     dComIfGs_setEmptyBombBag();
     dComIfGs_setEmptyBombBagItemIn(dItemNo_POKE_BOMB_e, true);
 }
 
-void item_func_FAIRY_DROP() {
+void item_func_FAIRY_DROP()
+{
     dComIfGs_setEmptyBottleItemIn(dItemNo_FAIRY_DROP_e);
 }
 
 void item_func_WORM() {}
 
-void item_func_DROP_BOTTLE() {
+void item_func_DROP_BOTTLE()
+{
     dComIfGs_setEmptyBottle(dItemNo_FAIRY_DROP_e);
 }
 
-void item_func_BEE_CHILD() {
+void item_func_BEE_CHILD()
+{
     int bottleIdx;
     int i;
 
-    for (bottleIdx = 0xFF, i = 0; i < 4; i++) {
+    for (bottleIdx = 0xFF, i = 0; i < 4; i++)
+    {
         u8 getItem = dComIfGs_getItem(i + SLOT_11, true);
 
-        if (getItem == dItemNo_EMPTY_BOTTLE_e) {
+        if (getItem == dItemNo_EMPTY_BOTTLE_e)
+        {
             bottleIdx = i;
             break;
         }
     }
 
-    if (bottleIdx != 0xff) {
+    if (bottleIdx != 0xff)
+    {
         dComIfGs_setBottleNum(bottleIdx, 10);
         dComIfGs_setEmptyBottleItemIn(dItemNo_BEE_CHILD_e);
     }
 }
 
-void item_func_CHUCHU_RARE() {
+void item_func_CHUCHU_RARE()
+{
     dComIfGs_setEmptyBottleItemIn(dItemNo_CHUCHU_RARE_e);
 }
 
-void item_func_CHUCHU_RED() {
+void item_func_CHUCHU_RED()
+{
     dComIfGs_setEmptyBottleItemIn(dItemNo_CHUCHU_RED_e);
 }
 
-void item_func_CHUCHU_BLUE() {
+void item_func_CHUCHU_BLUE()
+{
     dComIfGs_setEmptyBottleItemIn(dItemNo_CHUCHU_BLUE_e);
 }
 
-void item_func_CHUCHU_GREEN() {
+void item_func_CHUCHU_GREEN()
+{
     dComIfGs_setEmptyBottleItemIn(dItemNo_CHUCHU_GREEN_e);
 }
 
-void item_func_CHUCHU_YELLOW() {
+void item_func_CHUCHU_YELLOW()
+{
     dComIfGs_setEmptyBottleItemIn(dItemNo_CHUCHU_YELLOW_e);
 }
 
-void item_func_CHUCHU_PURPLE() {
+void item_func_CHUCHU_PURPLE()
+{
     dComIfGs_setEmptyBottleItemIn(dItemNo_CHUCHU_PURPLE_e);
 }
 
-void item_func_LV1_SOUP() {
+void item_func_LV1_SOUP()
+{
     dComIfGs_setEmptyBottleItemIn(dItemNo_LV1_SOUP_e);
 }
 
-void item_func_LV2_SOUP() {
+void item_func_LV2_SOUP()
+{
     dComIfGs_setEmptyBottleItemIn(dItemNo_LV2_SOUP_e);
 }
 
-void item_func_LV3_SOUP() {
+void item_func_LV3_SOUP()
+{
     dComIfGs_setEmptyBottleItemIn(dItemNo_LV3_SOUP_e);
 }
 
-void item_func_LETTER() {
+void item_func_LETTER()
+{
     if (dComIfGs_getItem(SLOT_21, true) != dItemNo_HORSE_FLUTE_e)
     {
         dComIfGs_setItem(SLOT_21, dItemNo_LETTER_e);
     }
 }
 
-void item_func_BILL() {
+void item_func_BILL()
+{
     if (dComIfGs_getItem(SLOT_21, true) != dItemNo_HORSE_FLUTE_e)
     {
         dComIfGs_setItem(SLOT_21, dItemNo_BILL_e);
     }
 }
 
-void item_func_WOOD_STATUE() {
+void item_func_WOOD_STATUE()
+{
     /* dSv_event_flag_c::F_283 - Hyrule Field - Get wood carving */
     dComIfGs_onEventBit(dSv_event_flag_c::saveBitLabels[283]);
     if (dComIfGs_getItem(SLOT_21, true) != dItemNo_HORSE_FLUTE_e)
@@ -1181,178 +1300,211 @@ void item_func_WOOD_STATUE() {
     }
 }
 
-void item_func_IRIAS_PENDANT() {
+void item_func_IRIAS_PENDANT()
+{
     if (dComIfGs_getItem(SLOT_21, true) != dItemNo_HORSE_FLUTE_e)
     {
         dComIfGs_setItem(SLOT_21, dItemNo_IRIAS_PENDANT_e);
     }
 }
 
-void item_func_HORSE_FLUTE() {
+void item_func_HORSE_FLUTE()
+{
     if (dComIfGs_getItem(SLOT_21, true) == dItemNo_NONE_e)
     {
         dComIfGs_setItem(SLOT_21, dItemNo_HORSE_FLUTE_e);
     }
 }
 
-void item_func_FOREST_SMALL_KEY() {
+void item_func_FOREST_SMALL_KEY()
+{
     u8 currentKeys = dComIfGs_getKeyNum(0x10);
     u8 currentTotalKeys = dComIfGs_getTotalKeyNum(0x10);
     dComIfGs_setKeyNum(0x10, currentKeys + 1);
     dComIfGs_setTotalKeyNum(0x10, currentTotalKeys + 1);
 }
 
-void item_func_MINES_SMALL_KEY() {
+void item_func_MINES_SMALL_KEY()
+{
     u8 currentKeys = dComIfGs_getKeyNum(0x11);
     u8 currentTotalKeys = dComIfGs_getTotalKeyNum(0x11);
     dComIfGs_setKeyNum(0x11, currentKeys + 1);
     dComIfGs_setTotalKeyNum(0x11, currentTotalKeys + 1);
 }
 
-void item_func_LAKEBED_SMALL_KEY() {
+void item_func_LAKEBED_SMALL_KEY()
+{
     u8 currentKeys = dComIfGs_getKeyNum(0x12);
     u8 currentTotalKeys = dComIfGs_getTotalKeyNum(0x12);
     dComIfGs_setKeyNum(0x12, currentKeys + 1);
     dComIfGs_setTotalKeyNum(0x12, currentTotalKeys + 1);
 }
 
-void item_func_ARBITERS_SMALL_KEY() {
+void item_func_ARBITERS_SMALL_KEY()
+{
     u8 currentKeys = dComIfGs_getKeyNum(0x13);
     u8 currentTotalKeys = dComIfGs_getTotalKeyNum(0x13);
     dComIfGs_setKeyNum(0x13, currentKeys + 1);
     dComIfGs_setTotalKeyNum(0x13, currentTotalKeys + 1);
 }
 
-void item_func_SNOWPEAK_SMALL_KEY() {
+void item_func_SNOWPEAK_SMALL_KEY()
+{
     u8 currentKeys = dComIfGs_getKeyNum(0x14);
     u8 currentTotalKeys = dComIfGs_getTotalKeyNum(0x14);
     dComIfGs_setKeyNum(0x14, currentKeys + 1);
     dComIfGs_setTotalKeyNum(0x14, currentTotalKeys + 1);
 }
 
-void item_func_TEMPLE_OF_TIME_SMALL_KEY() {
+void item_func_TEMPLE_OF_TIME_SMALL_KEY()
+{
     u8 currentKeys = dComIfGs_getKeyNum(0x15);
     u8 currentTotalKeys = dComIfGs_getTotalKeyNum(0x15);
     dComIfGs_setKeyNum(0x15, currentKeys + 1);
     dComIfGs_setTotalKeyNum(0x15, currentTotalKeys + 1);
 }
 
-void item_func_CITY_SMALL_KEY() {
+void item_func_CITY_SMALL_KEY()
+{
     u8 currentKeys = dComIfGs_getKeyNum(0x16);
     u8 currentTotalKeys = dComIfGs_getTotalKeyNum(0x16);
     dComIfGs_setKeyNum(0x16, currentKeys + 1);
     dComIfGs_setTotalKeyNum(0x16, currentTotalKeys + 1);
 }
 
-void item_func_PALACE_SMALL_KEY() {
+void item_func_PALACE_SMALL_KEY()
+{
     u8 currentKeys = dComIfGs_getKeyNum(0x17);
     u8 currentTotalKeys = dComIfGs_getTotalKeyNum(0x17);
     dComIfGs_setKeyNum(0x17, currentKeys + 1);
     dComIfGs_setTotalKeyNum(0x17, currentTotalKeys + 1);
 }
 
-void item_func_HYRULE_SMALL_KEY() {
+void item_func_HYRULE_SMALL_KEY()
+{
     u8 currentKeys = dComIfGs_getKeyNum(0x18);
     u8 currentTotalKeys = dComIfGs_getTotalKeyNum(0x18);
     dComIfGs_setKeyNum(0x18, currentKeys + 1);
     dComIfGs_setTotalKeyNum(0x18, currentTotalKeys + 1);
 }
 
-void item_func_CAMP_SMALL_KEY() {
+void item_func_CAMP_SMALL_KEY()
+{
     dComIfGs_onEventBit(0x6480); // Custom - Unlock Bulblin Camp Gate
 }
 
-void item_func_LAKE_HYLIA_PORTAL() {
+void item_func_LAKE_HYLIA_PORTAL()
+{
     dComIfGs_onStageSwitch(0x4, 0xA); // Unlock Lake Portal
 }
 
-void item_func_RAFRELS_MEMO() {
+void item_func_RAFRELS_MEMO()
+{
     dComIfGs_setItem(SLOT_7, dItemNo_RAFRELS_MEMO_e);
 }
 
-void item_func_ASHS_SCRIBBLING() {
+void item_func_ASHS_SCRIBBLING()
+{
     if (!dComIfGs_isEventBit(0x3B80)) // Got earring from Ralis
     {
         dComIfGs_setItem(SLOT_19, dItemNo_ASHS_SCRIBBLING_e);
     }
 }
 
-void item_func_FOREST_BOSS_KEY() {
+void item_func_FOREST_BOSS_KEY()
+{
     dComIfGs_onDungeonItemBossKey(0x10);
 }
 
-void item_func_LAKEBED_BOSS_KEY() {
+void item_func_LAKEBED_BOSS_KEY()
+{
     dComIfGs_onDungeonItemBossKey(0x12);
 }
 
-void item_func_ARBITERS_BOSS_KEY() {
+void item_func_ARBITERS_BOSS_KEY()
+{
     dComIfGs_onDungeonItemBossKey(0x13);
 }
 
-void item_func_TEMPLE_OF_TIME_BOSS_KEY() {
+void item_func_TEMPLE_OF_TIME_BOSS_KEY()
+{
     dComIfGs_onDungeonItemBossKey(0x15);
 }
 
-void item_func_CITY_BOSS_KEY() {
+void item_func_CITY_BOSS_KEY()
+{
     dComIfGs_onDungeonItemBossKey(0x16);
 }
 
-void item_func_PALACE_BOSS_KEY() {
+void item_func_PALACE_BOSS_KEY()
+{
     dComIfGs_onDungeonItemBossKey(0x17);
 }
 
-void item_func_HYRULE_BOSS_KEY() {
+void item_func_HYRULE_BOSS_KEY()
+{
     dComIfGs_onDungeonItemBossKey(0x18);
 }
 
-void item_func_FOREST_COMPASS() {
+void item_func_FOREST_COMPASS()
+{
     dComIfGs_onDungeonItemCompass(0x10);
 }
 
-void item_func_MINES_COMPASS() {
+void item_func_MINES_COMPASS()
+{
     dComIfGs_onDungeonItemCompass(0x11);
 }
 
-void item_func_LAKEBED_COMPASS() {
+void item_func_LAKEBED_COMPASS()
+{
     dComIfGs_onDungeonItemCompass(0x12);
 }
 
-void item_func_CHUCHU_YELLOW2() {
+void item_func_CHUCHU_YELLOW2()
+{
     dComIfGs_setEmptyBottleItemIn(dItemNo_CHUCHU_YELLOW_e);
 }
 
-void item_func_OIL_BOTTLE3() {
+void item_func_OIL_BOTTLE3()
+{
     dComIfGs_setEmptyBottle(dItemNo_OIL_BOTTLE_e);
 }
 
-void item_func_SHOP_BEE_CHILD() {
+void item_func_SHOP_BEE_CHILD()
+{
     item_func_BEE_CHILD();
 }
 
-void item_func_CHUCHU_BLACK() {
+void item_func_CHUCHU_BLACK()
+{
     dComIfGs_setEmptyBottleItemIn(dItemNo_CHUCHU_BLACK_e);
 }
 
 void item_func_LIGHT_DROP() {}
 
-void item_func_DROP_CONTAINER() {
+void item_func_DROP_CONTAINER()
+{
     dComIfGs_onLightDropGetFlag(FARON_VESSEL);
 }
 
-void item_func_DROP_CONTAINER02() {
+void item_func_DROP_CONTAINER02()
+{
     dComIfGs_onLightDropGetFlag(ELDIN_VESSEL);
 }
 
-void item_func_DROP_CONTAINER03() {
+void item_func_DROP_CONTAINER03()
+{
     dComIfGs_onLightDropGetFlag(LANAYRU_VESSEL);
     dComIfGs_onEventBit(0x1E80); // Malo Mart Fundraising Starts
 }
 
 void item_func_FILLED_CONTAINER() {}
 
-void item_func_MIRROR_PIECE_2() {
+void item_func_MIRROR_PIECE_2()
+{
     dComIfGs_onCollectMirror(1);
-    
+
     // Check if the requirement for the HC barrier is set to shards, and if so, set the flag
     checkSetHCBarrierFlag(HC_Mirror_Shards, 2);
 
@@ -1360,20 +1512,21 @@ void item_func_MIRROR_PIECE_2() {
     checkSetHCBkFlag(HC_BK_Mirror_Shards, 2);
 }
 
-void item_func_MIRROR_PIECE_3() {
+void item_func_MIRROR_PIECE_3()
+{
     dComIfGs_onCollectMirror(2);
-    
+
     // Check if the requirement for the HC barrier is set to shards, and if so, set the flag
     checkSetHCBarrierFlag(HC_Mirror_Shards, 3);
 
     // Check if the requirement for the HC BK is set to shards, and if so, set the flag
     checkSetHCBkFlag(HC_BK_Mirror_Shards, 3);
-    
 }
 
-void item_func_MIRROR_PIECE_4() {
+void item_func_MIRROR_PIECE_4()
+{
     dComIfGs_onCollectMirror(3);
-    
+
     // If the player has the palace requirement set to Mirror Shards.
     if (g_seedInfo.getHeaderPtr()->getPalaceRequirements() == PoT_Mirror_Shards)
     {
@@ -1385,38 +1538,45 @@ void item_func_MIRROR_PIECE_4() {
 
     // Check if the requirement for the HC BK is set to shards, and if so, set the flag
     checkSetHCBkFlag(HC_BK_Mirror_Shards, 4);
-    
 }
 
-void item_func_ARBITERS_COMPASS() {
+void item_func_ARBITERS_COMPASS()
+{
     dComIfGs_onDungeonItemCompass(0x13);
 }
 
-void item_func_SNOWPEAK_COMPASS() {
+void item_func_SNOWPEAK_COMPASS()
+{
     dComIfGs_onDungeonItemCompass(0x14);
 }
 
-void item_func_TEMPLE_OF_TIME_COMPASS() {
+void item_func_TEMPLE_OF_TIME_COMPASS()
+{
     dComIfGs_onDungeonItemCompass(0x15);
 }
 
-void item_func_CITY_COMPASS() {
+void item_func_CITY_COMPASS()
+{
     dComIfGs_onDungeonItemCompass(0x16);
 }
 
-void item_func_PALACE_COMPASS() {
+void item_func_PALACE_COMPASS()
+{
     dComIfGs_onDungeonItemCompass(0x17);
 }
 
-void item_func_HYRULE_COMPASS() {
+void item_func_HYRULE_COMPASS()
+{
     dComIfGs_onDungeonItemCompass(0x18);
 }
 
-void item_func_MIRROR_CHAMBER_PORTAL() {
+void item_func_MIRROR_CHAMBER_PORTAL()
+{
     dComIfGs_onStageSwitch(0xA, 0x28); // Unlock MC Portal
 }
 
-void item_func_SNOWPEAK_PORTAL() {
+void item_func_SNOWPEAK_PORTAL()
+{
     dComIfGs_onStageSwitch(0x8, 0x15); // Unlock Snowpeak Portal
 }
 
@@ -1432,43 +1592,53 @@ void item_func_SMELL_CHILDREN() {}
 
 void item_func_SMELL_MEDICINE() {}
 
-void item_func_FOREST_MAP() {
+void item_func_FOREST_MAP()
+{
     dComIfGs_onDungeonItemMap(0x10);
 }
 
-void item_func_MINES_MAP() {
+void item_func_MINES_MAP()
+{
     dComIfGs_onDungeonItemMap(0x11);
 }
 
-void item_func_LAKEBED_MAP() {
+void item_func_LAKEBED_MAP()
+{
     dComIfGs_onDungeonItemMap(0x12);
 }
 
-void item_func_ARBITERS_MAP() {
+void item_func_ARBITERS_MAP()
+{
     dComIfGs_onDungeonItemMap(0x13);
 }
 
-void item_func_SNOWPEAK_MAP() {
+void item_func_SNOWPEAK_MAP()
+{
     dComIfGs_onDungeonItemMap(0x14);
 }
 
-void item_func_TEMPLE_OF_TIME_MAP() {
+void item_func_TEMPLE_OF_TIME_MAP()
+{
     dComIfGs_onDungeonItemMap(0x15);
 }
 
-void item_func_CITY_MAP() {
+void item_func_CITY_MAP()
+{
     dComIfGs_onDungeonItemMap(0x16);
 }
 
-void item_func_PALACE_MAP() {
+void item_func_PALACE_MAP()
+{
     dComIfGs_onDungeonItemMap(0x17);
 }
 
-void item_func_HYRULE_MAP() {
+void item_func_HYRULE_MAP()
+{
     dComIfGs_onDungeonItemMap(0x18);
 }
 
-void item_func_SACRED_GROVE_PORTAL() {
+void item_func_SACRED_GROVE_PORTAL()
+{
     dComIfGs_onStageSwitch(0x7, 0x64); // Unlock Grove Portal
 }
 
@@ -1520,9 +1690,10 @@ void item_func_M_MAYFLY() {}
 
 void item_func_F_MAYFLY() {}
 
-void item_func_FUSED_SHADOW_1() {
+void item_func_FUSED_SHADOW_1()
+{
     dComIfGs_onCollectCrystal(0);
-    
+
     // Check if the requirement for the HC barrier is set to shadows, and if so, set the flag
     checkSetHCBarrierFlag(HC_Fused_Shadows, 1);
 
@@ -1530,9 +1701,10 @@ void item_func_FUSED_SHADOW_1() {
     checkSetHCBkFlag(HC_BK_Fused_Shadows, 1);
 }
 
-void item_func_FUSED_SHADOW_2() {
+void item_func_FUSED_SHADOW_2()
+{
     dComIfGs_onCollectCrystal(1);
-    
+
     // Check if the requirement for the HC barrier is set to shadows, and if so, set the flag
     checkSetHCBarrierFlag(HC_Fused_Shadows, 2);
 
@@ -1540,9 +1712,10 @@ void item_func_FUSED_SHADOW_2() {
     checkSetHCBkFlag(HC_BK_Fused_Shadows, 2);
 }
 
-void item_func_FUSED_SHADOW_3() {
+void item_func_FUSED_SHADOW_3()
+{
     dComIfGs_onCollectCrystal(2);
-    
+
     // If the player has the palace requirement set to Fused Shadows.
     if (g_seedInfo.getHeaderPtr()->getPalaceRequirements() == PoT_Fused_Shadows)
     {
@@ -1556,9 +1729,10 @@ void item_func_FUSED_SHADOW_3() {
     checkSetHCBkFlag(HC_BK_Fused_Shadows, 3);
 }
 
-void item_func_MIRROR_PIECE_1() {
+void item_func_MIRROR_PIECE_1()
+{
     dComIfGs_onCollectMirror(0);
-    
+
     // Check if the requirement for the HC barrier is set to shards, and if so, set the flag
     checkSetHCBarrierFlag(HC_Mirror_Shards, 1);
 
@@ -1566,9 +1740,10 @@ void item_func_MIRROR_PIECE_1() {
     checkSetHCBkFlag(HC_BK_Mirror_Shards, 1);
 }
 
-void item_func_POU_SPIRIT() {
+void item_func_POU_SPIRIT()
+{
     dComIfGs_addPohSpiritNum();
-    
+
     // Check if the HC barrier requires poes and if we have enough poe souls to set the flag.
     checkSetHCBarrierFlag(HC_Poe_Souls, dComIfGs_getPohSpiritNum());
 
@@ -1576,62 +1751,76 @@ void item_func_POU_SPIRIT() {
     checkSetHCBkFlag(HC_BK_Poe_Souls, dComIfGs_getPohSpiritNum());
 }
 
-void item_func_ENDING_BLOW() {
+void item_func_ENDING_BLOW()
+{
     dComIfGs_onEventBit(0x2904);
 }
 
-void item_func_SHIELD_ATTACK() {
+void item_func_SHIELD_ATTACK()
+{
     dComIfGs_onEventBit(0x2908);
 }
 
-void item_func_BACK_SLICE() {
+void item_func_BACK_SLICE()
+{
     dComIfGs_onEventBit(0x2902);
 }
 
-void item_func_HELM_SPLITTER() {
+void item_func_HELM_SPLITTER()
+{
     dComIfGs_onEventBit(0x2901);
 }
 
-void item_func_MORTAL_DRAW() {
+void item_func_MORTAL_DRAW()
+{
     dComIfGs_onEventBit(0x2A80);
 }
 
-void item_func_JUMP_STRIKE() {
+void item_func_JUMP_STRIKE()
+{
     dComIfGs_onEventBit(0x2A40);
 }
 
-void item_func_GREAT_SPIN() {
+void item_func_GREAT_SPIN()
+{
     dComIfGs_onEventBit(0x2A20);
 }
 
-void item_func_ELDIN_BRIDGE_PORTAL() {
+void item_func_ELDIN_BRIDGE_PORTAL()
+{
     dComIfGs_onStageSwitch(0x6, 0x63); // Unlock Eldin Bridge Portal
 }
 
-void item_func_ANCIENT_DOCUMENT() {
+void item_func_ANCIENT_DOCUMENT()
+{
     dComIfGs_setItem(SLOT_22, dItemNo_ANCIENT_DOCUMENT_e);
 }
 
-void item_func_AIR_LETTER() {
+void item_func_AIR_LETTER()
+{
     u8 letterCount = dComIfGs_getAncientDocumentNum();
     dComIfGs_setAncientDocumentNum(letterCount + 1);
 }
 
-void item_func_ANCIENT_DOCUMENT2() {
+void item_func_ANCIENT_DOCUMENT2()
+{
     dComIfGs_onEventBit(0x3B08); // Repaired Cannon at Lake
     dComIfGs_setAncientDocumentNum(6);
     dComIfGs_setItem(SLOT_22, dItemNo_ANCIENT_DOCUMENT2_e);
 }
 
-void item_func_LV7_DUNGEON_EXIT() {
+void item_func_LV7_DUNGEON_EXIT()
+{
     dComIfGs_setItem(SLOT_18, dItemNo_LV7_DUNGEON_EXIT_e);
 }
 
-void item_func_LINKS_SAVINGS() {
+void item_func_LINKS_SAVINGS()
+{
     dComIfGp_setItemRupeeCount(50);
 }
 
-void item_func_SMALL_KEY2() {
+void item_func_SMALL_KEY2()
+{
     dComIfGs_onStageSwitch(0x2, 0x14); // Unlock North Faron Gate
 }
 
@@ -1643,28 +1832,32 @@ void item_func_POU_FIRE3() {}
 
 void item_func_POU_FIRE4() {}
 
-void item_func_BOSSRIDER_KEY() {
+void item_func_BOSSRIDER_KEY()
+{
     dComIfGs_onStageSwitch(0x3, 0x69); // Started Escort
     dComIfGs_onStageSwitch(0x3, 0x65); // Followed Rutella to Graveyard
-    dComIfGs_onEventBit(0x840); // Started Zora Escort
-    dComIfGs_onEventBit(0x810); // Completed Zora Escort
+    dComIfGs_onEventBit(0x840);        // Started Zora Escort
+    dComIfGs_onEventBit(0x810);        // Completed Zora Escort
 }
 
-void item_func_TOMATO_PUREE() {
-    dComIfGs_onEventBit(0x480); // Told Yeta about Pumpkin
-    dComIfGs_onEventBit(0x2); // Yeto put Pumpkin in Soup
-    dComIfGs_onEventBit(0x1440); // SPR Lobby Door Unlocked
+void item_func_TOMATO_PUREE()
+{
+    dComIfGs_onEventBit(0x480);         // Told Yeta about Pumpkin
+    dComIfGs_onEventBit(0x2);           // Yeto put Pumpkin in Soup
+    dComIfGs_onEventBit(0x1440);        // SPR Lobby Door Unlocked
     dComIfGs_onStageSwitch(0x14, 0x12); // Unlock North Door
 }
 
-void item_func_TASTE() {
-    dComIfGs_onEventBit(0x120); // Told Yeta about Cheese
-    dComIfGs_onEventBit(0x1); // Yeto put Pumpkin in Soup
-    dComIfGs_onEventBit(0x1420); // SPR Lobby west Door Unlocked
+void item_func_TASTE()
+{
+    dComIfGs_onEventBit(0x120);         // Told Yeta about Cheese
+    dComIfGs_onEventBit(0x1);           // Yeto put Pumpkin in Soup
+    dComIfGs_onEventBit(0x1420);        // SPR Lobby west Door Unlocked
     dComIfGs_onStageSwitch(0x14, 0x13); // Unlock West Door
 }
 
-void item_func_LV5_BOSS_KEY() {
+void item_func_LV5_BOSS_KEY()
+{
     dComIfGs_onDungeonItemBossKey(0x14);
 }
 
@@ -1680,829 +1873,1032 @@ void item_func_L2_KEY_PIECES3() {}
 
 void item_func_KEY_OF_CARAVAN() {}
 
-void item_func_LV2_BOSS_KEY() {
+void item_func_LV2_BOSS_KEY()
+{
     dComIfGs_onDungeonItemBossKey(0x11);
     execItemGet(dItemNo_L2_KEY_PIECES3_e);
 }
 
-void item_func_KEY_OF_FILONE() {
+void item_func_KEY_OF_FILONE()
+{
     dComIfGs_onStageSwitch(0x2, 0xC); // Unlock Coro Gate
 }
 
 void item_func_noentry() {}
 
-int item_getcheck_func_noentry() {
+int item_getcheck_func_noentry()
+{
     return -1;
 }
 
-int item_getcheck_func_HEART() {
+int item_getcheck_func_HEART()
+{
     return -1;
 }
 
-int item_getcheck_func_GREEN_RUPEE() {
+int item_getcheck_func_GREEN_RUPEE()
+{
     return dComIfGs_isItemFirstBit(dItemNo_GREEN_RUPEE_e);
 }
 
-int item_getcheck_func_BLUE_RUPEE() {
+int item_getcheck_func_BLUE_RUPEE()
+{
     return dComIfGs_isItemFirstBit(dItemNo_BLUE_RUPEE_e);
 }
 
-int item_getcheck_func_YELLOW_RUPEE() {
+int item_getcheck_func_YELLOW_RUPEE()
+{
     return dComIfGs_isItemFirstBit(dItemNo_YELLOW_RUPEE_e);
 }
 
-int item_getcheck_func_RED_RUPEE() {
+int item_getcheck_func_RED_RUPEE()
+{
     return dComIfGs_isItemFirstBit(dItemNo_RED_RUPEE_e);
 }
 
-int item_getcheck_func_PURPLE_RUPEE() {
+int item_getcheck_func_PURPLE_RUPEE()
+{
     return dComIfGs_isItemFirstBit(dItemNo_PURPLE_RUPEE_e);
 }
 
-int item_getcheck_func_ORANGE_RUPEE() {
+int item_getcheck_func_ORANGE_RUPEE()
+{
     return dComIfGs_isItemFirstBit(dItemNo_ORANGE_RUPEE_e);
 }
 
-int item_getcheck_func_SILVER_RUPEE() {
+int item_getcheck_func_SILVER_RUPEE()
+{
     return dComIfGs_isItemFirstBit(dItemNo_SILVER_RUPEE_e);
 }
 
-int item_getcheck_func_S_MAGIC() {
+int item_getcheck_func_S_MAGIC()
+{
     return -1;
 }
 
-int item_getcheck_func_L_MAGIC() {
+int item_getcheck_func_L_MAGIC()
+{
     return -1;
 }
 
-int item_getcheck_func_BOMB_5() {
+int item_getcheck_func_BOMB_5()
+{
     return dComIfGs_isItemFirstBit(dItemNo_BOMB_5_e);
 }
 
-int item_getcheck_func_BOMB_10() {
+int item_getcheck_func_BOMB_10()
+{
     return dComIfGs_isItemFirstBit(dItemNo_BOMB_10_e);
 }
 
-int item_getcheck_func_BOMB_20() {
+int item_getcheck_func_BOMB_20()
+{
     return dComIfGs_isItemFirstBit(dItemNo_BOMB_20_e);
 }
 
-int item_getcheck_func_BOMB_30() {
+int item_getcheck_func_BOMB_30()
+{
     return dComIfGs_isItemFirstBit(dItemNo_BOMB_30_e);
 }
 
-int item_getcheck_func_ARROW_10() {
+int item_getcheck_func_ARROW_10()
+{
     return dComIfGs_isItemFirstBit(dItemNo_ARROW_10_e);
 }
 
-int item_getcheck_func_ARROW_20() {
+int item_getcheck_func_ARROW_20()
+{
     return dComIfGs_isItemFirstBit(dItemNo_ARROW_20_e);
 }
 
-int item_getcheck_func_ARROW_30() {
+int item_getcheck_func_ARROW_30()
+{
     return dComIfGs_isItemFirstBit(dItemNo_ARROW_30_e);
 }
 
-int item_getcheck_func_ARROW_1() {
+int item_getcheck_func_ARROW_1()
+{
     return dComIfGs_isItemFirstBit(dItemNo_ARROW_1_e);
 }
 
-int item_getcheck_func_PACHINKO_SHOT() {
+int item_getcheck_func_PACHINKO_SHOT()
+{
     return dComIfGs_isItemFirstBit(dItemNo_PACHINKO_SHOT_e);
 }
 
-int item_getcheck_func_WATER_BOMB_5() {
+int item_getcheck_func_WATER_BOMB_5()
+{
     return -1;
 }
 
-int item_getcheck_func_WATER_BOMB_10() {
+int item_getcheck_func_WATER_BOMB_10()
+{
     return -1;
 }
 
-int item_getcheck_func_WATER_BOMB_20() {
+int item_getcheck_func_WATER_BOMB_20()
+{
     return -1;
 }
 
-int item_getcheck_func_WATER_BOMB_30() {
+int item_getcheck_func_WATER_BOMB_30()
+{
     return -1;
 }
 
-int item_getcheck_func_BOMB_INSECT_5() {
+int item_getcheck_func_BOMB_INSECT_5()
+{
     return -1;
 }
 
-int item_getcheck_func_BOMB_INSECT_10() {
+int item_getcheck_func_BOMB_INSECT_10()
+{
     return dComIfGs_isItemFirstBit(dItemNo_BOMB_INSECT_10_e);
 }
 
-int item_getcheck_func_BOMB_INSECT_20() {
+int item_getcheck_func_BOMB_INSECT_20()
+{
     return dComIfGs_isItemFirstBit(dItemNo_BOMB_INSECT_20_e);
 }
 
-int item_getcheck_func_BOMB_INSECT_30() {
+int item_getcheck_func_BOMB_INSECT_30()
+{
     return dComIfGs_isItemFirstBit(dItemNo_BOMB_INSECT_30_e);
 }
 
-int item_getcheck_func_RECOVER_FAILY() {
+int item_getcheck_func_RECOVER_FAILY()
+{
     return -1;
 }
 
-int item_getcheck_func_TRIPLE_HEART() {
+int item_getcheck_func_TRIPLE_HEART()
+{
     return -1;
 }
 
-int item_getcheck_func_SMALL_KEY() {
+int item_getcheck_func_SMALL_KEY()
+{
     return -1;
 }
 
-int item_getcheck_func_KAKERA_HEART() {
+int item_getcheck_func_KAKERA_HEART()
+{
     return -1;
 }
 
-int item_getcheck_func_UTUWA_HEART() {
+int item_getcheck_func_UTUWA_HEART()
+{
     return -1;
 }
 
-int item_getcheck_func_MAP() {
+int item_getcheck_func_MAP()
+{
     return dComIfGs_isDungeonItemMap();
 }
 
-int item_getcheck_func_COMPUS() {
+int item_getcheck_func_COMPUS()
+{
     return -1;
 }
 
-int item_getcheck_func_DUNGEON_EXIT() {
+int item_getcheck_func_DUNGEON_EXIT()
+{
     return dComIfGs_getItem(SLOT_18, true) == dItemNo_DUNGEON_EXIT_e ? TRUE : FALSE;
 }
 
-int item_getcheck_func_BOSS_KEY() {
+int item_getcheck_func_BOSS_KEY()
+{
     return dComIfGs_isDungeonItemBossKey();
 }
 
-int item_getcheck_func_DUNGEON_BACK() {
+int item_getcheck_func_DUNGEON_BACK()
+{
     return dComIfGs_getItem(SLOT_18, true) == dItemNo_DUNGEON_BACK_e ? TRUE : FALSE;
 }
 
-int item_getcheck_func_SWORD() {
+int item_getcheck_func_SWORD()
+{
     return dComIfGs_isCollectSword(COLLECT_ORDON_SWORD);
 }
 
-int item_getcheck_func_MASTER_SWORD() {
+int item_getcheck_func_MASTER_SWORD()
+{
     return dComIfGs_isCollectSword(COLLECT_MASTER_SWORD);
 }
 
-int item_getcheck_func_WOOD_SHIELD() {
+int item_getcheck_func_WOOD_SHIELD()
+{
     return dComIfGs_isItemFirstBit(dItemNo_WOOD_SHIELD_e);
 }
 
-int item_getcheck_func_SHIELD() {
+int item_getcheck_func_SHIELD()
+{
     return dComIfGs_isItemFirstBit(dItemNo_SHIELD_e);
 }
 
-int item_getcheck_func_HYLIA_SHIELD() {
+int item_getcheck_func_HYLIA_SHIELD()
+{
     return dComIfGs_isItemFirstBit(dItemNo_HYLIA_SHIELD_e);
 }
 
-int item_getcheck_func_TKS_LETTER() {
+int item_getcheck_func_TKS_LETTER()
+{
     return dComIfGs_getItem(SLOT_18, true) == dItemNo_TKS_LETTER_e ? TRUE : FALSE;
 }
 
-int item_getcheck_func_WEAR_CASUAL() {
+int item_getcheck_func_WEAR_CASUAL()
+{
     return dComIfGs_isItemFirstBit(dItemNo_WEAR_CASUAL_e);
 }
 
-int item_getcheck_func_WEAR_KOKIRI() {
+int item_getcheck_func_WEAR_KOKIRI()
+{
     return dComIfGs_isCollectClothing(KOKIRI_CLOTHES_FLAG);
 }
 
-int item_getcheck_func_ARMOR() {
+int item_getcheck_func_ARMOR()
+{
     return dComIfGs_isItemFirstBit(dItemNo_ARMOR_e);
 }
 
-int item_getcheck_func_WEAR_ZORA() {
+int item_getcheck_func_WEAR_ZORA()
+{
     return dComIfGs_isItemFirstBit(dItemNo_WEAR_ZORA_e);
 }
 
-int item_getcheck_func_MAGIC_LV1() {
+int item_getcheck_func_MAGIC_LV1()
+{
     return dComIfGs_isItemFirstBit(dItemNo_MAGIC_LV1_e);
 }
 
-int item_getcheck_func_DUNGEON_EXIT_2() {
+int item_getcheck_func_DUNGEON_EXIT_2()
+{
     return dComIfGs_getItem(SLOT_18, true) == dItemNo_DUNGEON_EXIT_e ? TRUE : FALSE;
 }
 
-int item_getcheck_func_WALLET_LV1() {
+int item_getcheck_func_WALLET_LV1()
+{
     return -1;
 }
 
-int item_getcheck_func_WALLET_LV2() {
+int item_getcheck_func_WALLET_LV2()
+{
     return dComIfGs_isItemFirstBit(dItemNo_WALLET_LV2_e);
 }
 
-int item_getcheck_func_WALLET_LV3() {
+int item_getcheck_func_WALLET_LV3()
+{
     return dComIfGs_isItemFirstBit(dItemNo_WALLET_LV3_e);
 }
 
-int item_getcheck_func_ZORAS_JEWEL() {
+int item_getcheck_func_ZORAS_JEWEL()
+{
     return dComIfGs_getItem(SLOT_20, true) == dItemNo_ZORAS_JEWEL_e ? TRUE : FALSE;
 }
 
-int item_getcheck_func_HAWK_EYE() {
+int item_getcheck_func_HAWK_EYE()
+{
     return dComIfGs_isItemFirstBit(dItemNo_HAWK_EYE_e);
 }
 
-int item_getcheck_func_WOOD_STICK() {
+int item_getcheck_func_WOOD_STICK()
+{
     return dComIfGs_isItemFirstBit(dItemNo_WOOD_STICK_e);
 }
 
-int item_getcheck_func_BOOMERANG() {
+int item_getcheck_func_BOOMERANG()
+{
     return dComIfGs_getItem(SLOT_0, true) == dItemNo_BOOMERANG_e ? TRUE : FALSE;
 }
 
-int item_getcheck_func_SPINNER() {
+int item_getcheck_func_SPINNER()
+{
     return dComIfGs_getItem(SLOT_2, true) == dItemNo_SPINNER_e ? TRUE : FALSE;
 }
 
-int item_getcheck_func_IRONBALL() {
+int item_getcheck_func_IRONBALL()
+{
     return dComIfGs_getItem(SLOT_6, true) == dItemNo_IRONBALL_e ? TRUE : FALSE;
 }
 
-int item_getcheck_func_BOW() {
+int item_getcheck_func_BOW()
+{
     return dComIfGs_getItem(SLOT_4, false) == dItemNo_BOW_e ? TRUE : FALSE;
 }
 
-int item_getcheck_func_HOOKSHOT() {
+int item_getcheck_func_HOOKSHOT()
+{
     return dComIfGs_getItem(SLOT_9, true) == dItemNo_HOOKSHOT_e ? TRUE : FALSE;
 }
 
-int item_getcheck_func_HVY_BOOTS() {
+int item_getcheck_func_HVY_BOOTS()
+{
     return dComIfGs_getItem(SLOT_3, true) == dItemNo_HVY_BOOTS_e ? TRUE : FALSE;
 }
 
-int item_getcheck_func_COPY_ROD() {
+int item_getcheck_func_COPY_ROD()
+{
     return dComIfGs_getItem(SLOT_8, true) == dItemNo_COPY_ROD_e ? TRUE : FALSE;
 }
 
-int item_getcheck_func_W_HOOKSHOT() {
+int item_getcheck_func_W_HOOKSHOT()
+{
     return dComIfGs_getItem(SLOT_10, true) == dItemNo_W_HOOKSHOT_e ? TRUE : FALSE;
 }
 
-int item_getcheck_func_KANTERA() {
+int item_getcheck_func_KANTERA()
+{
     return dComIfGs_getItem(SLOT_1, true) == dItemNo_KANTERA_e ? TRUE : FALSE;
 }
 
-int item_getcheck_func_LIGHT_SWORD() {
+int item_getcheck_func_LIGHT_SWORD()
+{
     return dComIfGs_isCollectSword(COLLECT_LIGHT_SWORD);
 }
 
-int item_getcheck_func_FISHING_ROD_1() {
+int item_getcheck_func_FISHING_ROD_1()
+{
     return (dComIfGs_getItem(SLOT_20, true) == dItemNo_FISHING_ROD_1_e ||
-            dComIfGs_getItem(SLOT_20, true) == dItemNo_BEE_ROD_e ||
-            dComIfGs_getItem(SLOT_20, true) == dItemNo_WORM_ROD_e ||
+            dComIfGs_getItem(SLOT_20, true) == dItemNo_BEE_ROD_e || dComIfGs_getItem(SLOT_20, true) == dItemNo_WORM_ROD_e ||
             dComIfGs_getItem(SLOT_20, true) == dItemNo_JEWEL_ROD_e ||
             dComIfGs_getItem(SLOT_20, true) == dItemNo_JEWEL_BEE_ROD_e ||
-            dComIfGs_getItem(SLOT_20, true) == dItemNo_JEWEL_WORM_ROD_e) ?
-               TRUE :
-               FALSE;
+            dComIfGs_getItem(SLOT_20, true) == dItemNo_JEWEL_WORM_ROD_e)
+               ? TRUE
+               : FALSE;
 }
 
-int item_getcheck_func_PACHINKO() {
+int item_getcheck_func_PACHINKO()
+{
     return dComIfGs_getItem(SLOT_23, true) == dItemNo_PACHINKO_e ? TRUE : FALSE;
 }
 
-int item_getcheck_func_COPY_ROD_2() {
+int item_getcheck_func_COPY_ROD_2()
+{
     return -1;
 }
 
-int item_getcheck_func_BOMB_BAG_LV2() {
+int item_getcheck_func_BOMB_BAG_LV2()
+{
     return dComIfGs_isItemFirstBit(dItemNo_BOMB_BAG_LV2_e);
 }
 
-int item_getcheck_func_BOMB_BAG_LV1() {
+int item_getcheck_func_BOMB_BAG_LV1()
+{
     return dComIfGs_isItemFirstBit(dItemNo_BOMB_BAG_LV1_e);
 }
 
-int item_getcheck_func_BOMB_IN_BAG() {
+int item_getcheck_func_BOMB_IN_BAG()
+{
     return dComIfGs_isItemFirstBit(dItemNo_BOMB_IN_BAG_e);
 }
 
-int item_getcheck_func_LIGHT_ARROW() {
+int item_getcheck_func_LIGHT_ARROW()
+{
     return dComIfGs_isItemFirstBit(dItemNo_LIGHT_ARROW_e);
 }
 
-int item_getcheck_func_ARROW_LV1() {
+int item_getcheck_func_ARROW_LV1()
+{
     return (dComIfGs_getItem(SLOT_4, false) == dItemNo_BOW_e && dComIfGs_getArrowMax() >= 30) ? TRUE : FALSE;
 }
 
-int item_getcheck_func_ARROW_LV2() {
+int item_getcheck_func_ARROW_LV2()
+{
     return (dComIfGs_getItem(SLOT_4, false) == dItemNo_BOW_e && dComIfGs_getArrowMax() >= 60) ? TRUE : FALSE;
 }
 
-int item_getcheck_func_ARROW_LV3() {
+int item_getcheck_func_ARROW_LV3()
+{
     return (dComIfGs_getItem(SLOT_4, false) == dItemNo_BOW_e && dComIfGs_getArrowMax() >= 100) ? TRUE : FALSE;
 }
 
-int item_getcheck_func_LURE_ROD() {
+int item_getcheck_func_LURE_ROD()
+{
     return -1;
 }
 
-int item_getcheck_func_BOMB_ARROW() {
+int item_getcheck_func_BOMB_ARROW()
+{
     return -1;
 }
 
-int item_getcheck_func_HAWK_ARROW() {
+int item_getcheck_func_HAWK_ARROW()
+{
     return -1;
 }
 
-int item_getcheck_func_BEE_ROD() {
+int item_getcheck_func_BEE_ROD()
+{
     return item_getcheck_func_FISHING_ROD_1();
 }
 
-int item_getcheck_func_JEWEL_ROD() {
+int item_getcheck_func_JEWEL_ROD()
+{
     return item_getcheck_func_FISHING_ROD_1();
 }
 
-int item_getcheck_func_WORM_ROD() {
+int item_getcheck_func_WORM_ROD()
+{
     return item_getcheck_func_FISHING_ROD_1();
 }
 
-int item_getcheck_func_JEWEL_BEE_ROD() {
+int item_getcheck_func_JEWEL_BEE_ROD()
+{
     return item_getcheck_func_FISHING_ROD_1();
 }
 
-int item_getcheck_func_JEWEL_WORM_ROD() {
+int item_getcheck_func_JEWEL_WORM_ROD()
+{
     return item_getcheck_func_FISHING_ROD_1();
 }
 
-int item_getcheck_func_EMPTY_BOTTLE() {
+int item_getcheck_func_EMPTY_BOTTLE()
+{
     return dComIfGs_checkBottle(dItemNo_EMPTY_BOTTLE_e);
 }
 
-int item_getcheck_func_RED_BOTTLE() {
+int item_getcheck_func_RED_BOTTLE()
+{
     return dComIfGs_checkBottle(dItemNo_RED_BOTTLE_e);
 }
 
-int item_getcheck_func_GREEN_BOTTLE() {
+int item_getcheck_func_GREEN_BOTTLE()
+{
     return dComIfGs_checkBottle(dItemNo_GREEN_BOTTLE_e);
 }
 
-int item_getcheck_func_BLUE_BOTTLE() {
+int item_getcheck_func_BLUE_BOTTLE()
+{
     return dComIfGs_checkBottle(dItemNo_BLUE_BOTTLE_e);
 }
 
-int item_getcheck_func_MILK_BOTTLE() {
+int item_getcheck_func_MILK_BOTTLE()
+{
     return dComIfGs_checkBottle(dItemNo_MILK_BOTTLE_e);
 }
 
-int item_getcheck_func_HALF_MILK_BOTTLE() {
+int item_getcheck_func_HALF_MILK_BOTTLE()
+{
     return dComIfGs_checkBottle(dItemNo_HALF_MILK_BOTTLE_e);
 }
 
-int item_getcheck_func_OIL_BOTTLE() {
+int item_getcheck_func_OIL_BOTTLE()
+{
     return dComIfGs_checkBottle(dItemNo_OIL_BOTTLE_e);
 }
 
-int item_getcheck_func_WATER_BOTTLE() {
+int item_getcheck_func_WATER_BOTTLE()
+{
     return dComIfGs_checkBottle(dItemNo_WATER_BOTTLE_e);
 }
 
-int item_getcheck_func_OIL_BOTTLE2() {
+int item_getcheck_func_OIL_BOTTLE2()
+{
     return dComIfGs_checkBottle(dItemNo_OIL_BOTTLE_2_e);
 }
 
-int item_getcheck_func_RED_BOTTLE2() {
+int item_getcheck_func_RED_BOTTLE2()
+{
     return dComIfGs_checkBottle(dItemNo_RED_BOTTLE_2_e);
 }
 
-int item_getcheck_func_UGLY_SOUP() {
+int item_getcheck_func_UGLY_SOUP()
+{
     return dComIfGs_checkBottle(dItemNo_UGLY_SOUP_e);
 }
 
-int item_getcheck_func_HOT_SPRING() {
+int item_getcheck_func_HOT_SPRING()
+{
     return dComIfGs_checkBottle(dItemNo_HOT_SPRING_e);
 }
 
-int item_getcheck_func_FAIRY_BOTTLE() {
+int item_getcheck_func_FAIRY_BOTTLE()
+{
     return dComIfGs_checkBottle(dItemNo_FAIRY_e);
 }
 
-int item_getcheck_func_HOT_SPRING2() {
+int item_getcheck_func_HOT_SPRING2()
+{
     return dComIfGs_checkBottle(dItemNo_HOT_SPRING_e);
 }
 
-int item_getcheck_func_OIL2() {
+int item_getcheck_func_OIL2()
+{
     return dComIfGs_checkBottle(dItemNo_OIL2_e);
 }
 
-int item_getcheck_func_OIL() {
+int item_getcheck_func_OIL()
+{
     return dComIfGs_checkBottle(dItemNo_OIL_e);
 }
 
-int item_getcheck_func_NORMAL_BOMB() {
+int item_getcheck_func_NORMAL_BOMB()
+{
     return dComIfGs_isItemFirstBit(dItemNo_NORMAL_BOMB_e);
 }
 
-int item_getcheck_func_WATER_BOMB() {
+int item_getcheck_func_WATER_BOMB()
+{
     return dComIfGs_isItemFirstBit(dItemNo_WATER_BOMB_e);
 }
 
-int item_getcheck_func_POKE_BOMB() {
+int item_getcheck_func_POKE_BOMB()
+{
     return dComIfGs_isItemFirstBit(dItemNo_POKE_BOMB_e);
 }
 
-int item_getcheck_func_FAIRY_DROP() {
+int item_getcheck_func_FAIRY_DROP()
+{
     return dComIfGs_checkBottle(dItemNo_FAIRY_DROP_e);
 }
 
-int item_getcheck_func_WORM() {
+int item_getcheck_func_WORM()
+{
     return dComIfGs_checkBottle(dItemNo_WORM_e);
 }
 
-int item_getcheck_func_DROP_BOTTLE() {
+int item_getcheck_func_DROP_BOTTLE()
+{
     return dComIfGs_isItemFirstBit(dItemNo_DROP_BOTTLE_e);
 }
 
-int item_getcheck_func_BEE_CHILD() {
+int item_getcheck_func_BEE_CHILD()
+{
     return -1;
 }
 
-int item_getcheck_func_CHUCHU_RARE() {
+int item_getcheck_func_CHUCHU_RARE()
+{
     return dComIfGs_checkBottle(dItemNo_CHUCHU_RARE_e);
 }
 
-int item_getcheck_func_CHUCHU_RED() {
+int item_getcheck_func_CHUCHU_RED()
+{
     return dComIfGs_checkBottle(dItemNo_CHUCHU_RED_e);
 }
 
-int item_getcheck_func_CHUCHU_BLUE() {
+int item_getcheck_func_CHUCHU_BLUE()
+{
     return dComIfGs_checkBottle(dItemNo_CHUCHU_BLUE_e);
 }
 
-int item_getcheck_func_CHUCHU_GREEN() {
+int item_getcheck_func_CHUCHU_GREEN()
+{
     return dComIfGs_checkBottle(dItemNo_CHUCHU_GREEN_e);
 }
 
-int item_getcheck_func_CHUCHU_YELLOW() {
+int item_getcheck_func_CHUCHU_YELLOW()
+{
     return dComIfGs_checkBottle(dItemNo_CHUCHU_YELLOW_e);
 }
 
-int item_getcheck_func_CHUCHU_PURPLE() {
+int item_getcheck_func_CHUCHU_PURPLE()
+{
     return dComIfGs_checkBottle(dItemNo_CHUCHU_PURPLE_e);
 }
 
-int item_getcheck_func_LV1_SOUP() {
+int item_getcheck_func_LV1_SOUP()
+{
     return dComIfGs_isItemFirstBit(dItemNo_LV1_SOUP_e);
 }
 
-int item_getcheck_func_LV2_SOUP() {
+int item_getcheck_func_LV2_SOUP()
+{
     return dComIfGs_isItemFirstBit(dItemNo_LV2_SOUP_e);
 }
 
-int item_getcheck_func_LV3_SOUP() {
+int item_getcheck_func_LV3_SOUP()
+{
     return dComIfGs_isItemFirstBit(dItemNo_LV3_SOUP_e);
 }
 
-int item_getcheck_func_LETTER() {
+int item_getcheck_func_LETTER()
+{
     return dComIfGs_isItemFirstBit(dItemNo_LETTER_e);
 }
 
-int item_getcheck_func_BILL() {
+int item_getcheck_func_BILL()
+{
     return dComIfGs_isItemFirstBit(dItemNo_BILL_e);
 }
 
-int item_getcheck_func_WOOD_STATUE() {
+int item_getcheck_func_WOOD_STATUE()
+{
     return dComIfGs_isItemFirstBit(dItemNo_WOOD_STATUE_e);
 }
 
-int item_getcheck_func_IRIAS_PENDANT() {
+int item_getcheck_func_IRIAS_PENDANT()
+{
     return dComIfGs_isItemFirstBit(dItemNo_IRIAS_PENDANT_e);
 }
 
-int item_getcheck_func_HORSE_FLUTE() {
+int item_getcheck_func_HORSE_FLUTE()
+{
     return dComIfGs_isItemFirstBit(dItemNo_HORSE_FLUTE_e);
 }
 
-int item_getcheck_func_CAMP_SMALL_KEY() {
+int item_getcheck_func_CAMP_SMALL_KEY()
+{
     return dComIfGs_isItemFirstBit(dItemNo_CAMP_SMALL_KEY_e);
 }
 
-int item_getcheck_func_RAFRELS_MEMO() {
+int item_getcheck_func_RAFRELS_MEMO()
+{
     return dComIfGs_getItem(SLOT_19, true) == dItemNo_RAFRELS_MEMO_e ? TRUE : FALSE;
 }
 
-int item_getcheck_func_ASHS_SCRIBBLING() {
+int item_getcheck_func_ASHS_SCRIBBLING()
+{
     return dComIfGs_getItem(SLOT_19, true) == dItemNo_ASHS_SCRIBBLING_e ? TRUE : FALSE;
 }
 
-int item_getcheck_func_CHUCHU_YELLOW2() {
+int item_getcheck_func_CHUCHU_YELLOW2()
+{
     return dComIfGs_checkBottle(dItemNo_CHUCHU_YELLOW2_e);
 }
 
-int item_getcheck_func_OIL_BOTTLE3() {
+int item_getcheck_func_OIL_BOTTLE3()
+{
     return -1;
 }
 
-int item_getcheck_func_SHOP_BEE_CHILD() {
+int item_getcheck_func_SHOP_BEE_CHILD()
+{
     return -1;
 }
 
-int item_getcheck_func_CHUCHU_BLACK() {
+int item_getcheck_func_CHUCHU_BLACK()
+{
     return dComIfGs_checkBottle(dItemNo_CHUCHU_BLACK_e);
 }
 
-int item_getcheck_func_LIGHT_DROP() {
+int item_getcheck_func_LIGHT_DROP()
+{
     return dComIfGs_isItemFirstBit(dItemNo_LIGHT_DROP_e);
 }
 
-int item_getcheck_func_DROP_CONTAINER() {
+int item_getcheck_func_DROP_CONTAINER()
+{
     return dComIfGs_isLightDropGetFlag(FARON_VESSEL);
 }
 
-int item_getcheck_func_DROP_CONTAINER02() {
+int item_getcheck_func_DROP_CONTAINER02()
+{
     return dComIfGs_isLightDropGetFlag(ELDIN_VESSEL);
 }
 
-int item_getcheck_func_DROP_CONTAINER03() {
+int item_getcheck_func_DROP_CONTAINER03()
+{
     return dComIfGs_isLightDropGetFlag(LANAYRU_VESSEL);
 }
 
-int item_getcheck_func_FILLED_CONTAINER() {
+int item_getcheck_func_FILLED_CONTAINER()
+{
     return -1;
 }
 
-int item_getcheck_func_MIRROR_PIECE_2() {
+int item_getcheck_func_MIRROR_PIECE_2()
+{
     return dComIfGs_isItemFirstBit(dItemNo_MIRROR_PIECE_2_e);
 }
 
-int item_getcheck_func_MIRROR_PIECE_3() {
+int item_getcheck_func_MIRROR_PIECE_3()
+{
     return dComIfGs_isItemFirstBit(dItemNo_MIRROR_PIECE_3_e);
 }
 
-int item_getcheck_func_MIRROR_PIECE_4() {
+int item_getcheck_func_MIRROR_PIECE_4()
+{
     return dComIfGs_isItemFirstBit(dItemNo_MIRROR_PIECE_4_e);
 }
 
-int item_getcheck_func_SMELL_YELIA_POUCH() {
+int item_getcheck_func_SMELL_YELIA_POUCH()
+{
     return dComIfGs_getCollectSmell() == dItemNo_SMELL_YELIA_POUCH_e ? TRUE : FALSE;
 }
 
-int item_getcheck_func_SMELL_PUMPKIN() {
+int item_getcheck_func_SMELL_PUMPKIN()
+{
     return -1;
 }
 
-int item_getcheck_func_SMELL_POH() {
+int item_getcheck_func_SMELL_POH()
+{
     return dComIfGs_getCollectSmell() == dItemNo_SMELL_POH_e ? TRUE : FALSE;
 }
 
-int item_getcheck_func_SMELL_FISH() {
+int item_getcheck_func_SMELL_FISH()
+{
     return dComIfGs_getCollectSmell() == dItemNo_SMELL_FISH_e ? TRUE : FALSE;
 }
 
-int item_getcheck_func_SMELL_CHILDREN() {
+int item_getcheck_func_SMELL_CHILDREN()
+{
     return dComIfGs_getCollectSmell() == dItemNo_SMELL_CHILDREN_e ? TRUE : FALSE;
 }
 
-int item_getcheck_func_SMELL_MEDICINE() {
+int item_getcheck_func_SMELL_MEDICINE()
+{
     return dComIfGs_getCollectSmell() == dItemNo_SMELL_MEDICINE_e ? TRUE : FALSE;
 }
 
-int item_getcheck_func_M_BEETLE() {
+int item_getcheck_func_M_BEETLE()
+{
     return dComIfGs_isItemFirstBit(dItemNo_M_BEETLE_e);
 }
 
-int item_getcheck_func_F_BEETLE() {
+int item_getcheck_func_F_BEETLE()
+{
     return dComIfGs_isItemFirstBit(dItemNo_F_BEETLE_e);
 }
 
-int item_getcheck_func_M_BUTTERFLY() {
+int item_getcheck_func_M_BUTTERFLY()
+{
     return dComIfGs_isItemFirstBit(dItemNo_M_BUTTERFLY_e);
 }
 
-int item_getcheck_func_F_BUTTERFLY() {
+int item_getcheck_func_F_BUTTERFLY()
+{
     return dComIfGs_isItemFirstBit(dItemNo_F_BUTTERFLY_e);
 }
 
-int item_getcheck_func_M_STAG_BEETLE() {
+int item_getcheck_func_M_STAG_BEETLE()
+{
     return dComIfGs_isItemFirstBit(dItemNo_M_STAG_BEETLE_e);
 }
 
-int item_getcheck_func_F_STAG_BEETLE() {
+int item_getcheck_func_F_STAG_BEETLE()
+{
     return dComIfGs_isItemFirstBit(dItemNo_F_STAG_BEETLE_e);
 }
 
-int item_getcheck_func_M_GRASSHOPPER() {
+int item_getcheck_func_M_GRASSHOPPER()
+{
     return dComIfGs_isItemFirstBit(dItemNo_M_GRASSHOPPER_e);
 }
 
-int item_getcheck_func_F_GRASSHOPPER() {
+int item_getcheck_func_F_GRASSHOPPER()
+{
     return dComIfGs_isItemFirstBit(dItemNo_F_GRASSHOPPER_e);
 }
 
-int item_getcheck_func_M_NANAFUSHI() {
+int item_getcheck_func_M_NANAFUSHI()
+{
     return dComIfGs_isItemFirstBit(dItemNo_M_NANAFUSHI_e);
 }
 
-int item_getcheck_func_F_NANAFUSHI() {
+int item_getcheck_func_F_NANAFUSHI()
+{
     return dComIfGs_isItemFirstBit(dItemNo_F_NANAFUSHI_e);
 }
 
-int item_getcheck_func_M_DANGOMUSHI() {
+int item_getcheck_func_M_DANGOMUSHI()
+{
     return dComIfGs_isItemFirstBit(dItemNo_M_DANGOMUSHI_e);
 }
 
-int item_getcheck_func_F_DANGOMUSHI() {
+int item_getcheck_func_F_DANGOMUSHI()
+{
     return dComIfGs_isItemFirstBit(dItemNo_F_DANGOMUSHI_e);
 }
 
-int item_getcheck_func_M_MANTIS() {
+int item_getcheck_func_M_MANTIS()
+{
     return dComIfGs_isItemFirstBit(dItemNo_M_MANTIS_e);
 }
 
-int item_getcheck_func_F_MANTIS() {
+int item_getcheck_func_F_MANTIS()
+{
     return dComIfGs_isItemFirstBit(dItemNo_F_MANTIS_e);
 }
 
-int item_getcheck_func_M_LADYBUG() {
+int item_getcheck_func_M_LADYBUG()
+{
     return dComIfGs_isItemFirstBit(dItemNo_M_LADYBUG_e);
 }
 
-int item_getcheck_func_F_LADYBUG() {
+int item_getcheck_func_F_LADYBUG()
+{
     return dComIfGs_isItemFirstBit(dItemNo_F_LADYBUG_e);
 }
 
-int item_getcheck_func_M_SNAIL() {
+int item_getcheck_func_M_SNAIL()
+{
     return dComIfGs_isItemFirstBit(dItemNo_M_SNAIL_e);
 }
 
-int item_getcheck_func_F_SNAIL() {
+int item_getcheck_func_F_SNAIL()
+{
     return dComIfGs_isItemFirstBit(dItemNo_F_SNAIL_e);
 }
 
-int item_getcheck_func_M_DRAGONFLY() {
+int item_getcheck_func_M_DRAGONFLY()
+{
     return dComIfGs_isItemFirstBit(dItemNo_M_DRAGONFLY_e);
 }
 
-int item_getcheck_func_F_DRAGONFLY() {
+int item_getcheck_func_F_DRAGONFLY()
+{
     return dComIfGs_isItemFirstBit(dItemNo_F_DRAGONFLY_e);
 }
 
-int item_getcheck_func_M_ANT() {
+int item_getcheck_func_M_ANT()
+{
     return dComIfGs_isItemFirstBit(dItemNo_M_ANT_e);
 }
 
-int item_getcheck_func_F_ANT() {
+int item_getcheck_func_F_ANT()
+{
     return dComIfGs_isItemFirstBit(dItemNo_F_ANT_e);
 }
 
-int item_getcheck_func_M_MAYFLY() {
+int item_getcheck_func_M_MAYFLY()
+{
     return dComIfGs_isItemFirstBit(dItemNo_M_MAYFLY_e);
 }
 
-int item_getcheck_func_F_MAYFLY() {
+int item_getcheck_func_F_MAYFLY()
+{
     return dComIfGs_isItemFirstBit(dItemNo_F_MAYFLY_e);
 }
 
-int item_getcheck_func_FUSED_SHADOW_1() {
+int item_getcheck_func_FUSED_SHADOW_1()
+{
     return dComIfGs_isItemFirstBit(dItemNo_FUSED_SHADOW_1_e);
 }
 
-int item_getcheck_func_FUSED_SHADOW_2() {
+int item_getcheck_func_FUSED_SHADOW_2()
+{
     return dComIfGs_isItemFirstBit(dItemNo_FUSED_SHADOW_2_e);
 }
 
-int item_getcheck_func_FUSED_SHADOW_3() {
+int item_getcheck_func_FUSED_SHADOW_3()
+{
     return dComIfGs_isItemFirstBit(dItemNo_FUSED_SHADOW_3_e);
 }
 
-int item_getcheck_func_MIRROR_PIECE_1() {
+int item_getcheck_func_MIRROR_PIECE_1()
+{
     return dComIfGs_isItemFirstBit(dItemNo_MIRROR_PIECE_1_e);
 }
 
-int item_getcheck_func_POU_SPIRIT() {
+int item_getcheck_func_POU_SPIRIT()
+{
     return dComIfGs_getPohSpiritNum();
 }
 
-int item_getcheck_func_ENDING_BLOW() {
+int item_getcheck_func_ENDING_BLOW()
+{
     return dComIfGs_isItemFirstBit(dItemNo_ENDING_BLOW_e);
 }
 
-int item_getcheck_func_SHIELD_ATTACK() {
+int item_getcheck_func_SHIELD_ATTACK()
+{
     return dComIfGs_isItemFirstBit(dItemNo_SHIELD_ATTACK_e);
 }
 
-int item_getcheck_func_BACK_SLICE() {
+int item_getcheck_func_BACK_SLICE()
+{
     return dComIfGs_isItemFirstBit(dItemNo_BACK_SLICE_e);
 }
 
-int item_getcheck_func_HELM_SPLITTER() {
+int item_getcheck_func_HELM_SPLITTER()
+{
     return dComIfGs_isItemFirstBit(dItemNo_HELM_SPLITTER_e);
 }
 
-int item_getcheck_func_MORTAL_DRAW() {
+int item_getcheck_func_MORTAL_DRAW()
+{
     return dComIfGs_isItemFirstBit(dItemNo_MORTAL_DRAW_e);
 }
 
-int item_getcheck_func_JUMP_STRIKE() {
+int item_getcheck_func_JUMP_STRIKE()
+{
     return dComIfGs_isItemFirstBit(dItemNo_JUMP_STRIKE_e);
 }
 
-int item_getcheck_func_GREAT_SPIN() {
+int item_getcheck_func_GREAT_SPIN()
+{
     return dComIfGs_isItemFirstBit(dItemNo_GREAT_SPIN_e);
 }
 
-int item_getcheck_func_ANCIENT_DOCUMENT() {
+int item_getcheck_func_ANCIENT_DOCUMENT()
+{
     return dComIfGs_getItem(SLOT_22, true) == dItemNo_ANCIENT_DOCUMENT_e ? TRUE : FALSE;
 }
 
-int item_getcheck_func_AIR_LETTER() {
+int item_getcheck_func_AIR_LETTER()
+{
     return dComIfGs_getItem(SLOT_22, true) == dItemNo_AIR_LETTER_e ? TRUE : FALSE;
 }
 
-int item_getcheck_func_ANCIENT_DOCUMENT2() {
+int item_getcheck_func_ANCIENT_DOCUMENT2()
+{
     return dComIfGs_getItem(SLOT_22, true) == dItemNo_ANCIENT_DOCUMENT2_e ? TRUE : FALSE;
 }
 
-int item_getcheck_func_LV7_DUNGEON_EXIT() {
+int item_getcheck_func_LV7_DUNGEON_EXIT()
+{
     return dComIfGs_getItem(SLOT_18, true) == dItemNo_LV7_DUNGEON_EXIT_e ? TRUE : FALSE;
 }
 
-int item_getcheck_func_LINKS_SAVINGS() {
+int item_getcheck_func_LINKS_SAVINGS()
+{
     return -1;
 }
 
-int item_getcheck_func_SMALL_KEY2() {
+int item_getcheck_func_SMALL_KEY2()
+{
     return -1;
 }
 
-int item_getcheck_func_POU_FIRE1() {
+int item_getcheck_func_POU_FIRE1()
+{
     return -1;
 }
 
-int item_getcheck_func_POU_FIRE2() {
+int item_getcheck_func_POU_FIRE2()
+{
     return -1;
 }
 
-int item_getcheck_func_POU_FIRE3() {
+int item_getcheck_func_POU_FIRE3()
+{
     return -1;
 }
 
-int item_getcheck_func_POU_FIRE4() {
+int item_getcheck_func_POU_FIRE4()
+{
     return -1;
 }
 
-int item_getcheck_func_BOSSRIDER_KEY() {
+int item_getcheck_func_BOSSRIDER_KEY()
+{
     return dComIfGs_isItemFirstBit(dItemNo_BOSSRIDER_KEY_e);
 }
 
-int item_getcheck_func_TOMATO_PUREE() {
+int item_getcheck_func_TOMATO_PUREE()
+{
     return dComIfGs_isItemFirstBit(dItemNo_TOMATO_PUREE_e);
 }
 
-int item_getcheck_func_TASTE() {
+int item_getcheck_func_TASTE()
+{
     return dComIfGs_isItemFirstBit(dItemNo_TASTE_e);
 }
 
-int item_getcheck_func_LV5_BOSS_KEY() {
+int item_getcheck_func_LV5_BOSS_KEY()
+{
     return dComIfGs_isDungeonItemBossKey();
 }
 
-int item_getcheck_func_SURFBOARD() {
+int item_getcheck_func_SURFBOARD()
+{
     return -1;
 }
 
-int item_getcheck_func_KANTERA2() {
+int item_getcheck_func_KANTERA2()
+{
     return -1;
 }
 
-int item_getcheck_func_L2_KEY_PIECES1() {
+int item_getcheck_func_L2_KEY_PIECES1()
+{
     return dComIfGs_isItemFirstBit(dItemNo_L2_KEY_PIECES1_e);
 }
 
-int item_getcheck_func_L2_KEY_PIECES2() {
+int item_getcheck_func_L2_KEY_PIECES2()
+{
     return dComIfGs_isItemFirstBit(dItemNo_L2_KEY_PIECES2_e);
 }
 
-int item_getcheck_func_L2_KEY_PIECES3() {
+int item_getcheck_func_L2_KEY_PIECES3()
+{
     return dComIfGs_isItemFirstBit(dItemNo_L2_KEY_PIECES3_e);
 }
 
-int item_getcheck_func_KEY_OF_CARAVAN() {
+int item_getcheck_func_KEY_OF_CARAVAN()
+{
     return dComIfGs_isItemFirstBit(dItemNo_KEY_OF_CARAVAN_e);
 }
 
-int item_getcheck_func_LV2_BOSS_KEY() {
+int item_getcheck_func_LV2_BOSS_KEY()
+{
     return dComIfGs_isDungeonItemBossKey();
 }
 
-int item_getcheck_func_KEY_OF_FILONE() {
+int item_getcheck_func_KEY_OF_FILONE()
+{
     return dComIfGs_getKeyNum();
 }
 
-int isBomb(u8 i_itemNo) {
+int isBomb(u8 i_itemNo)
+{
     int is_bomb = false;
 
-    if (i_itemNo == dItemNo_BOMB_5_e || i_itemNo == dItemNo_BOMB_10_e || i_itemNo == dItemNo_BOMB_20_e || i_itemNo == dItemNo_BOMB_30_e ||
-        i_itemNo == dItemNo_NORMAL_BOMB_e | i_itemNo == dItemNo_WATER_BOMB_e || i_itemNo == dItemNo_POKE_BOMB_e)
+    if (i_itemNo == dItemNo_BOMB_5_e || i_itemNo == dItemNo_BOMB_10_e || i_itemNo == dItemNo_BOMB_20_e ||
+        i_itemNo == dItemNo_BOMB_30_e || i_itemNo == dItemNo_NORMAL_BOMB_e | i_itemNo == dItemNo_WATER_BOMB_e ||
+        i_itemNo == dItemNo_POKE_BOMB_e)
     {
         is_bomb = true;
     }
@@ -2510,10 +2906,12 @@ int isBomb(u8 i_itemNo) {
     return is_bomb;
 }
 
-int isArrow(u8 i_itemNo) {
+int isArrow(u8 i_itemNo)
+{
     int is_arrow = false;
 
-    if (i_itemNo == dItemNo_ARROW_1_e || i_itemNo == dItemNo_ARROW_10_e || i_itemNo == dItemNo_ARROW_20_e || i_itemNo == dItemNo_ARROW_30_e)
+    if (i_itemNo == dItemNo_ARROW_1_e || i_itemNo == dItemNo_ARROW_10_e || i_itemNo == dItemNo_ARROW_20_e ||
+        i_itemNo == dItemNo_ARROW_30_e)
     {
         is_arrow = true;
     }
@@ -2521,183 +2919,224 @@ int isArrow(u8 i_itemNo) {
     return is_arrow;
 }
 
-BOOL isBottleItem(u8 i_itemNo) {
-    switch (i_itemNo) {
-    case dItemNo_OIL_BOTTLE3_e:
-    case dItemNo_EMPTY_BOTTLE_e:
-    case dItemNo_RED_BOTTLE_e:
-    case dItemNo_GREEN_BOTTLE_e:
-    case dItemNo_BLUE_BOTTLE_e:
-    case dItemNo_MILK_BOTTLE_e:
-    case dItemNo_HALF_MILK_BOTTLE_e:
-    case dItemNo_OIL_BOTTLE_e:
-    case dItemNo_WATER_BOTTLE_e:
-    case dItemNo_OIL_BOTTLE_2_e:
-    case dItemNo_RED_BOTTLE_2_e:
-    case dItemNo_UGLY_SOUP_e:
-    case dItemNo_HOT_SPRING_e:
-    case dItemNo_FAIRY_e:
-    case dItemNo_FAIRY_DROP_e:
-    case dItemNo_WORM_e:
-    case dItemNo_BEE_CHILD_e:
-    case dItemNo_CHUCHU_RARE_e:
-    case dItemNo_CHUCHU_RED_e:
-    case dItemNo_CHUCHU_BLUE_e:
-    case dItemNo_CHUCHU_GREEN_e:
-    case dItemNo_CHUCHU_YELLOW_e:
-    case dItemNo_CHUCHU_PURPLE_e:
-    case dItemNo_LV1_SOUP_e:
-    case dItemNo_LV2_SOUP_e:
-    case dItemNo_LV3_SOUP_e:
-    case dItemNo_CHUCHU_BLACK_e:
-    case dItemNo_POU_FIRE1_e:
-    case dItemNo_POU_FIRE2_e:
-    case dItemNo_POU_FIRE3_e:
-    case dItemNo_POU_FIRE4_e:
-        return TRUE;
-    default:
-        return FALSE;
+BOOL isBottleItem(u8 i_itemNo)
+{
+    switch (i_itemNo)
+    {
+        case dItemNo_OIL_BOTTLE3_e:
+        case dItemNo_EMPTY_BOTTLE_e:
+        case dItemNo_RED_BOTTLE_e:
+        case dItemNo_GREEN_BOTTLE_e:
+        case dItemNo_BLUE_BOTTLE_e:
+        case dItemNo_MILK_BOTTLE_e:
+        case dItemNo_HALF_MILK_BOTTLE_e:
+        case dItemNo_OIL_BOTTLE_e:
+        case dItemNo_WATER_BOTTLE_e:
+        case dItemNo_OIL_BOTTLE_2_e:
+        case dItemNo_RED_BOTTLE_2_e:
+        case dItemNo_UGLY_SOUP_e:
+        case dItemNo_HOT_SPRING_e:
+        case dItemNo_FAIRY_e:
+        case dItemNo_FAIRY_DROP_e:
+        case dItemNo_WORM_e:
+        case dItemNo_BEE_CHILD_e:
+        case dItemNo_CHUCHU_RARE_e:
+        case dItemNo_CHUCHU_RED_e:
+        case dItemNo_CHUCHU_BLUE_e:
+        case dItemNo_CHUCHU_GREEN_e:
+        case dItemNo_CHUCHU_YELLOW_e:
+        case dItemNo_CHUCHU_PURPLE_e:
+        case dItemNo_LV1_SOUP_e:
+        case dItemNo_LV2_SOUP_e:
+        case dItemNo_LV3_SOUP_e:
+        case dItemNo_CHUCHU_BLACK_e:
+        case dItemNo_POU_FIRE1_e:
+        case dItemNo_POU_FIRE2_e:
+        case dItemNo_POU_FIRE3_e:
+        case dItemNo_POU_FIRE4_e:
+            return TRUE;
+        default:
+            return FALSE;
     }
 }
 
-BOOL isHeart(u8 i_itemNo) {
+BOOL isHeart(u8 i_itemNo)
+{
     BOOL is_heart = false;
 
-    if (i_itemNo == dItemNo_HEART_e || i_itemNo == dItemNo_TRIPLE_HEART_e) {
+    if (i_itemNo == dItemNo_HEART_e || i_itemNo == dItemNo_TRIPLE_HEART_e)
+    {
         is_heart = true;
     }
 
     return is_heart;
 }
 
-BOOL isInsect(u8 i_itemNo) {
+BOOL isInsect(u8 i_itemNo)
+{
     BOOL is_insect = false;
 
-    switch (i_itemNo) {
-    case dItemNo_M_BEETLE_e:
-    case dItemNo_F_BEETLE_e:
-    case dItemNo_M_BUTTERFLY_e:
-    case dItemNo_F_BUTTERFLY_e:
-    case dItemNo_M_STAG_BEETLE_e:
-    case dItemNo_F_STAG_BEETLE_e:
-    case dItemNo_M_GRASSHOPPER_e:
-    case dItemNo_F_GRASSHOPPER_e:
-    case dItemNo_M_NANAFUSHI_e:
-    case dItemNo_F_NANAFUSHI_e:
-    case dItemNo_M_DANGOMUSHI_e:
-    case dItemNo_F_DANGOMUSHI_e:
-    case dItemNo_M_MANTIS_e:
-    case dItemNo_F_MANTIS_e:
-    case dItemNo_M_LADYBUG_e:
-    case dItemNo_F_LADYBUG_e:
-    case dItemNo_M_SNAIL_e:
-    case dItemNo_F_SNAIL_e:
-    case dItemNo_M_DRAGONFLY_e:
-    case dItemNo_F_DRAGONFLY_e:
-    case dItemNo_M_ANT_e:
-    case dItemNo_F_ANT_e:
-    case dItemNo_M_MAYFLY_e:
-    case dItemNo_F_MAYFLY_e:
-        is_insect = true;
+    switch (i_itemNo)
+    {
+        case dItemNo_M_BEETLE_e:
+        case dItemNo_F_BEETLE_e:
+        case dItemNo_M_BUTTERFLY_e:
+        case dItemNo_F_BUTTERFLY_e:
+        case dItemNo_M_STAG_BEETLE_e:
+        case dItemNo_F_STAG_BEETLE_e:
+        case dItemNo_M_GRASSHOPPER_e:
+        case dItemNo_F_GRASSHOPPER_e:
+        case dItemNo_M_NANAFUSHI_e:
+        case dItemNo_F_NANAFUSHI_e:
+        case dItemNo_M_DANGOMUSHI_e:
+        case dItemNo_F_DANGOMUSHI_e:
+        case dItemNo_M_MANTIS_e:
+        case dItemNo_F_MANTIS_e:
+        case dItemNo_M_LADYBUG_e:
+        case dItemNo_F_LADYBUG_e:
+        case dItemNo_M_SNAIL_e:
+        case dItemNo_F_SNAIL_e:
+        case dItemNo_M_DRAGONFLY_e:
+        case dItemNo_F_DRAGONFLY_e:
+        case dItemNo_M_ANT_e:
+        case dItemNo_F_ANT_e:
+        case dItemNo_M_MAYFLY_e:
+        case dItemNo_F_MAYFLY_e:
+            is_insect = true;
     }
 
     return is_insect;
 }
 
-u8 check_itemno(int i_itemNo) {
-    if (!dComIfGs_isGetMagicUseFlag() && (i_itemNo == dItemNo_S_MAGIC_e || i_itemNo == dItemNo_L_MAGIC_e)) {
+u8 check_itemno(int i_itemNo)
+{
+    if (!dComIfGs_isGetMagicUseFlag() && (i_itemNo == dItemNo_S_MAGIC_e || i_itemNo == dItemNo_L_MAGIC_e))
+    {
         return dItemNo_GREEN_RUPEE_e;
     }
 
-    if (i_itemNo == dItemNo_ARROW_1_e) {
-        if (!dComIfGs_isItemFirstBit(dItemNo_BOW_e)) {
+    if (i_itemNo == dItemNo_ARROW_1_e)
+    {
+        if (!dComIfGs_isItemFirstBit(dItemNo_BOW_e))
+        {
             return dItemNo_GREEN_RUPEE_e;
         }
-    } else {
-        if (isArrow(i_itemNo)) {
-            if (!dComIfGs_isItemFirstBit(dItemNo_BOW_e)) {
+    }
+    else
+    {
+        if (isArrow(i_itemNo))
+        {
+            if (!dComIfGs_isItemFirstBit(dItemNo_BOW_e))
+            {
                 return dItemNo_GREEN_RUPEE_e;
             }
 
-            if (g_dComIfG_gameInfo.play.getLayerNo(0) == 0xD ||
-                g_dComIfG_gameInfo.play.getLayerNo(0) == 0xE)
+            if (g_dComIfG_gameInfo.play.getLayerNo(0) == 0xD || g_dComIfG_gameInfo.play.getLayerNo(0) == 0xE)
             {
                 const char* stage_name = dComIfGp_getStartStageName();
                 // D_MN08: Palace of Twilight
-                if (strncmp(stage_name, "D_MN08", 6)) {
+                if (strncmp(stage_name, "D_MN08", 6))
+                {
                     return dItemNo_GREEN_RUPEE_e;
                 }
             }
         }
     }
 
-    if (!dComIfGs_isItemFirstBit(dItemNo_BOMB_BAG_LV1_e) && isBomb(i_itemNo)) {
+    if (!dComIfGs_isItemFirstBit(dItemNo_BOMB_BAG_LV1_e) && isBomb(i_itemNo))
+    {
         return dItemNo_GREEN_RUPEE_e;
-    } else {
-        if (i_itemNo == dItemNo_TRIPLE_HEART_e) {
+    }
+    else
+    {
+        if (i_itemNo == dItemNo_TRIPLE_HEART_e)
+        {
             i_itemNo = dItemNo_HEART_e;
         }
-        if (!checkItemGet(dItemNo_PACHINKO_e, 1) && i_itemNo == dItemNo_PACHINKO_SHOT_e) {
+        if (!checkItemGet(dItemNo_PACHINKO_e, 1) && i_itemNo == dItemNo_PACHINKO_SHOT_e)
+        {
             i_itemNo = dItemNo_GREEN_RUPEE_e;
         }
-        if (i_itemNo == dItemNo_S_MAGIC_e || i_itemNo == dItemNo_L_MAGIC_e) {
+        if (i_itemNo == dItemNo_S_MAGIC_e || i_itemNo == dItemNo_L_MAGIC_e)
+        {
             i_itemNo = dItemNo_GREEN_RUPEE_e;
         }
     }
     return i_itemNo;
 }
 
-int addBombCount(u8 i_bombType, u8 i_addNum) {
+int addBombCount(u8 i_bombType, u8 i_addNum)
+{
     u8 bombType[3];
     int bombNum[3];
 
-    for (u8 i = 0; i < 3; i++) {
+    for (u8 i = 0; i < 3; i++)
+    {
         bombType[i] = dComIfGs_getItem(i + SLOT_15, false);
 
-        if (bombType[i] == dItemNo_BOMB_BAG_LV1_e) {
+        if (bombType[i] == dItemNo_BOMB_BAG_LV1_e)
+        {
             bombNum[i] = 0;
-        } else if (bombType[i] == i_bombType) {
+        }
+        else if (bombType[i] == i_bombType)
+        {
             bombNum[i] = dComIfGs_getBombNum(i);
-        } else {
+        }
+        else
+        {
             bombNum[i] = -1;
         }
     }
 
-    for (u8 i = 0; i < 3; i++) {
+    for (u8 i = 0; i < 3; i++)
+    {
         int bombIdx = -1;
         int var_r22 = -1;
 
-        for (u8 j = 0; j < 3; j++) {
-            if (bombNum[j] == 0) {
+        for (u8 j = 0; j < 3; j++)
+        {
+            if (bombNum[j] == 0)
+            {
                 bombIdx = j;
                 var_r22 = 0;
             }
         }
 
-        for (u8 k = 0; k < 3; k++) {
-            if (bombNum[k] > 0 && bombNum[k] > var_r22 &&
-                bombNum[k] != dComIfGs_getBombMax(bombType[k]))
+        for (u8 k = 0; k < 3; k++)
+        {
+            if (bombNum[k] > 0 && bombNum[k] > var_r22 && bombNum[k] != dComIfGs_getBombMax(bombType[k]))
             {
                 bombIdx = k;
                 var_r22 = bombNum[k];
             }
         }
 
-        if (bombIdx == -1) {
+        if (bombIdx == -1)
+        {
             return i_addNum;
-        } else if (var_r22 == 0) {
-            if (dComIfGs_getBombMax(i_bombType) >= i_addNum) {
+        }
+        else if (var_r22 == 0)
+        {
+            if (dComIfGs_getBombMax(i_bombType) >= i_addNum)
+            {
                 dComIfGs_setEmptyBombBagItemIn(i_bombType, i_addNum, true);
                 return 0;
-            } else {
+            }
+            else
+            {
                 dComIfGs_setEmptyBombBagItemIn(i_bombType, i_addNum, true);
                 i_addNum = i_addNum - dComIfGs_getBombMax(i_bombType);
             }
-        } else {
-            if (dComIfGs_getBombMax(bombType[bombIdx]) >= var_r22 + i_addNum) {
+        }
+        else
+        {
+            if (dComIfGs_getBombMax(bombType[bombIdx]) >= var_r22 + i_addNum)
+            {
                 dComIfGp_setItemBombNumCount(bombIdx, i_addNum);
                 return 0;
-            } else {
+            }
+            else
+            {
                 dComIfGp_setItemBombNumCount(bombIdx, i_addNum);
                 i_addNum = i_addNum - (dComIfGs_getBombMax(bombType[bombIdx]) - var_r22);
             }
