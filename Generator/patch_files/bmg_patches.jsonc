@@ -961,7 +961,7 @@
           }
         }
       },
-      {
+      { // Check for custom flag before allowing player to buy CT Lantern Oil
         "Operation": "modify",
         "Section": "FLW1",
         "Index": "0x97C",
@@ -971,7 +971,7 @@
           }
         }
       },
-      {
+      { // Check for custom event flag before proceeding to buy CT Lantern Oil
         "Operation": "modify",
         "Section": "FLW1",
         "Index": "0x97D",
@@ -981,7 +981,7 @@
           }
         }
       },
-      {
+      { // Check for rupees instead of bottle for CT Lantern Oil
         "Operation": "modify",
         "Section": "FLW1",
         "Index": "0x97F",
@@ -991,7 +991,7 @@
           }
         }
       },
-      {
+      { // Check for rupees instead of bow for CT arrows
         "Operation": "modify",
         "Section": "FLW1",
         "Index": "0x9AB",
@@ -1001,7 +1001,7 @@
           }
         }
       },
-      {
+      { // Check For Custom Event Flag before proceeding to Buy CT Red Potion
         "Operation": "modify",
         "Section": "FLW1",
         "Index": "0x9BD",
@@ -1011,7 +1011,7 @@
           }
         }
       },
-      {
+      { // Check for custom flag before allowing player to buy CT Red Potion
         "Operation": "modify",
         "Section": "FLW1",
         "Index": "0x9BF",
@@ -1021,7 +1021,7 @@
           }
         }
       },
-      {
+      { // Instead of checking for Arrows, just check for flag for CT Arrows
         "Operation": "modify",
         "Section": "FLW1",
         "Index": "0x9C1",
@@ -1031,7 +1031,7 @@
           }
         }
       },
-      {
+      { // Instead of checking for an empty bottle, only check for rupees
         "Operation": "modify",
         "Section": "FLW1",
         "Index": "0x9C7",
@@ -1051,7 +1051,7 @@
           }
         }
       },
-      {
+      { // Check for custom flag before proceeding to buy CT Arrows
         "Operation": "modify",
         "Section": "FLW1",
         "Index": "0x9FC",
@@ -1096,7 +1096,7 @@
   {
     "FilePath": "res/Msgus/Bmgres5/zel_05.bmg",
     "Changes": [
-      {
+      { // Check for custom flag before allowing player to buy CT arrows
         "Operation": "modify",
         "Section": "FLW1",
         "Index": "0x5",
