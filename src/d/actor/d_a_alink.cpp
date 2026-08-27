@@ -21962,7 +21962,9 @@ int daAlink_c::procCoMetamorphoseInit()
 
     bool disableTransformOnWarp = true; // TODO: make this dynamic in seed data
 
-    if (((disableTransformOnWarp || checkWolf()) && mDemo.getDemoMode() == daPy_demo_c::DEMO_METAMORPHOSE_UNK1_e) ||
+    // If we are warping, we don't want to force transform Link and instead rely on the option
+    if ((((disableTransformOnWarp && strlen(dMeter2Info_getWarpStageName())) || checkWolf()) &&
+         mDemo.getDemoMode() == daPy_demo_c::DEMO_METAMORPHOSE_UNK1_e) ||
         (!checkWolf() && mDemo.getDemoMode() == daPy_demo_c::DEMO_METAMORPHOSE_UNK2_e))
     {
         mProcVar1.field_0x300a = 1;
