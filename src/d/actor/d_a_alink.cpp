@@ -18431,14 +18431,7 @@ int daAlink_c::checkNewItemChange(u8 i_selItemIdx)
             // If we have a bottle of oil equipped but don't have a lantern, pour the bottle instead.
             if (checkOilBottleItem(sel_item))
             {
-                if (checkItemSetButton(dItemNo_KANTERA_e) != 2)
-                {
-                    return ITEM_PROC_KANDELAAR_POUR;
-                }
-                else
-                {
-                    return ITEM_PROC_BOTTLE_OPEN;
-                }
+                return ITEM_PROC_KANDELAAR_POUR;
             }
         }
         else if (sel_item == dItemNo_HVY_BOOTS_e)
