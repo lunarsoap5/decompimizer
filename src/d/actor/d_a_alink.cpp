@@ -7269,14 +7269,14 @@ void daAlink_c::setItemMatrix(int param_0)
             {
                 mHeldItemModel->setBaseTRMtx(mpLinkModel->getAnmMtx(4));
             }
-            else if (checkOilBottleItemNotGet(mEquipItem))
+            else if (checkOilBottleItemNotGet(mEquipItem) && (checkItemSetButton(dItemNo_KANTERA_e) != 2))
             {
                 mDoMtx_stack_c::copy(mpLinkModel->getAnmMtx(mRightItemJntNo));
                 mDoMtx_stack_c::transM(1.5f, -7.5f, -1.0f);
                 mDoMtx_stack_c::XYZrotM(cM_deg2s(183.0f), cM_deg2s(176.0f), cM_deg2s(167.0f));
                 mHeldItemModel->setBaseTRMtx(mDoMtx_stack_c::get());
             }
-            else if (checkBottleItem(mEquipItem))
+            else if (checkBottleItem(mEquipItem) || checkOilBottleItemNotGet(mEquipItem))
             {
                 mDoMtx_stack_c::copy(mpLinkModel->getAnmMtx(mLeftItemJntNo));
                 mDoMtx_stack_c::transM(-10.0f, -0.5f, -5.5f);
@@ -18231,7 +18231,8 @@ bool daAlink_c::checkCastleTownUseItem(u16 i_itemNo)
             (checkRoomSpecial() && (i_itemNo == dItemNo_EMPTY_BOTTLE_e || checkDungeonWarpItem(i_itemNo))) ||
             (checkStageName("R_SP128") && i_itemNo == dItemNo_COPY_ROD_e) ||
             (checkLv2DungeonRoomSpecial() && i_itemNo == dItemNo_HVY_BOOTS_e) ||
-            (checkBottleItem(i_itemNo) && i_itemNo != dItemNo_EMPTY_BOTTLE_e))
+            (checkBottleItem(i_itemNo) && i_itemNo != dItemNo_EMPTY_BOTTLE_e) ||
+            (checkOilBottleItem(i_itemNo) && i_itemNo != dItemNo_EMPTY_BOTTLE_e))
         {
             return true;
         }
@@ -18427,9 +18428,17 @@ int daAlink_c::checkNewItemChange(u8 i_selItemIdx)
                 return ITEM_PROC_BOTTLE_DRINK;
             }
 
-            if (checkOilBottleItem(sel_item) && checkItemSetButton(dItemNo_KANTERA_e) != 2)
+            // If we have a bottle of oil equipped but don't have a lantern, pour the bottle instead.
+            if (checkOilBottleItem(sel_item))
             {
-                return ITEM_PROC_KANDELAAR_POUR;
+                if (checkItemSetButton(dItemNo_KANTERA_e) != 2)
+                {
+                    return ITEM_PROC_KANDELAAR_POUR;
+                }
+                else
+                {
+                    return ITEM_PROC_BOTTLE_OPEN;
+                }
             }
         }
         else if (sel_item == dItemNo_HVY_BOOTS_e)
@@ -18522,9 +18531,16 @@ int daAlink_c::checkNewItemChange(u8 i_selItemIdx)
                 {
                     return ITEM_PROC_GRASS_WHISTLE;
                 }
-                else if (checkOilBottleItem(sel_item) && checkItemSetButton(0x48) != 2)
+                else if (checkOilBottleItem(sel_item))
                 {
-                    return ITEM_PROC_KANDELAAR_POUR;
+                    if (checkItemSetButton(0x48) != 2)
+                    {
+                        return ITEM_PROC_KANDELAAR_POUR;
+                    }
+                    else
+                    {
+                        return ITEM_PROC_BOTTLE_OPEN;
+                    }
                 }
                 else if (sel_item == dItemNo_HAWK_EYE_e)
                 {
