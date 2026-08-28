@@ -18428,7 +18428,7 @@ int daAlink_c::checkNewItemChange(u8 i_selItemIdx)
                 return ITEM_PROC_BOTTLE_DRINK;
             }
 
-            // If we have a bottle of oil equipped but don't have a lantern, pour the bottle instead.
+            // If we are riding epona/canoe and have a bottle of oil equipped but don't have a lantern, pour the bottle instead.
             if (checkOilBottleItem(sel_item))
             {
                 return ITEM_PROC_KANDELAAR_POUR;
