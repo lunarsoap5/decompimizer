@@ -2994,6 +2994,7 @@ config.libs = [
             Object(Custom, "rando/tools/memory.cpp"),
             Object(Custom, "rando/data/stages.cpp"),
             Object(Custom, "rando/returnPlaces.cpp"),
+            Object(Custom, "rando/data/flags.cpp"),
         ],
     },
 ]
@@ -3071,7 +3072,8 @@ def link_order_callback(module_id: int, objects: List[str]) -> List[str]:
             "rando/seed/seed.cpp",
             "rando/tools/memory.cpp",
             "rando/data/stages.cpp",
-            "rando/returnPlaces.cpp"
+            "rando/returnPlaces.cpp",
+            "rando/data/flags.cpp"
         ]
     return objects
 
