@@ -28,34 +28,33 @@ enum SeedEnabledFlag
     SKIP_MAJOR_CUTSCENES,
     INVERT_CAMERA_AXIS,
     MAKE_LIGHT_SWORD_GLOW,
+    WARP_WITHOUT_TRANSFORM,
 };
 
 bool flagIsEnabled(const uint* bitfieldPtr, uint totalFlags, uint flag);
 
 class EntryInfo
 {
-    public:
+   public:
     EntryInfo() {}
     ~EntryInfo() {}
 
     u16 getNumEntries() const { return numEntries; }
     u16 getDataOffset() const { return dataOffset; }
 
-    private:
+   private:
     u16 numEntries;
     u16 dataOffset;
 };
 
-class seedHeaderInfo_c {
-public:
-    seedHeaderInfo_c(const void* fileData) { memcpy(this, fileData, sizeof(seedHeaderInfo_c));}
+class seedHeaderInfo_c
+{
+   public:
+    seedHeaderInfo_c(const void* fileData) { memcpy(this, fileData, sizeof(seedHeaderInfo_c)); }
     int _create();
     int _delete();
 
-    bool magicIsValid() const
-    {
-        return memcmp(&magic[0], "TPR", sizeof(magic)) == 0;
-    }
+    bool magicIsValid() const { return memcmp(&magic[0], "TPR", sizeof(magic)) == 0; }
 
     const char* getSeedNamePtr() const { return &seedName[0]; }
     u16 getHeaderSize() const { return headerSize; }
@@ -75,7 +74,7 @@ public:
     u16 getSmallWalletMax() const { return smallWalletMax; }
     u16 getBigWalletMax() const { return bigWalletMax; }
     u16 getGiantWalletMax() const { return giantWalletMax; }
-    GXColorS10 getNormalColor() const {return l_normalColor; }
+    GXColorS10 getNormalColor() const { return l_normalColor; }
     GXColor getNormalKColor() const { return l_normalKColor; }
     GXColor getNormalKColor2() const { return l_normalKColor2; }
     GXColorS10 getBigColor() const { return l_bigColor; }
@@ -92,11 +91,13 @@ public:
     uint getLanternColor() const { return lanternColor; }
     u8* getLanternColorPtr() const { return (u8*)&lanternColor; }
     EntranceInfo getSpawnInfo() const { return spawnInfo; }
-    u16 getReturnPlaceSectionOffset() const {return returnPlaceSectionOffset; }
-    u8 getTriforcePieceReqCount() const {return triforcePieceReqCount;}
+    u16 getReturnPlaceSectionOffset() const { return returnPlaceSectionOffset; }
+    u8 getTriforcePieceReqCount() const { return triforcePieceReqCount; }
+    u16 getTrillDonationCount() const { return trillDonationGoal; }
+    u8 getCustomGoal() const { return customGoalValue; }
 
-    //const EntryInfo* getVolatilePatchInfoPtr() const { return &volatilePatchInfo; }
-    //const EntryInfo* getOneTimePatchInfoPtr() const { return &oneTimePatchInfo; }
+    // const EntryInfo* getVolatilePatchInfoPtr() const { return &volatilePatchInfo; }
+    // const EntryInfo* getOneTimePatchInfoPtr() const { return &oneTimePatchInfo; }
     const EntryInfo* getFlagBitfieldPtr() const { return &flagBitfieldInfo; }
     const EntryInfo* getEventFlagsInfoPtr() const { return &eventFlagsInfo; }
     const EntryInfo* getRegionFlagsInfoPtr() const { return &regionFlagsInfo; }
@@ -107,12 +108,12 @@ public:
     const EntryInfo* getEventItemCheckInfoPtr() const { return &eventItemCheckInfo; }
     const EntryInfo* getStartingItemCheckInfoPtr() const { return &startingItemInfo; }
     const EntryInfo* getShopItemCheckInfoPtr() const { return &shopItemCheckInfo; }
-    
+
     /* 0x00 */ char magic[3]; // Not null terminated, should always be TPR
     /* 0x03 */ char seedName[33];
     /* 0x24 */ u16 headerSize; // Total size of the header in bytes
     /* 0x26 */ u16 dataSize;   // Total number of bytes of seed data
-    /* 0x28 */ uint totalSize;  // Total number of bytes in the GCI
+    /* 0x28 */ uint totalSize; // Total number of bytes in the GCI
 
     // BitArray where each bit represents a patch/modification to be applied for this playthrough; these
     // patchs/modifications must be applied every time a file is loaded
@@ -123,7 +124,7 @@ public:
     // BitArray where each bit represents a patch/modification to be applied for this playthrough; these
     // patchs/modifications must be applied only when a seed is loaded
     // /* 0x34 */ EntryInfo oneTimePatchInfo;
-    // Note for moving forward: we can just set up the code to check for a bool since we won't have custom functions. 
+    // Note for moving forward: we can just set up the code to check for a bool since we won't have custom functions.
 
     // BitArray where each bit represents an arbitrary flag indicated by the SeedEnabledFlag enum
     /* 0x2C */ EntryInfo flagBitfieldInfo;
@@ -145,7 +146,7 @@ public:
     /* 0x57 */ u8 mirrorChamberEntrance;
     /* 0x58 */ u8 barrierReqCount; // See below for notes
     /* 0x59 */ u8 hcBkRequirement;
-    /* 0x5A */ u8 hcBkReqCount; // See below for notes  
+    /* 0x5A */ u8 hcBkReqCount; // See below for notes
     /* 0x5B */ u8 triforcePieceReqCount;
     /* 0x5C */ u16 smallWalletMax;
     /* 0x5E */ u16 bigWalletMax;
@@ -167,77 +168,77 @@ public:
     /* 0xA4 */ EntranceInfo spawnInfo;
     /* 0xA8 */ EntryInfo shopItemCheckInfo;
     /* 0xAC */ u16 returnPlaceSectionOffset;
+    /* 0xAE */ u16 trillDonationGoal;
+    /* 0xB0 */ u8 customGoalValue; // Used to check for custom goals (Trill%, Zant, 60 Poes, etc.)
 };
 
-class seedInfo_c {
-    public:
-    
-        int _create();
-        int _delete();
-        void initSeed();
-        void setStaticGameValues();
-    
-        const seedHeaderInfo_c* getHeaderPtr() const { return m_Header; }
-        bool seedIsLoaded() const { return m_GCIData; }
+class seedInfo_c
+{
+   public:
+    int _create();
+    int _delete();
+    void initSeed();
+    void setStaticGameValues();
 
-        const BossCheck* getBossChecksPtr() const { return m_BossChecks; }
-        const HiddenSkillCheck* getHiddenSkillChecksPtr() const { return m_HiddenSkillChecks; }
-        const BugReward* getBugRewardChecksPtr() const { return m_BugRewardChecks; }
-        const PoeReward* getPoeRewardsPtr() const { return m_PoeRewards; }
-        const EventItem* getEventChecksPtr() const { return m_EventChecks; }
-        const ReturnPlaceSection* getReturnPlaceSectionPtr() const { return m_ReturnPlaceSection;}
-        const RawRGBTable* getRawRGBTablePtr() const { return m_RawRGBTable; }
+    const seedHeaderInfo_c* getHeaderPtr() const { return m_Header; }
+    bool seedIsLoaded() const { return m_GCIData; }
 
-        bool flagBitfieldFlagIsEnabled(uint flag) const;
+    const BossCheck* getBossChecksPtr() const { return m_BossChecks; }
+    const HiddenSkillCheck* getHiddenSkillChecksPtr() const { return m_HiddenSkillChecks; }
+    const BugReward* getBugRewardChecksPtr() const { return m_BugRewardChecks; }
+    const PoeReward* getPoeRewardsPtr() const { return m_PoeRewards; }
+    const EventItem* getEventChecksPtr() const { return m_EventChecks; }
+    const ReturnPlaceSection* getReturnPlaceSectionPtr() const { return m_ReturnPlaceSection; }
+    const RawRGBTable* getRawRGBTablePtr() const { return m_RawRGBTable; }
 
-        bool canTransformAnywhere() const { return flagBitfieldFlagIsEnabled(TRANSFORM_ANYWHERE); }
-        bool canQuickTransform() const { return flagBitfieldFlagIsEnabled(QUICK_TRANSFORM); }
-        bool bonksDoDamage() const { return flagBitfieldFlagIsEnabled(BONKS_DO_DAMAGE); }
-        bool walletsAreAutoFilled() const { return flagBitfieldFlagIsEnabled(AUTOFILL_WALLETS); }
-        bool shopModelsAreModified() const { return flagBitfieldFlagIsEnabled(MODIFY_SHOP_MODELS); }
-        bool isLanternRainbow() const { return flagBitfieldFlagIsEnabled(RAINBOW_LANTERN); }
-        bool isMidnaHairRainbow() const { return flagBitfieldFlagIsEnabled(RAINBOW_MIDNA); }
-        bool isLightSwordRainbow() const { return flagBitfieldFlagIsEnabled(RAINBOW_LIGHT_SWORD); }
-        bool isLightSwordAlwaysOn() const { return flagBitfieldFlagIsEnabled(LIGHT_SWORD_ALWAYS_ON); }
-        bool isWolfDomeRainbow() const { return flagBitfieldFlagIsEnabled(RAINBOW_LOCK_DOME); }
-        bool returnRupeeToChest() const { return flagBitfieldFlagIsEnabled(RETURN_MONEY_TO_CHEST);}
-        bool skipMinorCutscenes() const { return flagBitfieldFlagIsEnabled(SKIP_MINOR_CUTSCENES);}
-        bool isMapOpen() const { return flagBitfieldFlagIsEnabled(OPEN_MAP);}
-        bool removeIBLimit() const { return flagBitfieldFlagIsEnabled(REMOVE_IB_LIMIT);}
-        bool isDisableBattleMusic() const { return flagBitfieldFlagIsEnabled(DISABLE_BATTLE_MUSIC);}
-        bool isInstantText() const { return flagBitfieldFlagIsEnabled(SET_INSTANT_TEXT);}
-        bool skipMajorCutscenes() const { return flagBitfieldFlagIsEnabled(SKIP_MAJOR_CUTSCENES);}
-        bool invertCameraAxis() const { return flagBitfieldFlagIsEnabled(INVERT_CAMERA_AXIS);}
-        bool isLightSwordGlow() const { return flagBitfieldFlagIsEnabled(MAKE_LIGHT_SWORD_GLOW);}
+    bool flagBitfieldFlagIsEnabled(uint flag) const;
 
-        bool spinnerSpeedIsIncreased() const
-        {
-            return flagBitfieldFlagIsEnabled(INCREASE_SPINNER_SPEED);
-        }
+    bool canTransformAnywhere() const { return flagBitfieldFlagIsEnabled(TRANSFORM_ANYWHERE); }
+    bool canQuickTransform() const { return flagBitfieldFlagIsEnabled(QUICK_TRANSFORM); }
+    bool bonksDoDamage() const { return flagBitfieldFlagIsEnabled(BONKS_DO_DAMAGE); }
+    bool walletsAreAutoFilled() const { return flagBitfieldFlagIsEnabled(AUTOFILL_WALLETS); }
+    bool shopModelsAreModified() const { return flagBitfieldFlagIsEnabled(MODIFY_SHOP_MODELS); }
+    bool isLanternRainbow() const { return flagBitfieldFlagIsEnabled(RAINBOW_LANTERN); }
+    bool isMidnaHairRainbow() const { return flagBitfieldFlagIsEnabled(RAINBOW_MIDNA); }
+    bool isLightSwordRainbow() const { return flagBitfieldFlagIsEnabled(RAINBOW_LIGHT_SWORD); }
+    bool isLightSwordAlwaysOn() const { return flagBitfieldFlagIsEnabled(LIGHT_SWORD_ALWAYS_ON); }
+    bool isWolfDomeRainbow() const { return flagBitfieldFlagIsEnabled(RAINBOW_LOCK_DOME); }
+    bool returnRupeeToChest() const { return flagBitfieldFlagIsEnabled(RETURN_MONEY_TO_CHEST); }
+    bool skipMinorCutscenes() const { return flagBitfieldFlagIsEnabled(SKIP_MINOR_CUTSCENES); }
+    bool isMapOpen() const { return flagBitfieldFlagIsEnabled(OPEN_MAP); }
+    bool removeIBLimit() const { return flagBitfieldFlagIsEnabled(REMOVE_IB_LIMIT); }
+    bool isDisableBattleMusic() const { return flagBitfieldFlagIsEnabled(DISABLE_BATTLE_MUSIC); }
+    bool isInstantText() const { return flagBitfieldFlagIsEnabled(SET_INSTANT_TEXT); }
+    bool skipMajorCutscenes() const { return flagBitfieldFlagIsEnabled(SKIP_MAJOR_CUTSCENES); }
+    bool invertCameraAxis() const { return flagBitfieldFlagIsEnabled(INVERT_CAMERA_AXIS); }
+    bool isLightSwordGlow() const { return flagBitfieldFlagIsEnabled(MAKE_LIGHT_SWORD_GLOW); }
+    bool canWarpWithoutTransform() const { return flagBitfieldFlagIsEnabled(WARP_WITHOUT_TRANSFORM); }
 
-        void loadShopModels();
-        void loadShuffledEntrances();
-        void handleReturnToLocation(bool isReturnToDungeonEntrance);
-        void loadBugRewards();
-        
-       private:
-        void applyEventFlags();
-        void applyRegionFlags();
-        void giveStartingItems();
-        void applySeedPatches();
+    bool spinnerSpeedIsIncreased() const { return flagBitfieldFlagIsEnabled(INCREASE_SPINNER_SPEED); }
 
-        const seedHeaderInfo_c* m_Header;
-        const u8* m_GCIData;
+    void loadShopModels();
+    void loadShuffledEntrances();
+    void handleReturnToLocation(bool isReturnToDungeonEntrance);
+    void loadBugRewards();
 
-        const BossCheck* m_BossChecks;
-        const HiddenSkillCheck* m_HiddenSkillChecks;
-        const BugReward* m_BugRewardChecks;
-        const PoeReward* m_PoeRewards;
-        const EventItem* m_EventChecks;
-        const ReturnPlaceSection* m_ReturnPlaceSection;
-        const RawRGBTable* m_RawRGBTable;
-    };
+   private:
+    void applyEventFlags();
+    void applyRegionFlags();
+    void giveStartingItems();
+    void applySeedPatches();
+
+    const seedHeaderInfo_c* m_Header;
+    const u8* m_GCIData;
+
+    const BossCheck* m_BossChecks;
+    const HiddenSkillCheck* m_HiddenSkillChecks;
+    const BugReward* m_BugRewardChecks;
+    const PoeReward* m_PoeRewards;
+    const EventItem* m_EventChecks;
+    const ReturnPlaceSection* m_ReturnPlaceSection;
+    const RawRGBTable* m_RawRGBTable;
+};
 
 extern seedInfo_c g_seedInfo;
 
-#endif  // SEED_H
+#endif // SEED_H

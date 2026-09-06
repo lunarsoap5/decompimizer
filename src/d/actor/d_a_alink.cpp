@@ -21970,10 +21970,8 @@ int daAlink_c::procCoMetamorphoseInit()
     field_0x347c = 1.0f;
     mFallVoiceInit = 0;
 
-    bool disableTransformOnWarp = true; // TODO: make this dynamic in seed data
-
     // If we are warping, we don't want to force transform Link and instead rely on the option
-    if ((((disableTransformOnWarp && checkNoResetFlg0(FLG0_UNK_4000)) || checkWolf()) &&
+    if ((((g_seedInfo.canWarpWithoutTransform() && checkNoResetFlg0(FLG0_UNK_4000)) || checkWolf()) &&
          mDemo.getDemoMode() == daPy_demo_c::DEMO_METAMORPHOSE_UNK1_e) ||
         (!checkWolf() && mDemo.getDemoMode() == daPy_demo_c::DEMO_METAMORPHOSE_UNK2_e))
     {

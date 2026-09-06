@@ -1035,7 +1035,7 @@
     "description": "Add hint sign to Kakariko Graveyard",
     "FilePath": "res/Stage/F_SP111/R00_00",
     "Changes": [
-      {
+      { // Add hint sign for Graveyard
         "Operation": "add",
         "DataBlock": "ACTR",
         "Data": {
@@ -1053,7 +1053,7 @@
           "EnemyNo": -1
         }
       },
-      {
+      { // Add heart piece actor to replace golden bug
         "Operation": "add",
         "DataBlock": "ACTR",
         "Data": {
@@ -1071,7 +1071,7 @@
           "EnemyNo": -1
         }
       },
-      {
+      { // Remove golden bug actors from default states
         "Operation": "remove",
         "DataBlock": "ACT0",
         "ID": "I_Ari@16933,500,-769"
@@ -1131,7 +1131,7 @@
     "description": "Add hint sign to Zoras Domain and adjust boulder rupee flags",
     "FilePath": "res/Stage/F_SP113/R01_00",
     "Changes": [
-      {
+      { // Add hint sign to ZD
         "Operation": "add",
         "DataBlock": "ACTR",
         "Data": {

@@ -3,28 +3,28 @@
 
 class RegionFlag
 {
-    public:
+   public:
     RegionFlag() {}
     ~RegionFlag() {}
 
     u8 getRegionId() const { return region_id; }
     u8 getBitId() const { return bit_id; }
 
-    private:
+   private:
     u8 region_id;
     u8 bit_id;
 };
 
 class EventFlag
 {
-    public:
+   public:
     EventFlag() {}
     ~EventFlag() {}
 
     u8 getOffset() const { return offset; }
     u8 getFlag() const { return flag; }
 
-    private:
+   private:
     u8 offset;
     u8 flag;
 };
@@ -38,14 +38,14 @@ enum MirrorChamberRequirement
 
 class BossCheck
 {
-    public:
+   public:
     BossCheck() {}
     ~BossCheck() {}
 
     u16 getStageIDX() const { return stageIDX; }
     u8 getItem() const { return item; }
 
-    private:
+   private:
     u16 stageIDX; // The stage where the replacement is taking place.
     u8 item;      // New item id
     u8 padding;
@@ -53,7 +53,7 @@ class BossCheck
 
 class HiddenSkillCheck
 {
-    public:
+   public:
     HiddenSkillCheck() {}
     ~HiddenSkillCheck() {}
 
@@ -61,7 +61,7 @@ class HiddenSkillCheck
     u8 getRoomID() const { return roomID; }
     u8 getItemID() const { return itemID; }
 
-    private:
+   private:
     u8 stageIDX; // The ID of the stage that Golden Wolf was located in
     u8 roomID;   // The room of the stage that the Golden Wolf was located in.
     u8 itemID;   // The item to be given when in the above stage and room.
@@ -70,14 +70,14 @@ class HiddenSkillCheck
 
 class BugReward
 {
-    public:
+   public:
     BugReward() {}
     ~BugReward() {}
 
     u16 getBugId() const { return bugID; }
     u8 getItemId() const { return itemID; }
 
-    private:
+   private:
     u16 bugID; // The bug that link is showing to Agitha
     u8 itemID; // The item that Agitha will give Link.
     u8 padding;
@@ -85,7 +85,7 @@ class BugReward
 
 class PoeReward
 {
-    public:
+   public:
     PoeReward() {}
     ~PoeReward() {}
 
@@ -93,7 +93,7 @@ class PoeReward
     u8 getFlag() const { return flag; }
     u8 getItem() const { return item; }
 
-    private:
+   private:
     u8 stageIDX;
     u8 flag; // Flag used for identification
     u8 item; // New item id
@@ -103,7 +103,7 @@ class PoeReward
 // These items are given either during cutscenes or at a specific time.
 class EventItem
 {
-    public:
+   public:
     EventItem() {}
     ~EventItem() {}
 
@@ -112,7 +112,7 @@ class EventItem
     u8 getRoomID() const { return roomID; }
     u8 getFlag() const { return flag; }
 
-    private:
+   private:
     u8 itemID;   // The item to be given.
     u8 stageIDX; // The stage that the event is in.
     u8 roomID;   // The room that the event is in.
@@ -168,18 +168,27 @@ enum StartingTimeOfDay
     Night = 3
 };
 
+// Custom Game Completion Goals that can be used
+enum GameGoal
+{
+    Goal_None = 0,
+    Goal_Trill = 1,
+    Goal_Triforce,
+    Goal_Charlo,
+    Goal_Poes,
+    Goal_Health,
+    Goal_Zant,
+};
+
 class RawRGBTable
 {
-    public:
+   public:
     RawRGBTable() {}
     ~RawRGBTable() {}
 
     const u8* getLanternColorPtr() const { return reinterpret_cast<const u8*>(&lanternColor); }
 
-    const u8* getWolfDomeAttackColorPtr() const
-    {
-        return reinterpret_cast<const u8*>(&wolfDomeAttackColor);
-    }
+    const u8* getWolfDomeAttackColorPtr() const { return reinterpret_cast<const u8*>(&wolfDomeAttackColor); }
 
     uint getLanternColor() const { return lanternColor; }
     GXColor getLightSwordColor() const { return lightSwordColor; }
@@ -191,7 +200,7 @@ class RawRGBTable
     uint getZButtonColor() const { return zButtonColor; }
     uint getWolfDomeAttackColor() const { return wolfDomeAttackColor; }
 
-    private:
+   private:
     uint lanternColor;
     GXColor lightSwordColor;
     uint heartColor;
@@ -205,7 +214,7 @@ class RawRGBTable
 
 class GoldenWolfItemReplacement
 {
-    public:
+   public:
     GoldenWolfItemReplacement() {}
     ~GoldenWolfItemReplacement() {}
 
@@ -217,15 +226,15 @@ class GoldenWolfItemReplacement
     void setFlag(s16 value) { flag = value; }
     void setMarkerFlag(u8 value) { markerFlag = value; }
 
-    private:
+   private:
     int itemActorId; // Global actor id for the spawned item
     s16 flag;        // Flag associated with the current golden wolf
-    u8 markerFlag;  // Flag associated with the current golden wolf's marker on the map
+    u8 markerFlag;   // Flag associated with the current golden wolf's marker on the map
 };
 
 class EntranceInfo
 {
-    public:
+   public:
     EntranceInfo() {}
     ~EntranceInfo() {}
 
@@ -234,7 +243,7 @@ class EntranceInfo
     u8 getSpawn() { return mSpawn; }
     u8 getState() { return mState; }
 
-    private:
+   private:
     u8 mStageIDX;
     u8 mRoomIDX;
     u8 mSpawn;
@@ -243,14 +252,14 @@ class EntranceInfo
 
 class ShopCheck
 {
-    public:
+   public:
     ShopCheck() {}
     ~ShopCheck() {}
 
     u8 getShopItemID() const { return shopItemID; }
     u8 getReplacementItemID() const { return replacementItemID; }
 
-    private:
+   private:
     u8 shopItemID;        // target item id
     u8 replacementItemID; // replacement item id
     u8 padding[2];
