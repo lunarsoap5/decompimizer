@@ -19,25 +19,30 @@
 #include "d/d_msg_string.h"
 #include "m_Do/m_Do_controller_pad.h"
 #include "m_Do/m_Do_graphic.h"
+#include "rando/seed/seed.h"
 #include <cstdio>
 #include <cstring>
 
 typedef void (dMenu_Insect_c::*initFunc)();
 static initFunc map_init_process[] = {
-    &dMenu_Insect_c::wait_init,          &dMenu_Insect_c::explain_open_init,
-    &dMenu_Insect_c::explain_move_init,  &dMenu_Insect_c::select_move_init,
+    &dMenu_Insect_c::wait_init,
+    &dMenu_Insect_c::explain_open_init,
+    &dMenu_Insect_c::explain_move_init,
+    &dMenu_Insect_c::select_move_init,
     &dMenu_Insect_c::explain_close_init,
 };
 
 typedef void (dMenu_Insect_c::*moveFunc)();
 static moveFunc map_move_process[] = {
-    &dMenu_Insect_c::wait_move,          &dMenu_Insect_c::explain_open_move,
-    &dMenu_Insect_c::explain_move_move,  &dMenu_Insect_c::select_move_move,
+    &dMenu_Insect_c::wait_move,
+    &dMenu_Insect_c::explain_open_move,
+    &dMenu_Insect_c::explain_move_move,
+    &dMenu_Insect_c::select_move_move,
     &dMenu_Insect_c::explain_close_move,
 };
 
-dMenu_Insect_c::dMenu_Insect_c(JKRExpHeap* i_heap, STControl* i_stick, CSTControl* i_cstick,
-                               u8 param_3) {
+dMenu_Insect_c::dMenu_Insect_c(JKRExpHeap* i_heap, STControl* i_stick, CSTControl* i_cstick, u8 param_3)
+{
     mpHeap = i_heap;
     mpArchive = NULL;
     mpMount = NULL;
@@ -67,7 +72,8 @@ dMenu_Insect_c::dMenu_Insect_c(JKRExpHeap* i_heap, STControl* i_stick, CSTContro
     mpExpItemTex = (ResTIMG*)mpHeap->alloc(0xc00, 0x20);
 }
 
-dMenu_Insect_c::~dMenu_Insect_c() {
+dMenu_Insect_c::~dMenu_Insect_c()
+{
     delete mpBlackTex;
     mpBlackTex = NULL;
 
@@ -89,7 +95,8 @@ dMenu_Insect_c::~dMenu_Insect_c() {
     delete mpParent;
     mpParent = NULL;
 
-    for (int i = 0; i < MAX_INSECT_NUM; i++) {
+    for (int i = 0; i < MAX_INSECT_NUM; i++)
+    {
         delete mpINSParent[i];
         mpINSParent[i] = NULL;
     }
@@ -100,7 +107,8 @@ dMenu_Insect_c::~dMenu_Insect_c() {
     delete mpExpParent;
     mpExpParent = NULL;
 
-    for (int i = 0; i < 2; i++) {
+    for (int i = 0; i < 2; i++)
+    {
         delete mpExpSubWin[i];
         mpExpSubWin[i] = NULL;
     }
@@ -111,25 +119,30 @@ dMenu_Insect_c::~dMenu_Insect_c() {
     delete mpIconScreen;
     mpIconScreen = NULL;
 
-    for (int i = 0; i < 2; i++) {
-        if (mpButtonAB[i] != NULL) {
+    for (int i = 0; i < 2; i++)
+    {
+        if (mpButtonAB[i] != NULL)
+        {
             delete mpButtonAB[i];
             mpButtonAB[i] = NULL;
         }
 
-        if (mpButtonText[i] != NULL) {
+        if (mpButtonText[i] != NULL)
+        {
             delete mpButtonText[i];
             mpButtonText[i] = NULL;
         }
     }
 
-    if (mpMount != NULL) {
+    if (mpMount != NULL)
+    {
         mpMount->getArchive()->unmount();
         delete mpMount;
         mpMount = NULL;
     }
 
-    if (mpArchive != NULL) {
+    if (mpArchive != NULL)
+    {
         mpArchive->unmount();
         mpArchive = NULL;
     }
@@ -137,7 +150,8 @@ dMenu_Insect_c::~dMenu_Insect_c() {
     dComIfGp_getMsgArchive(0)->removeResourceAll();
 }
 
-void dMenu_Insect_c::_create() {
+void dMenu_Insect_c::_create()
+{
     mpString = new dMsgString_c();
     screenSetBase();
     screenSetExplain();
@@ -146,19 +160,23 @@ void dMenu_Insect_c::_create() {
     init();
 }
 
-void dMenu_Insect_c::_move() {
+void dMenu_Insect_c::_move()
+{
     JKRHeap* heap = mDoExt_setCurrentHeap((JKRHeap*)mpHeap);
     u8 process = field_0xf3;
     (this->*map_move_process[field_0xf3])();
-    if (process != field_0xf3) {
+    if (process != field_0xf3)
+    {
         (this->*map_init_process[field_0xf3])();
     }
     setHIO(false);
     mDoExt_setCurrentHeap(heap);
 }
 
-void dMenu_Insect_c::_draw() {
-    if (mpArchive != NULL) {
+void dMenu_Insect_c::_draw()
+{
+    if (mpArchive != NULL)
+    {
         J2DGrafContext* grafPort = dComIfGp_getCurrentGrafPort();
         mpBlackTex->setAlpha(0xff);
         mpBlackTex->draw(0.0f, 0.0f, FB_WIDTH, FB_HEIGHT, 0, 0, 0);
@@ -189,30 +207,40 @@ void dMenu_Insect_c::_draw() {
     }
 }
 
-bool dMenu_Insect_c::isSync() {
-    if (mpMount != NULL && mpMount->sync() == false) {
+bool dMenu_Insect_c::isSync()
+{
+    if (mpMount != NULL && mpMount->sync() == false)
+    {
         return 0;
     }
     return 1;
 }
 
-void dMenu_Insect_c::init() {
+void dMenu_Insect_c::init()
+{
     (this->*map_init_process[field_0xf3])();
 }
 
-int dMenu_Insect_c::_open() {
-    if (mpMount == NULL) {
+int dMenu_Insect_c::_open()
+{
+    if (mpMount == NULL)
+    {
         mpMount = mDoDvdThd_mountArchive_c::create("/res/Layout/insectRes.arc", 0, NULL);
     }
-    if (mpArchive == NULL) {
-        if (mpMount->sync() != 0) {
-            if (mpArchive == NULL) {
+    if (mpArchive == NULL)
+    {
+        if (mpMount->sync() != 0)
+        {
+            if (mpArchive == NULL)
+            {
                 mpArchive = (JKRArchive*)mpMount->getArchive();
                 delete mpMount;
                 mpMount = NULL;
                 _create();
             }
-        } else {
+        }
+        else
+        {
             return 0;
         }
     }
@@ -220,7 +248,8 @@ int dMenu_Insect_c::_open() {
     s16 openFrame = g_drawHIO.mInsectListScreen.mOpenFrame;
     s16 closeFrame = g_drawHIO.mInsectListScreen.mCloseFrame;
     field_0xf0 = g_drawHIO.mInsectListScreen.mOpenFrame;
-    if (field_0xf0 >= openFrame) {
+    if (field_0xf0 >= openFrame)
+    {
         field_0xf0 = closeFrame;
         mStatus = 2;
         mpParent->scale(1.0f, 1.0f);
@@ -230,7 +259,9 @@ int dMenu_Insect_c::_open() {
         mpDrawCursor->setScale(1.0f);
         mpDrawCursor->onPlayAnime(0);
         return 1;
-    } else {
+    }
+    else
+    {
         f32 div = (f32)field_0xf0 / (f32)openFrame;
         mpParent->scale(div, div);
         mpParent->setAlphaRate(div);
@@ -241,10 +272,12 @@ int dMenu_Insect_c::_open() {
     }
 }
 
-int dMenu_Insect_c::_close() {
+int dMenu_Insect_c::_close()
+{
     s16 closeFrame = g_drawHIO.mInsectListScreen.mCloseFrame;
     field_0xf0 = 0;
-    if (field_0xf0 <= 0) {
+    if (field_0xf0 <= 0)
+    {
         field_0xf0 = 0;
         mStatus = 0;
         mpParent->scale(0.0f, 0.0f);
@@ -253,7 +286,9 @@ int dMenu_Insect_c::_close() {
         mpDrawCursor->setAlphaRate(0.0f);
         mpDrawCursor->setScale(0.0f);
         return 1;
-    } else {
+    }
+    else
+    {
         f32 div = (f32)field_0xf0 / (f32)closeFrame;
         mpParent->scale(div, div);
         mpParent->setAlphaRate(div);
@@ -265,39 +300,54 @@ int dMenu_Insect_c::_close() {
     return field_0xf0 <= 0;
 }
 
-void dMenu_Insect_c::wait_init() {
-    if (isGetInsect(field_0xf4, field_0xf5) != 0) {
+void dMenu_Insect_c::wait_init()
+{
+    if (isGetInsect(field_0xf4, field_0xf5) != 0)
+    {
         setAButtonString(0x368);
-    } else {
+    }
+    else
+    {
         setAButtonString(0);
     }
     setBButtonString(0x3f9);
 }
 
-void dMenu_Insect_c::wait_move() {
-    if (mDoGph_gInf_c::getFader()->getStatus() == 1) {
-        if (mDoCPd_c::getTrigB(PAD_1) || field_0xf7 == 0) {
-            if (mDoCPd_c::getTrigB(PAD_1) && field_0xf6 == 1) {
+void dMenu_Insect_c::wait_move()
+{
+    if (mDoGph_gInf_c::getFader()->getStatus() == 1)
+    {
+        if (mDoCPd_c::getTrigB(PAD_1) || field_0xf7 == 0)
+        {
+            if (mDoCPd_c::getTrigB(PAD_1) && field_0xf6 == 1)
+            {
                 dMeter2Info_setInsectSelectType(0);
             }
             mStatus = 3;
             mpDrawCursor->offPlayAnime(0);
-        } else if (mDoCPd_c::getTrigA(PAD_1)) {
-            if (isGetInsect(field_0xf4, field_0xf5)) {
+        }
+        else if (mDoCPd_c::getTrigA(PAD_1))
+        {
+            if (isGetInsect(field_0xf4, field_0xf5))
+            {
                 field_0xf3 = 1;
-                Z2GetAudioMgr()->seStart(Z2SE_SY_EXP_WIN_OPEN, NULL, 0, 0, 1.0f, 1.0f, -1.0f, -1.0f,
-                                         0);
+                Z2GetAudioMgr()->seStart(Z2SE_SY_EXP_WIN_OPEN, NULL, 0, 0, 1.0f, 1.0f, -1.0f, -1.0f, 0);
                 dMeter2Info_set2DVibration();
-            } else {
+            }
+            else
+            {
                 Z2GetAudioMgr()->seStart(Z2SE_SYS_ERROR, NULL, 0, 0, 1.0f, 1.0f, -1.0f, -1.0f, 0);
             }
-        } else {
+        }
+        else
+        {
             cursorMove();
         }
     }
 }
 
-void dMenu_Insect_c::explain_open_init() {
+void dMenu_Insect_c::explain_open_init()
+{
     char local_78[32];
     char local_98[32];
     char local_b8[32];
@@ -306,19 +356,20 @@ void dMenu_Insect_c::explain_open_init() {
     setAButtonString(0);
     setBButtonString(0x3F9);
     u8 insectItemId = getInsectItemID(field_0xf4, field_0xf5);
-    s32 i_textureNum = dMeter2Info_readItemTexture(insectItemId, mpExpItemTex, NULL, NULL, NULL,
-                                                   NULL, NULL, NULL, NULL, -1);
+    s32 i_textureNum = dMeter2Info_readItemTexture(insectItemId, mpExpItemTex, NULL, NULL, NULL, NULL, NULL, NULL, NULL, -1);
     f32 tex = mpExpItemTex->width / 48.0f;
     f32 tex2 = mpExpItemTex->height / 48.0f;
 
-    for (int i = 0; i < 2; i++) {
+    for (int i = 0; i < 2; i++)
+    {
         field_0x54[i]->changeTexture(mpExpItemTex, 0);
         field_0x54[i]->scale(tex, tex2);
     }
-    mpString->getString(insectItemId + 0x265, (J2DTextBox*)mpInfoText->getPanePtr(), NULL, NULL,
-                        NULL, 0);
-    if (field_0xf6 == 1) {
-        if (!isGiveInsect(field_0xf4, field_0xf5)) {
+    mpString->getString(insectItemId + 0x265, (J2DTextBox*)mpInfoText->getPanePtr(), NULL, NULL, NULL, 0);
+    if (field_0xf6 == 1)
+    {
+        if (!isGiveInsect(field_0xf4, field_0xf5))
+        {
             mpString->getString(0x5BB, field_0x5c, NULL, NULL, NULL, 0);
             local_78[0] = 0;
             local_98[0] = 0;
@@ -327,29 +378,37 @@ void dMenu_Insect_c::explain_open_init() {
             field_0xf7 = 0;
             dMeter2Info_getString(0x4BD, local_78, NULL);
             dMeter2Info_getString(0x4BE, local_98, NULL);
-            f32 stringLength1 =
-                dMeter2Info_getStringLength(mDoExt_getMesgFont(), mpSelect_c->getFontSize(),
-                                            mpSelect_c->getCharSpace(), local_78);
-            f32 stringLength2 =
-                dMeter2Info_getStringLength(mDoExt_getMesgFont(), mpSelect_c->getFontSize(),
-                                            mpSelect_c->getCharSpace(), local_98);
+            f32 stringLength1 = dMeter2Info_getStringLength(mDoExt_getMesgFont(),
+                                                            mpSelect_c->getFontSize(),
+                                                            mpSelect_c->getCharSpace(),
+                                                            local_78);
+            f32 stringLength2 = dMeter2Info_getStringLength(mDoExt_getMesgFont(),
+                                                            mpSelect_c->getFontSize(),
+                                                            mpSelect_c->getCharSpace(),
+                                                            local_98);
             f32 length;
-            if (stringLength1 < stringLength2) {
+            if (stringLength1 < stringLength2)
+            {
                 length = stringLength2;
-            } else {
+            }
+            else
+            {
                 length = stringLength1;
             }
             f32 textBoxWidth = mpSelect_c->getTextBoxWidth();
-            if (length < textBoxWidth) {
+            if (length < textBoxWidth)
+            {
                 length = mpSelect_c->getTextBoxWidth();
             }
 
-            snprintf(local_b8, 32,
+            snprintf(local_b8,
+                     32,
                      "\x1B"
                      "CR[%d]",
                      (int)(0.5f * (length - stringLength1)));
             strcat(local_b8, local_78);
-            snprintf(cStack_d8, 32,
+            snprintf(cStack_d8,
+                     32,
                      "\x1B"
                      "CR[%d]",
                      (int)(0.5f * (length - stringLength2)));
@@ -357,81 +416,106 @@ void dMenu_Insect_c::explain_open_init() {
             mpSelect_c->setString("", local_b8, cStack_d8);
             mpSelect_c->setRubyString("", "", "");
             mpSelect_c->selAnimeInit(2, field_0xf7 + 1, 0, length, 0);
-        } else {
+        }
+        else
+        {
             mpString->getString(0x5BC, field_0x5c, NULL, NULL, NULL, 0);
         }
     }
     mpExpParent->alphaAnimeStart(0);
 }
 
-void dMenu_Insect_c::explain_open_move() {
-    if (mpExpParent->alphaAnime(10, 0, 0xff, 1)) {
-        if (field_0xf6 == 1 && isGiveInsect(field_0xf4, field_0xf5) == 0) {
+void dMenu_Insect_c::explain_open_move()
+{
+    if (mpExpParent->alphaAnime(10, 0, 0xff, 1))
+    {
+        if (field_0xf6 == 1 && isGiveInsect(field_0xf4, field_0xf5) == 0)
+        {
             field_0xf3 = 3;
-        } else {
+        }
+        else
+        {
             field_0xf3 = 2;
         }
     }
 }
 
-void dMenu_Insect_c::explain_move_init() {
+void dMenu_Insect_c::explain_move_init()
+{
     /* empty function */
 }
 
-void dMenu_Insect_c::explain_move_move() {
-    if (mDoCPd_c::getTrigA(PAD_1) == 0 && mDoCPd_c::getTrigB(PAD_1) == 0) {
+void dMenu_Insect_c::explain_move_move()
+{
+    if (mDoCPd_c::getTrigA(PAD_1) == 0 && mDoCPd_c::getTrigB(PAD_1) == 0)
+    {
         return;
     }
     field_0xf3 = 4;
 }
 
-void dMenu_Insect_c::select_move_init() {
+void dMenu_Insect_c::select_move_init()
+{
     dMeter2Info_setInsectSelectType(0xff);
     setAButtonString(0x40c);
     setBButtonString(0x3f9);
 }
 
-void dMenu_Insect_c::select_move_move() {
+void dMenu_Insect_c::select_move_move()
+{
     mpStick->checkTrigger();
-    if (mDoCPd_c::getTrigA(PAD_1)) {
+    if (mDoCPd_c::getTrigA(PAD_1))
+    {
         field_0xf3 = 4;
-        if (field_0xf7 == 0) {
+        if (field_0xf7 == 0)
+        {
             Z2GetAudioMgr()->seStart(Z2SE_SY_CURSOR_OK, NULL, 0, 0, 1.0f, 1.0f, -1.0f, -1.0f, 0);
             dMeter2Info_set2DVibration();
-        } else {
-            Z2GetAudioMgr()->seStart(Z2SE_SY_CURSOR_CANCEL, NULL, 0, 0, 1.0f, 1.0f, -1.0f, -1.0f,
-                                     0);
         }
-    } else if (mDoCPd_c::getTrigB(PAD_1)) {
+        else
+        {
+            Z2GetAudioMgr()->seStart(Z2SE_SY_CURSOR_CANCEL, NULL, 0, 0, 1.0f, 1.0f, -1.0f, -1.0f, 0);
+        }
+    }
+    else if (mDoCPd_c::getTrigB(PAD_1))
+    {
         field_0xf3 = 4;
         field_0xf7 = 1;
         Z2GetAudioMgr()->seStart(Z2SE_SY_CURSOR_CANCEL, NULL, 0, 0, 1.0f, 1.0f, -1.0f, -1.0f, 0);
         dMeter2Info_set2DVibration();
-    } else if (mpSelect_c->isSelect() && mpStick->checkUpTrigger()) {
-        if (field_0xf7 == 1) {
+    }
+    else if (mpSelect_c->isSelect() && mpStick->checkUpTrigger())
+    {
+        if (field_0xf7 == 1)
+        {
             field_0xf7 = 0;
-            Z2GetAudioMgr()->seStart(Z2SE_SY_MENU_CURSOR_COMMON, NULL, 0, 0, 1.0f, 1.0f, -1.0f,
-                                     -1.0f, 0);
-        }
-
-    } else if (mpSelect_c->isSelect() && mpStick->checkDownTrigger()) {
-        if (field_0xf7 == 0) {
-            field_0xf7 = 1;
-            Z2GetAudioMgr()->seStart(Z2SE_SY_MENU_CURSOR_COMMON, NULL, 0, 0, 1.0f, 1.0f, -1.0f,
-                                     -1.0f, 0);
+            Z2GetAudioMgr()->seStart(Z2SE_SY_MENU_CURSOR_COMMON, NULL, 0, 0, 1.0f, 1.0f, -1.0f, -1.0f, 0);
         }
     }
-    if (field_0xf3 == 3) {
+    else if (mpSelect_c->isSelect() && mpStick->checkDownTrigger())
+    {
+        if (field_0xf7 == 0)
+        {
+            field_0xf7 = 1;
+            Z2GetAudioMgr()->seStart(Z2SE_SY_MENU_CURSOR_COMMON, NULL, 0, 0, 1.0f, 1.0f, -1.0f, -1.0f, 0);
+        }
+    }
+    if (field_0xf3 == 3)
+    {
         mpSelect_c->selAnimeMove(2, field_0xf7 + 1, false);
-    } else {
+    }
+    else
+    {
         mpSelect_c->selAnimeEnd();
     }
 }
 
-void dMenu_Insect_c::explain_close_init() {
+void dMenu_Insect_c::explain_close_init()
+{
     setAButtonString(0);
     setBButtonString(0x3f9);
-    if (field_0xf6 == 1) {
+    if (field_0xf6 == 1)
+    {
         dMeter2Info_setInsectSelectType(getInsectItemID(field_0xf4, field_0xf5));
     }
     Z2GetAudioMgr()->seStart(Z2SE_SY_EXP_WIN_CLOSE, NULL, 0, 0, 1.0f, 1.0f, -1.0f, -1.0f, 0);
@@ -439,29 +523,39 @@ void dMenu_Insect_c::explain_close_init() {
     mpExpParent->alphaAnimeStart(0);
 }
 
-void dMenu_Insect_c::explain_close_move() {
+void dMenu_Insect_c::explain_close_move()
+{
     bool alphaAnime = mpExpParent->alphaAnime(10, 0xff, 0, 1);
     bool cVar2;
-    if (field_0xf6 == 1 && isGiveInsect(field_0xf4, field_0xf5) == 0) {
+    if (field_0xf6 == 1 && isGiveInsect(field_0xf4, field_0xf5) == 0)
+    {
         cVar2 = mpSelect_c->selAnimeEnd();
-    } else {
+    }
+    else
+    {
         cVar2 = 1;
     }
-    if (alphaAnime && cVar2 != 0) {
+    if (alphaAnime && cVar2 != 0)
+    {
         field_0xf3 = 0;
     }
 }
 
-void dMenu_Insect_c::screenSetBase() {
+void dMenu_Insect_c::screenSetBase()
+{
     static const u64 insect_tag[MAX_INSECT_NUM] = {
-        MULTI_CHAR('ari_os'),  MULTI_CHAR('ari_ms'),   MULTI_CHAR('kag_os'),  MULTI_CHAR('kag_ms'),   MULTI_CHAR('kab_os'), MULTI_CHAR('kab_ms'),  MULTI_CHAR('kam_os'),  MULTI_CHAR('kam_mes'),
-        MULTI_CHAR('kuwa_os'), MULTI_CHAR('kuwa_mes'), MULTI_CHAR('dan_os'),  MULTI_CHAR('dan_mes'),  MULTI_CHAR('cho_os'), MULTI_CHAR('cho_ms'),  MULTI_CHAR('tent_os'), MULTI_CHAR('tent_mes'),
-        MULTI_CHAR('kata_os'), MULTI_CHAR('kata_mes'), MULTI_CHAR('nana_os'), MULTI_CHAR('nana_mes'), MULTI_CHAR('bat_os'), MULTI_CHAR('bat_mes'), MULTI_CHAR('tonb_os'), MULTI_CHAR('tonb_mes'),
+        MULTI_CHAR('ari_os'),   MULTI_CHAR('ari_ms'),  MULTI_CHAR('kag_os'),   MULTI_CHAR('kag_ms'),   MULTI_CHAR('kab_os'),
+        MULTI_CHAR('kab_ms'),   MULTI_CHAR('kam_os'),  MULTI_CHAR('kam_mes'),  MULTI_CHAR('kuwa_os'),  MULTI_CHAR('kuwa_mes'),
+        MULTI_CHAR('dan_os'),   MULTI_CHAR('dan_mes'), MULTI_CHAR('cho_os'),   MULTI_CHAR('cho_ms'),   MULTI_CHAR('tent_os'),
+        MULTI_CHAR('tent_mes'), MULTI_CHAR('kata_os'), MULTI_CHAR('kata_mes'), MULTI_CHAR('nana_os'),  MULTI_CHAR('nana_mes'),
+        MULTI_CHAR('bat_os'),   MULTI_CHAR('bat_mes'), MULTI_CHAR('tonb_os'),  MULTI_CHAR('tonb_mes'),
     };
     static const u64 ageha_tag[MAX_INSECT_NUM] = {
-        MULTI_CHAR('ageha00'), MULTI_CHAR('ageha01'), MULTI_CHAR('ageha02'), MULTI_CHAR('ageha03'), MULTI_CHAR('ageha04'), MULTI_CHAR('ageha05'), MULTI_CHAR('ageha06'), MULTI_CHAR('ageha07'),
-        MULTI_CHAR('ageha08'), MULTI_CHAR('ageha09'), MULTI_CHAR('ageha10'), MULTI_CHAR('ageha11'), MULTI_CHAR('ageha12'), MULTI_CHAR('ageha13'), MULTI_CHAR('ageha14'), MULTI_CHAR('ageha15'),
-        MULTI_CHAR('ageha16'), MULTI_CHAR('ageha17'), MULTI_CHAR('ageha18'), MULTI_CHAR('ageha19'), MULTI_CHAR('ageha20'), MULTI_CHAR('ageha21'), MULTI_CHAR('ageha22'), MULTI_CHAR('ageha23'),
+        MULTI_CHAR('ageha00'), MULTI_CHAR('ageha01'), MULTI_CHAR('ageha02'), MULTI_CHAR('ageha03'), MULTI_CHAR('ageha04'),
+        MULTI_CHAR('ageha05'), MULTI_CHAR('ageha06'), MULTI_CHAR('ageha07'), MULTI_CHAR('ageha08'), MULTI_CHAR('ageha09'),
+        MULTI_CHAR('ageha10'), MULTI_CHAR('ageha11'), MULTI_CHAR('ageha12'), MULTI_CHAR('ageha13'), MULTI_CHAR('ageha14'),
+        MULTI_CHAR('ageha15'), MULTI_CHAR('ageha16'), MULTI_CHAR('ageha17'), MULTI_CHAR('ageha18'), MULTI_CHAR('ageha19'),
+        MULTI_CHAR('ageha20'), MULTI_CHAR('ageha21'), MULTI_CHAR('ageha22'), MULTI_CHAR('ageha23'),
     };
 
     mpScreen = new J2DScreen();
@@ -469,20 +563,29 @@ void dMenu_Insect_c::screenSetBase() {
     dPaneClass_showNullPane(mpScreen);
     mpParent = new CPaneMgr(mpScreen, MULTI_CHAR('n_all'), 2, NULL);
     mpParent->setAlphaRate(0.0f);
-    for (int i = 0; i < MAX_INSECT_NUM; i++) {
+    for (int i = 0; i < MAX_INSECT_NUM; i++)
+    {
         mpINSParent[i] = new CPaneMgr(mpScreen, insect_tag[i], 0, NULL);
     }
-    for (int i = 0; i < 6; i++) {
-        for (int j = 0; j < 4; j++) {
+    for (int i = 0; i < 6; i++)
+    {
+        for (int j = 0; j < 4; j++)
+        {
             int iterateSum = i + j * 6;
-            if (isGetInsect(i, j) != 0) {
+            if (isGetInsect(i, j) != 0)
+            {
                 mpINSParent[iterateSum]->show();
-            } else {
+            }
+            else
+            {
                 mpINSParent[iterateSum]->hide();
             }
-            if (isGiveInsect(i, j) != 0) {
+            if (isGiveInsect(i, j) != 0)
+            {
                 mpScreen->search(ageha_tag[iterateSum])->show();
-            } else {
+            }
+            else
+            {
                 mpScreen->search(ageha_tag[iterateSum])->hide();
             }
         }
@@ -499,7 +602,8 @@ void dMenu_Insect_c::screenSetBase() {
     mpString->getString(0x5ba, textBox, NULL, NULL, NULL, 0);
 }
 
-void dMenu_Insect_c::screenSetExplain() {
+void dMenu_Insect_c::screenSetExplain()
+{
     mpExpScreen = new J2DScreen();
     mpExpScreen->setPriority("zelda_gold_insects_info.blo", 0x20000, mpArchive);
     dPaneClass_showNullPane(mpExpScreen);
@@ -507,7 +611,8 @@ void dMenu_Insect_c::screenSetExplain() {
     mpExpParent->setAlphaRate(0.0f);
     mpExpSubWin[0] = new CPaneMgr(mpExpScreen, MULTI_CHAR('in_win_n'), 0, NULL);
     mpExpSubWin[1] = new CPaneMgr(mpExpScreen, MULTI_CHAR('w_d_mo_n'), 0, NULL);
-    if (field_0xf6 == 0) {
+    if (field_0xf6 == 0)
+    {
         mpExpSubWin[1]->hide();
     }
 #if VERSION == VERSION_GCN_JPN
@@ -532,22 +637,33 @@ void dMenu_Insect_c::screenSetExplain() {
     field_0x5c->setString(0x100, "");
 }
 
-void dMenu_Insect_c::screenSetDoIcon() {
+void dMenu_Insect_c::screenSetDoIcon()
+{
     static const u64 text_a_tag[5] = {
-        MULTI_CHAR('atext1_1'), MULTI_CHAR('atext1_2'), MULTI_CHAR('atext1_3'), MULTI_CHAR('atext1_4'), MULTI_CHAR('atext1_5'),
+        MULTI_CHAR('atext1_1'),
+        MULTI_CHAR('atext1_2'),
+        MULTI_CHAR('atext1_3'),
+        MULTI_CHAR('atext1_4'),
+        MULTI_CHAR('atext1_5'),
     };
     static const u64 text_b_tag[5] = {
-        MULTI_CHAR('btext1_1'), MULTI_CHAR('btext1_2'), MULTI_CHAR('btext1_3'), MULTI_CHAR('btext1_4'), MULTI_CHAR('btext1_5'),
+        MULTI_CHAR('btext1_1'),
+        MULTI_CHAR('btext1_2'),
+        MULTI_CHAR('btext1_3'),
+        MULTI_CHAR('btext1_4'),
+        MULTI_CHAR('btext1_5'),
     };
 
     mpIconScreen = new J2DScreen();
     mpIconScreen->setPriority("zelda_collect_soubi_do_icon_parts.blo", 0x20000, mpArchive);
-    for (int i = 0; i < 2; i++) {
+    for (int i = 0; i < 2; i++)
+    {
         mpButtonAB[i] = 0;
         mpButtonText[i] = 0;
     }
     dPaneClass_showNullPane(mpIconScreen);
-    for (int i = 0; i < 5; i++) {
+    for (int i = 0; i < 5; i++)
+    {
         mpAButtonString[i] = (J2DTextBox*)mpIconScreen->search(text_a_tag[i]);
         mpBButtonString[i] = (J2DTextBox*)mpIconScreen->search(text_b_tag[i]);
         mpAButtonString[i]->setFont(mDoExt_getMesgFont());
@@ -557,50 +673,62 @@ void dMenu_Insect_c::screenSetDoIcon() {
     }
 
     // Change A button color
-    static_cast<J2DPicture*>(mpIconScreen->search('a_btn'))->setBlackWhite(JUtility::TColor(0, 19, 127, 0), JUtility::TColor(0x9b, 0x6e, 0xab, 255));
+    static_cast<J2DPicture*>(mpIconScreen->search('a_btn'))
+        ->setBlackWhite(JUtility::TColor(0, 19, 127, 0), g_seedInfo.getHeaderPtr()->getAButtonColor());
 
     // Change B Button color
-    static_cast<J2DPicture*>(mpIconScreen->search('b_btn'))->setBlackWhite(JUtility::TColor(0, 19, 127, 0), JUtility::TColor(0x9b, 0x6e, 0xab, 255));
+    static_cast<J2DPicture*>(mpIconScreen->search('b_btn'))
+        ->setBlackWhite(JUtility::TColor(0, 19, 127, 0), g_seedInfo.getHeaderPtr()->getBButtonColor());
 }
 
-u8 dMenu_Insect_c::getGetInsectNum() {
+u8 dMenu_Insect_c::getGetInsectNum()
+{
     static u8 l_itemno[MAX_INSECT_NUM] = {
-        dItemNo_M_BEETLE_e,      dItemNo_F_BEETLE_e,      dItemNo_M_BUTTERFLY_e, dItemNo_F_BUTTERFLY_e, dItemNo_M_STAG_BEETLE_e, dItemNo_F_STAG_BEETLE_e,
-        dItemNo_M_GRASSHOPPER_e, dItemNo_F_GRASSHOPPER_e, dItemNo_M_NANAFUSHI_e, dItemNo_F_NANAFUSHI_e, dItemNo_M_DANGOMUSHI_e,  dItemNo_F_DANGOMUSHI_e,
-        dItemNo_M_MANTIS_e,      dItemNo_F_MANTIS_e,      dItemNo_M_LADYBUG_e,   dItemNo_F_LADYBUG_e,   dItemNo_M_SNAIL_e,       dItemNo_F_SNAIL_e,
-        dItemNo_M_DRAGONFLY_e,   dItemNo_F_DRAGONFLY_e,   dItemNo_M_ANT_e,       dItemNo_F_ANT_e,       dItemNo_M_MAYFLY_e,      dItemNo_F_MAYFLY_e,
+        dItemNo_M_BEETLE_e,      dItemNo_F_BEETLE_e,      dItemNo_M_BUTTERFLY_e,   dItemNo_F_BUTTERFLY_e,
+        dItemNo_M_STAG_BEETLE_e, dItemNo_F_STAG_BEETLE_e, dItemNo_M_GRASSHOPPER_e, dItemNo_F_GRASSHOPPER_e,
+        dItemNo_M_NANAFUSHI_e,   dItemNo_F_NANAFUSHI_e,   dItemNo_M_DANGOMUSHI_e,  dItemNo_F_DANGOMUSHI_e,
+        dItemNo_M_MANTIS_e,      dItemNo_F_MANTIS_e,      dItemNo_M_LADYBUG_e,     dItemNo_F_LADYBUG_e,
+        dItemNo_M_SNAIL_e,       dItemNo_F_SNAIL_e,       dItemNo_M_DRAGONFLY_e,   dItemNo_F_DRAGONFLY_e,
+        dItemNo_M_ANT_e,         dItemNo_F_ANT_e,         dItemNo_M_MAYFLY_e,      dItemNo_F_MAYFLY_e,
     };
 
     u8 insectNum = 0;
     u8* insectList = l_itemno;
-    for (u32 i = 0; i < MAX_INSECT_NUM; i++) {
+    for (u32 i = 0; i < MAX_INSECT_NUM; i++)
+    {
         u8 insectId = *insectList;
         insectList++;
 
-        if (dComIfGs_isItemFirstBit(insectId) != 0) {
+        if (dComIfGs_isItemFirstBit(insectId) != 0)
+        {
             insectNum++;
         }
     }
     return insectNum;
 }
 
-u8 dMenu_Insect_c::getInsectItemID(int param_0, int param_1) {
+u8 dMenu_Insect_c::getInsectItemID(int param_0, int param_1)
+{
     static u8 l_itemno[MAX_INSECT_NUM] = {
-        dItemNo_M_ANT_e,       dItemNo_F_ANT_e,       dItemNo_M_MAYFLY_e,      dItemNo_F_MAYFLY_e,      dItemNo_M_BEETLE_e,     dItemNo_F_BEETLE_e,
-        dItemNo_M_MANTIS_e,    dItemNo_F_MANTIS_e,    dItemNo_M_STAG_BEETLE_e, dItemNo_F_STAG_BEETLE_e, dItemNo_M_DANGOMUSHI_e, dItemNo_F_DANGOMUSHI_e,
-        dItemNo_M_BUTTERFLY_e, dItemNo_F_BUTTERFLY_e, dItemNo_M_LADYBUG_e,     dItemNo_F_LADYBUG_e,     dItemNo_M_SNAIL_e,      dItemNo_F_SNAIL_e,
-        dItemNo_M_NANAFUSHI_e, dItemNo_F_NANAFUSHI_e, dItemNo_M_GRASSHOPPER_e, dItemNo_F_GRASSHOPPER_e, dItemNo_M_DRAGONFLY_e,  dItemNo_F_DRAGONFLY_e,
+        dItemNo_M_ANT_e,         dItemNo_F_ANT_e,         dItemNo_M_MAYFLY_e,     dItemNo_F_MAYFLY_e,
+        dItemNo_M_BEETLE_e,      dItemNo_F_BEETLE_e,      dItemNo_M_MANTIS_e,     dItemNo_F_MANTIS_e,
+        dItemNo_M_STAG_BEETLE_e, dItemNo_F_STAG_BEETLE_e, dItemNo_M_DANGOMUSHI_e, dItemNo_F_DANGOMUSHI_e,
+        dItemNo_M_BUTTERFLY_e,   dItemNo_F_BUTTERFLY_e,   dItemNo_M_LADYBUG_e,    dItemNo_F_LADYBUG_e,
+        dItemNo_M_SNAIL_e,       dItemNo_F_SNAIL_e,       dItemNo_M_NANAFUSHI_e,  dItemNo_F_NANAFUSHI_e,
+        dItemNo_M_GRASSHOPPER_e, dItemNo_F_GRASSHOPPER_e, dItemNo_M_DRAGONFLY_e,  dItemNo_F_DRAGONFLY_e,
     };
 
     int index = param_0 + param_1 * 6;
     return l_itemno[index];
 }
 
-bool dMenu_Insect_c::isGetInsect(int param_0, int param_1) {
+bool dMenu_Insect_c::isGetInsect(int param_0, int param_1)
+{
     return dComIfGs_isItemFirstBit(getInsectItemID(param_0, param_1)) != 0;
 }
 
-bool dMenu_Insect_c::isGiveInsect(int param_0, int param_1) {
+bool dMenu_Insect_c::isGiveInsect(int param_0, int param_1)
+{
     static const u32 i_evtID[MAX_INSECT_NUM] = {
         0x1A5, /* dSv_event_flag_c::F_0421 - Misc. - Ant (M) */
         0x1A6, /* dSv_event_flag_c::F_0422 - Misc. - Ant (F) */
@@ -631,60 +759,82 @@ bool dMenu_Insect_c::isGiveInsect(int param_0, int param_1) {
     return dComIfGs_isEventBit(dSv_event_flag_c::saveBitLabels[i_evtID[param_0 + param_1 * 6]]) != 0;
 }
 
-bool dMenu_Insect_c::isCatchInsect(u8 i_insectID) {
-    if (i_insectID >= dItemNo_M_BEETLE_e && i_insectID <= dItemNo_F_MAYFLY_e) {
+bool dMenu_Insect_c::isCatchInsect(u8 i_insectID)
+{
+    if (i_insectID >= dItemNo_M_BEETLE_e && i_insectID <= dItemNo_F_MAYFLY_e)
+    {
         return dComIfGs_isItemFirstBit(i_insectID);
     }
     return false;
 }
 
-bool dMenu_Insect_c::isGiveInsect(u8 i_insectID) {
-    if (i_insectID >= dItemNo_M_BEETLE_e && i_insectID <= dItemNo_F_MAYFLY_e) {
+bool dMenu_Insect_c::isGiveInsect(u8 i_insectID)
+{
+    if (i_insectID >= dItemNo_M_BEETLE_e && i_insectID <= dItemNo_F_MAYFLY_e)
+    {
         int label = i_insectID + 0xd1;
         return dComIfGs_isEventBit(dSv_event_flag_c::saveBitLabels[label]);
     }
     return false;
 }
 
-bool dMenu_Insect_c::isCatchNotGiveInsect(u8 param_0) {
-    if (isCatchInsect(param_0) != 0 && isGiveInsect(param_0) == 0) {
+bool dMenu_Insect_c::isCatchNotGiveInsect(u8 param_0)
+{
+    if (isCatchInsect(param_0) != 0 && isGiveInsect(param_0) == 0)
+    {
         return 1;
     }
     return 0;
 }
 
-void dMenu_Insect_c::cursorMove() {
+void dMenu_Insect_c::cursorMove()
+{
     u8 oldF4 = field_0xf4;
     u8 oldF5 = field_0xf5;
     u8 dpd = 0;
     mpStick->checkTrigger();
-    if (mpStick->checkRightTrigger()) {
-        if (field_0xf4 < 5) {
+    if (mpStick->checkRightTrigger())
+    {
+        if (field_0xf4 < 5)
+        {
             field_0xf4++;
         }
-    } else if (mpStick->checkLeftTrigger()) {
-        if (field_0xf4 != 0) {
+    }
+    else if (mpStick->checkLeftTrigger())
+    {
+        if (field_0xf4 != 0)
+        {
             field_0xf4--;
         }
     }
-    if (mpStick->checkUpTrigger()) {
-        if (field_0xf5 != 0) {
+    if (mpStick->checkUpTrigger())
+    {
+        if (field_0xf5 != 0)
+        {
             field_0xf5--;
         }
-    } else if (mpStick->checkDownTrigger()) {
-        if (field_0xf5 < 3) {
+    }
+    else if (mpStick->checkDownTrigger())
+    {
+        if (field_0xf5 < 3)
+        {
             field_0xf5++;
         }
     }
-    if (oldF4 == field_0xf4 && oldF5 == field_0xf5) {
+    if (oldF4 == field_0xf4 && oldF5 == field_0xf5)
+    {
         field_0xf8 = 0xff;
         field_0xf9 = 0xff;
-        if (mpStick->getValueStick() <= 0.75f) {
+        if (mpStick->getValueStick() <= 0.75f)
+        {
             dpd = dpdMove();
         }
-        if (field_0xf8 != 0xff && field_0xf9 != 0xff) {
-            if (field_0xf8 != field_0xfa || field_0xf9 != field_0xfb) {
-                if (field_0xf8 != field_0xf4 || field_0xf9 != field_0xf5) {
+        if (field_0xf8 != 0xff && field_0xf9 != 0xff)
+        {
+            if (field_0xf8 != field_0xfa || field_0xf9 != field_0xfb)
+            {
+                if (field_0xf8 != field_0xf4 || field_0xf9 != field_0xf5)
+                {
                     field_0xf4 = field_0xf8;
                     field_0xf5 = field_0xf9;
                     field_0xfa = field_0xf8;
@@ -693,102 +843,124 @@ void dMenu_Insect_c::cursorMove() {
             }
         }
     }
-    if (oldF4 == field_0xf4 && oldF5 == field_0xf5) {
+    if (oldF4 == field_0xf4 && oldF5 == field_0xf5)
+    {
         return;
     }
     setCursorPos();
-    if (isGetInsect(field_0xf4, field_0xf5) != 0) {
+    if (isGetInsect(field_0xf4, field_0xf5) != 0)
+    {
         setAButtonString(0x368);
-    } else {
+    }
+    else
+    {
         setAButtonString(0);
     }
-    if (dpd != 0) {
+    if (dpd != 0)
+    {
         Z2GetAudioMgr()->seStart(Z2SE_SY_CURSOR_ITEM, NULL, 1, 0, 1.0f, 1.0f, -1.0f, -1.0f, 0);
         dMeter2Info_set2DVibration();
-    } else {
+    }
+    else
+    {
         Z2GetAudioMgr()->seStart(Z2SE_SY_CURSOR_ITEM, NULL, 0, 0, 1.0f, 1.0f, -1.0f, -1.0f, 0);
     }
 }
 
-void dMenu_Insect_c::setCursorPos() {
+void dMenu_Insect_c::setCursorPos()
+{
     int index = field_0xf4 + field_0xf5 * 6;
     Vec pos = mpINSParent[index]->getGlobalVtxCenter(false, 0);
     mpDrawCursor->setPos(pos.x, pos.y, mpINSParent[index]->getPanePtr(), false);
-    for (int i = 0; i < MAX_INSECT_NUM; i++) {
-        if (i == index) {
+    for (int i = 0; i < MAX_INSECT_NUM; i++)
+    {
+        if (i == index)
+        {
             mpINSParent[i]->scale(g_drawHIO.mInsectListScreen.mSelectInsectScale,
                                   g_drawHIO.mInsectListScreen.mSelectInsectScale);
-        } else {
+        }
+        else
+        {
             mpINSParent[i]->scale(g_drawHIO.mInsectListScreen.mUnselectInsectScale,
                                   g_drawHIO.mInsectListScreen.mUnselectInsectScale);
         }
     }
 }
 
-u8 dMenu_Insect_c::dpdMove() {
+u8 dMenu_Insect_c::dpdMove()
+{
     return 0;
 }
 
-void dMenu_Insect_c::setAButtonString(u16 i_stringID) {
-    if (i_stringID == 0) {
-        for (int i = 0; i < 5; i++) {
+void dMenu_Insect_c::setAButtonString(u16 i_stringID)
+{
+    if (i_stringID == 0)
+    {
+        for (int i = 0; i < 5; i++)
+        {
             strcpy(mpAButtonString[i]->getStringPtr(), "");
         }
-    } else {
-        for (int i = 0; i < 5; i++) {
+    }
+    else
+    {
+        for (int i = 0; i < 5; i++)
+        {
             dMeter2Info_getStringKanji(i_stringID, mpAButtonString[i]->getStringPtr(), NULL);
         }
     }
 }
 
-void dMenu_Insect_c::setBButtonString(u16 i_stringID) {
-    if (i_stringID == 0) {
-        for (int i = 0; i < 5; i++) {
+void dMenu_Insect_c::setBButtonString(u16 i_stringID)
+{
+    if (i_stringID == 0)
+    {
+        for (int i = 0; i < 5; i++)
+        {
             strcpy(mpBButtonString[i]->getStringPtr(), "");
         }
-    } else {
-        for (int i = 0; i < 5; i++) {
+    }
+    else
+    {
+        for (int i = 0; i < 5; i++)
+        {
             dMeter2Info_getStringKanji(i_stringID, mpBButtonString[i]->getStringPtr(), NULL);
         }
     }
 }
 
-void dMenu_Insect_c::setHIO(bool i_useHIO) {
-    if (i_useHIO || g_drawHIO.mInsectListScreen.mDebugON) {
-        mpExpSubWin[0]->paneTrans(g_drawHIO.mInsectListScreen.mDescWindowPosX,
-                                  g_drawHIO.mInsectListScreen.mDescWindowPosY);
+void dMenu_Insect_c::setHIO(bool i_useHIO)
+{
+    if (i_useHIO || g_drawHIO.mInsectListScreen.mDebugON)
+    {
+        mpExpSubWin[0]->paneTrans(g_drawHIO.mInsectListScreen.mDescWindowPosX, g_drawHIO.mInsectListScreen.mDescWindowPosY);
 #if VERSION == VERSION_WII_USA_R0
-        mpExpSubWin[1]->paneTrans(g_drawHIO.mInsectListScreen.mGiveOptionPosX,
-                                  g_drawHIO.mInsectListScreen.mGiveOptionPosY);
+        mpExpSubWin[1]->paneTrans(g_drawHIO.mInsectListScreen.mGiveOptionPosX, g_drawHIO.mInsectListScreen.mGiveOptionPosY);
 #else
         mpExpSubWin[1]->paneTrans(g_drawHIO.mInsectListScreen.mGiveOptionPosX_4x3,
                                   g_drawHIO.mInsectListScreen.mGiveOptionPosY_4x3);
 #endif
     }
-    if (g_drawHIO.mCollectScreen.mButtonDebugON != false || i_useHIO) {
-        if (mpButtonAB[0]) {
-            mpButtonAB[0]->paneTrans(g_drawHIO.mCollectScreen.mButtonAPosX,
-                                     g_drawHIO.mCollectScreen.mButtonAPosY);
-            mpButtonAB[0]->scale(g_drawHIO.mCollectScreen.mButtonAScale,
-                                 g_drawHIO.mCollectScreen.mButtonAScale);
+    if (g_drawHIO.mCollectScreen.mButtonDebugON != false || i_useHIO)
+    {
+        if (mpButtonAB[0])
+        {
+            mpButtonAB[0]->paneTrans(g_drawHIO.mCollectScreen.mButtonAPosX, g_drawHIO.mCollectScreen.mButtonAPosY);
+            mpButtonAB[0]->scale(g_drawHIO.mCollectScreen.mButtonAScale, g_drawHIO.mCollectScreen.mButtonAScale);
         }
-        if (mpButtonAB[1]) {
-            mpButtonAB[1]->paneTrans(g_drawHIO.mCollectScreen.mButtonBPosX,
-                                     g_drawHIO.mCollectScreen.mButtonBPosY);
-            mpButtonAB[1]->scale(g_drawHIO.mCollectScreen.mButtonBScale,
-                                 g_drawHIO.mCollectScreen.mButtonBScale);
+        if (mpButtonAB[1])
+        {
+            mpButtonAB[1]->paneTrans(g_drawHIO.mCollectScreen.mButtonBPosX, g_drawHIO.mCollectScreen.mButtonBPosY);
+            mpButtonAB[1]->scale(g_drawHIO.mCollectScreen.mButtonBScale, g_drawHIO.mCollectScreen.mButtonBScale);
         }
-        if (mpButtonText[0]) {
-            mpButtonText[0]->paneTrans(g_drawHIO.mCollectScreen.mButtonATextPosX,
-                                       g_drawHIO.mCollectScreen.mButtonATextPosY);
-            mpButtonText[0]->scale(g_drawHIO.mCollectScreen.mButtonATextScale,
-                                   g_drawHIO.mCollectScreen.mButtonATextScale);
+        if (mpButtonText[0])
+        {
+            mpButtonText[0]->paneTrans(g_drawHIO.mCollectScreen.mButtonATextPosX, g_drawHIO.mCollectScreen.mButtonATextPosY);
+            mpButtonText[0]->scale(g_drawHIO.mCollectScreen.mButtonATextScale, g_drawHIO.mCollectScreen.mButtonATextScale);
         }
-        if (mpButtonText[1]) {
-            mpButtonText[1]->paneTrans(g_drawHIO.mCollectScreen.mButtonBTextPosX,
-                                       g_drawHIO.mCollectScreen.mButtonBTextPosY);
-            mpButtonText[1]->scale(g_drawHIO.mCollectScreen.mButtonBTextScale,
-                                   g_drawHIO.mCollectScreen.mButtonBTextScale);
+        if (mpButtonText[1])
+        {
+            mpButtonText[1]->paneTrans(g_drawHIO.mCollectScreen.mButtonBTextPosX, g_drawHIO.mCollectScreen.mButtonBTextPosY);
+            mpButtonText[1]->scale(g_drawHIO.mCollectScreen.mButtonBTextScale, g_drawHIO.mCollectScreen.mButtonBTextScale);
         }
     }
 }

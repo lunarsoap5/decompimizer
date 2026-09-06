@@ -16,6 +16,7 @@
 #include "d/d_msg_string.h"
 #include "m_Do/m_Do_controller_pad.h"
 #include "m_Do/m_Do_graphic.h"
+#include "rando/seed/seed.h"
 #include <cstring>
 
 typedef void (dMenu_Skill_c::*initFunc)();
@@ -34,7 +35,8 @@ static moveFunc map_move_process[] = {
     &dMenu_Skill_c::read_close_move,
 };
 
-dMenu_Skill_c::dMenu_Skill_c(JKRExpHeap* i_heap, STControl* i_stcontrol, CSTControl* i_cstcontrol) {
+dMenu_Skill_c::dMenu_Skill_c(JKRExpHeap* i_heap, STControl* i_stcontrol, CSTControl* i_cstcontrol)
+{
     mpHeap = i_heap;
     mpArchive = NULL;
     mpMount = NULL;
@@ -54,7 +56,8 @@ dMenu_Skill_c::dMenu_Skill_c(JKRExpHeap* i_heap, STControl* i_stcontrol, CSTCont
     mBarScale[0] = 1.0f;
 }
 
-dMenu_Skill_c::~dMenu_Skill_c() {
+dMenu_Skill_c::~dMenu_Skill_c()
+{
     delete mpDrawCursor;
     mpDrawCursor = NULL;
 
@@ -82,7 +85,8 @@ dMenu_Skill_c::~dMenu_Skill_c() {
     delete mpParent;
     mpParent = NULL;
 
-    for (int i = 0; i < 7; i++) {
+    for (int i = 0; i < 7; i++)
+    {
         delete mpLetterParent[i];
         mpLetterParent[i] = NULL;
     }
@@ -90,30 +94,36 @@ dMenu_Skill_c::~dMenu_Skill_c() {
     delete mpIconScreen;
     mpIconScreen = NULL;
 
-    for (int i = 0; i < 2; i++) {
-        if (mpButtonAB[i] != NULL) {
+    for (int i = 0; i < 2; i++)
+    {
+        if (mpButtonAB[i] != NULL)
+        {
             delete mpButtonAB[i];
             mpButtonAB[i] = NULL;
         }
-        if (mpButtonText[i] != NULL) {
+        if (mpButtonText[i] != NULL)
+        {
             delete mpButtonText[i];
             mpButtonText[i] = NULL;
         }
     }
 
-    if (mpMount != NULL) {
+    if (mpMount != NULL)
+    {
         mpMount->getArchive()->unmount();
         delete mpMount;
         mpMount = NULL;
     }
 
-    if (mpArchive != NULL) {
+    if (mpArchive != NULL)
+    {
         mpArchive->unmount();
         mpArchive = NULL;
     }
 }
 
-void dMenu_Skill_c::_create() {
+void dMenu_Skill_c::_create()
+{
     mpDrawCursor = new dSelect_cursor_c(2, 1.0f, NULL);
     mpDrawCursor->setParam(1.01f, 0.85f, 0.02f, 0.5f, 0.5f);
     mpDrawCursor->setAlphaRate(0.0f);
@@ -127,19 +137,23 @@ void dMenu_Skill_c::_create() {
     init();
 }
 
-void dMenu_Skill_c::_move() {
+void dMenu_Skill_c::_move()
+{
     JKRHeap* heap = mDoExt_setCurrentHeap((JKRHeap*)mpHeap);
     u8 process = mProcess;
     (this->*map_move_process[mProcess])();
-    if (process != mProcess) {
+    if (process != mProcess)
+    {
         (this->*map_init_process[mProcess])();
     }
     setHIO(false);
     mDoExt_setCurrentHeap(heap);
 }
 
-void dMenu_Skill_c::_draw() {
-    if (mpArchive != NULL) {
+void dMenu_Skill_c::_draw()
+{
+    if (mpArchive != NULL)
+    {
         J2DGrafContext* context = dComIfGp_getCurrentGrafPort();
         u8 alpha = mpBlackTex->mAlpha;
         mpBlackTex->setAlpha(0xff);
@@ -147,12 +161,13 @@ void dMenu_Skill_c::_draw() {
         mpBlackTex->setAlpha(alpha);
         mpMenuScreen->draw(mPosX, 0.0f, context);
         mpDrawCursor->draw();
-        if (mProcess == 1 || mProcess == 2 || mProcess == 3) {
+        if (mProcess == 1 || mProcess == 2 || mProcess == 3)
+        {
             mpBlackTex->draw(0.0f, 0.0f, FB_WIDTH, FB_HEIGHT, 0, 0, 0);
             mpLetterScreen->draw(0.0f, 0.0f, context);
-            if (mStringID != 0) {
-                mpString->getString(mStringID, (J2DTextBox*)mpTextPane->getPanePtr(), NULL, NULL,
-                                    NULL, 0);
+            if (mStringID != 0)
+            {
+                mpString->getString(mStringID, (J2DTextBox*)mpTextPane->getPanePtr(), NULL, NULL, NULL, 0);
                 mpString->drawOutFont((J2DTextBox*)mpTextPane->getPanePtr(), -1.0f);
             }
         }
@@ -160,47 +175,64 @@ void dMenu_Skill_c::_draw() {
     }
 }
 
-bool dMenu_Skill_c::isSync() {
-    if (mpMount != NULL && mpMount->sync() == false) {
+bool dMenu_Skill_c::isSync()
+{
+    if (mpMount != NULL && mpMount->sync() == false)
+    {
         return 0;
     }
     return 1;
 }
 
-void dMenu_Skill_c::skill_init_calc() {
+void dMenu_Skill_c::skill_init_calc()
+{
     mTotalSkillNum = getSkillNum();
-    if (mTotalSkillNum < 7) {
+    if (mTotalSkillNum < 7)
+    {
         mSkillNum = mTotalSkillNum;
-    } else {
+    }
+    else
+    {
         mSkillNum = 7;
     }
 
-    if (mTotalSkillNum % 7 == 0) {
+    if (mTotalSkillNum % 7 == 0)
+    {
         mRemainder = mTotalSkillNum / 7;
-    } else {
+    }
+    else
+    {
         mRemainder = mTotalSkillNum / 7 + 1;
     }
 }
 
-void dMenu_Skill_c::init() {
+void dMenu_Skill_c::init()
+{
     setPageText();
     changeActiveColor();
     (this->*map_init_process[mProcess])();
 }
 
-int dMenu_Skill_c::_open() {
-    if (!mpMount) {
+int dMenu_Skill_c::_open()
+{
+    if (!mpMount)
+    {
         mpMount = mDoDvdThd_mountArchive_c::create("/res/Layout/skillres.arc", 0, NULL);
     }
-    if (!mpArchive) {
-        if (mpMount->sync() != 0) {
-            if (!mpArchive) {
+    if (!mpArchive)
+    {
+        if (mpMount->sync() != 0)
+        {
+            if (!mpArchive)
+            {
                 mpArchive = (JKRArchive*)mpMount->getArchive();
                 delete mpMount;
                 mpMount = NULL;
                 _create();
             }
-        } else {
+        }
+        else
+        {
             return 0;
         }
     }
@@ -208,7 +240,8 @@ int dMenu_Skill_c::_open() {
     s16 openWindowFrame = g_drawHIO.mSkillListScreen.mOpenFrame[dMeter_drawSkillHIO_c::WINDOW];
     s16 closeFrame = g_drawHIO.mSkillListScreen.mCloseFrame[dMeter_drawSkillHIO_c::WINDOW];
     mFrame = g_drawHIO.mSkillListScreen.mOpenFrame[dMeter_drawSkillHIO_c::WINDOW];
-    if (mFrame >= openWindowFrame) {
+    if (mFrame >= openWindowFrame)
+    {
         mFrame = closeFrame;
         mStatus = 2;
         mpParent->scale(1.0f, 1.0f);
@@ -218,7 +251,9 @@ int dMenu_Skill_c::_open() {
         mpDrawCursor->setScale(1.0f);
         mpDrawCursor->onPlayAnime(0);
         return 1;
-    } else {
+    }
+    else
+    {
         f32 div = (f32)mFrame / (f32)openWindowFrame;
         mpParent->scale(div, div);
         mpParent->setAlphaRate(div);
@@ -229,10 +264,12 @@ int dMenu_Skill_c::_open() {
     }
 }
 
-int dMenu_Skill_c::_close() {
+int dMenu_Skill_c::_close()
+{
     s16 closeFrame = g_drawHIO.mSkillListScreen.mCloseFrame[0];
     mFrame = 0;
-    if (mFrame <= 0) {
+    if (mFrame <= 0)
+    {
         mFrame = 0;
         mStatus = 0;
         mpParent->scale(0.0f, 0.0f);
@@ -241,7 +278,9 @@ int dMenu_Skill_c::_close() {
         mpDrawCursor->setAlphaRate(0.0f);
         mpDrawCursor->setScale(0.0f);
         return 1;
-    } else {
+    }
+    else
+    {
         f32 div = (f32)mFrame / (f32)closeFrame;
         mpParent->scale(div, div);
         mpParent->setAlphaRate(div);
@@ -253,44 +292,67 @@ int dMenu_Skill_c::_close() {
     return mFrame <= 0;
 }
 
-void dMenu_Skill_c::wait_init() {
+void dMenu_Skill_c::wait_init()
+{
     setAButtonString(0x40C);
     setBButtonString(0x3f9);
 }
 
-void dMenu_Skill_c::wait_move() {
+void dMenu_Skill_c::wait_move()
+{
     u8 oldIndex = mIndex;
-    if (mDoGph_gInf_c::getFader()->getStatus() == 1) {
-        if (mDoCPd_c::getTrigB(PAD_1) != 0) {
+    if (mDoGph_gInf_c::getFader()->getStatus() == 1)
+    {
+        if (mDoCPd_c::getTrigB(PAD_1) != 0)
+        {
             mpDrawCursor->offPlayAnime(0);
             mStatus = 3;
-        } else if (mDoCPd_c::getTrigA(PAD_1)) {
+        }
+        else if (mDoCPd_c::getTrigA(PAD_1))
+        {
             mProcess = PROC_WAIT_MOVE;
             Z2GetAudioMgr()->seStart(Z2SE_SY_EXP_WIN_OPEN, NULL, 0, 0, 1.0f, 1.0f, -1.0f, -1.0f, 0);
             dMeter2Info_set2DVibration();
-        } else if (mpStick->checkUpTrigger()) {
-            if (mIndex) {
+        }
+        else if (mpStick->checkUpTrigger())
+        {
+            if (mIndex)
+            {
                 mIndex--;
-                Z2GetAudioMgr()->seStart(Z2SE_SY_CURSOR_ITEM, NULL, 0, 0, 1.0f, 1.0f, -1.0f, -1.0f,
-                                         0);
+                Z2GetAudioMgr()->seStart(Z2SE_SY_CURSOR_ITEM, NULL, 0, 0, 1.0f, 1.0f, -1.0f, -1.0f, 0);
             }
-
-        } else if (mpStick->checkDownTrigger() && mIndex < mSkillNum - 1) {
+        }
+        else if (mpStick->checkDownTrigger() && mIndex < mSkillNum - 1)
+        {
             mIndex++;
             Z2GetAudioMgr()->seStart(Z2SE_SY_CURSOR_ITEM, NULL, 0, 0, 1.0f, 1.0f, -1.0f, -1.0f, 0);
         }
-        if (oldIndex != mIndex) {
+        if (oldIndex != mIndex)
+        {
             changeActiveColor();
         }
     }
 }
 
-void dMenu_Skill_c::read_open_init() {
+void dMenu_Skill_c::read_open_init()
+{
     static const u32 i_id[7] = {
-        1716, 1715, 1717, 1718, 1719, 1720, 1721,
+        1716,
+        1715,
+        1717,
+        1718,
+        1719,
+        1720,
+        1721,
     };
     static const u32 i_id1[7] = {
-        1709, 1708, 1710, 1711, 1712, 1713, 1714,
+        1709,
+        1708,
+        1710,
+        1711,
+        1712,
+        1713,
+        1714,
     };
 
     mProcFrame = 0;
@@ -304,108 +366,192 @@ void dMenu_Skill_c::read_open_init() {
     mpBlackTex->setAlpha(0);
 }
 
-void dMenu_Skill_c::read_open_move() {
-    s16 openSkillDescFrame =
-        g_drawHIO.mSkillListScreen.mOpenFrame[dMeter_drawSkillHIO_c::SKILL_DESC];
+void dMenu_Skill_c::read_open_move()
+{
+    s16 openSkillDescFrame = g_drawHIO.mSkillListScreen.mOpenFrame[dMeter_drawSkillHIO_c::SKILL_DESC];
     mProcFrame++;
-    if (mProcFrame >= openSkillDescFrame) {
+    if (mProcFrame >= openSkillDescFrame)
+    {
         mProcess = PROC_OPEN_MOVE;
         mpTextParent->setAlphaRate(1.0f);
         mpBlackTex->setAlpha(g_drawHIO.mSkillListScreen.mWindowBGalpha);
-    } else {
+    }
+    else
+    {
         f32 alphaRate = (f32)mProcFrame / (f32)openSkillDescFrame;
         mpTextParent->setAlphaRate(alphaRate);
         mpBlackTex->setAlpha(g_drawHIO.mSkillListScreen.mWindowBGalpha * alphaRate);
     }
 }
 
-void dMenu_Skill_c::read_move_init() {
+void dMenu_Skill_c::read_move_init()
+{
     setAButtonString(0);
     setBButtonString(0x3f9);
 }
 
-void dMenu_Skill_c::read_move_move() {
-    if (mDoCPd_c::getTrigA(PAD_1) != 0) {
+void dMenu_Skill_c::read_move_move()
+{
+    if (mDoCPd_c::getTrigA(PAD_1) != 0)
+    {
         Z2GetAudioMgr()->seStart(Z2SE_SY_EXP_WIN_CLOSE, NULL, 0, 0, 1.0f, 1.0f, -1.0f, -1.0f, 0);
         dMeter2Info_set2DVibration();
         mProcess = PROC_MOVE_MOVE;
-
-    } else if (mDoCPd_c::getTrigB(PAD_1) != 0) {
+    }
+    else if (mDoCPd_c::getTrigB(PAD_1) != 0)
+    {
         Z2GetAudioMgr()->seStart(Z2SE_SY_EXP_WIN_CLOSE, NULL, 0, 0, 1.0f, 1.0f, -1.0f, -1.0f, 0);
         dMeter2Info_set2DVibration();
         mProcess = PROC_MOVE_MOVE;
     }
 }
 
-void dMenu_Skill_c::read_close_init() {
+void dMenu_Skill_c::read_close_init()
+{
     mProcFrame = g_drawHIO.mSkillListScreen.mCloseFrame[dMeter_drawSkillHIO_c::SKILL_DESC];
     mStringID = 0;
     setAButtonString(0);
     setBButtonString(0);
 }
 
-void dMenu_Skill_c::read_close_move() {
-    s16 closeSkillDescFrame =
-        g_drawHIO.mSkillListScreen.mCloseFrame[dMeter_drawSkillHIO_c::SKILL_DESC];
+void dMenu_Skill_c::read_close_move()
+{
+    s16 closeSkillDescFrame = g_drawHIO.mSkillListScreen.mCloseFrame[dMeter_drawSkillHIO_c::SKILL_DESC];
     mProcFrame--;
-    if (mProcFrame <= 0) {
+    if (mProcFrame <= 0)
+    {
         mProcess = PROC_CLOSE_MOVE;
         mpTextParent->setAlphaRate(0.0f);
         mpBlackTex->setAlpha(g_drawHIO.mSkillListScreen.mWindowBGalpha);
-    } else {
+    }
+    else
+    {
         f32 alphaRate = (f32)mProcFrame / (f32)closeSkillDescFrame;
         mpTextParent->setAlphaRate(alphaRate);
         mpBlackTex->setAlpha(g_drawHIO.mSkillListScreen.mWindowBGalpha * alphaRate);
     }
 }
 
-void dMenu_Skill_c::screenSetMenu() {
+void dMenu_Skill_c::screenSetMenu()
+{
     static const u64 tag_sub0[7] = {
-        MULTI_CHAR('menu_t0s'), MULTI_CHAR('menu_t1s'), MULTI_CHAR('menu_t2s'), MULTI_CHAR('menu_t3s'), MULTI_CHAR('menu_t4s'), MULTI_CHAR('menu_t5s'), MULTI_CHAR('menu_t51'),
+        MULTI_CHAR('menu_t0s'),
+        MULTI_CHAR('menu_t1s'),
+        MULTI_CHAR('menu_t2s'),
+        MULTI_CHAR('menu_t3s'),
+        MULTI_CHAR('menu_t4s'),
+        MULTI_CHAR('menu_t5s'),
+        MULTI_CHAR('menu_t51'),
     };
 
     static const u64 tag_sub1[7] = {
-        MULTI_CHAR('menu_t0'), MULTI_CHAR('menu_t1'), MULTI_CHAR('menu_t2'), MULTI_CHAR('menu_t3'), MULTI_CHAR('menu_t4'), MULTI_CHAR('menu_t5'), MULTI_CHAR('menu_t6'),
+        MULTI_CHAR('menu_t0'),
+        MULTI_CHAR('menu_t1'),
+        MULTI_CHAR('menu_t2'),
+        MULTI_CHAR('menu_t3'),
+        MULTI_CHAR('menu_t4'),
+        MULTI_CHAR('menu_t5'),
+        MULTI_CHAR('menu_t6'),
     };
 
     static const u64 tag_name0[7] = {
-        MULTI_CHAR('menu_t6s'), MULTI_CHAR('menu_f7s'), MULTI_CHAR('menu_f8s'), MULTI_CHAR('menu_t9s'), MULTI_CHAR('menu_10s'), MULTI_CHAR('menu_11s'), MULTI_CHAR('menu_112'),
+        MULTI_CHAR('menu_t6s'),
+        MULTI_CHAR('menu_f7s'),
+        MULTI_CHAR('menu_f8s'),
+        MULTI_CHAR('menu_t9s'),
+        MULTI_CHAR('menu_10s'),
+        MULTI_CHAR('menu_11s'),
+        MULTI_CHAR('menu_112'),
     };
 
     static const u64 tag_name1[7] = {
-        MULTI_CHAR('menu_f6'), MULTI_CHAR('menu_f7'), MULTI_CHAR('menu_t8'), MULTI_CHAR('menu_t9'), MULTI_CHAR('menu_t10'), MULTI_CHAR('menu_t11'), MULTI_CHAR('menu_t01'),
+        MULTI_CHAR('menu_f6'),
+        MULTI_CHAR('menu_f7'),
+        MULTI_CHAR('menu_t8'),
+        MULTI_CHAR('menu_t9'),
+        MULTI_CHAR('menu_t10'),
+        MULTI_CHAR('menu_t11'),
+        MULTI_CHAR('menu_t01'),
     };
 
     static const u64 ftag_sub0[7] = {
-        MULTI_CHAR('fenu_t0s'), MULTI_CHAR('fenu_t1s'), MULTI_CHAR('fenu_t2s'), MULTI_CHAR('fenu_t3s'), MULTI_CHAR('fenu_t4s'), MULTI_CHAR('fenu_t5s'), MULTI_CHAR('fenu_t6s'),
+        MULTI_CHAR('fenu_t0s'),
+        MULTI_CHAR('fenu_t1s'),
+        MULTI_CHAR('fenu_t2s'),
+        MULTI_CHAR('fenu_t3s'),
+        MULTI_CHAR('fenu_t4s'),
+        MULTI_CHAR('fenu_t5s'),
+        MULTI_CHAR('fenu_t6s'),
     };
 
     static const u64 ftag_sub1[7] = {
-        MULTI_CHAR('fenu_t0'), MULTI_CHAR('fenu_t1'), MULTI_CHAR('fenu_t2'), MULTI_CHAR('fenu_t3'), MULTI_CHAR('fenu_t4'), MULTI_CHAR('fenu_t5'), MULTI_CHAR('fenu_t6'),
+        MULTI_CHAR('fenu_t0'),
+        MULTI_CHAR('fenu_t1'),
+        MULTI_CHAR('fenu_t2'),
+        MULTI_CHAR('fenu_t3'),
+        MULTI_CHAR('fenu_t4'),
+        MULTI_CHAR('fenu_t5'),
+        MULTI_CHAR('fenu_t6'),
     };
 
     static const u64 ftag_name0[7] = {
-        MULTI_CHAR('fenu_t7s'), MULTI_CHAR('fenu_t8s'), MULTI_CHAR('fenu_t9s'), MULTI_CHAR('fenu_10s'), MULTI_CHAR('fenu_11s'), MULTI_CHAR('fenu_12s'), MULTI_CHAR('fenu_13s'),
+        MULTI_CHAR('fenu_t7s'),
+        MULTI_CHAR('fenu_t8s'),
+        MULTI_CHAR('fenu_t9s'),
+        MULTI_CHAR('fenu_10s'),
+        MULTI_CHAR('fenu_11s'),
+        MULTI_CHAR('fenu_12s'),
+        MULTI_CHAR('fenu_13s'),
     };
 
     static const u64 ftag_name1[7] = {
-        MULTI_CHAR('fenu_t7'), MULTI_CHAR('fenu_t8'), MULTI_CHAR('fenu_t9'), MULTI_CHAR('fenu_10'), MULTI_CHAR('fenu_11'), MULTI_CHAR('fenu_12'), MULTI_CHAR('fenu_13'),
+        MULTI_CHAR('fenu_t7'),
+        MULTI_CHAR('fenu_t8'),
+        MULTI_CHAR('fenu_t9'),
+        MULTI_CHAR('fenu_10'),
+        MULTI_CHAR('fenu_11'),
+        MULTI_CHAR('fenu_12'),
+        MULTI_CHAR('fenu_13'),
     };
 
     static const u64 tag_letter[7] = {
-        MULTI_CHAR('let_00_n'), MULTI_CHAR('let_01_n'), MULTI_CHAR('let_02_n'), MULTI_CHAR('let_03_n'), MULTI_CHAR('let_04_n'), MULTI_CHAR('let_05_n'), MULTI_CHAR('let_06_n'),
+        MULTI_CHAR('let_00_n'),
+        MULTI_CHAR('let_01_n'),
+        MULTI_CHAR('let_02_n'),
+        MULTI_CHAR('let_03_n'),
+        MULTI_CHAR('let_04_n'),
+        MULTI_CHAR('let_05_n'),
+        MULTI_CHAR('let_06_n'),
     };
 
     static const u64 tag_frame[7] = {
-        MULTI_CHAR('flame_00'), MULTI_CHAR('flame_01'), MULTI_CHAR('flame_02'), MULTI_CHAR('flame_03'), MULTI_CHAR('flame_04'), MULTI_CHAR('flame_05'), MULTI_CHAR('flame_06'),
+        MULTI_CHAR('flame_00'),
+        MULTI_CHAR('flame_01'),
+        MULTI_CHAR('flame_02'),
+        MULTI_CHAR('flame_03'),
+        MULTI_CHAR('flame_04'),
+        MULTI_CHAR('flame_05'),
+        MULTI_CHAR('flame_06'),
     };
 
     static const u64 tag_maki[7] = {
-        MULTI_CHAR('maki_0n'), MULTI_CHAR('maki_1n'), MULTI_CHAR('maki_2n'), MULTI_CHAR('maki_3n'), MULTI_CHAR('maki_4n'), MULTI_CHAR('maki_5n'), MULTI_CHAR('maki_6n'),
+        MULTI_CHAR('maki_0n'),
+        MULTI_CHAR('maki_1n'),
+        MULTI_CHAR('maki_2n'),
+        MULTI_CHAR('maki_3n'),
+        MULTI_CHAR('maki_4n'),
+        MULTI_CHAR('maki_5n'),
+        MULTI_CHAR('maki_6n'),
     };
 
     static const u64 tag_makic[7] = {
-        MULTI_CHAR('maki_0'), MULTI_CHAR('maki_1'), MULTI_CHAR('maki_2'), MULTI_CHAR('maki_3'), MULTI_CHAR('maki_4'), MULTI_CHAR('maki_5'), MULTI_CHAR('maki_6'),
+        MULTI_CHAR('maki_0'),
+        MULTI_CHAR('maki_1'),
+        MULTI_CHAR('maki_2'),
+        MULTI_CHAR('maki_3'),
+        MULTI_CHAR('maki_4'),
+        MULTI_CHAR('maki_5'),
+        MULTI_CHAR('maki_6'),
     };
 
     mpMenuScreen = new J2DScreen();
@@ -413,7 +559,8 @@ void dMenu_Skill_c::screenSetMenu() {
     dPaneClass_showNullPane(mpMenuScreen);
     mpParent = new CPaneMgr(mpMenuScreen, MULTI_CHAR('n_all'), 2, NULL);
     mpParent->setAlphaRate(0.0f);
-    for (int i = 0; i < 7; i++) {
+    for (int i = 0; i < 7; i++)
+    {
 #if VERSION == VERSION_GCN_JPN
         mpFTagPicture[i][0] = (J2DTextBox*)mpMenuScreen->search(tag_sub0[i]);
         mpFTagPicture[i][1] = (J2DTextBox*)mpMenuScreen->search(tag_sub1[i]);
@@ -433,36 +580,46 @@ void dMenu_Skill_c::screenSetMenu() {
         mpMenuScreen->search(tag_name0[i])->hide();
         mpMenuScreen->search(tag_name1[i])->hide();
 #endif
-        for (int j = 0; j < 4; j++) {
+        for (int j = 0; j < 4; j++)
+        {
             mpFTagPicture[i][j]->setFont(mDoExt_getMesgFont());
             mpFTagPicture[i][j]->setString(0x40, "");
         }
     }
-    for (int i = 0; i < 7; i++) {
+    for (int i = 0; i < 7; i++)
+    {
         mpLetterParent[i] = new CPaneMgr(mpMenuScreen, tag_letter[i], 0, NULL);
     }
-    for (int i = 0; i < 7; i++) {
+    for (int i = 0; i < 7; i++)
+    {
         mpTagPicture[i][0] = (J2DPicture*)mpMenuScreen->search(tag_frame[i]);
         mpTagPicture[i][1] = (J2DPicture*)mpMenuScreen->search(tag_maki[i]);
         mpTagPicture[i][2] = (J2DPicture*)mpMenuScreen->search(tag_letter[i]);
         field_0x94[i] = (J2DPicture*)mpMenuScreen->search(tag_makic[i]);
-        if (i < mSkillNum) {
+        if (i < mSkillNum)
+        {
             mpTagPicture[i][1]->show();
             mpTagPicture[i][2]->show();
-        } else {
+        }
+        else
+        {
             mpTagPicture[i][1]->hide();
             mpTagPicture[i][2]->hide();
         }
     }
-    for (int i = 0; i < 4; i++) {
-        if (i == 0) {
+    for (int i = 0; i < 4; i++)
+    {
+        if (i == 0)
+        {
             mUnselectBlack[i] = mpTagPicture[0][i]->getBlack();
             mUnselectWhite[i] = mpTagPicture[0][i]->getWhite();
             mSelectBlack[i] = mpTagPicture[1][i]->getBlack();
             mSelectWhite[i] = mpTagPicture[1][i]->getWhite();
             mUnselectBlack[i].a = 255;
             mSelectBlack[i].a = 255;
-        } else if (i == 3) {
+        }
+        else if (i == 3)
+        {
             mUnselectBlack[i] = mpFTagPicture[0][i]->getBlack();
             mUnselectWhite[i] = mpFTagPicture[0][i]->getWhite();
             mSelectBlack[i] = mpFTagPicture[1][i]->getBlack();
@@ -481,7 +638,8 @@ void dMenu_Skill_c::screenSetMenu() {
     mpString->getString(0x6a4, textBox, NULL, NULL, NULL, 0);
 }
 
-void dMenu_Skill_c::screenSetLetter() {
+void dMenu_Skill_c::screenSetLetter()
+{
     static const u64 name_tag[4] = {
         MULTI_CHAR('item_n04'),
         MULTI_CHAR('item_n05'),
@@ -510,7 +668,8 @@ void dMenu_Skill_c::screenSetLetter() {
     paneFont->setFont(mDoExt_getMesgFont());
     J2DTextBox* paneString = (J2DTextBox*)mpTextPane->getPanePtr();
     paneString->setString(0x200, "");
-    for (int i = 0; i < 4; i++) {
+    for (int i = 0; i < 4; i++)
+    {
 #if VERSION == VERSION_GCN_JPN
         mpNameString[i] = (J2DTextBox*)mpLetterScreen->search(name_tag[i]);
         mpLetterScreen->search(fame_tag[i])->hide();
@@ -529,21 +688,32 @@ void dMenu_Skill_c::screenSetLetter() {
     mpBlackTex->setAlpha(0);
 }
 
-void dMenu_Skill_c::screenSetDoIcon() {
+void dMenu_Skill_c::screenSetDoIcon()
+{
     static const u64 text_a_tag[5] = {
-        MULTI_CHAR('atext1_1'), MULTI_CHAR('atext1_2'), MULTI_CHAR('atext1_3'), MULTI_CHAR('atext1_4'), MULTI_CHAR('atext1_5'),
+        MULTI_CHAR('atext1_1'),
+        MULTI_CHAR('atext1_2'),
+        MULTI_CHAR('atext1_3'),
+        MULTI_CHAR('atext1_4'),
+        MULTI_CHAR('atext1_5'),
     };
     static const u64 text_b_tag[5] = {
-        MULTI_CHAR('btext1_1'), MULTI_CHAR('btext1_2'), MULTI_CHAR('btext1_3'), MULTI_CHAR('btext1_4'), MULTI_CHAR('btext1_5'),
+        MULTI_CHAR('btext1_1'),
+        MULTI_CHAR('btext1_2'),
+        MULTI_CHAR('btext1_3'),
+        MULTI_CHAR('btext1_4'),
+        MULTI_CHAR('btext1_5'),
     };
     mpIconScreen = new J2DScreen();
     mpIconScreen->setPriority("zelda_collect_soubi_do_icon_parts.blo", 0x20000, mpArchive);
-    for (int i = 0; i < 2; i++) {
+    for (int i = 0; i < 2; i++)
+    {
         mpButtonAB[i] = 0;
         mpButtonText[i] = 0;
     }
     dPaneClass_showNullPane(mpIconScreen);
-    for (int i = 0; i < 5; i++) {
+    for (int i = 0; i < 5; i++)
+    {
         mpAButtonString[i] = (J2DTextBox*)mpIconScreen->search(text_a_tag[i]);
         mpBButtonString[i] = (J2DTextBox*)mpIconScreen->search(text_b_tag[i]);
         mpAButtonString[i]->setFont(mDoExt_getMesgFont());
@@ -553,27 +723,35 @@ void dMenu_Skill_c::screenSetDoIcon() {
     }
 
     // Change A button color
-    static_cast<J2DPicture*>(mpIconScreen->search('a_btn'))->setBlackWhite(JUtility::TColor(0, 19, 127, 0), JUtility::TColor(0x9b, 0x6e, 0xab, 255));
+    static_cast<J2DPicture*>(mpIconScreen->search('a_btn'))
+        ->setBlackWhite(JUtility::TColor(0, 19, 127, 0), g_seedInfo.getHeaderPtr()->getAButtonColor());
 
     // Change B Button color
-    static_cast<J2DPicture*>(mpIconScreen->search('b_btn'))->setBlackWhite(JUtility::TColor(0, 19, 127, 0), JUtility::TColor(0x9b, 0x6e, 0xab, 255));
+    static_cast<J2DPicture*>(mpIconScreen->search('b_btn'))
+        ->setBlackWhite(JUtility::TColor(0, 19, 127, 0), g_seedInfo.getHeaderPtr()->getBButtonColor());
 }
 
-void dMenu_Skill_c::setCursorPos() {
+void dMenu_Skill_c::setCursorPos()
+{
     Vec pos = mpLetterParent[mIndex]->getGlobalVtxCenter(mpLetterParent[mIndex]->mPane, false, 0);
     mpDrawCursor->setPos(pos.x, pos.y, mpLetterParent[mIndex]->getPanePtr(), false);
 }
 
-void dMenu_Skill_c::changeActiveColor() {
+void dMenu_Skill_c::changeActiveColor()
+{
     setCursorPos();
-    for (int i = 0; i < 7; i++) {
-        if (i == mIndex) {
+    for (int i = 0; i < 7; i++)
+    {
+        if (i == mIndex)
+        {
             mpTagPicture[i][0]->setBlackWhite(mSelectBlack[0], mSelectWhite[0]);
             mpFTagPicture[i][1]->setBlackWhite(mSelectBlack[3], mSelectWhite[3]);
             mpFTagPicture[i][3]->setBlackWhite(mSelectBlack[3], mSelectWhite[3]);
             mpLetterParent[i]->scale(mBarScale[0], mBarScale[0]);
             field_0x94[i]->setBlackWhite(mSelectBlack[4], mSelectWhite[4]);
-        } else {
+        }
+        else
+        {
             mpTagPicture[i][0]->setBlackWhite(mUnselectBlack[0], mUnselectWhite[0]);
             mpFTagPicture[i][1]->setBlackWhite(mUnselectBlack[3], mUnselectWhite[3]);
             mpFTagPicture[i][3]->setBlackWhite(mUnselectBlack[3], mUnselectWhite[3]);
@@ -583,15 +761,29 @@ void dMenu_Skill_c::changeActiveColor() {
     }
 }
 
-void dMenu_Skill_c::setPageText() {
+void dMenu_Skill_c::setPageText()
+{
     static const u32 i_id0[7] = {
-        1701, 1702, 1703, 1704, 1705, 1706, 1707,
+        1701,
+        1702,
+        1703,
+        1704,
+        1705,
+        1706,
+        1707,
     };
     static const u32 i_id1[7] = {
-        1709, 1708, 1710, 1711, 1712, 1713, 1714,
+        1709,
+        1708,
+        1710,
+        1711,
+        1712,
+        1713,
+        1714,
     };
 
-    for (int i = 0; i < mSkillNum; i++) {
+    for (int i = 0; i < mSkillNum; i++)
+    {
         mpString->getString(i_id0[i], mpFTagPicture[i][0], NULL, NULL, NULL, 0);
         mpString->getString(i_id0[i], mpFTagPicture[i][1], NULL, NULL, NULL, 0);
         mpString->getString(i_id1[i], mpFTagPicture[i][2], NULL, NULL, NULL, 0);
@@ -599,43 +791,62 @@ void dMenu_Skill_c::setPageText() {
     }
 }
 
-void dMenu_Skill_c::setAButtonString(u16 i_stringID) {
-    if (i_stringID == 0) {
-        for (int i = 0; i < 5; i++) {
+void dMenu_Skill_c::setAButtonString(u16 i_stringID)
+{
+    if (i_stringID == 0)
+    {
+        for (int i = 0; i < 5; i++)
+        {
             strcpy(mpAButtonString[i]->getStringPtr(), "");
         }
-    } else {
-        for (int i = 0; i < 5; i++) {
+    }
+    else
+    {
+        for (int i = 0; i < 5; i++)
+        {
             dMeter2Info_getStringKanji(i_stringID, mpAButtonString[i]->getStringPtr(), NULL);
         }
     }
 }
 
-void dMenu_Skill_c::setBButtonString(u16 i_stringID) {
-    if (i_stringID == 0) {
-        for (int i = 0; i < 5; i++) {
+void dMenu_Skill_c::setBButtonString(u16 i_stringID)
+{
+    if (i_stringID == 0)
+    {
+        for (int i = 0; i < 5; i++)
+        {
             strcpy(mpBButtonString[i]->getStringPtr(), "");
         }
-    } else {
-        for (int i = 0; i < 5; i++) {
+    }
+    else
+    {
+        for (int i = 0; i < 5; i++)
+        {
             dMeter2Info_getStringKanji(i_stringID, mpBButtonString[i]->getStringPtr(), NULL);
         }
     }
 }
 
-void dMenu_Skill_c::setNameString(u16 i_stringID) {
-    if (i_stringID == 0) {
-        for (int i = 0; i < 4; i++) {
+void dMenu_Skill_c::setNameString(u16 i_stringID)
+{
+    if (i_stringID == 0)
+    {
+        for (int i = 0; i < 4; i++)
+        {
             strcpy(mpNameString[i]->getStringPtr(), "");
         }
-    } else {
-        for (int i = 0; i < 4; i++) {
+    }
+    else
+    {
+        for (int i = 0; i < 4; i++)
+        {
             dMeter2Info_getStringKanji(i_stringID, mpNameString[i]->getStringPtr(), NULL);
         }
     }
 }
 
-u8 dMenu_Skill_c::getSkillNum() {
+u8 dMenu_Skill_c::getSkillNum()
+{
     static u32 evt_id[7] = {
         339, /* dSv_event_flag_c::F_0339 - Secret techniques - Obtained 2 secret techinques */
         338, /* dSv_event_flag_c::F_0338 - Secret techniques - Obtained 1 secret techinques - Shield attack */
@@ -647,16 +858,20 @@ u8 dMenu_Skill_c::getSkillNum() {
     };
 
     u8 skillNum = 0;
-    for (int i = 0; i < 7; i++) {
-        if (dComIfGs_isEventBit(dSv_event_flag_c::saveBitLabels[evt_id[i]])) {
+    for (int i = 0; i < 7; i++)
+    {
+        if (dComIfGs_isEventBit(dSv_event_flag_c::saveBitLabels[evt_id[i]]))
+        {
             skillNum++;
         }
     }
     return skillNum;
 }
 
-void dMenu_Skill_c::setHIO(bool i_useHIO) {
-    if (i_useHIO || g_drawHIO.mSkillListScreen.mDebug) {
+void dMenu_Skill_c::setHIO(bool i_useHIO)
+{
+    if (i_useHIO || g_drawHIO.mSkillListScreen.mDebug)
+    {
         mSelectBlack[0].set(g_drawHIO.mSkillListScreen.mSelectBarBlack);
         mSelectWhite[0].set(g_drawHIO.mSkillListScreen.mSelectBarWhite);
         mSelectBlack[3].set(g_drawHIO.mSkillListScreen.mSelectTextBlack);
@@ -667,54 +882,56 @@ void dMenu_Skill_c::setHIO(bool i_useHIO) {
         mSelectWhite[4].set(g_drawHIO.mSkillListScreen.mSelectScrollIconWhite);
         mUnselectBlack[4].set(g_drawHIO.mSkillListScreen.mUnselectScrollIconBlack);
         mUnselectWhite[4].set(g_drawHIO.mSkillListScreen.mUnselectScrollIconWhite);
-        for (int i = 0; i < 7; i++) {
-            if (i == mIndex) {
+        for (int i = 0; i < 7; i++)
+        {
+            if (i == mIndex)
+            {
                 mpTagPicture[i][0]->setBlackWhite(mSelectBlack[0], mSelectWhite[0]);
                 mpFTagPicture[i][1]->setBlackWhite(mSelectBlack[3], mSelectWhite[3]);
                 mpFTagPicture[i][3]->setBlackWhite(mSelectBlack[3], mSelectWhite[3]);
                 mpLetterParent[i]->scale(mBarScale[0], mBarScale[0]);
                 field_0x94[i]->setBlackWhite(mSelectBlack[4], mSelectWhite[4]);
-            } else {
+            }
+            else
+            {
                 mpLetterParent[i]->scale(mBarScale[1], mBarScale[1]);
                 field_0x94[i]->setBlackWhite(mUnselectBlack[4], mUnselectWhite[4]);
             }
         }
-        mpTextParent->paneTrans(g_drawHIO.mSkillListScreen.mSkillDescPosX,
-                                g_drawHIO.mSkillListScreen.mSkillDescPosY);
-        mpTextParent->scale(g_drawHIO.mSkillListScreen.mSkillDescScale,
-                            g_drawHIO.mSkillListScreen.mSkillDescScale);
-        if (mProcess == 2) {
+        mpTextParent->paneTrans(g_drawHIO.mSkillListScreen.mSkillDescPosX, g_drawHIO.mSkillListScreen.mSkillDescPosY);
+        mpTextParent->scale(g_drawHIO.mSkillListScreen.mSkillDescScale, g_drawHIO.mSkillListScreen.mSkillDescScale);
+        if (mProcess == 2)
+        {
             mpBlackTex->setAlpha(g_drawHIO.mSkillListScreen.mWindowBGalpha);
         }
-        mpExpName->paneTrans(g_drawHIO.mSkillListScreen.mSkillTitlePosX,
-                             g_drawHIO.mSkillListScreen.mSkillTitlePosY);
-        mpExpName->scale(g_drawHIO.mSkillListScreen.mSkillTitleScale,
-                         g_drawHIO.mSkillListScreen.mSkillTitleScale);
+        mpExpName->paneTrans(g_drawHIO.mSkillListScreen.mSkillTitlePosX, g_drawHIO.mSkillListScreen.mSkillTitlePosY);
+        mpExpName->scale(g_drawHIO.mSkillListScreen.mSkillTitleScale, g_drawHIO.mSkillListScreen.mSkillTitleScale);
     }
-    if (g_drawHIO.mCollectScreen.mButtonDebugON || i_useHIO) {
-        if (mpButtonAB[A_BUTTON]) {
-            mpButtonAB[A_BUTTON]->paneTrans(g_drawHIO.mCollectScreen.mButtonAPosX,
-                                     g_drawHIO.mCollectScreen.mButtonAPosY);
-            mpButtonAB[A_BUTTON]->scale(g_drawHIO.mCollectScreen.mButtonAScale,
-                                 g_drawHIO.mCollectScreen.mButtonAScale);
+    if (g_drawHIO.mCollectScreen.mButtonDebugON || i_useHIO)
+    {
+        if (mpButtonAB[A_BUTTON])
+        {
+            mpButtonAB[A_BUTTON]->paneTrans(g_drawHIO.mCollectScreen.mButtonAPosX, g_drawHIO.mCollectScreen.mButtonAPosY);
+            mpButtonAB[A_BUTTON]->scale(g_drawHIO.mCollectScreen.mButtonAScale, g_drawHIO.mCollectScreen.mButtonAScale);
         }
-        if (mpButtonAB[B_BUTTON]) {
-            mpButtonAB[B_BUTTON]->paneTrans(g_drawHIO.mCollectScreen.mButtonBPosX,
-                                     g_drawHIO.mCollectScreen.mButtonBPosY);
-            mpButtonAB[B_BUTTON]->scale(g_drawHIO.mCollectScreen.mButtonBScale,
-                                 g_drawHIO.mCollectScreen.mButtonBScale);
+        if (mpButtonAB[B_BUTTON])
+        {
+            mpButtonAB[B_BUTTON]->paneTrans(g_drawHIO.mCollectScreen.mButtonBPosX, g_drawHIO.mCollectScreen.mButtonBPosY);
+            mpButtonAB[B_BUTTON]->scale(g_drawHIO.mCollectScreen.mButtonBScale, g_drawHIO.mCollectScreen.mButtonBScale);
         }
-        if (mpButtonText[A_BUTTON]) {
+        if (mpButtonText[A_BUTTON])
+        {
             mpButtonText[A_BUTTON]->paneTrans(g_drawHIO.mCollectScreen.mButtonATextPosX,
-                                       g_drawHIO.mCollectScreen.mButtonATextPosY);
+                                              g_drawHIO.mCollectScreen.mButtonATextPosY);
             mpButtonText[A_BUTTON]->scale(g_drawHIO.mCollectScreen.mButtonATextScale,
-                                   g_drawHIO.mCollectScreen.mButtonATextScale);
+                                          g_drawHIO.mCollectScreen.mButtonATextScale);
         }
-        if (mpButtonText[B_BUTTON]) {
+        if (mpButtonText[B_BUTTON])
+        {
             mpButtonText[B_BUTTON]->paneTrans(g_drawHIO.mCollectScreen.mButtonBTextPosX,
-                                       g_drawHIO.mCollectScreen.mButtonBTextPosY);
+                                              g_drawHIO.mCollectScreen.mButtonBTextPosY);
             mpButtonText[B_BUTTON]->scale(g_drawHIO.mCollectScreen.mButtonBTextScale,
-                                   g_drawHIO.mCollectScreen.mButtonBTextScale);
+                                          g_drawHIO.mCollectScreen.mButtonBTextScale);
         }
     }
 }

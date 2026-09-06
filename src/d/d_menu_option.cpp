@@ -22,6 +22,7 @@
 #include "f_op/f_op_msg_mng.h"
 #include "m_Do/m_Do_controller_pad.h"
 #include "m_Do/m_Do_graphic.h"
+#include "rando/seed/seed.h"
 #include <cstring>
 
 #include "JSystem/JAudio2/JASDriverIF.h"
@@ -33,9 +34,12 @@ static initFunc init[] = {
     &dMenu_Option_c::ruby_init,
 #endif
     &dMenu_Option_c::vib_init,
-    &dMenu_Option_c::sound_init,          &dMenu_Option_c::change_init,
-    &dMenu_Option_c::confirm_open_init,   &dMenu_Option_c::confirm_move_init,
-    &dMenu_Option_c::confirm_select_init, &dMenu_Option_c::confirm_close_init,
+    &dMenu_Option_c::sound_init,
+    &dMenu_Option_c::change_init,
+    &dMenu_Option_c::confirm_open_init,
+    &dMenu_Option_c::confirm_move_init,
+    &dMenu_Option_c::confirm_select_init,
+    &dMenu_Option_c::confirm_close_init,
 };
 
 typedef void (dMenu_Option_c::*processFunc)();
@@ -45,25 +49,34 @@ static processFunc process[] = {
     &dMenu_Option_c::ruby_move,
 #endif
     &dMenu_Option_c::vib_move,
-    &dMenu_Option_c::sound_move,          &dMenu_Option_c::change_move,
-    &dMenu_Option_c::confirm_open_move,   &dMenu_Option_c::confirm_move_move,
-    &dMenu_Option_c::confirm_select_move, &dMenu_Option_c::confirm_close_move,
+    &dMenu_Option_c::sound_move,
+    &dMenu_Option_c::change_move,
+    &dMenu_Option_c::confirm_open_move,
+    &dMenu_Option_c::confirm_move_move,
+    &dMenu_Option_c::confirm_select_move,
+    &dMenu_Option_c::confirm_close_move,
 };
 
 typedef void (dMenu_Option_c::*tvProcessFunc)();
 static tvProcessFunc tv_process[] = {
-    &dMenu_Option_c::tv_open1_move,  &dMenu_Option_c::tv_open2_move,  &dMenu_Option_c::tv_move_move,
-    &dMenu_Option_c::tv_close1_move, &dMenu_Option_c::tv_close2_move,
+    &dMenu_Option_c::tv_open1_move,
+    &dMenu_Option_c::tv_open2_move,
+    &dMenu_Option_c::tv_move_move,
+    &dMenu_Option_c::tv_close1_move,
+    &dMenu_Option_c::tv_close2_move,
 };
 
 typedef void (dMenu_Option_c::*calibrationFunc)();
 static calibrationFunc calibration_process[] = {
-    &dMenu_Option_c::calibration_open1_move,  &dMenu_Option_c::calibration_open2_move,
-    &dMenu_Option_c::calibration_move_move,   &dMenu_Option_c::calibration_close1_move,
+    &dMenu_Option_c::calibration_open1_move,
+    &dMenu_Option_c::calibration_open2_move,
+    &dMenu_Option_c::calibration_move_move,
+    &dMenu_Option_c::calibration_close1_move,
     &dMenu_Option_c::calibration_close2_move,
 };
 
-enum SelectType {
+enum SelectType
+{
 #if VERSION == VERSION_GCN_JPN
     SelectType0_JPN,
 #endif
@@ -78,7 +91,8 @@ enum SelectType {
     SelectType8,
 };
 
-dMenu_Option_c::dMenu_Option_c(JKRArchive* i_archive, STControl* i_stick) {
+dMenu_Option_c::dMenu_Option_c(JKRArchive* i_archive, STControl* i_stick)
+{
     mUseFlag = 0;
     mBarScale[0] = g_drawHIO.mOptionScreen.mBarScale[0];
     mBarScale[1] = g_drawHIO.mOptionScreen.mBarScale[1];
@@ -93,9 +107,18 @@ dMenu_Option_c::~dMenu_Option_c() {}
 
 static const u32 dMo_soundMode[3] = {JAS_OUTPUT_MONO, JAS_OUTPUT_STEREO, JAS_OUTPUT_SURROUND};
 
-void dMenu_Option_c::_create() {
-    static const u64 text_a_tag[5] = {MULTI_CHAR('atext1_1'), MULTI_CHAR('atext1_2'), MULTI_CHAR('atext1_3'), MULTI_CHAR('atext1_4'), MULTI_CHAR('atext1_5')};
-    static const u64 text_b_tag[5] = {MULTI_CHAR('btext1_1'), MULTI_CHAR('btext1_2'), MULTI_CHAR('btext1_3'), MULTI_CHAR('btext1_4'), MULTI_CHAR('btext1_5')};
+void dMenu_Option_c::_create()
+{
+    static const u64 text_a_tag[5] = {MULTI_CHAR('atext1_1'),
+                                      MULTI_CHAR('atext1_2'),
+                                      MULTI_CHAR('atext1_3'),
+                                      MULTI_CHAR('atext1_4'),
+                                      MULTI_CHAR('atext1_5')};
+    static const u64 text_b_tag[5] = {MULTI_CHAR('btext1_1'),
+                                      MULTI_CHAR('btext1_2'),
+                                      MULTI_CHAR('btext1_3'),
+                                      MULTI_CHAR('btext1_4'),
+                                      MULTI_CHAR('btext1_5')};
     static const u64 l_tagName012[2] = {MULTI_CHAR('w_no_n'), MULTI_CHAR('w_yes_n')};
     static const u64 l_tagName013[2] = {MULTI_CHAR('w_no_t'), MULTI_CHAR('w_yes_t')};
     static const u64 l_tagName9[2] = {MULTI_CHAR('w_no_m'), MULTI_CHAR('w_yes_m')};
@@ -106,7 +129,6 @@ void dMenu_Option_c::_create() {
     mpFont = mDoExt_getMesgFont();
     mpString = new dMsgString_c();
     JUT_ASSERT(197, mpString != NULL);
-
 
     mpMeterHaihai = new dMeterHaihai_c(3);
     JUT_ASSERT(201, mpMeterHaihai);
@@ -126,7 +148,8 @@ void dMenu_Option_c::_create() {
     mpScreen->search(MULTI_CHAR('y_set_p0'))->hide();
     field_0x254[0] = (J2DTextBox*)mpScreen->search(MULTI_CHAR('cont_ts'));
     field_0x254[1] = (J2DTextBox*)mpScreen->search(MULTI_CHAR('cont_t'));
-    for (int i = 0; i < 2; i++) {
+    for (int i = 0; i < 2; i++)
+    {
         field_0x254[i]->setFont(mDoExt_getMesgFont());
         field_0x254[i]->setString(0x20, "");
     }
@@ -159,7 +182,7 @@ void dMenu_Option_c::_create() {
 
     mpTVButtonAB = new CPaneMgr(mpTVScreen, MULTI_CHAR('g_abtn_n'), 0, NULL);
     JUT_ASSERT(295, mpTVButtonAB != NULL);
-    
+
     mpTVButtonText = new CPaneMgr(mpTVScreen, MULTI_CHAR('a_text_n'), 0, NULL);
     JUT_ASSERT(298, mpTVButtonText != NULL);
     mpTVScreen->search(MULTI_CHAR('g_abtn_n'))->hide();
@@ -167,14 +190,16 @@ void dMenu_Option_c::_create() {
     mpScreenIcon = new J2DScreen();
     JUT_ASSERT(325, mpScreenIcon != NULL);
     mpScreenIcon->setPriority("zelda_collect_soubi_do_icon_parts.blo", 0x20000, mpArchive);
-    for (int i = 0; i < 2; i++) {
+    for (int i = 0; i < 2; i++)
+    {
         mpButtonAB[i] = NULL;
         mpButtonText[i] = NULL;
     }
     dPaneClass_showNullPane(mpScreenIcon);
     field_0x3dc = 0;
     field_0x3de = 0;
-    for (int i = 0; i < 5; i++) {
+    for (int i = 0; i < 5; i++)
+    {
         ((J2DTextBox*)(mpScreenIcon->search(text_a_tag[i])))->setFont(mDoExt_getMesgFont());
         ((J2DTextBox*)(mpScreenIcon->search(text_b_tag[i])))->setFont(mDoExt_getMesgFont());
 
@@ -205,7 +230,8 @@ void dMenu_Option_c::_create() {
     field_0x24->searchUpdateMaterialID(mpSelectScreen);
     field_0x28->searchUpdateMaterialID(mpSelectScreen);
     field_0x20->searchUpdateMaterialID(mpSelectScreen);
-    for (int i = 0; i < 2; i++) {
+    for (int i = 0; i < 2; i++)
+    {
         mpYesNoSelBase_c[i] = new CPaneMgr(mpSelectScreen, l_tagName012[i], 0, NULL);
         JUT_ASSERT(439, mpYesNoSelBase_c[i] != NULL);
         mpYesNoTxt_c[i] = new CPaneMgr(mpSelectScreen, l_tagName013[i], 0, NULL);
@@ -217,7 +243,7 @@ void dMenu_Option_c::_create() {
         J2DTextBox* yesNoTxt2 = (J2DTextBox*)mpYesNoTxt_c[i]->getPanePtr();
         yesNoTxt2->setString(0x20, message);
     }
-    
+
     void* bpk = JKRGetNameResource("zelda_file_select_yes_no_window.bpk", mpArchive);
     JUT_ASSERT(449, bpk != NULL);
     field_0x2c = (J2DAnmColor*)J2DAnmLoaderDataBase::load(bpk);
@@ -230,7 +256,8 @@ void dMenu_Option_c::_create() {
     field_0x30->searchUpdateMaterialID(mpSelectScreen);
     field_0x3c4 = 0;
 
-    for (int i = 0; i < 2; i++) {
+    for (int i = 0; i < 2; i++)
+    {
         mpYesNoCurWaku_c[i] = new CPaneMgr(mpSelectScreen, l_tagName9[i], 0, NULL);
         JUT_ASSERT(482, mpYesNoCurWaku_c[i] != NULL);
         mpYesNoCurWakuG0_c[i] = new CPaneMgr(mpSelectScreen, l_tagName10[i], 0, NULL);
@@ -248,7 +275,8 @@ void dMenu_Option_c::_create() {
     field_0x3fa = 0;
     field_0x401 = 0xff;
     field_0x402 = 0xff;
-    for (int i = 0; i < 2; i++) {
+    for (int i = 0; i < 2; i++)
+    {
         field_0x3fb[i] = 0;
         field_0x3fd[i] = 0;
         field_0x3ff[i] = 0;
@@ -275,7 +303,8 @@ void dMenu_Option_c::_create() {
     field_0x378 = 0.0f;
     field_0x37c = 0.0f;
     field_0x380 = 1.0f;
-    for (int i = 0; i < 6; i++) {
+    for (int i = 0; i < 6; i++)
+    {
         field_0x384[i] = 0.0f;
         field_0x39c[i] = 0.0f;
     }
@@ -292,20 +321,24 @@ void dMenu_Option_c::_create() {
     setHIO(true);
 
     // Change A button color
-    static_cast<J2DPicture*>(mpScreenIcon->search('a_btn'))->setBlackWhite(JUtility::TColor(0, 19, 127, 0), JUtility::TColor(0x9b, 0x6e, 0xab, 255));
+    static_cast<J2DPicture*>(mpScreenIcon->search('a_btn'))
+        ->setBlackWhite(JUtility::TColor(0, 19, 127, 0), g_seedInfo.getHeaderPtr()->getAButtonColor());
 
     // Change B Button color
-    static_cast<J2DPicture*>(mpScreenIcon->search('b_btn'))->setBlackWhite(JUtility::TColor(0, 19, 127, 0), JUtility::TColor(0x9b, 0x6e, 0xab, 255));
+    static_cast<J2DPicture*>(mpScreenIcon->search('b_btn'))
+        ->setBlackWhite(JUtility::TColor(0, 19, 127, 0), g_seedInfo.getHeaderPtr()->getBButtonColor());
 
     // Change Z Button color
-    static_cast<J2DPicture*>(mpBackScreen->search('g_zbtn'))->setBlackWhite(JUtility::TColor(0, 19, 127, 0), JUtility::TColor(0x9b, 0x6e, 0xab, 255));
-
+    static_cast<J2DPicture*>(mpBackScreen->search('g_zbtn'))
+        ->setBlackWhite(JUtility::TColor(0, 19, 127, 0), g_seedInfo.getHeaderPtr()->getZButtonColor());
 
     // Change Brightness screen A button color
-    static_cast<J2DPicture*>(mpTVScreen->search('a_btn1'))->setBlackWhite(JUtility::TColor(0, 19, 127, 0), JUtility::TColor(0x9b, 0x6e, 0xab, 255));
+    static_cast<J2DPicture*>(mpTVScreen->search('a_btn1'))
+        ->setBlackWhite(JUtility::TColor(0, 19, 127, 0), g_seedInfo.getHeaderPtr()->getAButtonColor());
 }
 
-void dMenu_Option_c::_delete() {
+void dMenu_Option_c::_delete()
+{
     delete mpString;
     mpString = NULL;
 
@@ -327,12 +360,14 @@ void dMenu_Option_c::_delete() {
     delete mpTVScreen;
     mpTVScreen = NULL;
 
-    if (mpTVButtonAB != NULL) {
+    if (mpTVButtonAB != NULL)
+    {
         delete mpTVButtonAB;
         mpTVButtonAB = NULL;
     }
 
-    if (mpTVButtonText != NULL) {
+    if (mpTVButtonText != NULL)
+    {
         delete mpTVButtonText;
         mpTVButtonText = NULL;
     }
@@ -340,13 +375,16 @@ void dMenu_Option_c::_delete() {
     delete mpScreenIcon;
     mpScreenIcon = NULL;
 
-    for (int i = 0; i < 2; i++) {
-        if (mpButtonAB[i] != NULL) {
+    for (int i = 0; i < 2; i++)
+    {
+        if (mpButtonAB[i] != NULL)
+        {
             delete mpButtonAB[i];
             mpButtonAB[i] = NULL;
         }
 
-        if (mpButtonText[i] != NULL) {
+        if (mpButtonText[i] != NULL)
+        {
             delete mpButtonText[i];
             mpButtonText[i] = NULL;
         }
@@ -370,7 +408,8 @@ void dMenu_Option_c::_delete() {
     delete field_0x20;
     field_0x20 = NULL;
 
-    for (int i = 0; i < 2; i++) {
+    for (int i = 0; i < 2; i++)
+    {
         delete mpYesNoSelBase_c[i];
         mpYesNoSelBase_c[i] = NULL;
 
@@ -393,15 +432,14 @@ void dMenu_Option_c::_delete() {
     delete field_0x30;
     field_0x30 = NULL;
 
-    if (
-        isUseFlag(
-            #if DEBUG
+    if (isUseFlag(
+#if DEBUG
             0
-            #else
+#else
             1
-            #endif
-        )
-    ) {
+#endif
+            ))
+    {
         delete mpStick;
         mpStick = NULL;
     }
@@ -412,12 +450,14 @@ void dMenu_Option_c::_delete() {
     delete mpDrawCursor;
     mpDrawCursor = NULL;
 
-    for (int i = 0; i < 5; i++) {
+    for (int i = 0; i < 5; i++)
+    {
         delete mpParent[i];
         mpParent[i] = NULL;
     }
 
-    for (int i = 0; i < 5; i++) {
+    for (int i = 0; i < 5; i++)
+    {
         delete mpHaihaiPosL[i];
         mpHaihaiPosL[i] = NULL;
 
@@ -425,64 +465,78 @@ void dMenu_Option_c::_delete() {
         mpHaihaiPosR[i] = NULL;
     }
 
-    for (int i = 0; i < 6; i++) {
+    for (int i = 0; i < 6; i++)
+    {
         delete mpMenuNull[i];
         mpMenuNull[i] = NULL;
 
         delete mpMenuPane[i];
         mpMenuPane[i] = NULL;
 
-        if (mpMenuPaneC[i] != NULL) {
+        if (mpMenuPaneC[i] != NULL)
+        {
             delete mpMenuPaneC[i];
             mpMenuPaneC[i] = NULL;
         }
 
-        if (mpMenuPane2[i] != NULL) {
+        if (mpMenuPane2[i] != NULL)
+        {
             delete mpMenuPane2[i];
             mpMenuPane2[i] = NULL;
         }
 
-        if (mpMenuPane3[i] != NULL) {
+        if (mpMenuPane3[i] != NULL)
+        {
             delete mpMenuPane3[i];
             mpMenuPane3[i] = NULL;
         }
 
-        if (mpMenuPane32[i] != NULL) {
+        if (mpMenuPane32[i] != NULL)
+        {
             delete mpMenuPane32[i];
             mpMenuPane32[i] = NULL;
         }
     }
 
-    for (int i = 0; i < 6; i++) {
-        for (int j = 0; j < 6; j++) {
-            if (mpMenuText[i][j] != NULL) {
+    for (int i = 0; i < 6; i++)
+    {
+        for (int j = 0; j < 6; j++)
+        {
+            if (mpMenuText[i][j] != NULL)
+            {
                 delete mpMenuText[i][j];
                 mpMenuText[i][j] = NULL;
             }
         }
     }
 
-    for (int i = 0; i < 4; i++) {
-        if (field_0x1c0[i] != NULL) {
+    for (int i = 0; i < 4; i++)
+    {
+        if (field_0x1c0[i] != NULL)
+        {
             delete field_0x1c0[i];
             field_0x1c0[i] = NULL;
         }
     }
 
-    for (int i = 0; i < 3; i++) {
-        if (mpZButtonText[i] != NULL) {
+    for (int i = 0; i < 3; i++)
+    {
+        if (mpZButtonText[i] != NULL)
+        {
             delete mpZButtonText[i];
             mpZButtonText[i] = NULL;
         }
     }
 
-    if (mpMount != NULL) {
+    if (mpMount != NULL)
+    {
         JKRUnmountArchive(mpMount->getArchive());
         mpMount->destroy();
         mpMount = NULL;
     }
 
-    if (mpArchive != NULL) {
+    if (mpArchive != NULL)
+    {
         JKRUnmountArchive(mpArchive);
         mpArchive = NULL;
     }
@@ -490,18 +544,23 @@ void dMenu_Option_c::_delete() {
     dComIfGp_setOptionResArchive(NULL);
 }
 
-void dMenu_Option_c::_move() {
+void dMenu_Option_c::_move()
+{
     mpStick->checkTrigger();
-    if (field_0x3ea != 0 && !isRumbleSupported()) {
+    if (field_0x3ea != 0 && !isRumbleSupported())
+    {
         field_0x3ea = 0;
     }
 
-    if (mDoGph_gInf_c::getFader()->getStatus() == 1) {
-        if (mDoCPd_c::getTrigA(PAD_1) != 0 && field_0x3ef != SelectType3 && field_0x3f3 == 5) {
+    if (mDoGph_gInf_c::getFader()->getStatus() == 1)
+    {
+        if (mDoCPd_c::getTrigA(PAD_1) != 0 && field_0x3ef != SelectType3 && field_0x3f3 == 5)
+        {
             if (field_0x3f4 == 5 && field_0x3ef != SelectType4 && field_0x3ef != SelectType5 && field_0x3ef != SelectType6 &&
                 field_0x3ef != SelectType7)
             {
-                if (mDoCPd_c::getTrigStart(PAD_1) == 0 && mDoCPd_c::getTrigB(PAD_1) == 0) {
+                if (mDoCPd_c::getTrigStart(PAD_1) == 0 && mDoCPd_c::getTrigB(PAD_1) == 0)
+                {
                     if (mDoCPd_c::getTrigUp(PAD_1) == 0 && mDoCPd_c::getTrigDown(PAD_1) == 0 &&
                         mDoCPd_c::getTrigLeft(PAD_1) == 0 && mDoCPd_c::getTrigRight(PAD_1) == 0)
                     {
@@ -516,12 +575,11 @@ void dMenu_Option_c::_move() {
             }
         }
 
-        if (mDoCPd_c::getTrigB(PAD_1) != 0 && field_0x3ef != SelectType3 && field_0x3f3 == 5 &&
-            field_0x3ef != SelectType4 && field_0x3ef != SelectType5 && field_0x3ef != SelectType6 && field_0x3ef != SelectType7)
+        if (mDoCPd_c::getTrigB(PAD_1) != 0 && field_0x3ef != SelectType3 && field_0x3f3 == 5 && field_0x3ef != SelectType4 &&
+            field_0x3ef != SelectType5 && field_0x3ef != SelectType6 && field_0x3ef != SelectType7)
         {
-            if (field_0x3f4 == 5 && mDoCPd_c::getTrigStart(PAD_1) == 0 &&
-                mDoCPd_c::getTrigA(PAD_1) == 0 && mDoCPd_c::getTrigUp(PAD_1) == 0 &&
-                mDoCPd_c::getTrigDown(PAD_1) == 0 && mDoCPd_c::getTrigLeft(PAD_1) == 0 &&
+            if (field_0x3f4 == 5 && mDoCPd_c::getTrigStart(PAD_1) == 0 && mDoCPd_c::getTrigA(PAD_1) == 0 &&
+                mDoCPd_c::getTrigUp(PAD_1) == 0 && mDoCPd_c::getTrigDown(PAD_1) == 0 && mDoCPd_c::getTrigLeft(PAD_1) == 0 &&
                 mDoCPd_c::getTrigRight(PAD_1) == 0)
             {
                 field_0x3f7 = 0;
@@ -534,38 +592,48 @@ void dMenu_Option_c::_move() {
     }
 skip:
     u8 oldValue = field_0x3ef;
-    if (field_0x3f3 == 5 && oldValue != SelectType4 && oldValue != SelectType5 && oldValue != SelectType6 && oldValue != SelectType7) {
+    if (field_0x3f3 == 5 && oldValue != SelectType4 && oldValue != SelectType5 && oldValue != SelectType6 &&
+        oldValue != SelectType7)
+    {
         dpdMenuMove();
     }
 
     field_0x3f2 = 0;
-    if (field_0x3f1 != 0xff) {
-        if (field_0x3f0 != field_0x3f1 && field_0x3ef != field_0x3f1) {
+    if (field_0x3f1 != 0xff)
+    {
+        if (field_0x3f0 != field_0x3f1 && field_0x3ef != field_0x3f1)
+        {
             field_0x3f0 = field_0x3f1;
             field_0x3f2 = 1;
         }
-    } else {
+    }
+    else
+    {
         field_0x3f0 = 0xff;
     }
 
     (this->*process[field_0x3ef])();
     mpSelectScreen->animation();
-    if (oldValue != field_0x3ef) {
+    if (oldValue != field_0x3ef)
+    {
         (this->*init[field_0x3ef])();
     }
-    
+
     setHIO(false);
 }
 
-void dMenu_Option_c::_draw() {
-    if (mpArchive != NULL) {
+void dMenu_Option_c::_draw()
+{
+    if (mpArchive != NULL)
+    {
         J2DGrafContext* ctx = dComIfGp_getCurrentGrafPort();
-        #if (PLATFORM_WII || PLATFORM_SHIELD)
-        if (mpCalibration != NULL && field_0x3f4 != 5 && field_0x3f4 != 0 && field_0x3f4 != 4) {
+#if (PLATFORM_WII || PLATFORM_SHIELD)
+        if (mpCalibration != NULL && field_0x3f4 != 5 && field_0x3f4 != 0 && field_0x3f4 != 4)
+        {
             mpCalibration->draw();
             return;
         }
-        #endif
+#endif
 
         mpBlackTex->setAlpha(0xff);
         mpBlackTex->draw(0.0f, 0.0f, FB_WIDTH, FB_HEIGHT, 0, 0, 0);
@@ -576,22 +644,26 @@ void dMenu_Option_c::_draw() {
         mpScreen->draw(0.0f, 0.0f, ctx);
         mpClipScreen->draw(0.0f, 0.0f, ctx);
         mpShadowScreen->draw(0.0f, 0.0f, ctx);
-        if (field_0x3f3 == 1 || field_0x3f3 == 2 || field_0x3f3 == 3) {
+        if (field_0x3f3 == 1 || field_0x3f3 == 2 || field_0x3f3 == 3)
+        {
             mpTVScreen->draw(0.0f, 0.0f, ctx);
         }
-        if (field_0x3f3 == 5) {
+        if (field_0x3f3 == 5)
+        {
             mpDrawCursor->draw();
         }
         drawHaihai();
         mpWarning->drawSelf();
         mpSelectScreen->draw(0.0f, 0.0f, ctx);
-        if (field_0x3f3 != 1 && field_0x3f3 != 2 && field_0x3f3 != 3) {
+        if (field_0x3f3 != 1 && field_0x3f3 != 2 && field_0x3f3 != 3)
+        {
             mpScreenIcon->draw(0.0f, 0.0f, ctx);
         }
     }
 }
 
-void dMenu_Option_c::drawHaihai() {
+void dMenu_Option_c::drawHaihai()
+{
     CPaneMgr pane;
     u8 selectType = getSelectType();
     field_0x3f6 = 0;
@@ -601,67 +673,81 @@ void dMenu_Option_c::drawHaihai() {
         field_0x3ef != SelectType5 && field_0x3ef != SelectType6 && field_0x3ef != SelectType7)
     {
         mpMeterHaihai->_execute(0);
-        Vec haihaiPosL =
-            mpHaihaiPosL[selectType]->getGlobalVtxCenter(mpHaihaiPosL[selectType]->mPane, false, 0);
-        Vec haihaiPosR =
-            mpHaihaiPosR[selectType]->getGlobalVtxCenter(mpHaihaiPosR[selectType]->mPane, false, 0);
+        Vec haihaiPosL = mpHaihaiPosL[selectType]->getGlobalVtxCenter(mpHaihaiPosL[selectType]->mPane, false, 0);
+        Vec haihaiPosR = mpHaihaiPosR[selectType]->getGlobalVtxCenter(mpHaihaiPosR[selectType]->mPane, false, 0);
         haihaiPosL.x += g_drawHIO.mOptionScreen.mArrowOffsetX_4x3;
         haihaiPosR.x -= g_drawHIO.mOptionScreen.mArrowOffsetX_4x3;
 
         f32 haihaiX = haihaiPosR.x - haihaiPosL.x;
         f32 haihaiY = haihaiPosR.y - haihaiPosL.y;
-        mpMeterHaihai->drawHaihai(field_0x3f6, haihaiPosL.x + haihaiX / 2 + -5.0f + 4.3f,
-                                  haihaiPosL.y + haihaiY / 2 + -1.0f, haihaiX, haihaiY);
+        mpMeterHaihai->drawHaihai(field_0x3f6,
+                                  haihaiPosL.x + haihaiX / 2 + -5.0f + 4.3f,
+                                  haihaiPosL.y + haihaiY / 2 + -1.0f,
+                                  haihaiX,
+                                  haihaiY);
         field_0x3f6 = 0;
     }
 }
 
-bool dMenu_Option_c::isSync() {
-    if (mpMount != NULL && mpMount->sync() == false) {
+bool dMenu_Option_c::isSync()
+{
+    if (mpMount != NULL && mpMount->sync() == false)
+    {
         return 0;
     }
     return 1;
 }
 
-bool dMenu_Option_c::checkLeftTrigger() {
+bool dMenu_Option_c::checkLeftTrigger()
+{
     return mpStick->checkLeftTrigger();
 }
 
-bool dMenu_Option_c::checkRightTrigger() {
+bool dMenu_Option_c::checkRightTrigger()
+{
     return mpStick->checkRightTrigger();
 }
 
-void dMenu_Option_c::setAnimation() {
+void dMenu_Option_c::setAnimation()
+{
     s16 frameMax;
 
     field_0x3c0 += 2;
     frameMax = field_0x2c->getFrameMax();
-    if (field_0x3c0 >= frameMax) {
+    if (field_0x3c0 >= frameMax)
+    {
         field_0x3c0 = field_0x3c0 - frameMax;
     }
     field_0x2c->setFrame(field_0x3c0);
 
     field_0x3c4 += 2;
     frameMax = field_0x30->getFrameMax();
-    if (field_0x3c4 >= frameMax) {
+    if (field_0x3c4 >= frameMax)
+    {
         field_0x3c4 = field_0x3c4 - frameMax;
     }
     field_0x30->setFrame(field_0x3c4);
 }
 
-bool dMenu_Option_c::_open() {
-    if (!mpMount) {
+bool dMenu_Option_c::_open()
+{
+    if (!mpMount)
+    {
         mpMount = mDoDvdThd_mountArchive_c::create("/res/Layout/optres.arc", 0, NULL);
     }
-    if (mpMount->sync() != 0) {
-        if (!dComIfGp_getOptionResArchive()) {
+    if (mpMount->sync() != 0)
+    {
+        if (!dComIfGp_getOptionResArchive())
+        {
             dComIfGp_setOptionResArchive(mpMount->getArchive());
             mpArchive = dComIfGp_getOptionResArchive();
             delete mpMount;
             mpMount = NULL;
             _create();
         }
-    } else {
+    }
+    else
+    {
         return 0;
     }
 
@@ -669,12 +755,14 @@ bool dMenu_Option_c::_open() {
     s16 closeFrame = g_drawHIO.mOptionScreen.mCloseFrames;
     mFrame = openFrame;
     setHIO(false);
-    if (mFrame >= openFrame) {
+    if (mFrame >= openFrame)
+    {
         mFrame = closeFrame;
         mQuitStatus = 2;
         field_0x3ef = 0;
         atten_init();
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 5; i++)
+        {
             f32 scale = field_0x380;
             mpParent[i]->scale(scale, scale);
             mpParent[i]->setAlphaRate(1.0f);
@@ -683,9 +771,12 @@ bool dMenu_Option_c::_open() {
         cursorAnime(1.0f);
         mpDrawCursor->onPlayAnime(0);
         return 1;
-    } else {
+    }
+    else
+    {
         f32 div = (f32)mFrame / (f32)openFrame;
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 5; i++)
+        {
             f32 scale = div * field_0x380;
             mpParent[i]->scale(scale, scale);
             mpParent[i]->setAlphaRate(div);
@@ -696,24 +787,30 @@ bool dMenu_Option_c::_open() {
     }
 }
 
-bool dMenu_Option_c::_close() {
+bool dMenu_Option_c::_close()
+{
     s16 closeFrame = g_drawHIO.mOptionScreen.mCloseFrames;
     mFrame = 0;
     setHIO(false);
-    if (mFrame <= 0) {
+    if (mFrame <= 0)
+    {
         mFrame = 0;
         mQuitStatus = 0;
         f32 scale = 0.0f;
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 5; i++)
+        {
             mpParent[i]->scale(scale, scale);
             mpParent[i]->setAlphaRate(0.0f);
         }
         setCursorPos(getSelectType());
         cursorAnime(0.0f);
         return 1;
-    } else {
+    }
+    else
+    {
         f32 div = (f32)mFrame / (f32)closeFrame;
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 5; i++)
+        {
             f32 scale = div * field_0x380;
             mpParent[i]->scale(scale, scale);
             mpParent[i]->setAlphaRate(div);
@@ -724,302 +821,390 @@ bool dMenu_Option_c::_close() {
     }
 }
 
-void dMenu_Option_c::atten_init() {
+void dMenu_Option_c::atten_init()
+{
     mpDrawCursor->setAlphaRate(1.0f);
     setCursorPos(0);
     setAButtonString(0x40C);
     setBButtonString(0x3F9);
 }
 
-void dMenu_Option_c::atten_move() {
+void dMenu_Option_c::atten_move()
+{
     bool downTrigger = mpStick->checkDownTrigger();
     bool leftTrigger = checkLeftTrigger();
     bool rightTrigger = checkRightTrigger();
 
-    if (field_0x3f3 != 5) {
+    if (field_0x3f3 != 5)
+    {
         (this->*tv_process[field_0x3f3])();
-    } else if (downTrigger) {
+    }
+    else if (downTrigger)
+    {
         field_0x3ef = 1;
         Z2GetAudioMgr()->seStart(Z2SE_SY_CURSOR_OPTION, NULL, 0, 0, 1.0f, 1.0f, -1.0f, -1.0f, 0);
-    } else if (leftTrigger) {
-        if (field_0x3e4 == 0) {
+    }
+    else if (leftTrigger)
+    {
+        if (field_0x3e4 == 0)
+        {
             field_0x3e4 = 1;
             field_0x3da = -5;
-        } else if (field_0x3e4 == 1) {
+        }
+        else if (field_0x3e4 == 1)
+        {
             field_0x3e4 = 0;
             field_0x3da = -5;
         }
         field_0x3ef = SelectType3;
         field_0x3f5 = 0;
         Z2GetAudioMgr()->seStart(Z2SE_SY_OPTION_SWITCH, NULL, 0, 0, 1.0f, 1.0f, -1.0f, -1.0f, 0);
-    } else if (rightTrigger) {
-        if (field_0x3e4 == 0) {
+    }
+    else if (rightTrigger)
+    {
+        if (field_0x3e4 == 0)
+        {
             field_0x3e4 = 1;
             field_0x3da = 5;
-        } else if (field_0x3e4 == 1) {
+        }
+        else if (field_0x3e4 == 1)
+        {
             field_0x3e4 = 0;
             field_0x3da = 5;
         }
         field_0x3ef = SelectType3;
         field_0x3f5 = 0;
         Z2GetAudioMgr()->seStart(Z2SE_SY_OPTION_SWITCH, NULL, 0, 0, 1.0f, 1.0f, -1.0f, -1.0f, 0);
-    } else {
+    }
+    else
+    {
         changeTVCheck();
     }
 }
 
 #if VERSION == VERSION_GCN_JPN
-void dMenu_Option_c::ruby_init() {
+void dMenu_Option_c::ruby_init()
+{
     mpDrawCursor->setAlphaRate(1.0f);
     setCursorPos(1);
     setAButtonString(0x40c);
     setBButtonString(0x3f9);
 }
 
-void dMenu_Option_c::ruby_move() {
-
+void dMenu_Option_c::ruby_move()
+{
     bool upTrigger = mpStick->checkUpTrigger();
-    bool downTrigger= mpStick->checkDownTrigger();
+    bool downTrigger = mpStick->checkDownTrigger();
     bool leftTrigger = checkLeftTrigger();
     bool rightTrigger = checkRightTrigger();
 
-    if (field_0x3f3 != 5) {
+    if (field_0x3f3 != 5)
+    {
         (this->*tv_process[field_0x3f3])();
-    } else if (upTrigger) {
+    }
+    else if (upTrigger)
+    {
         field_0x3ef = SelectType0_JPN;
         Z2GetAudioMgr()->seStart(Z2SE_SY_CURSOR_OPTION, NULL, 0, 0, 1.0f, 1.0f, -1.0f, -1.0f, 0);
-    } else if (downTrigger) {
+    }
+    else if (downTrigger)
+    {
         field_0x3ef = SelectType1;
         Z2GetAudioMgr()->seStart(Z2SE_SY_CURSOR_OPTION, NULL, 0, 0, 1.0f, 1.0f, -1.0f, -1.0f, 0);
-    } else if (leftTrigger) {
-        if (field_0x3e5_JPN == 0) {
+    }
+    else if (leftTrigger)
+    {
+        if (field_0x3e5_JPN == 0)
+        {
             field_0x3e5_JPN = 1;
             field_0x3da = -5;
-        } else if (field_0x3e5_JPN == 1) {
+        }
+        else if (field_0x3e5_JPN == 1)
+        {
             field_0x3e5_JPN = 0;
             field_0x3da = -5;
         }
         field_0x3ef = SelectType3;
         field_0x3f5 = SelectType0;
         Z2GetAudioMgr()->seStart(Z2SE_SY_OPTION_SWITCH, NULL, 0, 0, 1.0f, 1.0f, -1.0f, -1.0f, 0);
-    } else if (rightTrigger) {
-        if (field_0x3e5_JPN == 0) {
+    }
+    else if (rightTrigger)
+    {
+        if (field_0x3e5_JPN == 0)
+        {
             field_0x3e5_JPN = 1;
             field_0x3da = 5;
-        } else if (field_0x3e5_JPN == 1) {
+        }
+        else if (field_0x3e5_JPN == 1)
+        {
             field_0x3e5_JPN = 0;
             field_0x3da = 5;
         }
         field_0x3ef = SelectType3;
         field_0x3f5 = SelectType0;
         Z2GetAudioMgr()->seStart(Z2SE_SY_OPTION_SWITCH, NULL, 0, 0, 1.0f, 1.0f, -1.0f, -1.0f, 0);
-    } else {
+    }
+    else
+    {
         changeTVCheck();
     }
 }
 #endif
 
-void dMenu_Option_c::vib_init() {
+void dMenu_Option_c::vib_init()
+{
     mpDrawCursor->setAlphaRate(1.0f);
     setCursorPos(SelectType1);
     setAButtonString(0x40C);
     setBButtonString(0x3F9);
 }
 
-void dMenu_Option_c::vib_move() {
+void dMenu_Option_c::vib_move()
+{
     bool upTrigger = mpStick->checkUpTrigger();
     bool downTrigger = mpStick->checkDownTrigger();
     bool leftTrigger = checkLeftTrigger();
     bool rightTrigger = checkRightTrigger();
 
-    if (field_0x3f3 != 5) {
+    if (field_0x3f3 != 5)
+    {
         (this->*tv_process[field_0x3f3])();
-    } else if (upTrigger) {
+    }
+    else if (upTrigger)
+    {
         field_0x3ef = SelectType0;
         Z2GetAudioMgr()->seStart(Z2SE_SY_CURSOR_OPTION, NULL, 0, 0, 1.0f, 1.0f, -1.0f, -1.0f, 0);
-    } else if (downTrigger) {
+    }
+    else if (downTrigger)
+    {
         field_0x3ef = SelectType2;
         Z2GetAudioMgr()->seStart(Z2SE_SY_CURSOR_OPTION, NULL, 0, 0, 1.0f, 1.0f, -1.0f, -1.0f, 0);
-    } else if (leftTrigger) {
-        if (isRumbleSupported()) {
-            if (field_0x3ea == 0) {
+    }
+    else if (leftTrigger)
+    {
+        if (isRumbleSupported())
+        {
+            if (field_0x3ea == 0)
+            {
                 field_0x3ea = 1;
                 mDoCPd_c::startMotorWave(0, &field_0x3e0, JUTGamePad::CRumble::VAL_0, 0x3c);
                 field_0x3da = -5;
-            } else if (field_0x3ea == 1) {
+            }
+            else if (field_0x3ea == 1)
+            {
                 field_0x3ea = 0;
                 field_0x3da = -5;
             }
             field_0x3ef = SelectType3;
             field_0x3f5 = SelectType1;
-            Z2GetAudioMgr()->seStart(Z2SE_SY_OPTION_SWITCH, NULL, 0, 0, 1.0f, 1.0f, -1.0f, -1.0f,
-                                     0);
+            Z2GetAudioMgr()->seStart(Z2SE_SY_OPTION_SWITCH, NULL, 0, 0, 1.0f, 1.0f, -1.0f, -1.0f, 0);
         }
-    } else if (rightTrigger) {
-        if (isRumbleSupported()) {
-            if (field_0x3ea == 0) {
+    }
+    else if (rightTrigger)
+    {
+        if (isRumbleSupported())
+        {
+            if (field_0x3ea == 0)
+            {
                 field_0x3ea = 1;
                 mDoCPd_c::startMotorWave(0, &field_0x3e0, JUTGamePad::CRumble::VAL_0, 0x3c);
                 field_0x3da = 5;
-            } else if (field_0x3ea == 1) {
+            }
+            else if (field_0x3ea == 1)
+            {
                 field_0x3ea = 0;
                 field_0x3da = 5;
             }
             field_0x3ef = SelectType3;
             field_0x3f5 = SelectType1;
-            Z2GetAudioMgr()->seStart(Z2SE_SY_OPTION_SWITCH, NULL, 0, 0, 1.0f, 1.0f, -1.0f, -1.0f,
-                                     0);
+            Z2GetAudioMgr()->seStart(Z2SE_SY_OPTION_SWITCH, NULL, 0, 0, 1.0f, 1.0f, -1.0f, -1.0f, 0);
         }
-    } else {
+    }
+    else
+    {
         changeTVCheck();
     }
 }
 
-void dMenu_Option_c::sound_init() {
+void dMenu_Option_c::sound_init()
+{
     mpDrawCursor->setAlphaRate(1.0f);
     setCursorPos(SelectType2);
     setAButtonString(0x40C);
     setBButtonString(0x3F9);
 }
 
-void dMenu_Option_c::sound_move() {
+void dMenu_Option_c::sound_move()
+{
     bool upTrigger = mpStick->checkUpTrigger();
     mpStick->checkDownTrigger();
     bool leftTrigger = checkLeftTrigger();
     bool rightTrigger = checkRightTrigger();
 
-    if (field_0x3f3 != 5) {
+    if (field_0x3f3 != 5)
+    {
         (this->*tv_process[field_0x3f3])();
-    } else if (upTrigger) {
+    }
+    else if (upTrigger)
+    {
         field_0x3ef = SelectType1;
         Z2GetAudioMgr()->seStart(Z2SE_SY_CURSOR_OPTION, NULL, 0, 0, 1.0f, 1.0f, -1.0f, -1.0f, 0);
-    } else if (leftTrigger) {
-        if (field_0x3e9 == 2) {
+    }
+    else if (leftTrigger)
+    {
+        if (field_0x3e9 == 2)
+        {
             field_0x3e9 = 0;
-        } else {
+        }
+        else
+        {
             field_0x3e9++;
         }
         field_0x3da = -5;
-        switch (field_0x3e9) {
-        case 0:
-            Z2GetAudioMgr()->seStart(Z2SE_SY_SOUND_MODE_MONO, NULL, 0, 0, 1.0f, 1.0f, -1.0f, -1.0f,
-                                     0);
-            break;
-        case 1:
-            Z2GetAudioMgr()->seStart(Z2SE_SY_SOUND_MODE_STEREO, NULL, 0, 0, 1.0f, 1.0f, -1.0f,
-                                     -1.0f, 0);
-            break;
-        case 2:
-            Z2GetAudioMgr()->seStart(Z2SE_SY_SOUND_MODE_SURROUND, NULL, 0, 0, 1.0f, 1.0f, -1.0f,
-                                     -1.0f, 0);
-            break;
+        switch (field_0x3e9)
+        {
+            case 0:
+                Z2GetAudioMgr()->seStart(Z2SE_SY_SOUND_MODE_MONO, NULL, 0, 0, 1.0f, 1.0f, -1.0f, -1.0f, 0);
+                break;
+            case 1:
+                Z2GetAudioMgr()->seStart(Z2SE_SY_SOUND_MODE_STEREO, NULL, 0, 0, 1.0f, 1.0f, -1.0f, -1.0f, 0);
+                break;
+            case 2:
+                Z2GetAudioMgr()->seStart(Z2SE_SY_SOUND_MODE_SURROUND, NULL, 0, 0, 1.0f, 1.0f, -1.0f, -1.0f, 0);
+                break;
         }
         mDoAud_setOutputMode(dMo_soundMode[field_0x3e9]);
         setSoundMode(dMo_soundMode[field_0x3e9]);
         field_0x3ef = SelectType3;
         field_0x3f5 = SelectType2;
         Z2GetAudioMgr()->seStart(Z2SE_SY_OPTION_SWITCH, NULL, 0, 0, 1.0f, 1.0f, -1.0f, -1.0f, 0);
-    } else if (rightTrigger) {
-        if (field_0x3e9 == 0) {
+    }
+    else if (rightTrigger)
+    {
+        if (field_0x3e9 == 0)
+        {
             field_0x3e9 = 2;
-        } else {
+        }
+        else
+        {
             field_0x3e9--;
         }
         field_0x3da = 5;
-        switch (field_0x3e9) {
-        case 0:
-            Z2GetAudioMgr()->seStart(Z2SE_SY_SOUND_MODE_MONO, NULL, 0, 0, 1.0f, 1.0f, -1.0f, -1.0f,
-                                     0);
-            break;
-        case 1:
-            Z2GetAudioMgr()->seStart(Z2SE_SY_SOUND_MODE_STEREO, NULL, 0, 0, 1.0f, 1.0f, -1.0f,
-                                     -1.0f, 0);
-            break;
-        case 2:
-            Z2GetAudioMgr()->seStart(Z2SE_SY_SOUND_MODE_SURROUND, NULL, 0, 0, 1.0f, 1.0f, -1.0f,
-                                     -1.0f, 0);
-            break;
+        switch (field_0x3e9)
+        {
+            case 0:
+                Z2GetAudioMgr()->seStart(Z2SE_SY_SOUND_MODE_MONO, NULL, 0, 0, 1.0f, 1.0f, -1.0f, -1.0f, 0);
+                break;
+            case 1:
+                Z2GetAudioMgr()->seStart(Z2SE_SY_SOUND_MODE_STEREO, NULL, 0, 0, 1.0f, 1.0f, -1.0f, -1.0f, 0);
+                break;
+            case 2:
+                Z2GetAudioMgr()->seStart(Z2SE_SY_SOUND_MODE_SURROUND, NULL, 0, 0, 1.0f, 1.0f, -1.0f, -1.0f, 0);
+                break;
         }
         mDoAud_setOutputMode(dMo_soundMode[field_0x3e9]);
         setSoundMode(dMo_soundMode[field_0x3e9]);
         field_0x3ef = SelectType3;
         field_0x3f5 = SelectType2;
         Z2GetAudioMgr()->seStart(Z2SE_SY_OPTION_SWITCH, NULL, 0, 0, 1.0f, 1.0f, -1.0f, -1.0f, 0);
-    } else {
+    }
+    else
+    {
         changeTVCheck();
     }
 }
 
-void dMenu_Option_c::change_init() {
+void dMenu_Option_c::change_init()
+{
     setAButtonString(0x40C);
     setBButtonString(0x3F9);
 }
 
-void dMenu_Option_c::change_move() {
+void dMenu_Option_c::change_move()
+{
     f32 x = 0.0f;
 
-    if (field_0x3da > 0) {
+    if (field_0x3da > 0)
+    {
         field_0x3da--;
-    } else if (field_0x3da < 0) {
+    }
+    else if (field_0x3da < 0)
+    {
         field_0x3da++;
     }
     u8 index;
-    switch (field_0x3f5) {
+    switch (field_0x3f5)
+    {
 #if VERSION == VERSION_GCN_JPN
-    case SelectType0_JPN:
-        index = SelectType0_JPN;
-        if (field_0x3da == 0) {
-            setAttenString();
-        }
-        break;
+        case SelectType0_JPN:
+            index = SelectType0_JPN;
+            if (field_0x3da == 0)
+            {
+                setAttenString();
+            }
+            break;
 #endif
-    case SelectType0:
-        index = SelectType0;
-        if (field_0x3da == 0) {
+        case SelectType0:
+            index = SelectType0;
+            if (field_0x3da == 0)
+            {
 #if VERSION == VERSION_GCN_JPN
-            setRubyString();
+                setRubyString();
 #else
-            setAttenString();
+                setAttenString();
 #endif
-        }
-        break;
-    case SelectType1:
-        index = SelectType1;
-        if (field_0x3da == 0) {
-            setVibString();
-        }
-        break;
-    case SelectType2:
-        index = SelectType2;
-        if (field_0x3da == 0) {
-            setSoundString();
-        }
-        break;
+            }
+            break;
+        case SelectType1:
+            index = SelectType1;
+            if (field_0x3da == 0)
+            {
+                setVibString();
+            }
+            break;
+        case SelectType2:
+            index = SelectType2;
+            if (field_0x3da == 0)
+            {
+                setSoundString();
+            }
+            break;
     }
-    if (field_0x3da > 0) {
+    if (field_0x3da > 0)
+    {
         f32 initPosX = (5 - field_0x3da) / 5.0f;
-        if (mpMenuText[index][3] != NULL) {
+        if (mpMenuText[index][3] != NULL)
+        {
             x = mpMenuText[index][3]->getInitPosX() - mpMenuText[index][0]->getInitPosX();
         }
         x *= initPosX;
-    } else if (field_0x3da < 0) {
+    }
+    else if (field_0x3da < 0)
+    {
         f32 initPosX = (field_0x3da + 5) / 5.0f;
-        if (mpMenuText[index][5] != NULL) {
+        if (mpMenuText[index][5] != NULL)
+        {
             x = mpMenuText[index][5]->getInitPosX() - mpMenuText[index][0]->getInitPosX();
         }
         x *= initPosX;
     }
-    for (int i = 0; i < 6; i++) {
-        if (mpMenuText[index][i] != NULL) {
+    for (int i = 0; i < 6; i++)
+    {
+        if (mpMenuText[index][i] != NULL)
+        {
             mpMenuText[index][i]->show();
             mpMenuText[index][i]->paneTrans(x + field_0x3b4, 0.0f);
         }
     }
-    if (field_0x3da == 0) {
-        for (int i = 0; i < 6; i++) {
-            for (int j = 2; j < 6; j++) {
+    if (field_0x3da == 0)
+    {
+        for (int i = 0; i < 6; i++)
+        {
+            for (int j = 2; j < 6; j++)
+            {
                 CPaneMgr* menuText = mpMenuText[i][j];
-                if (menuText != NULL) {
+                if (menuText != NULL)
+                {
                     menuText->hide();
                 }
             }
@@ -1028,10 +1213,14 @@ void dMenu_Option_c::change_move() {
     }
 }
 
-void dMenu_Option_c::confirm_open_init() {
-    if (field_0x3f7 == 1) {
+void dMenu_Option_c::confirm_open_init()
+{
+    if (field_0x3f7 == 1)
+    {
         mpWarning->setText(0x55F);
-    } else {
+    }
+    else
+    {
         mpWarning->setText(0x560);
     }
     mpWarning->openInit();
@@ -1044,17 +1233,21 @@ void dMenu_Option_c::confirm_open_init() {
     Z2GetAudioMgr()->seStart(Z2SE_SY_EXP_WIN_OPEN, NULL, 0, 0, 1.0f, 1.0f, -1.0f, -1.0f, 0);
 }
 
-void dMenu_Option_c::confirm_open_move() {
+void dMenu_Option_c::confirm_open_move()
+{
     u32 status = mpWarning->getStatus();
     bool yesNoMenuMove = yesnoMenuMoveAnm();
 
-    if (field_0x374 != 1.0f) {
+    if (field_0x374 != 1.0f)
+    {
         cLib_addCalc2(&field_0x374, 1.0f, 0.4f, 0.5f);
-        if (fabsf(field_0x374 - 1.0f) < 0.1f) {
+        if (fabsf(field_0x374 - 1.0f) < 0.1f)
+        {
             field_0x374 = 1.0f;
         }
     }
-    if (status == 1 && yesNoMenuMove == 1 && field_0x374 == 1.0f) {
+    if (status == 1 && yesNoMenuMove == 1 && field_0x374 == 1.0f)
+    {
         yesnoCursorShow();
         field_0x3ef = SelectType5;
     }
@@ -1062,37 +1255,46 @@ void dMenu_Option_c::confirm_open_move() {
     setAnimation();
 }
 
-void dMenu_Option_c::confirm_move_init() {
+void dMenu_Option_c::confirm_move_init()
+{
     setAButtonString(0x40C);
     setBButtonString(0x3F9);
 }
 
-void dMenu_Option_c::confirm_move_move() {
+void dMenu_Option_c::confirm_move_move()
+{
     bool leftTrigger = checkLeftTrigger();
     bool rightTrigger = checkRightTrigger();
 
-    if (mDoCPd_c::getTrigA(PAD_1) != 0) {
+    if (mDoCPd_c::getTrigA(PAD_1) != 0)
+    {
         yesNoSelectStart();
         field_0x3ef = SelectType7;
         dMeter2Info_set2DVibrationM();
-    } else if (mDoCPd_c::getTrigB(PAD_1) != 0) {
+    }
+    else if (mDoCPd_c::getTrigB(PAD_1) != 0)
+    {
         field_0x3f9 = 0;
         yesnoCancelAnmSet();
         field_0x3ef = SelectType7;
         dMeter2Info_set2DVibrationM();
-    } else if (rightTrigger != 0) {
-        if (field_0x3f9 != 0) {
-            Z2GetAudioMgr()->seStart(Z2SE_SY_MENU_CURSOR_COMMON, NULL, 0, 0, 1.0f, 1.0f, -1.0f,
-                                     -1.0f, 0);
+    }
+    else if (rightTrigger != 0)
+    {
+        if (field_0x3f9 != 0)
+        {
+            Z2GetAudioMgr()->seStart(Z2SE_SY_MENU_CURSOR_COMMON, NULL, 0, 0, 1.0f, 1.0f, -1.0f, -1.0f, 0);
             field_0x3fa = field_0x3f9;
             field_0x3f9 = 0;
             yesnoSelectAnmSet();
             field_0x3ef = SelectType6;
         }
-    } else if (leftTrigger != 0) {
-        if (field_0x3f9 != 1) {
-            Z2GetAudioMgr()->seStart(Z2SE_SY_MENU_CURSOR_COMMON, NULL, 0, 0, 1.0f, 1.0f, -1.0f,
-                                     -1.0f, 0);
+    }
+    else if (leftTrigger != 0)
+    {
+        if (field_0x3f9 != 1)
+        {
+            Z2GetAudioMgr()->seStart(Z2SE_SY_MENU_CURSOR_COMMON, NULL, 0, 0, 1.0f, 1.0f, -1.0f, -1.0f, 0);
             field_0x3fa = field_0x3f9;
             field_0x3f9 = 1;
             yesnoSelectAnmSet();
@@ -1103,14 +1305,15 @@ void dMenu_Option_c::confirm_move_move() {
     setAnimation();
 }
 
-void dMenu_Option_c::confirm_select_init() {
-}
+void dMenu_Option_c::confirm_select_init() {}
 
-void dMenu_Option_c::confirm_select_move() {
+void dMenu_Option_c::confirm_select_move()
+{
     u8 selectMoveAnm = yesnoSelectMoveAnm();
     u8 wakuAlphaAnm = yesnoWakuAlpahAnm(field_0x3fa);
 
-    if (selectMoveAnm == 1 && wakuAlphaAnm == 1) {
+    if (selectMoveAnm == 1 && wakuAlphaAnm == 1)
+    {
         yesnoCursorShow();
         field_0x3ef = SelectType5;
     }
@@ -1118,7 +1321,8 @@ void dMenu_Option_c::confirm_select_move() {
     setAnimation();
 }
 
-void dMenu_Option_c::confirm_close_init() {
+void dMenu_Option_c::confirm_close_init()
+{
     mpWarning->closeInit();
     setSelectColor(field_0x403, false);
     changeBarColor(false);
@@ -1127,47 +1331,64 @@ void dMenu_Option_c::confirm_close_init() {
     Z2GetAudioMgr()->seStart(Z2SE_SY_EXP_WIN_CLOSE, NULL, 0, 0, 1.0f, 1.0f, -1.0f, -1.0f, 0);
 }
 
-void dMenu_Option_c::confirm_close_move() {
+void dMenu_Option_c::confirm_close_move()
+{
     u32 status = mpWarning->getStatus();
     yesnoMenuMoveAnm();
-    if (field_0x374 != 0.0f) {
+    if (field_0x374 != 0.0f)
+    {
         cLib_addCalc2(&field_0x374, 0.0f, 0.4f, 0.5);
-        if (fabsf(field_0x374) < 0.1f) {
+        if (fabsf(field_0x374) < 0.1f)
+        {
             field_0x374 = 0.0f;
         }
     }
-    if (status == 1 && status == 1 && field_0x374 == 0.0f) {
-        if (field_0x3f7 == 1) {
-            if (field_0x3f9 == 1) {
+    if (status == 1 && status == 1 && field_0x374 == 0.0f)
+    {
+        if (field_0x3f7 == 1)
+        {
+            if (field_0x3f9 == 1)
+            {
                 mQuitStatus = 3;
                 dComIfGs_setOptAttentionType(field_0x3e4);
 #if VERSION == VERSION_GCN_JPN
-                if (field_0x3e5_JPN == 0) {
+                if (field_0x3e5_JPN == 0)
+                {
                     dComIfGs_setOptRuby(1);
-                } else {
+                }
+                else
+                {
                     dComIfGs_setOptRuby(0);
                 }
 #endif
-                if (isRumbleSupported()) {
+                if (isRumbleSupported())
+                {
                     dComIfGs_setOptVibration(field_0x3ea);
                 }
                 dComIfGs_setOptSound(field_0x3e9);
                 dComIfGp_setNowVibration(field_0x3ea);
                 dComIfGs_setOptCameraControl(field_0x3e5);
                 mpDrawCursor->offPlayAnime(0);
-            } else {
+            }
+            else
+            {
                 mpDrawCursor->setParam(1.01f, 0.85f, 0.02f, 0.5f, 0.5f);
                 field_0x3ef = field_0x3f5;
             }
-        } else if (field_0x3f9 == 1) {
+        }
+        else if (field_0x3f9 == 1)
+        {
             mQuitStatus = 3;
-            if (field_0x3e9 != dComIfGs_getOptSound()) {
+            if (field_0x3e9 != dComIfGs_getOptSound())
+            {
                 field_0x3e9 = dComIfGs_getOptSound();
                 Z2GetAudioMgr()->setOutputMode(dMo_soundMode[field_0x3e9]);
                 setSoundMode(dMo_soundMode[field_0x3e9]);
             }
             mpDrawCursor->offPlayAnime(0);
-        } else {
+        }
+        else
+        {
             mpDrawCursor->setParam(1.01f, 0.85f, 0.02f, 0.5f, 0.5f);
             field_0x3ef = field_0x3f5;
         }
@@ -1176,8 +1397,10 @@ void dMenu_Option_c::confirm_close_move() {
     setAnimation();
 }
 
-void dMenu_Option_c::tv_open1_move() {
-    if (mDoGph_gInf_c::getFader()->getStatus() == 0) {
+void dMenu_Option_c::tv_open1_move()
+{
+    if (mDoGph_gInf_c::getFader()->getStatus() == 0)
+    {
         dMw_c::dMw_fade_in();
         field_0x330 = 0.0f;
         field_0x3f3 = 1;
@@ -1187,14 +1410,18 @@ void dMenu_Option_c::tv_open1_move() {
     }
 }
 
-void dMenu_Option_c::tv_open2_move() {
-    if (mDoGph_gInf_c::getFader()->getStatus() == 1) {
+void dMenu_Option_c::tv_open2_move()
+{
+    if (mDoGph_gInf_c::getFader()->getStatus() == 1)
+    {
         field_0x3f3 = 2;
     }
 }
 
-void dMenu_Option_c::tv_move_move() {
-    if (mDoCPd_c::getTrigZ(PAD_1) != 0 || mDoCPd_c::getTrigA(PAD_1) != 0) {
+void dMenu_Option_c::tv_move_move()
+{
+    if (mDoCPd_c::getTrigZ(PAD_1) != 0 || mDoCPd_c::getTrigA(PAD_1) != 0)
+    {
         Z2GetAudioMgr()->seStart(Z2SE_SY_MENU_BACK, NULL, 0, 0, 1.0f, 1.0f, -1.0f, -1.0f, 0);
         field_0x3f3 = 3;
         setAButtonString(0x40C);
@@ -1204,8 +1431,10 @@ void dMenu_Option_c::tv_move_move() {
     }
 }
 
-void dMenu_Option_c::tv_close1_move() {
-    if (mDoGph_gInf_c::getFader()->getStatus() == 0) {
+void dMenu_Option_c::tv_close1_move()
+{
+    if (mDoGph_gInf_c::getFader()->getStatus() == 0)
+    {
         dMw_c::dMw_fade_in();
         field_0x3f3 = 4;
         setZButtonString(1);
@@ -1213,146 +1442,251 @@ void dMenu_Option_c::tv_close1_move() {
     }
 }
 
-void dMenu_Option_c::tv_close2_move() {
-    if (mDoGph_gInf_c::getFader()->getStatus() == 1) {
+void dMenu_Option_c::tv_close2_move()
+{
+    if (mDoGph_gInf_c::getFader()->getStatus() == 1)
+    {
         field_0x3f3 = 5;
     }
 }
 
-void dMenu_Option_c::calibration_open1_move() {
-    if (mDoGph_gInf_c::getFader()->getStatus() == 0) {
+void dMenu_Option_c::calibration_open1_move()
+{
+    if (mDoGph_gInf_c::getFader()->getStatus() == 0)
+    {
         dMw_c::dMw_fade_in();
         field_0x3f4 = 1;
     }
 }
 
-void dMenu_Option_c::calibration_open2_move() {
-    if (mDoGph_gInf_c::getFader()->getStatus() == 1) {
+void dMenu_Option_c::calibration_open2_move()
+{
+    if (mDoGph_gInf_c::getFader()->getStatus() == 1)
+    {
         field_0x3f4 = 2;
     }
 }
 
-void dMenu_Option_c::calibration_move_move() {
-    if (mpCalibration->mStatus == 0) {
+void dMenu_Option_c::calibration_move_move()
+{
+    if (mpCalibration->mStatus == 0)
+    {
         dMw_c::dMw_fade_out();
         field_0x3f4 = 3;
-    } else if (mpCalibration->mStatus == 1) {
+    }
+    else if (mpCalibration->mStatus == 1)
+    {
         mpCalibration->_move();
     }
 }
 
-void dMenu_Option_c::calibration_close1_move() {
-    if (mDoGph_gInf_c::getFader()->getStatus() == 0) {
+void dMenu_Option_c::calibration_close1_move()
+{
+    if (mDoGph_gInf_c::getFader()->getStatus() == 0)
+    {
         dMw_c::dMw_fade_in();
         field_0x3f4 = 4;
     }
 }
 
-void dMenu_Option_c::calibration_close2_move() {
-    if (mDoGph_gInf_c::getFader()->getStatus() == 1) {
+void dMenu_Option_c::calibration_close2_move()
+{
+    if (mDoGph_gInf_c::getFader()->getStatus() == 1)
+    {
         field_0x3f4 = 5;
     }
 }
 
-void dMenu_Option_c::menuVisible() {
-    for (int i = 0; i < 6; i++) {
-        if (i < SelectType3) {
+void dMenu_Option_c::menuVisible()
+{
+    for (int i = 0; i < 6; i++)
+    {
+        if (i < SelectType3)
+        {
             menuShow(i);
-        } else {
+        }
+        else
+        {
             menuHide(i);
         }
     }
 }
 
-void dMenu_Option_c::menuShow(int index) {
+void dMenu_Option_c::menuShow(int index)
+{
     mpMenuNull[index]->show();
     mpMenuPane[index]->show();
-    if (mpMenuPaneC[index] != NULL) {
+    if (mpMenuPaneC[index] != NULL)
+    {
         mpMenuPaneC[index]->show();
     }
-    if (mpMenuPane2[index] != NULL) {
+    if (mpMenuPane2[index] != NULL)
+    {
         mpMenuPane2[index]->show();
     }
-    if (mpMenuPane3[index] != NULL) {
+    if (mpMenuPane3[index] != NULL)
+    {
         mpMenuPane3[index]->show();
     }
-    for (int i = 0; i < 2; i++) {
-        if (mpMenuText[index][i] != NULL) {
+    for (int i = 0; i < 2; i++)
+    {
+        if (mpMenuText[index][i] != NULL)
+        {
             mpMenuText[index][i]->show();
         }
     }
 }
 
-void dMenu_Option_c::menuHide(int index) {
+void dMenu_Option_c::menuHide(int index)
+{
     mpMenuNull[index]->hide();
     mpMenuPane[index]->hide();
-    if (mpMenuPaneC[index] != NULL) {
+    if (mpMenuPaneC[index] != NULL)
+    {
         mpMenuPaneC[index]->hide();
     }
-    if (mpMenuPane2[index] != NULL) {
+    if (mpMenuPane2[index] != NULL)
+    {
         mpMenuPane2[index]->hide();
     }
-    if (mpMenuPane3[index] != NULL) {
+    if (mpMenuPane3[index] != NULL)
+    {
         mpMenuPane3[index]->hide();
     }
-    for (int i = 0; i < 2; i++) {
-        if (mpMenuText[index][i] != NULL) {
+    for (int i = 0; i < 2; i++)
+    {
+        if (mpMenuText[index][i] != NULL)
+        {
             mpMenuText[index][i]->hide();
         }
     }
 }
 
-void dMenu_Option_c::screenSet() {
+void dMenu_Option_c::screenSet()
+{
     static const u64 tag_frame[6] = {
-        MULTI_CHAR('flame_00'), MULTI_CHAR('flame_01'), MULTI_CHAR('flame_02'), MULTI_CHAR('flame_03'), MULTI_CHAR('flame_04'), MULTI_CHAR('flame_05'),
+        MULTI_CHAR('flame_00'),
+        MULTI_CHAR('flame_01'),
+        MULTI_CHAR('flame_02'),
+        MULTI_CHAR('flame_03'),
+        MULTI_CHAR('flame_04'),
+        MULTI_CHAR('flame_05'),
     };
 #if VERSION == VERSION_GCN_JPN
     static const u64 tag_menu0[6] = {
-        MULTI_CHAR('menu_t0'), MULTI_CHAR('menu_t1'), MULTI_CHAR('menu_t2'), MULTI_CHAR('menu_t3'), MULTI_CHAR('menu_t4'), MULTI_CHAR('menu_t5'),
+        MULTI_CHAR('menu_t0'),
+        MULTI_CHAR('menu_t1'),
+        MULTI_CHAR('menu_t2'),
+        MULTI_CHAR('menu_t3'),
+        MULTI_CHAR('menu_t4'),
+        MULTI_CHAR('menu_t5'),
     };
 #else
     static const u64 tag_menu0[6] = {
-        MULTI_CHAR('fenu_t0'), MULTI_CHAR('fenu_t1'), MULTI_CHAR('fenu_t2'), MULTI_CHAR('fenu_t3'), MULTI_CHAR('fenu_t4'), MULTI_CHAR('fenu_t5'),
+        MULTI_CHAR('fenu_t0'),
+        MULTI_CHAR('fenu_t1'),
+        MULTI_CHAR('fenu_t2'),
+        MULTI_CHAR('fenu_t3'),
+        MULTI_CHAR('fenu_t4'),
+        MULTI_CHAR('fenu_t5'),
     };
 #endif
     static const u64 let_n[6] = {
-        MULTI_CHAR('let_00_n'), MULTI_CHAR('let_01_n'), MULTI_CHAR('let_02_n'), MULTI_CHAR('let_03_n'), MULTI_CHAR('let_04_n'), MULTI_CHAR('let_05_n'),
+        MULTI_CHAR('let_00_n'),
+        MULTI_CHAR('let_01_n'),
+        MULTI_CHAR('let_02_n'),
+        MULTI_CHAR('let_03_n'),
+        MULTI_CHAR('let_04_n'),
+        MULTI_CHAR('let_05_n'),
     };
     static const u64 let2_n[6] = {
-        MULTI_CHAR('let_00_n'), MULTI_CHAR('let_01_n'), MULTI_CHAR('let_02_n'), MULTI_CHAR('let_03_n'), MULTI_CHAR('let_04_n'),
+        MULTI_CHAR('let_00_n'),
+        MULTI_CHAR('let_01_n'),
+        MULTI_CHAR('let_02_n'),
+        MULTI_CHAR('let_03_n'),
+        MULTI_CHAR('let_04_n'),
     };
     static const u64 menu_n[6] = {
-        MULTI_CHAR('menu_n0'), MULTI_CHAR('menu_n1'), MULTI_CHAR('menu_n2'), MULTI_CHAR('menu_n3'), MULTI_CHAR('menu_n4'), MULTI_CHAR('menu_n5'),
+        MULTI_CHAR('menu_n0'),
+        MULTI_CHAR('menu_n1'),
+        MULTI_CHAR('menu_n2'),
+        MULTI_CHAR('menu_n3'),
+        MULTI_CHAR('menu_n4'),
+        MULTI_CHAR('menu_n5'),
     };
     static const u64 menu2_n[6] = {
-        MULTI_CHAR('mw_n_0'), MULTI_CHAR('mw_n_1'), MULTI_CHAR('mw_n_2'), MULTI_CHAR('mw_n_3'), MULTI_CHAR('mw_n_4'),
+        MULTI_CHAR('mw_n_0'),
+        MULTI_CHAR('mw_n_1'),
+        MULTI_CHAR('mw_n_2'),
+        MULTI_CHAR('mw_n_3'),
+        MULTI_CHAR('mw_n_4'),
     };
     static const u64 al0_n[6] = {
-        MULTI_CHAR('s_grr_00'), MULTI_CHAR('s_grr_01'), MULTI_CHAR('s_grr_02'), MULTI_CHAR('s_grr_03'), MULTI_CHAR('s_grr_04'), MULTI_CHAR('s_grr_05'),
+        MULTI_CHAR('s_grr_00'),
+        MULTI_CHAR('s_grr_01'),
+        MULTI_CHAR('s_grr_02'),
+        MULTI_CHAR('s_grr_03'),
+        MULTI_CHAR('s_grr_04'),
+        MULTI_CHAR('s_grr_05'),
     };
     static const u64 al1_n[6] = {
-        MULTI_CHAR('c_grr_00'), MULTI_CHAR('c_grr_01'), MULTI_CHAR('c_grr_02'), MULTI_CHAR('c_grr_03'), MULTI_CHAR('c_grr_04'), MULTI_CHAR('c_grr_05'),
+        MULTI_CHAR('c_grr_00'),
+        MULTI_CHAR('c_grr_01'),
+        MULTI_CHAR('c_grr_02'),
+        MULTI_CHAR('c_grr_03'),
+        MULTI_CHAR('c_grr_04'),
+        MULTI_CHAR('c_grr_05'),
     };
     static const u64 al2_n[6] = {
-        MULTI_CHAR('s_grl_00'), MULTI_CHAR('s_grl_01'), MULTI_CHAR('s_grl_02'), MULTI_CHAR('s_grl_03'), MULTI_CHAR('s_grl_04'), MULTI_CHAR('s_grl_05'),
+        MULTI_CHAR('s_grl_00'),
+        MULTI_CHAR('s_grl_01'),
+        MULTI_CHAR('s_grl_02'),
+        MULTI_CHAR('s_grl_03'),
+        MULTI_CHAR('s_grl_04'),
+        MULTI_CHAR('s_grl_05'),
     };
     static const u64 al3_n[6] = {
-        MULTI_CHAR('c_grl_00'), MULTI_CHAR('c_grl_01'), MULTI_CHAR('c_grl_02'), MULTI_CHAR('c_grl_03'), MULTI_CHAR('c_grl_04'), MULTI_CHAR('c_grl_05'),
+        MULTI_CHAR('c_grl_00'),
+        MULTI_CHAR('c_grl_01'),
+        MULTI_CHAR('c_grl_02'),
+        MULTI_CHAR('c_grl_03'),
+        MULTI_CHAR('c_grl_04'),
+        MULTI_CHAR('c_grl_05'),
     };
     static const u64 haihail_n[5] = {
-        MULTI_CHAR('y_set_l0'), MULTI_CHAR('y_set_l1'), MULTI_CHAR('y_set_l2'), MULTI_CHAR('y_set_l3'), MULTI_CHAR('y_set_l4'),
+        MULTI_CHAR('y_set_l0'),
+        MULTI_CHAR('y_set_l1'),
+        MULTI_CHAR('y_set_l2'),
+        MULTI_CHAR('y_set_l3'),
+        MULTI_CHAR('y_set_l4'),
     };
     static const u64 haihair_n[5] = {
-        MULTI_CHAR('y_set_r0'), MULTI_CHAR('y_set_r1'), MULTI_CHAR('y_set_r2'), MULTI_CHAR('y_set_r3'), MULTI_CHAR('y_set_r4'),
+        MULTI_CHAR('y_set_r0'),
+        MULTI_CHAR('y_set_r1'),
+        MULTI_CHAR('y_set_r2'),
+        MULTI_CHAR('y_set_r3'),
+        MULTI_CHAR('y_set_r4'),
     };
     static const u64 menu3_n[6] = {
-        MULTI_CHAR('menuapn0'), MULTI_CHAR('menuapn1'), MULTI_CHAR('menuapn2'), MULTI_CHAR('menuapn3'), MULTI_CHAR('menuapn4'),
+        MULTI_CHAR('menuapn0'),
+        MULTI_CHAR('menuapn1'),
+        MULTI_CHAR('menuapn2'),
+        MULTI_CHAR('menuapn3'),
+        MULTI_CHAR('menuapn4'),
     };
     static const u64 tv_btnA[5] = {
-        MULTI_CHAR('cont_at1'), MULTI_CHAR('cont_at2'), MULTI_CHAR('cont_at3'), MULTI_CHAR('cont_at4'), MULTI_CHAR('cont_at'),
+        MULTI_CHAR('cont_at1'),
+        MULTI_CHAR('cont_at2'),
+        MULTI_CHAR('cont_at3'),
+        MULTI_CHAR('cont_at4'),
+        MULTI_CHAR('cont_at'),
     };
     static const u64 ftv_btnA[5] = {
-        MULTI_CHAR('font_a1'), MULTI_CHAR('font_at2'), MULTI_CHAR('font_at3'), MULTI_CHAR('font_at4'), MULTI_CHAR('font_at'),
+        MULTI_CHAR('font_a1'),
+        MULTI_CHAR('font_at2'),
+        MULTI_CHAR('font_at3'),
+        MULTI_CHAR('font_at4'),
+        MULTI_CHAR('font_at'),
     };
 #if VERSION == VERSION_GCN_JPN
     static const u64 fenu_t0[2] = {MULTI_CHAR('fenu_t0s'), MULTI_CHAR('fenu_t0')};
@@ -1382,66 +1716,148 @@ void dMenu_Option_c::screenSet() {
     static const u64 menu_t5[2] = {MULTI_CHAR('menu_t5s'), MULTI_CHAR('menu_t5')};
 #endif
     static const u64 menut_0[6] = {
-        MULTI_CHAR('menut0as'), MULTI_CHAR('menut0a'), MULTI_CHAR('menut0a2'), MULTI_CHAR('menut0a1'), MULTI_CHAR('menut0a4'), MULTI_CHAR('menut0a3'),
+        MULTI_CHAR('menut0as'),
+        MULTI_CHAR('menut0a'),
+        MULTI_CHAR('menut0a2'),
+        MULTI_CHAR('menut0a1'),
+        MULTI_CHAR('menut0a4'),
+        MULTI_CHAR('menut0a3'),
     };
     static const u64 fenut_0[6] = {
-        MULTI_CHAR('menut010'), MULTI_CHAR('menut0a9'), MULTI_CHAR('menut0a8'), MULTI_CHAR('menut0a7'), MULTI_CHAR('menut0a6'), MULTI_CHAR('menut0a5'),
+        MULTI_CHAR('menut010'),
+        MULTI_CHAR('menut0a9'),
+        MULTI_CHAR('menut0a8'),
+        MULTI_CHAR('menut0a7'),
+        MULTI_CHAR('menut0a6'),
+        MULTI_CHAR('menut0a5'),
     };
     static const u64 menut_1[6] = {
-        MULTI_CHAR('menut1as'), MULTI_CHAR('menut1a'), MULTI_CHAR('menut1a2'), MULTI_CHAR('menut1a1'), MULTI_CHAR('menut1a4'), MULTI_CHAR('menut1a3'),
+        MULTI_CHAR('menut1as'),
+        MULTI_CHAR('menut1a'),
+        MULTI_CHAR('menut1a2'),
+        MULTI_CHAR('menut1a1'),
+        MULTI_CHAR('menut1a4'),
+        MULTI_CHAR('menut1a3'),
     };
     static const u64 fenut_1[6] = {
-        MULTI_CHAR('menut110'), MULTI_CHAR('menut1a9'), MULTI_CHAR('menut1a8'), MULTI_CHAR('menut1a7'), MULTI_CHAR('menut1a6'), MULTI_CHAR('menut1a5'),
+        MULTI_CHAR('menut110'),
+        MULTI_CHAR('menut1a9'),
+        MULTI_CHAR('menut1a8'),
+        MULTI_CHAR('menut1a7'),
+        MULTI_CHAR('menut1a6'),
+        MULTI_CHAR('menut1a5'),
     };
     static const u64 menut_2[6] = {
-        MULTI_CHAR('menut2as'), MULTI_CHAR('menut2a'), MULTI_CHAR('menut2a2'), MULTI_CHAR('menut2a1'), MULTI_CHAR('menut2a4'), MULTI_CHAR('menut2a3'),
+        MULTI_CHAR('menut2as'),
+        MULTI_CHAR('menut2a'),
+        MULTI_CHAR('menut2a2'),
+        MULTI_CHAR('menut2a1'),
+        MULTI_CHAR('menut2a4'),
+        MULTI_CHAR('menut2a3'),
     };
     static const u64 fenut_2[6] = {
-        MULTI_CHAR('menut210'), MULTI_CHAR('menut2a9'), MULTI_CHAR('menut2a8'), MULTI_CHAR('menut2a7'), MULTI_CHAR('menut2a6'), MULTI_CHAR('menut2a5'),
+        MULTI_CHAR('menut210'),
+        MULTI_CHAR('menut2a9'),
+        MULTI_CHAR('menut2a8'),
+        MULTI_CHAR('menut2a7'),
+        MULTI_CHAR('menut2a6'),
+        MULTI_CHAR('menut2a5'),
     };
     static const u64 menut_3[6] = {
-        MULTI_CHAR('menut3a5'), MULTI_CHAR('menut3a6'), MULTI_CHAR('menut3a7'), MULTI_CHAR('menut3a8'), MULTI_CHAR('menut3a9'), MULTI_CHAR('menut310'),
+        MULTI_CHAR('menut3a5'),
+        MULTI_CHAR('menut3a6'),
+        MULTI_CHAR('menut3a7'),
+        MULTI_CHAR('menut3a8'),
+        MULTI_CHAR('menut3a9'),
+        MULTI_CHAR('menut310'),
     };
     static const u64 fenut_3[6] = {
-        MULTI_CHAR('menut315'), MULTI_CHAR('menut314'), MULTI_CHAR('menut313'), MULTI_CHAR('menut312'), MULTI_CHAR('menut311'), MULTI_CHAR('menut001'),
+        MULTI_CHAR('menut315'),
+        MULTI_CHAR('menut314'),
+        MULTI_CHAR('menut313'),
+        MULTI_CHAR('menut312'),
+        MULTI_CHAR('menut311'),
+        MULTI_CHAR('menut001'),
     };
     static const u64 menut_4[6] = {
-        MULTI_CHAR('menut3as'), MULTI_CHAR('menut3a'), MULTI_CHAR('menut3a2'), MULTI_CHAR('menut3a1'), MULTI_CHAR('menut3a4'), MULTI_CHAR('menut3a3'),
+        MULTI_CHAR('menut3as'),
+        MULTI_CHAR('menut3a'),
+        MULTI_CHAR('menut3a2'),
+        MULTI_CHAR('menut3a1'),
+        MULTI_CHAR('menut3a4'),
+        MULTI_CHAR('menut3a3'),
     };
     static const u64 fenut_4[6] = {
-        MULTI_CHAR('menut321'), MULTI_CHAR('menut320'), MULTI_CHAR('menut319'), MULTI_CHAR('menut318'), MULTI_CHAR('menut317'), MULTI_CHAR('menut316'),
+        MULTI_CHAR('menut321'),
+        MULTI_CHAR('menut320'),
+        MULTI_CHAR('menut319'),
+        MULTI_CHAR('menut318'),
+        MULTI_CHAR('menut317'),
+        MULTI_CHAR('menut316'),
     };
 #if VERSION == VERSION_GCN_JPN
     static const u64 tx[6] = {
-        MULTI_CHAR('wps_text'), MULTI_CHAR('w_p_text'), MULTI_CHAR('g_ps_tx3'), MULTI_CHAR('g_p_tex3'), MULTI_CHAR('wps_tex1'), MULTI_CHAR('w_p_tex1'),
+        MULTI_CHAR('wps_text'),
+        MULTI_CHAR('w_p_text'),
+        MULTI_CHAR('g_ps_tx3'),
+        MULTI_CHAR('g_p_tex3'),
+        MULTI_CHAR('wps_tex1'),
+        MULTI_CHAR('w_p_tex1'),
     };
 #else
     static const u64 tx[6] = {
-        MULTI_CHAR('w_p_tex5'), MULTI_CHAR('w_p_tex6'), MULTI_CHAR('w_p_tex3'), MULTI_CHAR('w_p_tex4'), MULTI_CHAR('fps_tex1'), MULTI_CHAR('f_p_tex1'),
+        MULTI_CHAR('w_p_tex5'),
+        MULTI_CHAR('w_p_tex6'),
+        MULTI_CHAR('w_p_tex3'),
+        MULTI_CHAR('w_p_tex4'),
+        MULTI_CHAR('fps_tex1'),
+        MULTI_CHAR('f_p_tex1'),
     };
 #endif
     static const u64 op_tx[4] = {
-        MULTI_CHAR('w_text_n'), MULTI_CHAR('w_btn_n'), MULTI_CHAR('w_k_t_n'), MULTI_CHAR('w_abtn_n'),
+        MULTI_CHAR('w_text_n'),
+        MULTI_CHAR('w_btn_n'),
+        MULTI_CHAR('w_k_t_n'),
+        MULTI_CHAR('w_abtn_n'),
     };
     static const u64 z_tx[3] = {
-        MULTI_CHAR('z_gc_n'), 0, 0,
+        MULTI_CHAR('z_gc_n'),
+        0,
+        0,
     };
 #if VERSION == VERSION_GCN_JPN
     static const u64 txTV[10] = {
-        MULTI_CHAR('menu_t6s'), MULTI_CHAR('menu_t6'),  MULTI_CHAR('menu_t9s'), MULTI_CHAR('menu_t9'),  MULTI_CHAR('menut10s'),
-        MULTI_CHAR('menu_t10'), MULTI_CHAR('menu_t7s'), MULTI_CHAR('menu_t7'),  MULTI_CHAR('menu_t8s'), MULTI_CHAR('menu_t8'),
+        MULTI_CHAR('menu_t6s'),
+        MULTI_CHAR('menu_t6'),
+        MULTI_CHAR('menu_t9s'),
+        MULTI_CHAR('menu_t9'),
+        MULTI_CHAR('menut10s'),
+        MULTI_CHAR('menu_t10'),
+        MULTI_CHAR('menu_t7s'),
+        MULTI_CHAR('menu_t7'),
+        MULTI_CHAR('menu_t8s'),
+        MULTI_CHAR('menu_t8'),
     };
 #else
     static const u64 txTV[10] = {
-        MULTI_CHAR('menu_t61'), MULTI_CHAR('menu_t2'),  MULTI_CHAR('menu_t91'), MULTI_CHAR('menu_t1'),  MULTI_CHAR('menut101'),
-        MULTI_CHAR('menu_t01'), MULTI_CHAR('menu_t71'), MULTI_CHAR('menu_t3'),  MULTI_CHAR('menu_t81'), MULTI_CHAR('menu_t4'),
+        MULTI_CHAR('menu_t61'),
+        MULTI_CHAR('menu_t2'),
+        MULTI_CHAR('menu_t91'),
+        MULTI_CHAR('menu_t1'),
+        MULTI_CHAR('menut101'),
+        MULTI_CHAR('menu_t01'),
+        MULTI_CHAR('menu_t71'),
+        MULTI_CHAR('menu_t3'),
+        MULTI_CHAR('menu_t81'),
+        MULTI_CHAR('menu_t4'),
     };
 #endif
 
     mpTitle = new CPaneMgr(mpBackScreen, MULTI_CHAR('title_n'), 0, NULL);
     Vec pos = mpTitle->getGlobalVtxCenter(mpTitle->mPane, false, 0);
     mpWarning->mPosY = pos.y + g_drawHIO.mOptionScreen.mBackgroundPosY;
-    for (int i = 0; i < 6; i++) {
+    for (int i = 0; i < 6; i++)
+    {
         field_0x280[i] = (J2DPicture*)mpScreen->search(tag_frame[i]);
         field_0x298[i] = (J2DTextBox*)mpScreen->search(tag_menu0[i]);
     }
@@ -1465,15 +1881,19 @@ void dMenu_Option_c::screenSet() {
     mpParent[2] = new CPaneMgr(mpShadowScreen, 'nall', 2, NULL);
     mpParent[3] = new CPaneMgr(mpTVScreen, MULTI_CHAR('n_all'), 2, NULL);
     mpParent[4] = new CPaneMgr(mpBackScreen, MULTI_CHAR('n_all'), 2, NULL);
-    for (int i = 0; i < 6; i++) {
+    for (int i = 0; i < 6; i++)
+    {
         mpMenuNull[i] = new CPaneMgr(mpScreen, let_n[i], 0, NULL);
         mpMenuPane[i] = new CPaneMgr(mpScreen, menu_n[i], 0, NULL);
-        if (menu2_n[i] != 0) {
+        if (menu2_n[i] != 0)
+        {
             mpMenuPaneC[i] = new CPaneMgr(mpScreen, menu2_n[i], 0, NULL);
             Vec pos = mpMenuPaneC[i]->getGlobalVtxCenter(mpMenuPaneC[i]->mPane, false, 0);
             field_0x344[i] = pos.x;
             field_0x35c[i] = pos.y;
-        } else {
+        }
+        else
+        {
             mpMenuPaneC[i] = NULL;
             field_0x344[i] = 0.0f;
             field_0x35c[i] = 0.0f;
@@ -1483,30 +1903,43 @@ void dMenu_Option_c::screenSet() {
         field_0x2d0[i][2] = mpScreen->search(al2_n[i]);
         field_0x2d0[i][3] = mpScreen->search(al3_n[i]);
     }
-    for (int i = 0; i < 4; i++) {
+    for (int i = 0; i < 4; i++)
+    {
         field_0x404[i] = field_0x2d0[1][i]->getAlpha();
         field_0x408[i] = field_0x2d0[0][i]->getAlpha();
     }
-    for (int i = 0; i < 5; i++) {
+    for (int i = 0; i < 5; i++)
+    {
         mpHaihaiPosL[i] = new CPaneMgr(mpScreen, haihail_n[i], 0, NULL);
         mpHaihaiPosR[i] = new CPaneMgr(mpScreen, haihair_n[i], 0, NULL);
     }
-    for (int i = 0; i < 6; i++) {
-        if (let2_n[i] != 0) {
+    for (int i = 0; i < 6; i++)
+    {
+        if (let2_n[i] != 0)
+        {
             mpMenuPane2[i] = new CPaneMgr(mpShadowScreen, let2_n[i], 0, NULL);
-        } else {
+        }
+        else
+        {
             mpMenuPane2[i] = NULL;
         }
     }
-    for (int i = 0; i < 6; i++) {
-        if (let2_n[i] != 0) {
+    for (int i = 0; i < 6; i++)
+    {
+        if (let2_n[i] != 0)
+        {
             mpMenuPane3[i] = new CPaneMgr(mpClipScreen, let2_n[i], 0, NULL);
-        } else {
+        }
+        else
+        {
             mpMenuPane3[i] = NULL;
         }
-        if (menu3_n[i] != 0) {
+        if (menu3_n[i] != 0)
+        {
             mpMenuPane32[i] = new CPaneMgr(mpClipScreen, menu3_n[i], 0, NULL);
-        } else {
+        }
+        else
+        {
             mpMenuPane32[i] = NULL;
         }
     }
@@ -1525,14 +1958,16 @@ void dMenu_Option_c::screenSet() {
     field_0x270[2] = (J2DTextBox*)mpTVScreen->search(MULTI_CHAR('f_t00'));
     mpTVScreen->search(MULTI_CHAR('t_t00'))->hide();
 #endif
-    for (int i = 0; i < 3; i++) {
+    for (int i = 0; i < 3; i++)
+    {
         field_0x270[i]->setFont(mDoExt_getRubyFont());
         field_0x270[i]->setString(0x40, "");
     }
     mpString->getString(0x547, field_0x270[0], NULL, NULL, NULL, 0);
     mpString->getString(0x547, field_0x270[1], NULL, NULL, NULL, 0);
     mpString->getString(0x55C, field_0x270[2], NULL, NULL, NULL, 0);
-    for (int i = 0; i < 5; i++) {
+    for (int i = 0; i < 5; i++)
+    {
 #if VERSION == VERSION_GCN_JPN
         field_0x25c[i] = (J2DTextBox*)mpTVScreen->search(tv_btnA[i]);
         mpTVScreen->search(ftv_btnA[i])->hide();
@@ -1544,7 +1979,8 @@ void dMenu_Option_c::screenSet() {
         field_0x25c[i]->setString(0x40, "");
         mpString->getString(0x564, field_0x25c[i], NULL, NULL, NULL, 0);
     }
-    for (int i = 0; i < 2; i++) {
+    for (int i = 0; i < 2; i++)
+    {
 #if VERSION == VERSION_GCN_JPN
         field_0x21c[0][i] = (J2DTextBox*)mpScreen->search(menu_t0[i]);
         mpScreen->search(fenu_t0[i])->hide();
@@ -1556,7 +1992,8 @@ void dMenu_Option_c::screenSet() {
         field_0x21c[0][i]->setString(0x40, "");
         mpString->getString(0x548, field_0x21c[0][i], NULL, NULL, NULL, 0);
     }
-    for (int i = 0; i < 2; i++) {
+    for (int i = 0; i < 2; i++)
+    {
 #if VERSION == VERSION_GCN_JPN
         field_0x21c[1][i] = (J2DTextBox*)mpScreen->search(menu_t1[i]);
         mpScreen->search(fenu_t1[i])->hide();
@@ -1572,7 +2009,8 @@ void dMenu_Option_c::screenSet() {
         mpString->getString(0x54E, field_0x21c[1][i], NULL, NULL, NULL, 0);
 #endif
     }
-    for (int i = 0; i < 2; i++) {
+    for (int i = 0; i < 2; i++)
+    {
 #if VERSION == VERSION_GCN_JPN
         field_0x21c[2][i] = (J2DTextBox*)mpScreen->search(menu_t2[i]);
         mpScreen->search(fenu_t2[i])->hide();
@@ -1588,7 +2026,8 @@ void dMenu_Option_c::screenSet() {
         mpString->getString(0x54F, field_0x21c[2][i], NULL, NULL, NULL, 0);
 #endif
     }
-    for (int i = 0; i < 2; i++) {
+    for (int i = 0; i < 2; i++)
+    {
 #if VERSION == VERSION_GCN_JPN
         field_0x21c[3][i] = (J2DTextBox*)mpScreen->search(menu_t3[i]);
         mpScreen->search(fenu_t3[i])->hide();
@@ -1602,7 +2041,8 @@ void dMenu_Option_c::screenSet() {
         mpString->getString(0x54F, field_0x21c[3][i], NULL, NULL, NULL, 0);
 #endif
     }
-    for (int i = 0; i < 2; i++) {
+    for (int i = 0; i < 2; i++)
+    {
 #if VERSION == VERSION_GCN_JPN
         field_0x21c[4][i] = (J2DTextBox*)mpScreen->search(menu_t4[i]);
         mpScreen->search(fenu_t4[i])->hide();
@@ -1613,7 +2053,8 @@ void dMenu_Option_c::screenSet() {
         field_0x21c[4][i]->setFont(mpFont);
         field_0x21c[4][i]->setString(0x40, "");
     }
-    for (int i = 0; i < 2; i++) {
+    for (int i = 0; i < 2; i++)
+    {
 #if VERSION == VERSION_GCN_JPN
         field_0x21c[5][i] = (J2DTextBox*)mpScreen->search(menu_t5[i]);
         mpScreen->search(fenu_t5[i])->hide();
@@ -1625,7 +2066,8 @@ void dMenu_Option_c::screenSet() {
         field_0x21c[5][i]->setString(0x40, "");
         mpString->getString(0x554, field_0x21c[5][i], NULL, NULL, NULL, 0);
     }
-    for (int i = 0; i < 6; i++) {
+    for (int i = 0; i < 6; i++)
+    {
 #if VERSION == VERSION_GCN_JPN
         paneResize(menut_0[i]);
         mpMenuText[0][i] = new CPaneMgr(mpClipScreen, menut_0[i], 0, NULL);
@@ -1639,7 +2081,8 @@ void dMenu_Option_c::screenSet() {
         ((J2DTextBox*)(mpMenuText[0][i]->getPanePtr()))->setString(0x40, "");
         mpMenuText[0][i]->getPanePtr()->setBasePosition(J2DBasePosition_4);
     }
-    for (int i = 0; i < 6; i++) {
+    for (int i = 0; i < 6; i++)
+    {
 #if VERSION == VERSION_GCN_JPN
         paneResize(menut_1[i]);
         mpMenuText[1][i] = new CPaneMgr(mpClipScreen, menut_1[i], 0, NULL);
@@ -1654,7 +2097,8 @@ void dMenu_Option_c::screenSet() {
         ((J2DTextBox*)(mpMenuText[1][i]->getPanePtr()))->setString(0x40, "");
         mpMenuText[1][i]->getPanePtr()->setBasePosition(J2DBasePosition_4);
     }
-    for (int i = 0; i < 6; i++) {
+    for (int i = 0; i < 6; i++)
+    {
 #if VERSION == VERSION_GCN_JPN
         paneResize(menut_2[i]);
         mpMenuText[2][i] = new CPaneMgr(mpClipScreen, menut_2[i], 0, NULL);
@@ -1669,7 +2113,8 @@ void dMenu_Option_c::screenSet() {
         ((J2DTextBox*)(mpMenuText[2][i]->getPanePtr()))->setString(0x40, "");
         mpMenuText[2][i]->getPanePtr()->setBasePosition(J2DBasePosition_4);
     }
-    for (int i = 0; i < 6; i++) {
+    for (int i = 0; i < 6; i++)
+    {
 #if VERSION == VERSION_GCN_JPN
         paneResize(menut_3[i]);
         mpMenuText[3][i] = new CPaneMgr(mpClipScreen, menut_3[i], 0, NULL);
@@ -1684,7 +2129,8 @@ void dMenu_Option_c::screenSet() {
         ((J2DTextBox*)(mpMenuText[3][i]->getPanePtr()))->setString(0x40, "");
         mpMenuText[3][i]->getPanePtr()->setBasePosition(J2DBasePosition_4);
     }
-    for (int i = 0; i < 6; i++) {
+    for (int i = 0; i < 6; i++)
+    {
 #if VERSION == VERSION_GCN_JPN
         paneResize(menut_4[i]);
         mpMenuText[4][i] = new CPaneMgr(mpClipScreen, menut_4[i], 0, NULL);
@@ -1699,12 +2145,16 @@ void dMenu_Option_c::screenSet() {
         ((J2DTextBox*)(mpMenuText[4][i]->getPanePtr()))->setString(0x40, "");
         mpMenuText[4][i]->getPanePtr()->setBasePosition(J2DBasePosition_4);
     }
-    for (int i = 0; i < 6; i++) {
+    for (int i = 0; i < 6; i++)
+    {
         mpMenuText[5][i] = NULL;
     }
-    for (int i = 0; i < 6; i++) {
-        for (int j = 2; j < 6; j++) {
-            if (mpMenuText[i][j] != NULL) {
+    for (int i = 0; i < 6; i++)
+    {
+        for (int j = 2; j < 6; j++)
+        {
+            if (mpMenuText[i][j] != NULL)
+            {
                 mpMenuText[i][j]->hide();
             }
         }
@@ -1718,86 +2168,118 @@ void dMenu_Option_c::screenSet() {
     mpBackScreen->search(MULTI_CHAR('jpn_n'))->hide();
     mpBackScreen->search(MULTI_CHAR('foregn_n'))->show();
 #endif
-    for (int i = 0; i < 6; i++) {
+    for (int i = 0; i < 6; i++)
+    {
         J2DTextBox* backScreen = (J2DTextBox*)mpBackScreen->search(tx[i]);
         backScreen->setFont(mpFont);
         backScreen->setString(0x80, "");
-        if (i < 2) {
+        if (i < 2)
+        {
             mpString->getString(0x55D, backScreen, NULL, NULL, NULL, 0);
-        } else if (i < 4) {
+        }
+        else if (i < 4)
+        {
             mpString->getString(0x55E, backScreen, NULL, NULL, NULL, 0);
-        } else {
+        }
+        else
+        {
             mpString->getString(0x556, backScreen, NULL, NULL, NULL, 0);
         }
     }
     mpBackScreen->search(MULTI_CHAR('wi_btn_n'))->hide();
-    for (int i = 0; i < 4; i++) {
+    for (int i = 0; i < 4; i++)
+    {
         field_0x1c0[i] = 0;
     }
-    for (int i = 0; i < 3; i++) {
-        if (z_tx[i] != 0) {
+    for (int i = 0; i < 3; i++)
+    {
+        if (z_tx[i] != 0)
+        {
             mpZButtonText[i] = new CPaneMgr(mpBackScreen, z_tx[i], 2, NULL);
-        } else {
+        }
+        else
+        {
             mpZButtonText[i] = NULL;
         }
     }
-    for (int i = 0; i < 10; i++) {
+    for (int i = 0; i < 10; i++)
+    {
         J2DTextBox* tvScreen = (J2DTextBox*)mpTVScreen->search(txTV[i]);
         tvScreen->setFont(mpFont);
 #if VERSION != VERSION_GCN_JPN
         tvScreen->setCharSpace(0.0f);
 #endif
 
-        if (i < 2) {
+        if (i < 2)
+        {
             tvScreen->setString(0x100, "");
             mpString->getString(0x558, tvScreen, NULL, NULL, NULL, 0);
-        } else if (i < 4) {
+        }
+        else if (i < 4)
+        {
             tvScreen->setString(0x100, "");
             mpString->getString(0x557, tvScreen, NULL, NULL, NULL, 0);
-        } else if (i < 6) {
+        }
+        else if (i < 6)
+        {
             tvScreen->setString(0x100, "");
             mpString->getString(0x559, tvScreen, NULL, NULL, NULL, 0);
-        } else if (i < 8) {
+        }
+        else if (i < 8)
+        {
             tvScreen->setString(0x100, "");
             mpString->getString(0x55A, tvScreen, NULL, NULL, NULL, 0);
-        } else {
+        }
+        else
+        {
             tvScreen->setString(0x100, "");
             mpString->getString(0x55B, tvScreen, NULL, NULL, NULL, 0);
         }
     }
-    for (int i = 0; i < 5; i++) {
+    for (int i = 0; i < 5; i++)
+    {
         mpParent[i]->setAlphaRate(0.0f);
     }
 }
 
-void dMenu_Option_c::setSoundMode(u32 soundMode) {
-    switch (soundMode) {
-    case JAS_OUTPUT_MONO:
-        OSSetSoundMode(OS_SOUND_MODE_MONO);
-        break;
-    case JAS_OUTPUT_STEREO:
-    case JAS_OUTPUT_SURROUND: // Via dolby pro logic 2, so it's over 2 output channels.
-        OSSetSoundMode(OS_SOUND_MODE_STEREO);
-        break;
+void dMenu_Option_c::setSoundMode(u32 soundMode)
+{
+    switch (soundMode)
+    {
+        case JAS_OUTPUT_MONO:
+            OSSetSoundMode(OS_SOUND_MODE_MONO);
+            break;
+        case JAS_OUTPUT_STEREO:
+        case JAS_OUTPUT_SURROUND: // Via dolby pro logic 2, so it's over 2 output channels.
+            OSSetSoundMode(OS_SOUND_MODE_STEREO);
+            break;
     }
 }
 
-void dMenu_Option_c::setAttenString() {
+void dMenu_Option_c::setAttenString()
+{
     u16 stringId1;
     u16 stringId2;
 
-    if (field_0x3e4 == 0) {
+    if (field_0x3e4 == 0)
+    {
         stringId1 = 0x549;
         stringId2 = 0x54A;
-    } else {
+    }
+    else
+    {
         stringId1 = 0x54A;
         stringId2 = 0x549;
     }
-    for (int i = 0; i < 6; i++) {
-        if (i < 2) {
+    for (int i = 0; i < 6; i++)
+    {
+        if (i < 2)
+        {
             J2DTextBox* textBox = (J2DTextBox*)mpMenuText[0][i]->getPanePtr();
             mpString->getString(stringId1, textBox, NULL, NULL, NULL, 0);
-        } else {
+        }
+        else
+        {
             J2DTextBox* textBox = (J2DTextBox*)mpMenuText[0][i]->getPanePtr();
             mpString->getString(stringId2, textBox, NULL, NULL, NULL, 0);
         }
@@ -1805,22 +2287,30 @@ void dMenu_Option_c::setAttenString() {
 }
 
 #if VERSION == VERSION_GCN_JPN
-void dMenu_Option_c::setRubyString() {
+void dMenu_Option_c::setRubyString()
+{
     u16 stringId1;
     u16 stringId2;
 
-    if (field_0x3e5_JPN == 0) {
+    if (field_0x3e5_JPN == 0)
+    {
         stringId1 = 0x54c;
         stringId2 = 0x54d;
-    } else {
+    }
+    else
+    {
         stringId1 = 0x54d;
         stringId2 = 0x54c;
     }
-    for (int i = 0; i < 6; i++) {
-        if (i < 2) {
+    for (int i = 0; i < 6; i++)
+    {
+        if (i < 2)
+        {
             J2DTextBox* textBox = (J2DTextBox*)mpMenuText[1][i]->getPanePtr();
             mpString->getString(stringId1, textBox, NULL, NULL, NULL, 0);
-        } else {
+        }
+        else
+        {
             J2DTextBox* textBox = (J2DTextBox*)mpMenuText[1][i]->getPanePtr();
             mpString->getString(stringId2, textBox, NULL, NULL, NULL, 0);
         }
@@ -1828,117 +2318,153 @@ void dMenu_Option_c::setRubyString() {
 }
 #endif
 
-void dMenu_Option_c::setVibString() {
+void dMenu_Option_c::setVibString()
+{
     u16 stringId1;
     u16 stringId2;
 
-    if (field_0x3ea == 0) {
+    if (field_0x3ea == 0)
+    {
         stringId1 = 0x54C;
         stringId2 = 0x54D;
-    } else {
+    }
+    else
+    {
         stringId1 = 0x54D;
         stringId2 = 0x54C;
     }
-    for (int i = 0; i < 6; i++) {
+    for (int i = 0; i < 6; i++)
+    {
 #if VERSION == VERSION_GCN_JPN
         const int IDX = 2;
 #else
         const int IDX = 1;
 #endif
-        if (i < 2) {
+        if (i < 2)
+        {
             J2DTextBox* textBox = (J2DTextBox*)mpMenuText[IDX][i]->getPanePtr();
             mpString->getString(stringId1, textBox, NULL, NULL, NULL, 0);
-        } else {
+        }
+        else
+        {
             J2DTextBox* textBox = (J2DTextBox*)mpMenuText[IDX][i]->getPanePtr();
             mpString->getString(stringId2, textBox, NULL, NULL, NULL, 0);
         }
     }
 }
 
-void dMenu_Option_c::setSoundString() {
+void dMenu_Option_c::setSoundString()
+{
     u16 stringId1;
     u16 stringId2;
     u16 stringId3;
 
-    if (field_0x3e9 == 0) {
+    if (field_0x3e9 == 0)
+    {
         stringId1 = 0x551;
         stringId2 = 0x550;
         stringId3 = 0x552;
-    } else if (field_0x3e9 == 1) {
+    }
+    else if (field_0x3e9 == 1)
+    {
         stringId1 = 0x550;
         stringId2 = 0x552;
         stringId3 = 0x551;
-    } else {
+    }
+    else
+    {
         stringId1 = 0x552;
         stringId2 = 0x551;
         stringId3 = 0x550;
     }
-    for (int i = 0; i < 6; i++) {
+    for (int i = 0; i < 6; i++)
+    {
 #if VERSION == VERSION_GCN_JPN
         const int IDX = 3;
 #else
         const int IDX = 2;
 #endif
-        if (i < 2) {
+        if (i < 2)
+        {
             J2DTextBox* textBox = (J2DTextBox*)mpMenuText[IDX][i]->getPanePtr();
             mpString->getString(stringId1, textBox, NULL, NULL, NULL, 0);
-        } else if (i < 4) {
+        }
+        else if (i < 4)
+        {
             J2DTextBox* textBox = (J2DTextBox*)mpMenuText[IDX][i]->getPanePtr();
             mpString->getString(stringId2, textBox, NULL, NULL, NULL, 0);
-        } else {
+        }
+        else
+        {
             J2DTextBox* textBox = (J2DTextBox*)mpMenuText[IDX][i]->getPanePtr();
             mpString->getString(stringId3, textBox, NULL, NULL, NULL, 0);
         }
     }
 }
 
-void dMenu_Option_c::setCursorPos(u8 i_index) {
+void dMenu_Option_c::setCursorPos(u8 i_index)
+{
 #if VERSION != VERSION_GCN_JPN
-    if (i_index == 4) {
+    if (i_index == 4)
+    {
         i_index = 5;
     }
 #endif
 
     Vec pos = mpMenuPane[i_index]->getGlobalVtxCenter(mpMenuPane[i_index]->mPane, false, 0);
-    mpDrawCursor->setPos(pos.x + (field_0x330 - field_0x334), pos.y,
-                         mpMenuPane[i_index]->getPanePtr(), false);
+    mpDrawCursor->setPos(pos.x + (field_0x330 - field_0x334), pos.y, mpMenuPane[i_index]->getPanePtr(), false);
     setSelectColor(i_index, false);
     changeBarColor(false);
 }
 
-void dMenu_Option_c::setSelectColor(u8 param_0, bool param_1) {
-    for (int i = 0; i < 6; i++) {
-        if (i == param_0 || param_1) {
-            if (field_0x21c[i][0] != NULL) {
+void dMenu_Option_c::setSelectColor(u8 param_0, bool param_1)
+{
+    for (int i = 0; i < 6; i++)
+    {
+        if (i == param_0 || param_1)
+        {
+            if (field_0x21c[i][0] != NULL)
+            {
                 field_0x21c[i][0]->setFontColor(field_0x3b8, field_0x3b8);
             }
-            if (field_0x21c[i][1] != NULL) {
+            if (field_0x21c[i][1] != NULL)
+            {
                 field_0x21c[i][1]->setFontColor(field_0x3b8, field_0x3b8);
             }
             mpMenuNull[i]->scale(mBarScale[0], mBarScale[0]);
-            if (mpMenuPaneC[i] != NULL) {
+            if (mpMenuPaneC[i] != NULL)
+            {
                 Vec pos = mpMenuPaneC[i]->getGlobalVtxCenter(mpMenuPaneC[i]->mPane, false, 0);
-                if (mpMenuPane2[i] != NULL) {
+                if (mpMenuPane2[i] != NULL)
+                {
                     mpMenuPane2[i]->scale(mBarScale[0], mBarScale[0]);
                 }
-                if (mpMenuPane3[i] != NULL) {
+                if (mpMenuPane3[i] != NULL)
+                {
                     mpMenuPane3[i]->scale(mBarScale[0], mBarScale[0]);
                 }
             }
-        } else {
-            if (field_0x21c[i][0] != NULL) {
+        }
+        else
+        {
+            if (field_0x21c[i][0] != NULL)
+            {
                 field_0x21c[i][0]->setFontColor(field_0x3bc, field_0x3bc);
             }
-            if (field_0x21c[i][1] != NULL) {
+            if (field_0x21c[i][1] != NULL)
+            {
                 field_0x21c[i][1]->setFontColor(field_0x3bc, field_0x3bc);
             }
             mpMenuNull[i]->scale(mBarScale[1], mBarScale[1]);
-            if (mpMenuPaneC[i] != NULL) {
+            if (mpMenuPaneC[i] != NULL)
+            {
                 Vec pos = mpMenuPaneC[i]->getGlobalVtxCenter(mpMenuPaneC[i]->mPane, false, 0);
-                if (mpMenuPane2[i] != NULL) {
+                if (mpMenuPane2[i] != NULL)
+                {
                     mpMenuPane2[i]->scale(mBarScale[1], mBarScale[1]);
                 }
-                if (mpMenuPane3[i] != NULL) {
+                if (mpMenuPane3[i] != NULL)
+                {
                     mpMenuPane3[i]->scale(mBarScale[1], mBarScale[1]);
                 }
             }
@@ -1946,69 +2472,80 @@ void dMenu_Option_c::setSelectColor(u8 param_0, bool param_1) {
     }
 }
 
-u8 dMenu_Option_c::getSelectType() {
-    if (field_0x3ef < SelectType3) {
+u8 dMenu_Option_c::getSelectType()
+{
+    if (field_0x3ef < SelectType3)
+    {
         return field_0x3ef;
     }
-    if (field_0x3f5 < SelectType3) {
+    if (field_0x3f5 < SelectType3)
+    {
         return field_0x3f5;
     }
     return 0;
 }
 
-void dMenu_Option_c::changeBarColor(bool i_changeColor) {
+void dMenu_Option_c::changeBarColor(bool i_changeColor)
+{
     u8 selectType = getSelectType();
 
-    for (int i = 0; i < 6; i++) {
-        if (i == selectType || i_changeColor) {
+    for (int i = 0; i < 6; i++)
+    {
+        if (i == selectType || i_changeColor)
+        {
             field_0x280[i]->setBlackWhite(field_0x2b0[0], field_0x2c0[0]);
             field_0x298[i]->setBlackWhite(field_0x2b0[1], field_0x2c0[1]);
-            for (int j = 0; j < 4; j++) {
+            for (int j = 0; j < 4; j++)
+            {
                 field_0x2d0[i][j]->setAlpha(field_0x404[j]);
             }
-        } else {
+        }
+        else
+        {
             field_0x280[i]->setBlackWhite(field_0x2b8[0], field_0x2c8[0]);
             field_0x298[i]->setBlackWhite(field_0x2b8[1], field_0x2c8[1]);
-            for (int j = 0; j < 4; j++) {
+            for (int j = 0; j < 4; j++)
+            {
                 field_0x2d0[i][j]->setAlpha(field_0x408[j]);
             }
         }
     }
 }
 
-void dMenu_Option_c::setHIO(bool i_useHIO) {
-    if (field_0x378 != g_drawHIO.mOptionScreen.mWindowPosX ||
-        field_0x37c != g_drawHIO.mOptionScreen.mWindowPosY)
+void dMenu_Option_c::setHIO(bool i_useHIO)
+{
+    if (field_0x378 != g_drawHIO.mOptionScreen.mWindowPosX || field_0x37c != g_drawHIO.mOptionScreen.mWindowPosY)
     {
         field_0x378 = g_drawHIO.mOptionScreen.mWindowPosX;
         field_0x37c = g_drawHIO.mOptionScreen.mWindowPosY;
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 5; i++)
+        {
             mpParent[i]->paneTrans(field_0x378, field_0x37c);
         }
         setCursorPos(getSelectType());
     }
-    if (field_0x380 != g_drawHIO.mOptionScreen.mWindowScale) {
+    if (field_0x380 != g_drawHIO.mOptionScreen.mWindowScale)
+    {
         field_0x380 = g_drawHIO.mOptionScreen.mWindowScale;
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 5; i++)
+        {
             f32 windowScale = field_0x380;
             mpParent[i]->scale(windowScale, windowScale);
         }
         setCursorPos(getSelectType());
     }
-    if (field_0x3b8.r != g_drawHIO.mOptionScreen.mSelectColor.r ||
-        field_0x3b8.g != g_drawHIO.mOptionScreen.mSelectColor.g ||
-        field_0x3b8.b != g_drawHIO.mOptionScreen.mSelectColor.b ||
-        field_0x3b8.a != g_drawHIO.mOptionScreen.mSelectColor.a ||
+    if (field_0x3b8.r != g_drawHIO.mOptionScreen.mSelectColor.r || field_0x3b8.g != g_drawHIO.mOptionScreen.mSelectColor.g ||
+        field_0x3b8.b != g_drawHIO.mOptionScreen.mSelectColor.b || field_0x3b8.a != g_drawHIO.mOptionScreen.mSelectColor.a ||
         field_0x3bc.r != g_drawHIO.mOptionScreen.mUnselectColor.r ||
         field_0x3bc.g != g_drawHIO.mOptionScreen.mUnselectColor.g ||
-        field_0x3bc.b != g_drawHIO.mOptionScreen.mUnselectColor.b ||
-        field_0x3bc.a != g_drawHIO.mOptionScreen.mUnselectColor.a)
+        field_0x3bc.b != g_drawHIO.mOptionScreen.mUnselectColor.b || field_0x3bc.a != g_drawHIO.mOptionScreen.mUnselectColor.a)
     {
         field_0x3b8.set(g_drawHIO.mOptionScreen.mSelectColor);
         field_0x3bc.set(g_drawHIO.mOptionScreen.mUnselectColor);
         setSelectColor(getSelectType(), false);
     }
-    for (int i = 0; i < 6; i++) {
+    for (int i = 0; i < 6; i++)
+    {
         if (field_0x384[i] != g_drawHIO.mOptionScreen.mOptionTypeBGPosX[i] ||
             field_0x39c[i] != g_drawHIO.mOptionScreen.mOptionTypeBGPosY[i])
         {
@@ -2017,68 +2554,82 @@ void dMenu_Option_c::setHIO(bool i_useHIO) {
             mpMenuPane[i]->paneTrans(field_0x384[i], field_0x39c[i]);
         }
     }
-    for (int i = 0; i < 2; i++) {
-        if (mBarScale[i] != g_drawHIO.mOptionScreen.mBarScale[i]) {
+    for (int i = 0; i < 2; i++)
+    {
+        if (mBarScale[i] != g_drawHIO.mOptionScreen.mBarScale[i])
+        {
             mBarScale[i] = g_drawHIO.mOptionScreen.mBarScale[i];
         }
     }
-    if (g_drawHIO.mOptionScreen.mDebug) {
+    if (g_drawHIO.mOptionScreen.mDebug)
+    {
         Vec pos = mpTitle->getGlobalVtxCenter(mpTitle->mPane, false, 0);
         mpWarning->mPosY = pos.y + g_drawHIO.mOptionScreen.mBackgroundPosY;
     }
-    if (g_drawHIO.mCollectScreen.mButtonDebugON != false || i_useHIO) {
-        if (mpButtonAB[0] != NULL) {
-            mpButtonAB[0]->paneTrans(g_drawHIO.mCollectScreen.mButtonAPosX,
-                                     g_drawHIO.mCollectScreen.mButtonAPosY);
+    if (g_drawHIO.mCollectScreen.mButtonDebugON != false || i_useHIO)
+    {
+        if (mpButtonAB[0] != NULL)
+        {
+            mpButtonAB[0]->paneTrans(g_drawHIO.mCollectScreen.mButtonAPosX, g_drawHIO.mCollectScreen.mButtonAPosY);
             f32 AButtonScale = g_drawHIO.mCollectScreen.mButtonAScale;
             mpButtonAB[0]->scale(AButtonScale, AButtonScale);
         }
-        if (mpButtonAB[1] != NULL) {
-            mpButtonAB[1]->paneTrans(g_drawHIO.mCollectScreen.mButtonBPosX,
-                                     g_drawHIO.mCollectScreen.mButtonBPosY);
+        if (mpButtonAB[1] != NULL)
+        {
+            mpButtonAB[1]->paneTrans(g_drawHIO.mCollectScreen.mButtonBPosX, g_drawHIO.mCollectScreen.mButtonBPosY);
             f32 BButtonScale = g_drawHIO.mCollectScreen.mButtonBScale;
             mpButtonAB[1]->scale(BButtonScale, BButtonScale);
         }
-        if (mpButtonText[0] != NULL) {
-            mpButtonText[0]->paneTrans(g_drawHIO.mCollectScreen.mButtonATextPosX,
-                                       g_drawHIO.mCollectScreen.mButtonATextPosY);
+        if (mpButtonText[0] != NULL)
+        {
+            mpButtonText[0]->paneTrans(g_drawHIO.mCollectScreen.mButtonATextPosX, g_drawHIO.mCollectScreen.mButtonATextPosY);
             f32 AButtonTextScale = g_drawHIO.mCollectScreen.mButtonATextScale;
             mpButtonText[0]->scale(AButtonTextScale, AButtonTextScale);
         }
-        if (mpButtonText[1] != NULL) {
-            mpButtonText[1]->paneTrans(g_drawHIO.mCollectScreen.mButtonBTextPosX,
-                                       g_drawHIO.mCollectScreen.mButtonBTextPosY);
+        if (mpButtonText[1] != NULL)
+        {
+            mpButtonText[1]->paneTrans(g_drawHIO.mCollectScreen.mButtonBTextPosX, g_drawHIO.mCollectScreen.mButtonBTextPosY);
             f32 BButtonTextScale = g_drawHIO.mCollectScreen.mButtonBTextScale;
             mpButtonText[1]->scale(BButtonTextScale, BButtonTextScale);
         }
     }
 }
 
-void dMenu_Option_c::cursorAnime(f32 i_cursorValue) {
+void dMenu_Option_c::cursorAnime(f32 i_cursorValue)
+{
     mpDrawCursor->setAlphaRate(i_cursorValue);
     mpDrawCursor->setScale(i_cursorValue);
 }
 
-void dMenu_Option_c::setZButtonString(u16 i_stringID) {
-    if (i_stringID == 0) {
-        for (int i = 0; i < 3; i++) {
-            if (mpZButtonText[i] != NULL) {
+void dMenu_Option_c::setZButtonString(u16 i_stringID)
+{
+    if (i_stringID == 0)
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            if (mpZButtonText[i] != NULL)
+            {
                 mpZButtonText[i]->hide();
             }
         }
-    } else {
-        for (int i = 0; i < 3; i++) {
-            if (mpZButtonText[i] != NULL) {
+    }
+    else
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            if (mpZButtonText[i] != NULL)
+            {
                 mpZButtonText[i]->show();
             }
         }
     }
 }
 
-void dMenu_Option_c::changeTVCheck() {
-    if (mDoCPd_c::getTrigZ(PAD_1) != 0) {
-        Z2GetAudioMgr()->seStart(Z2SE_SY_MENU_CHANGE_WINDOW, NULL, 0, 0, 1.0f, 1.0f, -1.0f, -1.0f,
-                                 0);
+void dMenu_Option_c::changeTVCheck()
+{
+    if (mDoCPd_c::getTrigZ(PAD_1) != 0)
+    {
+        Z2GetAudioMgr()->seStart(Z2SE_SY_MENU_CHANGE_WINDOW, NULL, 0, 0, 1.0f, 1.0f, -1.0f, -1.0f, 0);
         field_0x3f3 = 0;
         setAButtonString(0);
         setBButtonString(0);
@@ -2088,26 +2639,46 @@ void dMenu_Option_c::changeTVCheck() {
     }
 }
 
-static void dummy() {
+static void dummy()
+{
 #if VERSION == VERSION_GCN_JPN
-    static const u64 txTVhide[5] = {MULTI_CHAR('fmenu_6n'), MULTI_CHAR('fmenu_9n'), MULTI_CHAR('fmenu_10'), MULTI_CHAR('fmenu_7n'), MULTI_CHAR('fmenu_8n')};
+    static const u64 txTVhide[5] = {MULTI_CHAR('fmenu_6n'),
+                                    MULTI_CHAR('fmenu_9n'),
+                                    MULTI_CHAR('fmenu_10'),
+                                    MULTI_CHAR('fmenu_7n'),
+                                    MULTI_CHAR('fmenu_8n')};
 #else
-    static const u64 txTVhide[5] = {MULTI_CHAR('menu_6n'), MULTI_CHAR('menu_9n'), MULTI_CHAR('menu_10n'), MULTI_CHAR('menu_7n'), MULTI_CHAR('menu_8n')};
+    static const u64 txTVhide[5] = {MULTI_CHAR('menu_6n'),
+                                    MULTI_CHAR('menu_9n'),
+                                    MULTI_CHAR('menu_10n'),
+                                    MULTI_CHAR('menu_7n'),
+                                    MULTI_CHAR('menu_8n')};
 #endif
 }
 
-void dMenu_Option_c::setAButtonString(u16 i_stringID) {
-    static const u64 text_a_tag[5] = {MULTI_CHAR('atext1_1'), MULTI_CHAR('atext1_2'), MULTI_CHAR('atext1_3'), MULTI_CHAR('atext1_4'), MULTI_CHAR('atext1_5')};
+void dMenu_Option_c::setAButtonString(u16 i_stringID)
+{
+    static const u64 text_a_tag[5] = {MULTI_CHAR('atext1_1'),
+                                      MULTI_CHAR('atext1_2'),
+                                      MULTI_CHAR('atext1_3'),
+                                      MULTI_CHAR('atext1_4'),
+                                      MULTI_CHAR('atext1_5')};
     u32 stringId = i_stringID;
-    if (stringId != field_0x3dc) {
+    if (stringId != field_0x3dc)
+    {
         field_0x3dc = i_stringID;
-        if (stringId == 0) {
-            for (int i = 0; i < 5; i++) {
+        if (stringId == 0)
+        {
+            for (int i = 0; i < 5; i++)
+            {
                 J2DTextBox* textBox = (J2DTextBox*)mpScreenIcon->search(text_a_tag[i]);
                 strcpy(textBox->getStringPtr(), "");
             }
-        } else {
-            for (int i = 0; i < 5; i++) {
+        }
+        else
+        {
+            for (int i = 0; i < 5; i++)
+            {
                 J2DTextBox* textBox = (J2DTextBox*)mpScreenIcon->search(text_a_tag[i]);
                 dMeter2Info_getStringKanji(stringId, textBox->getStringPtr(), NULL);
             }
@@ -2115,19 +2686,30 @@ void dMenu_Option_c::setAButtonString(u16 i_stringID) {
     }
 }
 
-void dMenu_Option_c::setBButtonString(u16 i_stringID) {
-    static const u64 text_b_tag[5] = {MULTI_CHAR('btext1_1'), MULTI_CHAR('btext1_2'), MULTI_CHAR('btext1_3'), MULTI_CHAR('btext1_4'), MULTI_CHAR('btext1_5')};
+void dMenu_Option_c::setBButtonString(u16 i_stringID)
+{
+    static const u64 text_b_tag[5] = {MULTI_CHAR('btext1_1'),
+                                      MULTI_CHAR('btext1_2'),
+                                      MULTI_CHAR('btext1_3'),
+                                      MULTI_CHAR('btext1_4'),
+                                      MULTI_CHAR('btext1_5')};
     u32 stringId = i_stringID;
-    if (stringId != field_0x3de) {
+    if (stringId != field_0x3de)
+    {
         field_0x3de = i_stringID;
 
-        if (stringId == 0) {
-            for (int i = 0; i < 5; i++) {
+        if (stringId == 0)
+        {
+            for (int i = 0; i < 5; i++)
+            {
                 J2DTextBox* textBox = (J2DTextBox*)mpScreenIcon->search(text_b_tag[i]);
                 strcpy(textBox->getStringPtr(), "");
             }
-        } else {
-            for (int i = 0; i < 5; i++) {
+        }
+        else
+        {
+            for (int i = 0; i < 5; i++)
+            {
                 J2DTextBox* textBox = (J2DTextBox*)mpScreenIcon->search(text_b_tag[i]);
                 dMeter2Info_getStringKanji(stringId, textBox->getStringPtr(), NULL);
             }
@@ -2135,15 +2717,18 @@ void dMenu_Option_c::setBButtonString(u16 i_stringID) {
     }
 }
 
-bool dMenu_Option_c::isRumbleSupported() {
+bool dMenu_Option_c::isRumbleSupported()
+{
     return JUTGamePad::sRumbleSupported >> 0x1f;
 }
 
-bool dMenu_Option_c::dpdMenuMove() {
+bool dMenu_Option_c::dpdMenuMove()
+{
     return false;
 }
 
-void dMenu_Option_c::paneResize(u64 i_tag) {
+void dMenu_Option_c::paneResize(u64 i_tag)
+{
     f32 boundsY = mpClipScreen->search(i_tag)->getBounds().i.y;
     f32 boundsX = mpClipScreen->search(i_tag)->getBounds().i.x - 5.0f;
     mpClipScreen->search(i_tag)->move(boundsX, boundsY);
@@ -2156,12 +2741,16 @@ void dMenu_Option_c::paneResize(u64 i_tag) {
     mpClipScreen->search(i_tag)->resize(boundsX + 10.0f, boundsY);
 }
 
-void dMenu_Option_c::initialize() {
+void dMenu_Option_c::initialize()
+{
     field_0x3e4 = dComIfGs_getOptAttentionType();
 #if VERSION == VERSION_GCN_JPN
-    if (dComIfGs_getOptRuby() == 0) {
+    if (dComIfGs_getOptRuby() == 0)
+    {
         field_0x3e5_JPN = 1;
-    } else {
+    }
+    else
+    {
         field_0x3e5_JPN = 0;
     }
 #endif
@@ -2171,9 +2760,12 @@ void dMenu_Option_c::initialize() {
     field_0x3e6 = 0;
     field_0x3e7 = 0;
     field_0x3e9 = dComIfGs_getOptSound();
-    if (isRumbleSupported()) {
+    if (isRumbleSupported())
+    {
         field_0x3ea = dComIfGp_getNowVibration();
-    } else {
+    }
+    else
+    {
         field_0x3ea = 0;
     }
     setAttenString();
@@ -2186,16 +2778,17 @@ void dMenu_Option_c::initialize() {
     field_0x3da = 0;
 }
 
-void dMenu_Option_c::yesnoMenuMoveAnmInitSet(int param_0, int param_1) {
-    if (field_0x3f8 == 0) {
+void dMenu_Option_c::yesnoMenuMoveAnmInitSet(int param_0, int param_1)
+{
+    if (field_0x3f8 == 0)
+    {
         field_0x3f9 = 0;
         field_0x3fa = 1;
     }
-    if (param_0 == 0x473) {
-        ((J2DTextBox*)mpYesNoTxt_c[field_0x3f9]->getPanePtr())
-            ->setWhite(JUtility::TColor(0xff, 0xff, 0xff, 0xff));
-        ((J2DTextBox*)mpYesNoTxt_c[field_0x3fa]->getPanePtr())
-            ->setWhite(JUtility::TColor(0x96, 0x96, 0x96, 0xff));
+    if (param_0 == 0x473)
+    {
+        ((J2DTextBox*)mpYesNoTxt_c[field_0x3f9]->getPanePtr())->setWhite(JUtility::TColor(0xff, 0xff, 0xff, 0xff));
+        ((J2DTextBox*)mpYesNoTxt_c[field_0x3fa]->getPanePtr())->setWhite(JUtility::TColor(0x96, 0x96, 0x96, 0xff));
     }
     mpDrawCursor->setAlphaRate(0.0f);
     mpYesNoSelBase_c[0]->getPanePtr()->setAnimation(field_0x20);
@@ -2207,17 +2800,24 @@ void dMenu_Option_c::yesnoMenuMoveAnmInitSet(int param_0, int param_1) {
     mpYesNoSelBase_c[1]->getPanePtr()->animationTransform();
 }
 
-bool dMenu_Option_c::yesnoMenuMoveAnm() {
+bool dMenu_Option_c::yesnoMenuMoveAnm()
+{
     bool ret;
-    if (field_0x3c8[2] != field_0x3c8[3]) {
-        if (field_0x3c8[2] < field_0x3c8[3]) {
+    if (field_0x3c8[2] != field_0x3c8[3])
+    {
+        if (field_0x3c8[2] < field_0x3c8[3])
+        {
             field_0x3c8[2] += 2;
-            if (field_0x3c8[2] > field_0x3c8[3]) {
+            if (field_0x3c8[2] > field_0x3c8[3])
+            {
                 field_0x3c8[2] = field_0x3c8[3];
             }
-        } else {
+        }
+        else
+        {
             field_0x3c8[2] -= 2;
-            if (field_0x3c8[2] < field_0x3c8[3]) {
+            if (field_0x3c8[2] < field_0x3c8[3])
+            {
                 field_0x3c8[2] = field_0x3c8[3];
             }
         }
@@ -2226,14 +2826,19 @@ bool dMenu_Option_c::yesnoMenuMoveAnm() {
         mpYesNoSelBase_c[1]->getPanePtr()->animationTransform();
         ret = 0;
     }
-    if (field_0x3c8[2] == field_0x3c8[3]) {
+    if (field_0x3c8[2] == field_0x3c8[3])
+    {
         mpYesNoSelBase_c[0]->getPanePtr()->setAnimation((J2DAnmTransform*)NULL);
         mpYesNoSelBase_c[1]->getPanePtr()->setAnimation((J2DAnmTransform*)NULL);
-        if (field_0x3c8[2] == 0x47D) {
+        if (field_0x3c8[2] == 0x47D)
+        {
             field_0x3f8 = 1;
-        } else {
+        }
+        else
+        {
             field_0x3f8 = 0;
-            if (field_0x3f9 != 0xff) {
+            if (field_0x3f9 != 0xff)
+            {
                 mpYesNoCurWaku_c[field_0x3f9]->setAlpha(0);
                 mpYesNoCurWakuG0_c[field_0x3f9]->setAlpha(0);
                 mpYesNoCurWakuG1_c[field_0x3f9]->setAlpha(0);
@@ -2248,64 +2853,92 @@ static s32 OptYnSelStartFrameTbl[2] = {1251, 1236};
 
 static s32 OptYnSelEndFrameTbl[2] = {1236, 1251};
 
-u8 dMenu_Option_c::yesnoSelectMoveAnm() {
+u8 dMenu_Option_c::yesnoSelectMoveAnm()
+{
     u8 ret = 0;
     bool bVar1;
     bool bVar2;
 
-    if (field_0x3fa != 0xff) {
-        if (field_0x3c8[field_0x3fa] != OptYnSelStartFrameTbl[field_0x3fa]) {
-            if (field_0x3c8[field_0x3fa] < OptYnSelStartFrameTbl[field_0x3fa]) {
+    if (field_0x3fa != 0xff)
+    {
+        if (field_0x3c8[field_0x3fa] != OptYnSelStartFrameTbl[field_0x3fa])
+        {
+            if (field_0x3c8[field_0x3fa] < OptYnSelStartFrameTbl[field_0x3fa])
+            {
                 field_0x3c8[field_0x3fa] += 2;
-                if (field_0x3c8[field_0x3fa] > OptYnSelStartFrameTbl[field_0x3fa]) {
+                if (field_0x3c8[field_0x3fa] > OptYnSelStartFrameTbl[field_0x3fa])
+                {
                     field_0x3c8[field_0x3fa] = OptYnSelStartFrameTbl[field_0x3fa];
                 }
-            } else {
+            }
+            else
+            {
                 field_0x3c8[field_0x3fa] -= 2;
-                if (field_0x3c8[field_0x3fa] < OptYnSelStartFrameTbl[field_0x3fa]) {
+                if (field_0x3c8[field_0x3fa] < OptYnSelStartFrameTbl[field_0x3fa])
+                {
                     field_0x3c8[field_0x3fa] = OptYnSelStartFrameTbl[field_0x3fa];
                 }
             }
             field_0x24->setFrame(field_0x3c8[field_0x3fa]);
             mpYesNoSelBase_c[field_0x3fa]->getPanePtr()->animationTransform();
         }
-        if (field_0x3c8[field_0x3fa] == OptYnSelStartFrameTbl[field_0x3fa]) {
+        if (field_0x3c8[field_0x3fa] == OptYnSelStartFrameTbl[field_0x3fa])
+        {
             bVar1 = true;
-        } else {
+        }
+        else
+        {
             bVar1 = false;
         }
-    } else {
+    }
+    else
+    {
         bVar1 = true;
     }
-    if (field_0x3f9 != 0xff) {
-        if (field_0x3c8[field_0x3f9] != OptYnSelEndFrameTbl[field_0x3f9]) {
-            if (field_0x3c8[field_0x3f9] < OptYnSelEndFrameTbl[field_0x3f9]) {
+    if (field_0x3f9 != 0xff)
+    {
+        if (field_0x3c8[field_0x3f9] != OptYnSelEndFrameTbl[field_0x3f9])
+        {
+            if (field_0x3c8[field_0x3f9] < OptYnSelEndFrameTbl[field_0x3f9])
+            {
                 field_0x3c8[field_0x3f9] += 2;
-                if (field_0x3c8[field_0x3f9] > OptYnSelEndFrameTbl[field_0x3f9]) {
+                if (field_0x3c8[field_0x3f9] > OptYnSelEndFrameTbl[field_0x3f9])
+                {
                     field_0x3c8[field_0x3f9] = OptYnSelEndFrameTbl[field_0x3f9];
                 }
-            } else {
+            }
+            else
+            {
                 field_0x3c8[field_0x3f9] -= 2;
-                if (field_0x3c8[field_0x3f9] < OptYnSelEndFrameTbl[field_0x3f9]) {
+                if (field_0x3c8[field_0x3f9] < OptYnSelEndFrameTbl[field_0x3f9])
+                {
                     field_0x3c8[field_0x3f9] = OptYnSelEndFrameTbl[field_0x3f9];
                 }
             }
             field_0x28->setFrame(field_0x3c8[field_0x3f9]);
             mpYesNoSelBase_c[field_0x3f9]->getPanePtr()->animationTransform();
         }
-        if (field_0x3c8[field_0x3f9] == OptYnSelEndFrameTbl[field_0x3f9]) {
+        if (field_0x3c8[field_0x3f9] == OptYnSelEndFrameTbl[field_0x3f9])
+        {
             bVar2 = true;
-        } else {
+        }
+        else
+        {
             bVar2 = false;
         }
-    } else {
+    }
+    else
+    {
         bVar2 = true;
     }
-    if (bVar1 == 1 && bVar2 == 1) {
-        if (field_0x3fa != 0xff) {
+    if (bVar1 == 1 && bVar2 == 1)
+    {
+        if (field_0x3fa != 0xff)
+        {
             mpYesNoSelBase_c[field_0x3fa]->getPanePtr()->setAnimation((J2DAnmTransform*)NULL);
         }
-        if (field_0x3f9 != 0xff) {
+        if (field_0x3f9 != 0xff)
+        {
             mpYesNoSelBase_c[field_0x3f9]->getPanePtr()->setAnimation((J2DAnmTransform*)NULL);
         }
         ret = 1;
@@ -2313,37 +2946,46 @@ u8 dMenu_Option_c::yesnoSelectMoveAnm() {
     return ret;
 }
 
-void dMenu_Option_c::yesnoCursorShow() {
-    if (field_0x3f9 != 0xff) {
-        ((J2DTextBox*)mpYesNoTxt_c[field_0x3f9]->getPanePtr())
-            ->setWhite(JUtility::TColor(0xff, 0xff, 0xff, 0xff));
+void dMenu_Option_c::yesnoCursorShow()
+{
+    if (field_0x3f9 != 0xff)
+    {
+        ((J2DTextBox*)mpYesNoTxt_c[field_0x3f9]->getPanePtr())->setWhite(JUtility::TColor(0xff, 0xff, 0xff, 0xff));
         mpYesNoCurWaku_c[field_0x3f9]->setAlpha(0xff);
         mpYesNoCurWakuG0_c[field_0x3f9]->setAlpha(0xff);
         mpYesNoCurWakuG1_c[field_0x3f9]->setAlpha(0xff);
-        Vec pos = mpYesNoSelBase_c[field_0x3f9]->getGlobalVtxCenter(
-            mpYesNoSelBase_c[field_0x3f9]->mPane, false, 0);
+        Vec pos = mpYesNoSelBase_c[field_0x3f9]->getGlobalVtxCenter(mpYesNoSelBase_c[field_0x3f9]->mPane, false, 0);
         mpDrawCursor->setPos(pos.x, pos.y, mpYesNoSelBase_c[field_0x3f9]->getPanePtr(), true);
         mpDrawCursor->setAlphaRate(1.0f);
         mpDrawCursor->setParam(0.96f, 0.84f, 0.06f, 0.5f, 0.5f);
     }
 }
 
-void dMenu_Option_c::yesNoSelectStart() {
-    if (field_0x3f9 != 0) {
-        if (field_0x3f7 == 1) {
+void dMenu_Option_c::yesNoSelectStart()
+{
+    if (field_0x3f9 != 0)
+    {
+        if (field_0x3f7 == 1)
+        {
             Z2GetAudioMgr()->seStart(Z2SE_SY_NAME_OK, NULL, 0, 0, 1.0f, 1.0f, -1.0f, -1.0f, 0);
-        } else {
+        }
+        else
+        {
             Z2GetAudioMgr()->seStart(Z2SE_SY_MENU_BACK, NULL, 0, 0, 1.0f, 1.0f, -1.0f, -1.0f, 0);
         }
         yesnoMenuMoveAnmInitSet(0x47D, 0x473);
         mpDrawCursor->setAlphaRate(0.0f);
-    } else {
+    }
+    else
+    {
         yesnoCancelAnmSet();
     }
 }
 
-void dMenu_Option_c::yesnoSelectAnmSet() {
-    if (field_0x3fa != 0xff) {
+void dMenu_Option_c::yesnoSelectAnmSet()
+{
+    if (field_0x3fa != 0xff)
+    {
         yesnoWakuAlpahAnmInit(field_0x3fa, 0xff, 0, 5);
         mpYesNoSelBase_c[field_0x3fa]->getPanePtr()->setAnimation(field_0x24);
         field_0x3c8[field_0x3fa] = OptYnSelEndFrameTbl[field_0x3fa];
@@ -2351,7 +2993,8 @@ void dMenu_Option_c::yesnoSelectAnmSet() {
         mpYesNoSelBase_c[field_0x3fa]->getPanePtr()->animationTransform();
         mpDrawCursor->setAlphaRate(0.0f);
     }
-    if (field_0x3f9 != 0xff) {
+    if (field_0x3f9 != 0xff)
+    {
         mpYesNoSelBase_c[field_0x3f9]->getPanePtr()->setAnimation(field_0x28);
         field_0x3c8[field_0x3f9] = OptYnSelStartFrameTbl[field_0x3f9];
         field_0x28->setFrame(field_0x3c8[field_0x3f9]);
@@ -2359,14 +3002,17 @@ void dMenu_Option_c::yesnoSelectAnmSet() {
     }
 }
 
-void dMenu_Option_c::yesnoCancelAnmSet() {
+void dMenu_Option_c::yesnoCancelAnmSet()
+{
     Z2GetAudioMgr()->seStart(Z2SE_SY_CURSOR_CANCEL, NULL, 0, 0, 1.0f, 1.0f, -1.0f, -1.0f, 0);
     mpDrawCursor->setAlphaRate(0.0f);
     yesnoMenuMoveAnmInitSet(0x47D, 0x473);
 }
 
-void dMenu_Option_c::yesnoWakuAlpahAnmInit(u8 i_idx, u8 param_1, u8 param_2, u8 param_3) {
-    if (i_idx != 0xff) {
+void dMenu_Option_c::yesnoWakuAlpahAnmInit(u8 i_idx, u8 param_1, u8 param_2, u8 param_3)
+{
+    if (i_idx != 0xff)
+    {
         mpYesNoCurWaku_c[i_idx]->alphaAnimeStart(0);
         mpYesNoCurWakuG0_c[i_idx]->alphaAnimeStart(0);
         mpYesNoCurWakuG1_c[i_idx]->alphaAnimeStart(0);
@@ -2377,31 +3023,35 @@ void dMenu_Option_c::yesnoWakuAlpahAnmInit(u8 i_idx, u8 param_1, u8 param_2, u8 
     }
 }
 
-u8 dMenu_Option_c::yesnoWakuAlpahAnm(u8 i_idx) {
+u8 dMenu_Option_c::yesnoWakuAlpahAnm(u8 i_idx)
+{
     u8 ret = 0;
     bool wakuAnime;
     bool wakuAnimeG0;
     bool wakuAnimeG1;
     bool colorAnime;
 
-    if (i_idx != 0xff) {
-        wakuAnime = mpYesNoCurWaku_c[i_idx]->alphaAnime(field_0x3ff[i_idx], field_0x3fb[i_idx],
-                                                        field_0x3fd[i_idx], 0);
-        wakuAnimeG0 = mpYesNoCurWakuG0_c[i_idx]->alphaAnime(field_0x3ff[i_idx], field_0x3fb[i_idx],
-                                                            field_0x3fd[i_idx], 0);
-        wakuAnimeG1 = mpYesNoCurWakuG1_c[i_idx]->alphaAnime(field_0x3ff[i_idx], field_0x3fb[i_idx],
-                                                            field_0x3fd[i_idx], 0);
-        colorAnime = mpYesNoTxt_c[i_idx]->colorAnime(
-            field_0x3ff[i_idx], mpYesNoTxt_c[i_idx]->getInitBlack(),
-            mpYesNoTxt_c[i_idx]->getInitBlack(), JUtility::TColor(0xff, 0xff, 0xff, 0xff),
-            JUtility::TColor(0x96, 0x96, 0x96, 0xff), 0);
-    } else {
+    if (i_idx != 0xff)
+    {
+        wakuAnime = mpYesNoCurWaku_c[i_idx]->alphaAnime(field_0x3ff[i_idx], field_0x3fb[i_idx], field_0x3fd[i_idx], 0);
+        wakuAnimeG0 = mpYesNoCurWakuG0_c[i_idx]->alphaAnime(field_0x3ff[i_idx], field_0x3fb[i_idx], field_0x3fd[i_idx], 0);
+        wakuAnimeG1 = mpYesNoCurWakuG1_c[i_idx]->alphaAnime(field_0x3ff[i_idx], field_0x3fb[i_idx], field_0x3fd[i_idx], 0);
+        colorAnime = mpYesNoTxt_c[i_idx]->colorAnime(field_0x3ff[i_idx],
+                                                     mpYesNoTxt_c[i_idx]->getInitBlack(),
+                                                     mpYesNoTxt_c[i_idx]->getInitBlack(),
+                                                     JUtility::TColor(0xff, 0xff, 0xff, 0xff),
+                                                     JUtility::TColor(0x96, 0x96, 0x96, 0xff),
+                                                     0);
+    }
+    else
+    {
         wakuAnime = true;
         wakuAnimeG0 = true;
         wakuAnimeG1 = true;
         colorAnime = true;
     }
-    if (wakuAnime == 1 && wakuAnimeG0 == 1 && wakuAnimeG1 == 1 && colorAnime == 1) {
+    if (wakuAnime == 1 && wakuAnimeG0 == 1 && wakuAnimeG1 == 1 && colorAnime == 1)
+    {
         ret = 1;
     }
     return ret;

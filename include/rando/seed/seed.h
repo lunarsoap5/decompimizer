@@ -95,6 +95,12 @@ class seedHeaderInfo_c
     u8 getTriforcePieceReqCount() const { return triforcePieceReqCount; }
     u16 getTrillDonationCount() const { return trillDonationGoal; }
     u8 getCustomGoal() const { return customGoalValue; }
+    GXColor getAButtonColor() const { return aButtonColor; }
+    GXColor getBButtonColor() const { return bButtonColor; }
+    GXColor getXButtonColor() const { return xButtonColor; }
+    GXColor getYButtonColor() const { return yButtonColor; }
+    GXColor getZButtonColor() const { return zButtonColor; }
+    GXColor getHeartColor() const { return heartColor; }
 
     // const EntryInfo* getVolatilePatchInfoPtr() const { return &volatilePatchInfo; }
     // const EntryInfo* getOneTimePatchInfoPtr() const { return &oneTimePatchInfo; }
@@ -170,6 +176,13 @@ class seedHeaderInfo_c
     /* 0xAC */ u16 returnPlaceSectionOffset;
     /* 0xAE */ u16 trillDonationGoal;
     /* 0xB0 */ u8 customGoalValue; // Used to check for custom goals (Trill%, Zant, 60 Poes, etc.)
+    /* 0xB1 */ u8 paddingb1[0x3];
+    /* 0xB4 */ GXColor aButtonColor;
+    /* 0xB8 */ GXColor bButtonColor;
+    /* 0xBC */ GXColor xButtonColor;
+    /* 0xC0 */ GXColor yButtonColor;
+    /* 0xC4 */ GXColor zButtonColor;
+    /* 0xC8 */ GXColor heartColor;
 };
 
 class seedInfo_c

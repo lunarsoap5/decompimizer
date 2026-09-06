@@ -23,6 +23,7 @@
 #include "d/d_menu_window.h"
 #include "f_op/f_op_msg_mng.h"
 #include "m_Do/m_Do_graphic.h"
+#include "rando/seed/seed.h"
 #include <cstring>
 
 #if (PLATFORM_WII || PLATFORM_SHIELD)
@@ -427,11 +428,11 @@ void dMenu_DmapBg_c::buttonIconScreenInit()
 
     // Change A button color
     static_cast<J2DPicture*>(mButtonScreen->search('a_btn'))
-        ->setBlackWhite(JUtility::TColor(0, 19, 127, 0), JUtility::TColor(0x9b, 0x6e, 0xab, 255));
+        ->setBlackWhite(JUtility::TColor(0, 19, 127, 0), g_seedInfo.getHeaderPtr()->getAButtonColor());
 
     // Change B Button color
     static_cast<J2DPicture*>(mButtonScreen->search('b_btn'))
-        ->setBlackWhite(JUtility::TColor(0, 19, 127, 0), JUtility::TColor(0x9b, 0x6e, 0xab, 255));
+        ->setBlackWhite(JUtility::TColor(0, 19, 127, 0), g_seedInfo.getHeaderPtr()->getBButtonColor());
 }
 
 void dMenu_DmapBg_c::setAButtonString(u32 i_msgNo)
