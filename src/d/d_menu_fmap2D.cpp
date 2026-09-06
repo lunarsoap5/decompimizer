@@ -2886,15 +2886,15 @@ dMenu_Fmap2DTop_c::dMenu_Fmap2DTop_c(JKRExpHeap* i_heap, STControl* i_stick)
 
     // Change A button color
     static_cast<J2DPicture*>(mpTitleScreen->search('a_btn'))
-        ->setBlackWhite(JUtility::TColor(0, 19, 127, 0), g_seedInfo.getHeaderPtr()->getAButtonColor());
+        ->setBlackWhite(JUtility::TColor(0, 0, 0, 0), g_seedInfo.getHeaderPtr()->getAButtonColor());
 
     // Change B Button color
     static_cast<J2DPicture*>(mpTitleScreen->search('b_btn1'))
-        ->setBlackWhite(JUtility::TColor(0, 19, 127, 0), g_seedInfo.getHeaderPtr()->getBButtonColor());
+        ->setBlackWhite(JUtility::TColor(0, 0, 0, 0), g_seedInfo.getHeaderPtr()->getBButtonColor());
 
     // Change Z Button color
     static_cast<J2DPicture*>(mpTitleScreen->search('zbtn'))
-        ->setBlackWhite(JUtility::TColor(0, 19, 127, 0), g_seedInfo.getHeaderPtr()->getZButtonColor());
+        ->setBlackWhite(JUtility::TColor(0, 0, 0, 0), g_seedInfo.getHeaderPtr()->getZButtonColor());
 }
 
 dMenu_Fmap2DTop_c::~dMenu_Fmap2DTop_c()

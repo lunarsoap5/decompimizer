@@ -143,11 +143,11 @@ void dMenu_Collect2D_c::_create()
 
     // Change A button color
     static_cast<J2DPicture*>(mpScreenIcon->search('a_btn'))
-        ->setBlackWhite(JUtility::TColor(0, 19, 127, 0), g_seedInfo.getHeaderPtr()->getAButtonColor());
+        ->setBlackWhite(JUtility::TColor(0, 0, 0, 0), g_seedInfo.getHeaderPtr()->getAButtonColor());
 
     // Change B Button color
     static_cast<J2DPicture*>(mpScreenIcon->search('b_btn'))
-        ->setBlackWhite(JUtility::TColor(0, 19, 127, 0), g_seedInfo.getHeaderPtr()->getAButtonColor());
+        ->setBlackWhite(JUtility::TColor(0, 0, 0, 0), g_seedInfo.getHeaderPtr()->getBButtonColor());
 }
 
 void dMenu_Collect2D_c::_delete()

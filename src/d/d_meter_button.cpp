@@ -1636,11 +1636,11 @@ void dMeterButton_c::screenInitButton()
 
     // Change A button color
     static_cast<J2DPicture*>(mpButtonScreen->search('a_btn1'))
-        ->setBlackWhite(JUtility::TColor(0, 19, 127, 0), g_seedInfo.getHeaderPtr()->getAButtonColor());
+        ->setBlackWhite(JUtility::TColor(0, 0, 0, 0), g_seedInfo.getHeaderPtr()->getAButtonColor());
 
     // Change B Button color
     static_cast<J2DPicture*>(mpButtonScreen->search('b_btn'))
-        ->setBlackWhite(JUtility::TColor(0, 19, 127, 0), g_seedInfo.getHeaderPtr()->getBButtonColor());
+        ->setBlackWhite(JUtility::TColor(0, 0, 0, 0), g_seedInfo.getHeaderPtr()->getBButtonColor());
 }
 
 void dMeterButton_c::screenInitText()

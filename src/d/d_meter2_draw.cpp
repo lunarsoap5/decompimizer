@@ -1693,7 +1693,7 @@ void dMeter2Draw_c::changeTextureLife(int i_no, bool param_1, u8 i_quarterNum)
 
                     // Set Big heart color
                     static_cast<J2DPicture*>(mpScreen->search(tag_bigh[i]))
-                        ->setBlackWhite(JUtility::TColor(0, 19, 127, 0), g_seedInfo.getHeaderPtr()->getHeartColor());
+                        ->setBlackWhite(g_seedInfo.getHeaderPtr()->getHeartColor(), JUtility::TColor(200, 200, 200, 255));
                 }
                 else
                 {
@@ -1770,7 +1770,7 @@ void dMeter2Draw_c::drawLife(s16 i_maxLife, s16 i_life, f32 i_posX, f32 i_posY)
 
         // Set Heart color
         static_cast<J2DPicture*>(mpScreen->search(lifet2_tag[i]))
-            ->setBlackWhite(JUtility::TColor(0, 19, 127, 0), g_seedInfo.getHeaderPtr()->getHeartColor());
+            ->setBlackWhite(g_seedInfo.getHeaderPtr()->getHeartColor(), JUtility::TColor(200, 200, 200, 255));
     }
 
     mpLifeParent->scale(g_drawHIO.mLifeParentScale, g_drawHIO.mLifeParentScale);
@@ -2463,7 +2463,7 @@ void dMeter2Draw_c::drawRupee(s16 i_rupeeNum)
 
     // Change wallet rupee color
     static_cast<J2DPicture*>(mpScreen->search('rupi'))
-        ->setBlackWhite(JUtility::TColor(0, 19, 127, 0), JUtility::TColor(0x9b, 0x6e, 0xab, 255));
+        ->setBlackWhite(JUtility::TColor(0, 0, 0, 0), JUtility::TColor(0x9b, 0x6e, 0xab, 255));
 }
 
 void dMeter2Draw_c::setAlphaRupeeChange(bool param_0)
@@ -2750,7 +2750,7 @@ void dMeter2Draw_c::drawButtonA(u8 i_action,
 
     // Change A Button Color
     static_cast<J2DPicture*>(mpScreen->search('a_btn'))
-        ->setBlackWhite(JUtility::TColor(0, 19, 127, 0), g_seedInfo.getHeaderPtr()->getAButtonColor());
+        ->setBlackWhite(JUtility::TColor(0, 0, 0, 0), g_seedInfo.getHeaderPtr()->getAButtonColor());
 }
 
 void dMeter2Draw_c::drawButtonB(u8 i_action,
@@ -2879,7 +2879,7 @@ void dMeter2Draw_c::drawButtonB(u8 i_action,
 
     // Change B Button Color
     static_cast<J2DPicture*>(mpScreen->search('b_btn'))
-        ->setBlackWhite(JUtility::TColor(0, 19, 127, 0), g_seedInfo.getHeaderPtr()->getBButtonColor());
+        ->setBlackWhite(JUtility::TColor(0, 0, 0, 0), g_seedInfo.getHeaderPtr()->getBButtonColor());
 }
 
 void dMeter2Draw_c::drawButtonR(u8 unused0, u8 i_action, bool unused1, bool unused2)
@@ -2940,7 +2940,7 @@ void dMeter2Draw_c::drawButtonZ(u8 i_action)
 
     // Change Z Button Color
     static_cast<J2DPicture*>(mpScreen->search('zbtn'))
-        ->setBlackWhite(JUtility::TColor(0, 19, 127, 0), g_seedInfo.getHeaderPtr()->getZButtonColor());
+        ->setBlackWhite(JUtility::TColor(0, 0, 0, 0), g_seedInfo.getHeaderPtr()->getZButtonColor());
 }
 
 void dMeter2Draw_c::drawButton3D(u8 i_action)
@@ -2997,10 +2997,10 @@ void dMeter2Draw_c::drawButtonXY(int i_no, u8 i_itemNo, u8 i_action, bool param_
 
     // Change X Button Color
     static_cast<J2DPicture*>(mpScreen->search('x_btn'))
-        ->setBlackWhite(JUtility::TColor(0, 19, 127, 0), g_seedInfo.getHeaderPtr()->getXButtonColor());
+        ->setBlackWhite(JUtility::TColor(0, 0, 0, 0), g_seedInfo.getHeaderPtr()->getXButtonColor());
     // Change Y Button Color
     static_cast<J2DPicture*>(mpScreen->search('y_btn'))
-        ->setBlackWhite(JUtility::TColor(0, 19, 127, 0), g_seedInfo.getHeaderPtr()->getYButtonColor());
+        ->setBlackWhite(JUtility::TColor(0, 0, 0, 0), g_seedInfo.getHeaderPtr()->getYButtonColor());
 
     static u64 const tag[] = {MULTI_CHAR('item_x_n'), MULTI_CHAR('item_y_n')};
 

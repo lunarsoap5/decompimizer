@@ -440,11 +440,11 @@ void dMenu_save_c::screenSet()
 
     // Change A button color
     static_cast<J2DPicture*>(mSaveSel.Scr->search('wabtn'))
-        ->setBlackWhite(JUtility::TColor(0, 19, 127, 0), g_seedInfo.getHeaderPtr()->getAButtonColor());
+        ->setBlackWhite(JUtility::TColor(0, 0, 0, 0), g_seedInfo.getHeaderPtr()->getAButtonColor());
 
     // Change B Button color
     static_cast<J2DPicture*>(mSaveSel.Scr->search('wbbtn'))
-        ->setBlackWhite(JUtility::TColor(0, 19, 127, 0), g_seedInfo.getHeaderPtr()->getBButtonColor());
+        ->setBlackWhite(JUtility::TColor(0, 0, 0, 0), g_seedInfo.getHeaderPtr()->getBButtonColor());
 }
 
 void dMenu_save_c::initialize()

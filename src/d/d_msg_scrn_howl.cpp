@@ -262,7 +262,7 @@ dMsgScrnHowl_c::dMsgScrnHowl_c()
 
     // Change A button color
     static_cast<J2DPicture*>(mpScreen->search('abtn'))
-        ->setBlackWhite(JUtility::TColor(0, 19, 127, 0), g_seedInfo.getHeaderPtr()->getAButtonColor());
+        ->setBlackWhite(JUtility::TColor(0, 0, 0, 0), g_seedInfo.getHeaderPtr()->getAButtonColor());
 }
 
 dMsgScrnHowl_c::~dMsgScrnHowl_c()

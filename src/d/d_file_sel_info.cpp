@@ -11,10 +11,12 @@
 #include "d/d_com_inf_game.h"
 #include "d/d_meter2_info.h"
 #include "d/d_pane_class_alpha.h"
+#include "rando/seed/seed.h"
 #include <cstdio>
 #include <cstring>
 
-dFile_info_c::dFile_info_c(JKRArchive* i_archive, u8 param_1) {
+dFile_info_c::dFile_info_c(JKRArchive* i_archive, u8 param_1)
+{
     mArchive = i_archive;
     field_0x22 = param_1;
     mFileInfo.mBasePane = NULL;
@@ -22,7 +24,8 @@ dFile_info_c::dFile_info_c(JKRArchive* i_archive, u8 param_1) {
     field_0x20 = 0;
 }
 
-dFile_info_c::~dFile_info_c() {
+dFile_info_c::~dFile_info_c()
+{
     delete mFileInfo.Scr;
     delete mDatBase;
     delete mNoDatBase;
@@ -30,7 +33,8 @@ dFile_info_c::~dFile_info_c() {
     mDoExt_removeMesgFont();
 }
 
-void dFile_info_c::screenSet() {
+void dFile_info_c::screenSet()
+{
     mFileInfo.Scr = new J2DScreen();
     JUT_ASSERT(0, mFileInfo.Scr != NULL);
 
@@ -42,43 +46,44 @@ void dFile_info_c::screenSet() {
     mNoDatBase = new CPaneMgrAlpha(mFileInfo.Scr, MULTI_CHAR('w_nda_i1'), 2, NULL);
 
     J2DTextBox* info_text[4];
-    
 
-    #if (VERSION == VERSION_GCN_JPN) || (VERSION == VERSION_WII_JPN)
+#if (VERSION == VERSION_GCN_JPN) || (VERSION == VERSION_WII_JPN)
     info_text[0] = (J2DTextBox*)mFileInfo.Scr->search(MULTI_CHAR('w_s_t_01'));
     info_text[1] = (J2DTextBox*)mFileInfo.Scr->search(MULTI_CHAR('w_p_t_01'));
     mFileInfo.Scr->search(MULTI_CHAR('f_s_t_02'))->hide();
     mFileInfo.Scr->search(MULTI_CHAR('f_p_t_02'))->hide();
-    #else
+#else
     info_text[0] = (J2DTextBox*)mFileInfo.Scr->search(MULTI_CHAR('f_s_t_02'));
     info_text[1] = (J2DTextBox*)mFileInfo.Scr->search(MULTI_CHAR('f_p_t_02'));
     mFileInfo.Scr->search(MULTI_CHAR('w_s_t_01'))->hide();
     mFileInfo.Scr->search(MULTI_CHAR('w_p_t_01'))->hide();
-    #endif
+#endif
 
-    for (int i = 0; i < 2; i++) {
+    for (int i = 0; i < 2; i++)
+    {
         info_text[i]->setFont(mFileInfo.mFont);
         info_text[i]->setString(0x20, "");
     }
-    dMeter2Info_getString(0x3D0, info_text[0]->getStringPtr(), NULL);  // Save time
-    dMeter2Info_getString(0x3D1, info_text[1]->getStringPtr(), NULL);  // Total play time
+    dMeter2Info_getString(0x3D0, info_text[0]->getStringPtr(), NULL); // Save time
+    dMeter2Info_getString(0x3D1, info_text[1]->getStringPtr(), NULL); // Total play time
 
-    #if (VERSION == VERSION_GCN_JPN) || (VERSION == VERSION_WII_JPN)
+#if (VERSION == VERSION_GCN_JPN) || (VERSION == VERSION_WII_JPN)
     info_text[0] = (J2DTextBox*)mFileInfo.Scr->search(MULTI_CHAR('w_name01'));
     info_text[1] = (J2DTextBox*)mFileInfo.Scr->search(MULTI_CHAR('w_new_1'));
     mFileInfo.Scr->search(MULTI_CHAR('f_name01'))->hide();
     mFileInfo.Scr->search(MULTI_CHAR('f_new_1'))->hide();
-    #else
+#else
     info_text[0] = (J2DTextBox*)mFileInfo.Scr->search(MULTI_CHAR('f_name01'));
     info_text[1] = (J2DTextBox*)mFileInfo.Scr->search(MULTI_CHAR('f_new_1'));
     mFileInfo.Scr->search(MULTI_CHAR('w_name01'))->hide();
     mFileInfo.Scr->search(MULTI_CHAR('w_new_1'))->hide();
-    #endif
+#endif
 
     info_text[2] = (J2DTextBox*)mFileInfo.Scr->search(MULTI_CHAR('w_time01'));
     info_text[3] = (J2DTextBox*)mFileInfo.Scr->search(MULTI_CHAR('w_ptim01'));
 
-    for (int i = 0; i < 4; i++) {
+    for (int i = 0; i < 4; i++)
+    {
         info_text[i]->setFont(mFileInfo.mFont);
         info_text[i]->setString(0x40, "");
     }
@@ -88,43 +93,55 @@ void dFile_info_c::screenSet() {
     mPlayTime = info_text[3]->getStringPtr();
 }
 
-int dFile_info_c::setSaveData(dSv_save_c* i_savedata, BOOL i_validChksum, u8 i_dataNo) {
+int dFile_info_c::setSaveData(dSv_save_c* i_savedata, BOOL i_validChksum, u8 i_dataNo)
+{
     int result;
-    if (i_validChksum) {
+    if (i_validChksum)
+    {
         char* player_name = i_savedata->getPlayer().getPlayerInfo().getPlayerName();
-        if (*player_name == 0) {
-            if (field_0x22 == 1 && i_dataNo == dComIfGs_getDataNum()) {
+        if (*player_name == 0)
+        {
+            if (field_0x22 == 1 && i_dataNo == dComIfGs_getDataNum())
+            {
                 i_savedata->getPlayer().getPlayerStatusA().setLife(dComIfGs_getLife());
                 setHeartCnt(i_savedata);
                 i_savedata->getPlayer().getPlayerStatusA().setLife(12);
                 strcpy(mPlayerName, dComIfGs_getPlayerName());
                 strcpy(mSaveDate, "");
                 strcpy(mPlayTime, "");
-                dMeter2Info_getString(0x4D, mSaveStatus, NULL);  // New Quest Log
+                dMeter2Info_getString(0x4D, mSaveStatus, NULL); // New Quest Log
                 result = 2;
-            } else {
-                dMeter2Info_getString(0x4D, mSaveStatus, NULL);  // New Quest Log
+            }
+            else
+            {
+                dMeter2Info_getString(0x4D, mSaveStatus, NULL); // New Quest Log
                 result = 1;
             }
-        } else {
+        }
+        else
+        {
             setHeartCnt(i_savedata);
             strcpy(mPlayerName, player_name);
             setSaveDate(i_savedata);
             setPlayTime(i_savedata);
             result = 0;
         }
-    } else {
-        dMeter2Info_getString(0x51, mSaveStatus, NULL);  // This Quest Log is Corrupted
+    }
+    else
+    {
+        dMeter2Info_getString(0x51, mSaveStatus, NULL); // This Quest Log is Corrupted
         result = -1;
     }
     return result;
 }
 
-void dFile_info_c::setHeartCnt(dSv_save_c* i_savedata) {
+void dFile_info_c::setHeartCnt(dSv_save_c* i_savedata)
+{
     static u64 l_htag[] = {
-        MULTI_CHAR('hear_20'), MULTI_CHAR('hear_21'), MULTI_CHAR('hear_22'), MULTI_CHAR('hear_23'), MULTI_CHAR('hear_24'), MULTI_CHAR('hear_25'), MULTI_CHAR('hear_26'),
-        MULTI_CHAR('hear_27'), MULTI_CHAR('hear_28'), MULTI_CHAR('hear_29'), MULTI_CHAR('hear_30'), MULTI_CHAR('hear_31'), MULTI_CHAR('hear_32'), MULTI_CHAR('hear_33'),
-        MULTI_CHAR('hear_34'), MULTI_CHAR('hear_35'), MULTI_CHAR('hear_36'), MULTI_CHAR('hear_37'), MULTI_CHAR('hear_38'), MULTI_CHAR('hear_39'),
+        MULTI_CHAR('hear_20'), MULTI_CHAR('hear_21'), MULTI_CHAR('hear_22'), MULTI_CHAR('hear_23'), MULTI_CHAR('hear_24'),
+        MULTI_CHAR('hear_25'), MULTI_CHAR('hear_26'), MULTI_CHAR('hear_27'), MULTI_CHAR('hear_28'), MULTI_CHAR('hear_29'),
+        MULTI_CHAR('hear_30'), MULTI_CHAR('hear_31'), MULTI_CHAR('hear_32'), MULTI_CHAR('hear_33'), MULTI_CHAR('hear_34'),
+        MULTI_CHAR('hear_35'), MULTI_CHAR('hear_36'), MULTI_CHAR('hear_37'), MULTI_CHAR('hear_38'), MULTI_CHAR('hear_39'),
     };
 
     static const char* amariheartTex[] = {
@@ -137,62 +154,79 @@ void dFile_info_c::setHeartCnt(dSv_save_c* i_savedata) {
     u16 life = i_savedata->getPlayer().getPlayerStatusA().getLife();
     s32 count = (life & 0xFFFF) / 5;
     s32 quarter_count = life % 5;
-    if (quarter_count != 0) {
+    if (quarter_count != 0)
+    {
         count++;
     }
 
     J2DPicture* heart_tex[20];
-    for (int i = 0; i < 20; i++) {
+    for (int i = 0; i < 20; i++)
+    {
         heart_tex[i] = (J2DPicture*)mFileInfo.Scr->search(l_htag[i]);
 
-        if (i < i_savedata->getPlayer().getPlayerStatusA().getMaxLife() / 5) {
+        if (i < i_savedata->getPlayer().getPlayerStatusA().getMaxLife() / 5)
+        {
             heart_tex[i]->show();
-            if (i < count) {
-                if (quarter_count != 0 && i == count - 1) {
+            if (i < count)
+            {
+                if (quarter_count != 0 && i == count - 1)
+                {
                     heart_tex[i]->changeTexture(amariheartTex[quarter_count - 1], 0);
-                } else {
+                }
+                else
+                {
                     heart_tex[i]->changeTexture("tt_heart_00.bti", 0);
                 }
-            } else {
+            }
+            else
+            {
                 heart_tex[i]->changeTexture("tt_heart_00.bti", 0);
             }
-        } else {
+        }
+        else
+        {
             heart_tex[i]->hide();
         }
+        static_cast<J2DPicture*>(mFileInfo.Scr->search(l_htag[i]))
+            ->setBlackWhite(g_seedInfo.getHeaderPtr()->getHeartColor(), JUtility::TColor(200, 200, 200, 255));
     }
 }
 
 typedef void (dFile_info_c::*procFunc)();
 static procFunc fileWarningProc[] = {&dFile_info_c::modeWait, &dFile_info_c::modeMove};
 
-void dFile_info_c::setSaveDate(dSv_save_c* i_savedata) {
+void dFile_info_c::setSaveDate(dSv_save_c* i_savedata)
+{
     OSCalendarTime time;
     OSTicksToCalendarTime(i_savedata->getPlayer().getPlayerStatusB().getDateIpl(), &time);
 
-    #if (VERSION == VERSION_GCN_JPN) || (VERSION == VERSION_WII_JPN)
-    sprintf(mSaveDate, "%d.%02d.%02d %02d:%02d", time.year, time.mon + 1, time.mday,
-            time.hour, time.min);
-    #elif VERSION == VERSION_GCN_PAL
-    if (dComIfGs_getPalLanguage() == dSv_player_config_c::LANGUAGE_ENGLISH) {
-        sprintf(mSaveDate, "%02d/%02d/%d %02d:%02d", time.mon + 1, time.mday, time.year, time.hour,
-                time.min);
-    } else {
-        sprintf(mSaveDate, "%02d/%02d/%d %02d:%02d", time.mday, time.mon + 1, time.year, time.hour,
-                time.min);
+#if (VERSION == VERSION_GCN_JPN) || (VERSION == VERSION_WII_JPN)
+    sprintf(mSaveDate, "%d.%02d.%02d %02d:%02d", time.year, time.mon + 1, time.mday, time.hour, time.min);
+#elif VERSION == VERSION_GCN_PAL
+    if (dComIfGs_getPalLanguage() == dSv_player_config_c::LANGUAGE_ENGLISH)
+    {
+        sprintf(mSaveDate, "%02d/%02d/%d %02d:%02d", time.mon + 1, time.mday, time.year, time.hour, time.min);
+    }
+    else
+    {
+        sprintf(mSaveDate, "%02d/%02d/%d %02d:%02d", time.mday, time.mon + 1, time.year, time.hour, time.min);
     }
 #else
-    sprintf(mSaveDate, "%02d/%02d/%d %02d:%02d", time.mon + 1, time.mday, time.year,
-            time.hour, time.min);
-    #endif
+    sprintf(mSaveDate, "%02d/%02d/%d %02d:%02d", time.mon + 1, time.mday, time.year, time.hour, time.min);
+#endif
 }
 
-void dFile_info_c::setPlayTime(dSv_save_c* i_savedata) {
+void dFile_info_c::setPlayTime(dSv_save_c* i_savedata)
+{
     s64 time = i_savedata->getPlayer().getPlayerInfo().getTotalTime() / (OS_BUS_CLOCK / 4);
 
     // 3599940 = 999:59 in seconds
-    if (time >= 3599940) {
+    if (time >= 3599940)
+    {
         sprintf(mPlayTime, "999:59");
-    } else {
+    }
+    else
+    {
         u32 min = (time % 3600) / 60;
         u32 hours = time / 3600;
         sprintf(mPlayTime, "%d:%02d", hours, min);
@@ -203,20 +237,22 @@ void dFile_info_c::modeWait() {}
 
 void dFile_info_c::modeMove() {}
 
-void dFile_info_c::_draw() {
+void dFile_info_c::_draw()
+{
     dComIfGd_set2DOpa(&mFileInfo);
 }
 
-void dDlst_FileInfo_c::draw() {
+void dDlst_FileInfo_c::draw()
+{
     Mtx m;
     J2DGrafContext* graf_ctx = dComIfGp_getCurrentGrafPort();
 
-    if (mBasePane != NULL) {
+    if (mBasePane != NULL)
+    {
         // fake match?
         MtxP glb_mtx = (MtxP)&mBasePane->getGlbMtx()[0][0];
 
-        MTXScale(m, mBasePane->getWidth() / field_0x10->getWidth(),
-                 mBasePane->getHeight() / field_0x10->getHeight(), 1.0f);
+        MTXScale(m, mBasePane->getWidth() / field_0x10->getWidth(), mBasePane->getHeight() / field_0x10->getHeight(), 1.0f);
         MTXConcat(glb_mtx, m, glb_mtx);
         Scr->search(MULTI_CHAR('Nm_02'))->setMtx(glb_mtx);
     }
