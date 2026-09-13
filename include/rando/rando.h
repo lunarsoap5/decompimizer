@@ -32,7 +32,6 @@ class randoInfo_c
     int execute();
     int draw();
     bool checkValidTransformAnywhere();
-    int getBugReward(u8 bugId);
     u8 getPoeItem(u8 bitSw);
     void handlePoeItem(u8 bitSw);
     u8 getEventItem(u8 flag);

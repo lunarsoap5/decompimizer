@@ -389,26 +389,6 @@ bool randoInfo_c::checkValidTransformAnywhere()
     return true;
 }
 
-int randoInfo_c::getBugReward(u8 bugId)
-{
-    const EntryInfo* bugRewardCheckInfoPtr = g_seedInfo.getHeaderPtr()->getBugRewardCheckInfoPtr();
-    const u32 numBugRewardChecks = bugRewardCheckInfoPtr->getNumEntries();
-    const BugReward* bugRewardChecks = g_seedInfo.getBugRewardChecksPtr();
-
-    for (int i = 0; i < numBugRewardChecks; i++)
-    {
-        const BugReward* currentBugRewardCheck = &bugRewardChecks[i];
-        if (bugId == currentBugRewardCheck->getBugId())
-        {
-            // Return new item
-            return (u8)currentBugRewardCheck->getItemId();
-        }
-    }
-
-    // Default
-    return bugId;
-}
-
 u8 randoInfo_c::getPoeItem(u8 bitSw)
 {
     /*

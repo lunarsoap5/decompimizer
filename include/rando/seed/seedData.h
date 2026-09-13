@@ -51,38 +51,6 @@ class BossCheck
     u8 padding;
 };
 
-class HiddenSkillCheck
-{
-   public:
-    HiddenSkillCheck() {}
-    ~HiddenSkillCheck() {}
-
-    u8 getStageIDX() const { return stageIDX; }
-    u8 getRoomID() const { return roomID; }
-    u8 getItemID() const { return itemID; }
-
-   private:
-    u8 stageIDX; // The ID of the stage that Golden Wolf was located in
-    u8 roomID;   // The room of the stage that the Golden Wolf was located in.
-    u8 itemID;   // The item to be given when in the above stage and room.
-    u8 padding;
-};
-
-class BugReward
-{
-   public:
-    BugReward() {}
-    ~BugReward() {}
-
-    u16 getBugId() const { return bugID; }
-    u8 getItemId() const { return itemID; }
-
-   private:
-    u16 bugID; // The bug that link is showing to Agitha
-    u8 itemID; // The item that Agitha will give Link.
-    u8 padding;
-};
-
 class PoeReward
 {
    public:

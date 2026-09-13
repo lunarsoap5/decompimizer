@@ -13,7 +13,8 @@
 
 seedInfo_c g_seedInfo;
 
-int seedInfo_c::_create() {
+int seedInfo_c::_create()
+{
     u8* data;
     // Allocate the memory to the back of the heap to avoid possible fragmentation
     const int fileSize = readFile("/mod/seed.bin", false, &data);
@@ -51,8 +52,6 @@ int seedInfo_c::_create() {
 
     delete[] data;
 
-    // Now that the seed is loaded, populate any arrays/pointers that need set:
-    loadBugRewards();
     // Next, set any static values needed.
     setStaticGameValues();
 
@@ -249,7 +248,7 @@ void seedInfo_c::handleReturnToLocation(bool isReturnToDungeonEntrance)
         // Turn the player back into Link if they are currently wolf
         dComIfGs_setTransformStatus(0);
     }
-    else 
+    else
     {
         // Return to dungeon entrance
         uint8_t stageIdx = getCurrentStageID();
@@ -285,37 +284,11 @@ void seedInfo_c::handleReturnToLocation(bool isReturnToDungeonEntrance)
     dComIfGp_setEnableNextStage();
 }
 
-void seedInfo_c::loadBugRewards()
-{
-    const EntryInfo* bugRewardCheckInfoPtr = m_Header->getBugRewardCheckInfoPtr();
-    const u32 num_bugRewards = bugRewardCheckInfoPtr->getNumEntries();
-    const u32 gci_offset = bugRewardCheckInfoPtr->getDataOffset();
-
-    // Set the pointer as offset into our buffer
-    const BugReward* allBUG = (const BugReward*)(&m_GCIData[gci_offset]);
-
-    // Allocate memory to the actual Bug Checks
-    // Do NOT need to clear the previous buffer as that's taken care of by LoadChecks()
-    BugReward* bugRewardChecksPtr = new BugReward[num_bugRewards];
-    m_BugRewardChecks = bugRewardChecksPtr;
-
-    // offset into m_BugRewardChecks
-    u32 j = 0;
-
-    for (int i = 0; i < num_bugRewards; i++)
-    {
-        const BugReward* currentBugCheck = &allBUG[i];
-        BugReward* globalBugCheck = &bugRewardChecksPtr[j];
-
-        memcpy(globalBugCheck, currentBugCheck, sizeof(BugReward));
-        j++;
-    }
-}
-
 void seedInfo_c::loadShopModels()
 {
     // Note for future me in case I worry about this again:
-    // Going this route and making the list dynamic works because we don't have to worry about modifying the models of items we won't be replacing.
+    // Going this route and making the list dynamic works because we don't have to worry about modifying the models of items we
+    // won't be replacing.
     const EntryInfo* shopItemCheckInfoPtr = m_Header->getShopItemCheckInfoPtr();
     const u32 num_shopItems = shopItemCheckInfoPtr->getNumEntries();
     const u32 gci_offset = shopItemCheckInfoPtr->getDataOffset();
@@ -331,7 +304,6 @@ void seedInfo_c::loadShopModels()
 
         const u32 shopItem = currentShopCheck->getShopItemID();
         ResourceData* currentShopItemDataPtr = &daShopItem_c::mData[shopItem];
-
 
         currentShopItemDataPtr->mArcName = dItem_data::getArcName(replacementItem);
         currentShopItemDataPtr->mBmdName = dItem_data::getBmdName(replacementItem);
@@ -370,7 +342,7 @@ void seedInfo_c::loadShopModels()
             currentShopItemDataPtr->mOffsetY = 15.f;
         }
         // Handle scale
-        switch(replacementItem)
+        switch (replacementItem)
         {
             case dItemNo_MASTER_SWORD_e:
             case dItemNo_LIGHT_SWORD_e:

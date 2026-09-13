@@ -108,9 +108,7 @@ class seedHeaderInfo_c
     const EntryInfo* getEventFlagsInfoPtr() const { return &eventFlagsInfo; }
     const EntryInfo* getRegionFlagsInfoPtr() const { return &regionFlagsInfo; }
     const EntryInfo* getBossCheckInfoPtr() const { return &bossCheckInfo; }
-    const EntryInfo* getHiddenSkillCheckInfoPtr() const { return &hiddenSkillCheckInfo; }
     const EntryInfo* getPoeRewardInfoPtr() const { return &poeRewardInfo; }
-    const EntryInfo* getBugRewardCheckInfoPtr() const { return &bugRewardCheckInfo; }
     const EntryInfo* getEventItemCheckInfoPtr() const { return &eventItemCheckInfo; }
     const EntryInfo* getStartingItemCheckInfoPtr() const { return &startingItemInfo; }
     const EntryInfo* getShopItemCheckInfoPtr() const { return &shopItemCheckInfo; }
@@ -139,50 +137,48 @@ class seedHeaderInfo_c
     /* 0x34 */ EntryInfo regionFlagsInfo; // regionFlags that need to be set, alternating
     /* 0x38 */ EntryInfo poeRewardInfo;
     /* 0x3C */ EntryInfo bossCheckInfo;
-    /* 0x40 */ EntryInfo hiddenSkillCheckInfo;
-    /* 0x44 */ EntryInfo bugRewardCheckInfo;
-    /* 0x48 */ EntryInfo eventItemCheckInfo;
-    /* 0x4C */ EntryInfo startingItemInfo;
-    /* 0x50 */ u16 maloShopDonationAmount;
-    /* 0x52 */ u8 castleRequirements;
-    /* 0x53 */ u8 palaceRequirements;
-    /* 0x54 */ u8 mapClearBits;
-    /* 0x55 */ u8 damageMagnification;
-    /* 0x56 */ u8 totSwordRequirement;
-    /* 0x57 */ u8 mirrorChamberEntrance;
-    /* 0x58 */ u8 barrierReqCount; // See below for notes
-    /* 0x59 */ u8 hcBkRequirement;
-    /* 0x5A */ u8 hcBkReqCount; // See below for notes
-    /* 0x5B */ u8 triforcePieceReqCount;
-    /* 0x5C */ u16 smallWalletMax;
-    /* 0x5E */ u16 bigWalletMax;
-    /* 0x60 */ u16 giantWalletMax;
-    /* 0x62 */ u16 padding2;
-    /* 0x64 */ GXColorS10 l_normalColor;
-    /* 0x6C */ GXColor l_normalKColor;
-    /* 0x70 */ GXColor l_normalKColor2;
-    /* 0x74 */ GXColorS10 l_bigColor;
-    /* 0x7C */ GXColor l_bigKColor;
-    /* 0x80 */ GXColor l_lNormalKColor;
-    /* 0x84 */ GXColor l_lNormalKColor2;
-    /* 0x88 */ GXColorS10 l_lBigColor;
-    /* 0x90 */ GXColor l_lBigKColor2;
-    /* 0x94 */ GXColor wolfDomeAttackWave1Color;
-    /* 0x98 */ GXColor wolfDomeAttackWave2Color;
-    /* 0x9C */ GXColor lightSwordGlowColor;
-    /* 0xA0 */ uint lanternColor;
-    /* 0xA4 */ EntranceInfo spawnInfo;
-    /* 0xA8 */ EntryInfo shopItemCheckInfo;
-    /* 0xAC */ u16 returnPlaceSectionOffset;
-    /* 0xAE */ u16 trillDonationGoal;
-    /* 0xB0 */ u8 customGoalValue; // Used to check for custom goals (Trill%, Zant, 60 Poes, etc.)
-    /* 0xB1 */ u8 paddingb1[0x3];
-    /* 0xB4 */ GXColor aButtonColor;
-    /* 0xB8 */ GXColor bButtonColor;
-    /* 0xBC */ GXColor xButtonColor;
-    /* 0xC0 */ GXColor yButtonColor;
-    /* 0xC4 */ GXColor zButtonColor;
-    /* 0xC8 */ GXColor heartColor;
+    /* 0x40 */ EntryInfo eventItemCheckInfo;
+    /* 0x44 */ EntryInfo startingItemInfo;
+    /* 0x48 */ u16 maloShopDonationAmount;
+    /* 0x4A */ u8 castleRequirements;
+    /* 0x4B */ u8 palaceRequirements;
+    /* 0x4C */ u8 mapClearBits;
+    /* 0x4D */ u8 damageMagnification;
+    /* 0x4E */ u8 totSwordRequirement;
+    /* 0x4F */ u8 mirrorChamberEntrance;
+    /* 0x50 */ u8 barrierReqCount; // See below for notes
+    /* 0x51 */ u8 hcBkRequirement;
+    /* 0x52 */ u8 hcBkReqCount; // See below for notes
+    /* 0x53 */ u8 triforcePieceReqCount;
+    /* 0x54 */ u16 smallWalletMax;
+    /* 0x56 */ u16 bigWalletMax;
+    /* 0x58 */ u16 giantWalletMax;
+    /* 0x5A */ u16 padding2;
+    /* 0x5C */ GXColorS10 l_normalColor;
+    /* 0x64 */ GXColor l_normalKColor;
+    /* 0x68 */ GXColor l_normalKColor2;
+    /* 0x6C */ GXColorS10 l_bigColor;
+    /* 0x74 */ GXColor l_bigKColor;
+    /* 0x78 */ GXColor l_lNormalKColor;
+    /* 0x7C */ GXColor l_lNormalKColor2;
+    /* 0x80 */ GXColorS10 l_lBigColor;
+    /* 0x88 */ GXColor l_lBigKColor2;
+    /* 0x8C */ GXColor wolfDomeAttackWave1Color;
+    /* 0x90 */ GXColor wolfDomeAttackWave2Color;
+    /* 0x94 */ GXColor lightSwordGlowColor;
+    /* 0x98 */ uint lanternColor;
+    /* 0x9C */ EntranceInfo spawnInfo;
+    /* 0xA0 */ EntryInfo shopItemCheckInfo;
+    /* 0xA4 */ u16 returnPlaceSectionOffset;
+    /* 0xA6 */ u16 trillDonationGoal;
+    /* 0xA8 */ u8 customGoalValue; // Used to check for custom goals (Trill%, Zant, 60 Poes, etc.)
+    /* 0xA9 */ u8 paddingb1[0x3];
+    /* 0xAC */ GXColor aButtonColor;
+    /* 0xB0 */ GXColor bButtonColor;
+    /* 0xB4 */ GXColor xButtonColor;
+    /* 0xB8 */ GXColor yButtonColor;
+    /* 0xBC */ GXColor zButtonColor;
+    /* 0xC0 */ GXColor heartColor;
 };
 
 class seedInfo_c
@@ -197,12 +193,9 @@ class seedInfo_c
     bool seedIsLoaded() const { return m_GCIData; }
 
     const BossCheck* getBossChecksPtr() const { return m_BossChecks; }
-    const HiddenSkillCheck* getHiddenSkillChecksPtr() const { return m_HiddenSkillChecks; }
-    const BugReward* getBugRewardChecksPtr() const { return m_BugRewardChecks; }
     const PoeReward* getPoeRewardsPtr() const { return m_PoeRewards; }
     const EventItem* getEventChecksPtr() const { return m_EventChecks; }
     const ReturnPlaceSection* getReturnPlaceSectionPtr() const { return m_ReturnPlaceSection; }
-    const RawRGBTable* getRawRGBTablePtr() const { return m_RawRGBTable; }
 
     bool flagBitfieldFlagIsEnabled(uint flag) const;
 
@@ -232,7 +225,6 @@ class seedInfo_c
     void loadShopModels();
     void loadShuffledEntrances();
     void handleReturnToLocation(bool isReturnToDungeonEntrance);
-    void loadBugRewards();
 
    private:
     void applyEventFlags();
@@ -244,12 +236,9 @@ class seedInfo_c
     const u8* m_GCIData;
 
     const BossCheck* m_BossChecks;
-    const HiddenSkillCheck* m_HiddenSkillChecks;
-    const BugReward* m_BugRewardChecks;
     const PoeReward* m_PoeRewards;
     const EventItem* m_EventChecks;
     const ReturnPlaceSection* m_ReturnPlaceSection;
-    const RawRGBTable* m_RawRGBTable;
 };
 
 extern seedInfo_c g_seedInfo;
