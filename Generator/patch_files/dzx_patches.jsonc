@@ -2179,6 +2179,24 @@
         "Data": {
           "param_2": 14
         }
+      },
+      { // Remove Eldin -> Lanayru Boulder Explosion CS
+        "Operation": "modify",
+        "DataBlock": "ACT0",
+        "ID": "mmvbg@29050,-255,-47250",
+        "Data": {
+          "param_0": 31,
+          "param_1": 224
+        }
+      },
+      { // Remove Eldin -> Lanayru Boulder Explosion CS
+        "Operation": "modify",
+        "DataBlock": "ACT6",
+        "ID": "mmvbg@29050,-255,-47250",
+        "Data": {
+          "param_0": 31,
+          "param_1": 224
+        }
       }
     ]
   },
