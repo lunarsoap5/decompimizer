@@ -1002,6 +1002,36 @@
         "Data": {
           "param_1": 13
         }
+      },
+      { // Remove hider SCO that deletes doors in kak until portal is up
+        "Operation": "remove",
+        "DataBlock": "SCOe",
+        "ID": "hider@-5837,-603,-7685"
+      },
+      { // Remove hider SCO that deletes doors in kak until portal is up
+        "Operation": "remove",
+        "DataBlock": "SCOe",
+        "ID": "hider@512,-138,-7566"
+      },
+      { // Remove hider SCO that deletes doors in kak until portal is up
+        "Operation": "remove",
+        "DataBlock": "SCOe",
+        "ID": "hider@1631,-138,-2796"
+      },
+      { // Remove hider SCO that deletes doors in kak until portal is up
+        "Operation": "remove",
+        "DataBlock": "SCOe",
+        "ID": "hider@-4442,-138,-1632"
+      },
+      { // Remove hider SCO that deletes doors in kak until portal is up
+        "Operation": "remove",
+        "DataBlock": "SCOe",
+        "ID": "hider@-1750,-423,2300"
+      },
+      { // Remove hider SCO that deletes doors in kak until portal is up
+        "Operation": "remove",
+        "DataBlock": "SCOe",
+        "ID": "hider@-1138,-2084,13857"
       }
     ]
   },

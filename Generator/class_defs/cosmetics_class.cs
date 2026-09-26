@@ -44,6 +44,7 @@ public static class CosmeticFunctions
     public static List<TextureRecolor> GenerateTextureCosmetics()
     {
         RgbaColor heartColor = new RgbaColor(0x0, 0x6e, 0xFF, 255);
+        RgbaColor enemyColor = new RgbaColor(2, 93, 0, 255);
         List<TextureRecolor> recolorOptions =
             [
                 new TextureRecolor(
@@ -309,6 +310,136 @@ public static class CosmeticFunctions
                             TextureRecolorType.Greyscale,
                             new RgbaColor(33, 20, 20, 255), 
                             new RgbaColor(33, 20, 20, 255), 
+                            25
+                        ),
+                    ]
+                ),
+
+                // Enemy color palette changes
+                // Armos
+                new TextureRecolor(
+                    @"extractedISO/root/res/Object/E_ai.arc",
+                    [
+                        // Armos 
+                        new TextureRecolorOptions(
+                            @"bmdr/ai.bmd",
+                            0xFFFF0201,
+                            TextureRecolorType.Material,
+                            new RgbaColor(0, 0, 0, 255),
+                            enemyColor,
+                            25
+                        ),
+                    ]
+                ),
+                // Baba Serpent
+                new TextureRecolor(
+                    @"extractedISO/root/res/Object/E_db.arc",
+                    [
+                        new TextureRecolorOptions(
+                            @"bmdr/db.bmd",
+                            1,
+                            TextureRecolorType.Hue,
+                            new RgbaColor(41, 11, 7, 255),
+                            enemyColor,
+                            25
+                        ),
+                    ]
+                ),
+                // Baby Gohma
+                new TextureRecolor(
+                    @"extractedISO/root/res/Object/E_gm.arc",
+                    [
+                        new TextureRecolorOptions(
+                            @"bmdv/gb.bmd",
+                            0,
+                            TextureRecolorType.Greyscale,
+                            new RgbaColor(61, 66, 64, 255),
+                            enemyColor,
+                            35
+                        ),
+                    ]
+                ),
+                // Bari
+                new TextureRecolor(
+                    @"extractedISO/root/res/Object/E_dk.arc",
+                    [
+                        new TextureRecolorOptions(
+                            @"bmdr/dk.bmd",
+                            0,
+                            TextureRecolorType.Greyscale,
+                            new RgbaColor(61, 66, 64, 255),
+                            enemyColor,
+                            25
+                        ),
+                        new TextureRecolorOptions(
+                            @"bmdr/dk.bmd",
+                            1,
+                            TextureRecolorType.Greyscale,
+                            new RgbaColor(61, 66, 64, 255),
+                            enemyColor,
+                            25
+                        )
+                    ]
+                ),
+                // Beamos - GM
+                new TextureRecolor(
+                    @"extractedISO/root/res/Object/Obj_bm.arc",
+                    [
+                        new TextureRecolorOptions(
+                            @"bmdr/bm.bmd",
+                            0,
+                            TextureRecolorType.Greyscale,
+                            new RgbaColor(27, 18, 13, 255),
+                            enemyColor,
+                            25
+                        ),
+                    ]
+                ),
+                // Beamos - ToT
+                new TextureRecolor(
+                    @"extractedISO/root/res/Object/Obj_lv6bm.arc",
+                    [
+                        new TextureRecolorOptions(
+                            @"bmde/bm6.bmd",
+                            1,
+                            TextureRecolorType.Greyscale,
+                            new RgbaColor(27, 18, 13, 255),
+                            enemyColor,
+                            25
+                        ),
+                    ]
+                ),
+                new TextureRecolor(
+                    @"extractedISO/root/res/Object/E_bm6.arc",
+                    [
+                        new TextureRecolorOptions(
+                            @"bmde/bm6.bmd",
+                            1,
+                            TextureRecolorType.Greyscale,
+                            new RgbaColor(27, 18, 13, 255),
+                            enemyColor,
+                            25
+                        ),
+                    ]
+                ),
+                // Chilfos
+                new TextureRecolor(
+                    @"extractedISO/root/res/Object/E_kk.arc",
+                    [
+                        new TextureRecolorOptions(
+                            @"bmde/kk.bmd",
+                            0,
+                            TextureRecolorType.Greyscale,
+                            new RgbaColor(61, 66, 64, 255),
+                            enemyColor,
+                            25
+                        ),
+                        new TextureRecolorOptions(
+                            @"bmde/kk_weapon.bmd",
+                            0,
+                            TextureRecolorType.Greyscale,
+                            new RgbaColor(61, 66, 64, 255),
+                            enemyColor,
                             25
                         ),
                     ]

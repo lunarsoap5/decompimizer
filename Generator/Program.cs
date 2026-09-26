@@ -548,4 +548,4 @@ System.IO.Directory.Delete(@"extractedISO\", true); // delete the temp ISO direc
 
 
 // Testing functions. Uncomment as needed. =============================================
-// CosmeticFunctions.PrintMaterialDescriptions("O_gD_hutk.bmd");
+ //CosmeticFunctions.PrintMaterialDescriptions("ai.bmd");
