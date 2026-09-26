@@ -365,7 +365,7 @@ public static class CosmeticFunctions
                     [
                         new TextureRecolorOptions(
                             @"bmdr/dk.bmd",
-                            0,
+                            0, // Head
                             TextureRecolorType.Greyscale,
                             new RgbaColor(61, 66, 64, 255),
                             enemyColor,
@@ -373,7 +373,7 @@ public static class CosmeticFunctions
                         ),
                         new TextureRecolorOptions(
                             @"bmdr/dk.bmd",
-                            1,
+                            1, // Tentacles
                             TextureRecolorType.Greyscale,
                             new RgbaColor(61, 66, 64, 255),
                             enemyColor,
@@ -419,6 +419,98 @@ public static class CosmeticFunctions
                             new RgbaColor(27, 18, 13, 255),
                             enemyColor,
                             25
+                        ),
+                    ]
+                ),
+                // Big Baba
+                new TextureRecolor(
+                    @"extractedISO/root/res/Object/E_gb.arc",
+                    [
+                        new TextureRecolorOptions(
+                            @"bmdr/gb.bmd", // Head
+                            0,
+                            TextureRecolorType.Greyscale,
+                            new RgbaColor(25, 15, 14, 255),
+                            enemyColor,
+                            25
+                        ),
+                        new TextureRecolorOptions(
+                            @"bmdr/gf.bmd", // Base/Roots
+                            1,
+                            TextureRecolorType.Hue,
+                            new RgbaColor(61, 40, 42, 255),
+                            enemyColor,
+                            25
+                        ),
+                    ]
+                ),
+                // Bokoblin - Blue
+                new TextureRecolor(
+                    @"extractedISO/root/res/Object/E_oc.arc",
+                    [
+                        new TextureRecolorOptions(
+                            @"bmdr/oc.bmd",
+                            0,
+                            TextureRecolorType.Hue,
+                            new RgbaColor(29, 28, 35, 255),
+                            enemyColor,
+                            25
+                        ),
+                    ]
+                ),
+                // Bokoblin - Red
+                new TextureRecolor(
+                    @"extractedISO/root/res/Object/E_oc2.arc",
+                    [
+                        new TextureRecolorOptions(
+                            @"bmdr/oc2.bmd",
+                            0,
+                            TextureRecolorType.Hue,
+                            new RgbaColor(29, 20, 25, 255),
+                            enemyColor,
+                            25
+                        ),
+                    ]
+                ),
+                // Boomskit
+                new TextureRecolor(
+                    @"extractedISO/root/res/Object/E_cr.arc",
+                    [
+                        new TextureRecolorOptions(
+                            @"bmdr/cr.bmd",
+                            0,
+                            TextureRecolorType.Greyscale,
+                            new RgbaColor(23, 23, 24, 255),
+                            enemyColor,
+                            20
+                        ),
+                    ]
+                ),
+                // Bubble
+                new TextureRecolor(
+                    @"extractedISO/root/res/Object/E_bu.arc",
+                    [
+                        new TextureRecolorOptions(
+                            @"bmdr/bu.bmd",
+                            1,
+                            TextureRecolorType.Greyscale,
+                            new RgbaColor(23, 23, 24, 255),
+                            enemyColor,
+                            20
+                        ),
+                    ]
+                ),
+                // Bulblin
+                new TextureRecolor(
+                    @"extractedISO/root/res/Object/E_rd.arc",
+                    [
+                        new TextureRecolorOptions(
+                            @"bmdr/rd.bmd",
+                            0,
+                            TextureRecolorType.Hue,
+                            new RgbaColor(19, 22, 9, 255),
+                            enemyColor,
+                            20
                         ),
                     ]
                 ),
