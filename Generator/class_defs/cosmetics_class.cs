@@ -472,7 +472,7 @@ public static class CosmeticFunctions
                         ),
                     ]
                 ),
-                // Boomskit
+                // Bomskit
                 new TextureRecolor(
                     @"extractedISO/root/res/Object/E_cr.arc",
                     [
@@ -1177,6 +1177,446 @@ public static class CosmeticFunctions
                             new RgbaColor(50, 46, 45, 255),
                             enemyColor,
                             80
+                        ),
+                    ]
+                ),
+                // Shadow Beast
+                new TextureRecolor(
+                    @"extractedISO/root/res/Object/E_s2.arc",
+                    [
+                        new TextureRecolorOptions(
+                            @"bmdr/s2.bmd",
+                            1,
+                            TextureRecolorType.Greyscale,
+                            new RgbaColor(51, 54, 42, 255),
+                            enemyColor,
+                            25
+                        ),
+                    ]
+                ),
+                // Shadow Bulblin
+                new TextureRecolor(
+                    @"extractedISO/root/res/Object/E_rdy.arc",
+                    [
+                        new TextureRecolorOptions(
+                            @"bmdr/yb.bmd",
+                            1,
+                            TextureRecolorType.Greyscale,
+                            new RgbaColor(51, 54, 42, 255),
+                            enemyColor,
+                            25
+                        ),
+                    ]
+                ),
+                // Shadow Deku Baba
+                new TextureRecolor(
+                    @"extractedISO/root/res/Object/E_yd.arc",
+                    [
+                        new TextureRecolorOptions(
+                            @"bmdr/yd.bmd",
+                            2,
+                            TextureRecolorType.Greyscale,
+                            new RgbaColor(51, 54, 42, 255),
+                            enemyColor,
+                            25
+                        ),
+                        new TextureRecolorOptions(
+                            @"bmdr/yd.bmd",
+                            0,
+                            TextureRecolorType.Greyscale,
+                            new RgbaColor(51, 54, 42, 255),
+                            enemyColor,
+                            25
+                        ),
+                    ]
+                ),
+                // Shadow Insect - Winged
+                new TextureRecolor(
+                    @"extractedISO/root/res/Object/E_tm.arc",
+                    [
+                        new TextureRecolorOptions(
+                            @"bmdr/tm_tw.bmd",
+                            0xFF01FF03,
+                            TextureRecolorType.Material,
+                            new RgbaColor(51, 54, 42, 255),
+                            enemyColor,
+                            25
+                        ),
+                    ]
+                ),
+                // Shadow Insect - Ground
+                new TextureRecolor(
+                    @"extractedISO/root/res/Object/E_ym.arc",
+                    [
+                        new TextureRecolorOptions(
+                            @"bmdr/ym_tw.bmd",
+                            0xFF01FF02,
+                            TextureRecolorType.Material,
+                            new RgbaColor(51, 54, 42, 255),
+                            enemyColor,
+                            25
+                        ),
+                    ]
+                ),
+                // Shadow Kargorok - Carrier
+                new TextureRecolor(
+                    @"extractedISO/root/res/Object/E_yc.arc",
+                    [
+                        new TextureRecolorOptions(
+                            @"bmdr/yc.bmd",
+                            1,
+                            TextureRecolorType.Greyscale,
+                            new RgbaColor(51, 54, 42, 255),
+                            enemyColor,
+                            25
+                        ),
+                    ]
+                ),
+                // Shadow Kargorok - Enemy
+                new TextureRecolor(
+                    @"extractedISO/root/res/Object/E_yr.arc",
+                    [
+                        new TextureRecolorOptions(
+                            @"bmdr/yr.bmd",
+                            1,
+                            TextureRecolorType.Greyscale,
+                            new RgbaColor(51, 54, 42, 255),
+                            enemyColor,
+                            25
+                        ),
+                    ]
+                ),
+                // Shadow Keese
+                new TextureRecolor(
+                    @"extractedISO/root/res/Object/E_yk.arc",
+                    [
+                        new TextureRecolorOptions(
+                            @"bmdr/yk.bmd",
+                            0,
+                            TextureRecolorType.Greyscale,
+                            new RgbaColor(51, 54, 42, 255),
+                            enemyColor,
+                            25
+                        ),
+                    ]
+                ),
+                // Shadow Vermin
+                new TextureRecolor(
+                    @"extractedISO/root/res/Object/E_yg.arc",
+                    [
+                        new TextureRecolorOptions(
+                            @"bmdr/yg.bmd",
+                            0,
+                            TextureRecolorType.Greyscale,
+                            new RgbaColor(51, 54, 42, 255),
+                            enemyColor,
+                            25
+                        ),
+                    ]
+                ),
+                // Shell Blade
+                new TextureRecolor(
+                    @"extractedISO/root/res/Object/E_sb.arc",
+                    [
+                        new TextureRecolorOptions(
+                            @"bmdr/sb.bmd",
+                            0,
+                            TextureRecolorType.Hue,
+                            new RgbaColor(31, 18, 16, 255),
+                            enemyColor,
+                            25
+                        ),
+                    ]
+                ),
+                // Skullfish
+                new TextureRecolor(
+                    @"extractedISO/root/res/Object/E_sg.arc",
+                    [
+                        new TextureRecolorOptions(
+                            @"bmdr/sg.bmd",
+                            0,
+                            TextureRecolorType.Hue,
+                            new RgbaColor(41, 20, 12, 255),
+                            enemyColor,
+                            25
+                        ),
+                    ]
+                ),
+                // Skulltula
+                new TextureRecolor(
+                    @"extractedISO/root/res/Object/E_st.arc",
+                    [
+                        new TextureRecolorOptions(
+                            @"bmdr/st2.bmd",
+                            1,
+                            TextureRecolorType.Hue,
+                            new RgbaColor(31, 4, 3, 255),
+                            enemyColor,
+                            25
+                        ),
+                        new TextureRecolorOptions(
+                            @"bmdr/st.bmd",
+                            1,
+                            TextureRecolorType.Hue,
+                            new RgbaColor(31, 4, 3, 255),
+                            enemyColor,
+                            25
+                        ),
+                    ]
+                ),
+                // Stalfos
+                new TextureRecolor(
+                    @"extractedISO/root/res/Object/E_sf.arc",
+                    [
+                        new TextureRecolorOptions(
+                            @"bmdr/sf.bmd",
+                            0,
+                            TextureRecolorType.Greyscale,
+                            new RgbaColor(41, 20, 12, 255),
+                            enemyColor,
+                            25
+                        ),
+                    ]
+                ),
+                // Stalhound
+                new TextureRecolor(
+                    @"extractedISO/root/res/Object/E_sh.arc",
+                    [
+                        new TextureRecolorOptions(
+                            @"bmdr/sh.bmd",
+                            0,
+                            TextureRecolorType.Greyscale,
+                            new RgbaColor(41, 20, 12, 255),
+                            enemyColor,
+                            25
+                        ),
+                    ]
+                ),
+                // Stalkin
+                new TextureRecolor(
+                    @"extractedISO/root/res/Object/E_bs.arc",
+                    [
+                        new TextureRecolorOptions(
+                            @"bmdr/bs.bmd",
+                            0,
+                            TextureRecolorType.Greyscale,
+                            new RgbaColor(41, 20, 12, 255),
+                            enemyColor,
+                            25
+                        ),
+                    ]
+                ),
+                // Staltroop
+                new TextureRecolor(
+                    @"extractedISO/root/res/Object/E_zs.arc",
+                    [
+                        new TextureRecolorOptions(
+                            @"bmde/zs.bmd",
+                            0,
+                            TextureRecolorType.Greyscale,
+                            new RgbaColor(41, 20, 12, 255),
+                            enemyColor,
+                            25
+                        ),
+                    ]
+                ),
+                // Tektite - Blue
+                new TextureRecolor(
+                    @"extractedISO/root/res/Object/E_ttb.arc",
+                    [
+                        new TextureRecolorOptions(
+                            @"bmdr/tt_b.bmd",
+                            0,
+                            TextureRecolorType.Hue,
+                            new RgbaColor(19, 28, 35, 255),
+                            enemyColor,
+                            25
+                        ),
+                    ]
+                ),
+                // Tektite - Red
+                new TextureRecolor(
+                    @"extractedISO/root/res/Object/E_ttr.arc",
+                    [
+                        new TextureRecolorOptions(
+                            @"bmdr/tt.bmd",
+                            0,
+                            TextureRecolorType.Hue,
+                            new RgbaColor(42, 14, 6, 255),
+                            enemyColor,
+                            25
+                        ),
+                    ]
+                ),
+                // Toado
+                new TextureRecolor(
+                    @"extractedISO/root/res/Object/E_ot.arc",
+                    [
+                        new TextureRecolorOptions(
+                            @"bmdr/ot.bmd",
+                            0,
+                            TextureRecolorType.Hue,
+                            new RgbaColor(19, 25, 31, 255),
+                            enemyColor,
+                            25
+                        ),
+                    ]
+                ),
+                // Torch Slug
+                new TextureRecolor(
+                    @"extractedISO/root/res/Object/E_hm.arc",
+                    [
+                        new TextureRecolorOptions(
+                            @"bmdr/hm.bmd",
+                            0xFF00FF00,
+                            TextureRecolorType.Material,
+                            new RgbaColor(19, 25, 31, 255),
+                            enemyColor,
+                            25
+                        ),
+                    ]
+                ),
+                // Walltula
+                new TextureRecolor(
+                    @"extractedISO/root/res/Object/E_ws.arc",
+                    [
+                        new TextureRecolorOptions(
+                            @"bmdr/ws.bmd",
+                            0,
+                            TextureRecolorType.Hue,
+                            new RgbaColor(42, 9, 22, 255),
+                            enemyColor,
+                            25
+                        ),
+                    ]
+                ),
+                // White Wolfos
+                new TextureRecolor(
+                    @"extractedISO/root/res/Object/E_ww.arc",
+                    [
+                        new TextureRecolorOptions(
+                            @"bmdr/ww.bmd",
+                            0,
+                            TextureRecolorType.Greyscale,
+                            new RgbaColor(41, 20, 12, 255),
+                            enemyColor,
+                            25
+                        ),
+                    ]
+                ),
+                // Young Gohma
+                new TextureRecolor(
+                    @"extractedISO/root/res/Object/E_kg.arc",
+                    [
+                        new TextureRecolorOptions(
+                            @"bmdr/kg.bmd",
+                            3,
+                            TextureRecolorType.Hue,
+                            new RgbaColor(19, 27, 32, 255),
+                            enemyColor,
+                            25
+                        ),
+                    ]
+                ),
+                // Zant Head
+                new TextureRecolor(
+                    @"extractedISO/root/res/Object/E_zm.arc",
+                    [
+                        new TextureRecolorOptions(
+                            @"bmdr/zm.bmd",
+                            0,
+                            TextureRecolorType.Greyscale,
+                            new RgbaColor(19, 27, 32, 255),
+                            enemyColor,
+                            25
+                        ),
+                    ]
+                ),
+                // Zant Hand
+                new TextureRecolor(
+                    @"extractedISO/root/res/Object/E_zh.arc",
+                    [
+                        new TextureRecolorOptions(
+                            @"bmdv/zh.bmd",
+                            0,
+                            TextureRecolorType.Greyscale,
+                            new RgbaColor(19, 27, 32, 255),
+                            enemyColor,
+                            25
+                        ),
+                    ]
+                ),
+                // Ook
+                new TextureRecolor(
+                    @"extractedISO/root/res/Object/E_mk.arc",
+                    [
+                        new TextureRecolorOptions(
+                            @"bmdr/bm.bmd", // Boomerang
+                            0,
+                            TextureRecolorType.Greyscale,
+                            new RgbaColor(25, 27, 6, 255),
+                            heartColor,
+                            25
+                        ),
+                        new TextureRecolorOptions(
+                            @"bmdr/bm.bmd", // Boomerang
+                            1,
+                            TextureRecolorType.Greyscale,
+                            new RgbaColor(25, 27, 6, 255),
+                            heartColor,
+                            25
+                        ),
+                        new TextureRecolorOptions(
+                            @"bmdr/mk.bmd",
+                            0,
+                            TextureRecolorType.Hue,
+                            new RgbaColor(89, 37, 24, 255),
+                            heartColor,
+                            20
+                        ),
+                    ]
+                ),
+                // Dangoro
+                new TextureRecolor(
+                    @"extractedISO/root/res/Object/E_gob.arc",
+                    [
+                        new TextureRecolorOptions(
+                            @"bmdr/mg.bmd",
+                            0,
+                            TextureRecolorType.Greyscale,
+                            new RgbaColor(48, 34, 19, 255),
+                            enemyColor,
+                            25
+                        ),
+                    ]
+                ),
+                // Fyrus
+                new TextureRecolor(
+                    @"extractedISO/root/res/Object/E_fm.arc",
+                    [
+                        new TextureRecolorOptions(
+                            @"bmdr/fm.bmd",
+                            0xFF00FF01,
+                            TextureRecolorType.Material,
+                            new RgbaColor(19, 27, 32, 255),
+                            enemyColor,
+                            25
+                        ),
+                        new TextureRecolorOptions(
+                            @"bmdr/fm.bmd",
+                            0xFF00FF02,
+                            TextureRecolorType.Material,
+                            new RgbaColor(19, 27, 32, 255),
+                            enemyColor,
+                            25
+                        ),
+                        new TextureRecolorOptions(
+                            @"bmde/fm_core.bmd",
+                            2,
+                            TextureRecolorType.Greyscale,
+                            new RgbaColor(19, 27, 32, 255),
+                            enemyColor,
+                            25
                         ),
                     ]
                 ),
