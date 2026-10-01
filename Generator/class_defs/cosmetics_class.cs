@@ -1590,6 +1590,142 @@ public static class CosmeticFunctions
                         ),
                     ]
                 ),
+                // Deku Toad
+                new TextureRecolor(
+                    @"extractedISO/root/res/Object/E_dt.arc",
+                    [
+                        new TextureRecolorOptions(
+                            @"bmdv/dt.bmd",
+                            5,
+                            TextureRecolorType.Greyscale,
+                            new RgbaColor(13, 17, 12, 255),
+                            heartColor,
+                            25
+                        ),
+                    ]
+                ),
+                // Death Sword
+                new TextureRecolor(
+                    @"extractedISO/root/res/Object/E_va.arc",
+                    [
+                        new TextureRecolorOptions(
+                            @"bmde/va_weapon.bmd",
+                            1,
+                            TextureRecolorType.Greyscale,
+                            new RgbaColor(61, 60, 51, 255),
+                            enemyColor,
+                            25
+                        ),
+                    ]
+                ),
+                // Darkhammer
+                new TextureRecolor(
+                    @"extractedISO/root/res/Object/E_th.arc",
+                    [
+                        new TextureRecolorOptions(
+                            @"bmdv/th.bmd",
+                            0xFFFF0100,
+                            TextureRecolorType.Material,
+                            new RgbaColor(61, 60, 51, 255),
+                            enemyColor,
+                            25
+                        ),
+                    ]
+                ),
+                // Darkhammer - Ball and Chain
+                new TextureRecolor(
+                    @"extractedISO/root/res/Object/E_th_ball.arc",
+                    [
+                        new TextureRecolorOptions(
+                            @"bmde/ib.bmd",
+                            0,
+                            TextureRecolorType.Greyscale,
+                            new RgbaColor(61, 60, 51, 255),
+                            enemyColor,
+                            25
+                        ),
+                    ]
+                ),
+                // Skull Kid
+                new TextureRecolor(
+                    @"extractedISO/root/res/Object/E_pm.arc",
+                    [
+                        new TextureRecolorOptions(
+                            @"bmdr/pm.bmd",
+                            4,
+                            TextureRecolorType.Hue,
+                            new RgbaColor(43, 26, 13, 255),
+                            enemyColor,
+                            25
+                        ),
+                        /*new TextureRecolorOptions(
+                            @"bmdr/pm.bmd",
+                            3, // This is the leaf on his back in case we want to change it later.
+                            TextureRecolorType.Greyscale,
+                            new RgbaColor(43, 26, 13, 255),
+                            enemyColor,
+                            25
+                        ),*/
+                    ]
+                ),
+                // King Bulblin
+                new TextureRecolor(
+                    @"extractedISO/root/res/Object/E_rdb.arc",
+                    [
+                        new TextureRecolorOptions(
+                            @"bmdr/rb.bmd",
+                            0,
+                            TextureRecolorType.Hue,
+                            new RgbaColor(25, 28, 16, 255),
+                            heartColor,
+                            25
+                        ),
+                    ]
+                ),
+                // Aeralfos
+                new TextureRecolor(
+                    @"extractedISO/root/res/Object/B_gg.arc",
+                    [
+                        new TextureRecolorOptions(
+                            @"bmdr/gg.bmd",
+                            0,
+                            TextureRecolorType.Greyscale,
+                            new RgbaColor(53, 49, 37, 255),
+                            heartColor,
+                            0
+                        ),
+                    ]
+                ),
+                // Phantom Zant
+                new TextureRecolor(
+                    @"extractedISO/root/res/Object/E_pz.arc",
+                    [
+                        new TextureRecolorOptions(
+                            @"bmdv/pz.bmd",
+                            0xFFFF0000,
+                            TextureRecolorType.Material,
+                            new RgbaColor(25, 28, 16, 255),
+                            heartColor,
+                            25
+                        ),
+                        new TextureRecolorOptions(
+                            @"bmdv/pz.bmd",
+                            0xFFFF0200, // The red lines on zant's outfit
+                            TextureRecolorType.Material,
+                            new RgbaColor(25, 28, 16, 255),
+                            enemyColor,
+                            25
+                        ),
+                        new TextureRecolorOptions(
+                            @"bmdv/pz.bmd",
+                            0xFFFF0002,
+                            TextureRecolorType.Material,
+                            new RgbaColor(25, 28, 16, 255),
+                            heartColor,
+                            25
+                        ),
+                    ]
+                ),
                 // Fyrus
                 new TextureRecolor(
                     @"extractedISO/root/res/Object/E_fm.arc",
@@ -1598,7 +1734,7 @@ public static class CosmeticFunctions
                             @"bmdr/fm.bmd",
                             0xFF00FF01,
                             TextureRecolorType.Material,
-                            new RgbaColor(19, 27, 32, 255),
+                            new RgbaColor(29, 33, 25, 255),
                             enemyColor,
                             25
                         ),
@@ -1615,6 +1751,44 @@ public static class CosmeticFunctions
                             2,
                             TextureRecolorType.Greyscale,
                             new RgbaColor(19, 27, 32, 255),
+                            enemyColor,
+                            25
+                        ),
+                    ]
+                ),
+                // Twilit Bloat
+                new TextureRecolor(
+                    @"extractedISO/root/res/Object/E_yb.arc",
+                    [
+                        new TextureRecolorOptions(
+                            @"bmdr/yb_tw.bmd",
+                            0xFF01FF00,
+                            TextureRecolorType.Material,
+                            new RgbaColor(51, 54, 42, 255),
+                            enemyColor,
+                            25
+                        ),
+                        new TextureRecolorOptions(
+                            @"bmdr/yb_tw.bmd",
+                            0xFF01FF01,
+                            TextureRecolorType.Material,
+                            new RgbaColor(51, 54, 42, 255),
+                            enemyColor,
+                            25
+                        ),
+                        new TextureRecolorOptions(
+                            @"bmdr/yb_tw.bmd",
+                            0xFF01FF02,
+                            TextureRecolorType.Material,
+                            new RgbaColor(51, 54, 42, 255),
+                            enemyColor,
+                            25
+                        ),
+                        new TextureRecolorOptions(
+                            @"bmdr/yb_tw.bmd",
+                            0xFF01FF04,
+                            TextureRecolorType.Material,
+                            new RgbaColor(51, 54, 42, 255),
                             enemyColor,
                             25
                         ),
