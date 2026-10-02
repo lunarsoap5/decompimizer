@@ -472,6 +472,42 @@ public static class CosmeticFunctions
                         ),
                     ]
                 ),
+                // Bombling
+                new TextureRecolor(
+                    @"extractedISO/root/res/Object/E_bi.arc",
+                    [
+                        new TextureRecolorOptions(
+                            @"bmdr/bi.bmd",
+                            0,
+                            TextureRecolorType.Hue,
+                            new RgbaColor(20, 23, 8, 255),
+                            heartColor,
+                            25
+                        ),
+                        new TextureRecolorOptions(
+                            @"bmdr/bi.bmd",
+                            3,
+                            TextureRecolorType.Hue,
+                            new RgbaColor(20, 23, 8, 255),
+                            heartColor,
+                            25
+                        ),
+                    ]
+                ),
+                // Bombfish
+                new TextureRecolor(
+                    @"extractedISO/root/res/Object/E_bg.arc",
+                    [
+                        new TextureRecolorOptions(
+                            @"bmdr/bg.bmd",
+                            0,
+                            TextureRecolorType.Hue,
+                            new RgbaColor(7, 19, 20, 255),
+                            enemyColor,
+                            25
+                        ),
+                    ]
+                ),
                 // Bomskit
                 new TextureRecolor(
                     @"extractedISO/root/res/Object/E_cr.arc",
@@ -1576,6 +1612,28 @@ public static class CosmeticFunctions
                         ),
                     ]
                 ),
+                // Ook - Diababa
+                new TextureRecolor(
+                    @"extractedISO/root/res/Object/E_mb.arc",
+                    [
+                        new TextureRecolorOptions(
+                            @"bmdr/mb.bmd",
+                            0,
+                            TextureRecolorType.Hue,
+                            new RgbaColor(89, 37, 24, 255),
+                            heartColor,
+                            20
+                        ),
+                        new TextureRecolorOptions(
+                            @"bmdr/mg.bmd",
+                            1,
+                            TextureRecolorType.Hue,
+                            new RgbaColor(20, 23, 8, 255),
+                            heartColor,
+                            25
+                        ),
+                    ]
+                ),
                 // Dangoro
                 new TextureRecolor(
                     @"extractedISO/root/res/Object/E_gob.arc",
@@ -1726,6 +1784,50 @@ public static class CosmeticFunctions
                         ),
                     ]
                 ),
+                // Diababa
+                new TextureRecolor(
+                    @"extractedISO/root/res/Object/B_bq.arc",
+                    [
+                        new TextureRecolorOptions(
+                            @"bmdv/bq.bmd",
+                            8,
+                            TextureRecolorType.Hue,
+                            new RgbaColor(49, 18, 13, 255),
+                            heartColor,
+                            25
+                        ),
+                        new TextureRecolorOptions(
+                            @"bmdv/bq.bmd",
+                            0,
+                            TextureRecolorType.Greyscale,
+                            new RgbaColor(49, 18, 13, 255),
+                            heartColor,
+                            25
+                        ),
+                    ]
+                ),
+                // Diababa - Baba Head
+                new TextureRecolor(
+                    @"extractedISO/root/res/Object/B_bh.arc",
+                    [
+                        new TextureRecolorOptions(
+                            @"bmdv/bh.bmd",
+                            3,
+                            TextureRecolorType.Hue,
+                            new RgbaColor(56, 17, 18, 255),
+                            heartColor,
+                            25
+                        ),
+                        new TextureRecolorOptions(
+                            @"bmdv/bh.bmd",
+                            0,
+                            TextureRecolorType.Greyscale,
+                            new RgbaColor(56, 17, 18, 255),
+                            heartColor,
+                            25
+                        ),
+                    ]
+                ),
                 // Fyrus
                 new TextureRecolor(
                     @"extractedISO/root/res/Object/E_fm.arc",
@@ -1751,6 +1853,370 @@ public static class CosmeticFunctions
                             2,
                             TextureRecolorType.Greyscale,
                             new RgbaColor(19, 27, 32, 255),
+                            enemyColor,
+                            25
+                        ),
+                    ]
+                ),
+                // Morpheel
+                new TextureRecolor(
+                    @"extractedISO/root/res/Object/B_oh.arc",
+                    [
+                        new TextureRecolorOptions(
+                            @"bmdv/oi_head.bmd",
+                            0,
+                            TextureRecolorType.Hue,
+                            new RgbaColor(48, 4, 3, 255),
+                            enemyColor,
+                            25
+                        ),
+                        new TextureRecolorOptions(
+                            @"bmdv/oi_head.bmd",
+                            3,
+                            TextureRecolorType.Hue,
+                            new RgbaColor(48, 4, 3, 255),
+                            enemyColor,
+                            25
+                        ),
+                        new TextureRecolorOptions(
+                            @"bmdv/oh_core.bmd",
+                            3,
+                            TextureRecolorType.Hue,
+                            new RgbaColor(48, 4, 3, 255),
+                            enemyColor,
+                            25
+                        ),
+                        new TextureRecolorOptions(
+                            @"bmdv/oh.bmd",
+                            0,
+                            TextureRecolorType.Greyscale,
+                            new RgbaColor(48, 4, 3, 255),
+                            enemyColor,
+                            25
+                        ),
+                        new TextureRecolorOptions(
+                            @"bmdr/oi_body.bmd",
+                            0,
+                            TextureRecolorType.Hue,
+                            new RgbaColor(48, 4, 3, 255),
+                            enemyColor,
+                            25
+                        ),
+                        new TextureRecolorOptions(
+                            @"bmdr/oi_fina.bmd",
+                            0,
+                            TextureRecolorType.Hue,
+                            new RgbaColor(48, 4, 3, 255),
+                            enemyColor,
+                            25
+                        ),
+                        new TextureRecolorOptions(
+                            @"bmdr/oi_finb.bmd",
+                            0,
+                            TextureRecolorType.Hue,
+                            new RgbaColor(48, 4, 3, 255),
+                            enemyColor,
+                            25
+                        ),
+                        new TextureRecolorOptions(
+                            @"bmdr/oi_finc.bmd",
+                            0,
+                            TextureRecolorType.Hue,
+                            new RgbaColor(48, 4, 3, 255),
+                            enemyColor,
+                            25
+                        ),
+                        new TextureRecolorOptions(
+                            @"bmdr/oi_tail.bmd",
+                            0,
+                            TextureRecolorType.Hue,
+                            new RgbaColor(48, 4, 3, 255),
+                            enemyColor,
+                            25
+                        ),
+                    ]
+                ),
+                // Stallord
+                new TextureRecolor(
+                    @"extractedISO/root/res/Object/B_ds.arc",
+                    [
+                        new TextureRecolorOptions(
+                            @"bmde/znta.bmd", // Zant
+                            0xFFFF0100,
+                            TextureRecolorType.Material,
+                            new RgbaColor(56, 17, 18, 255),
+                            heartColor,
+                            25
+                        ),
+                        new TextureRecolorOptions(
+                            @"bmde/znta.bmd", // Zant
+                            0,
+                            TextureRecolorType.Greyscale,
+                            new RgbaColor(56, 17, 18, 255),
+                            heartColor,
+                            25
+                        ),
+                        new TextureRecolorOptions(
+                            @"bmde/znta.bmd", // Zant
+                            2,
+                            TextureRecolorType.Greyscale,
+                            new RgbaColor(56, 17, 18, 255),
+                            enemyColor,
+                            25
+                        ),
+                        new TextureRecolorOptions(
+                            @"bmde/zk.bmd", // Zant Sword
+                            0,
+                            TextureRecolorType.Greyscale,
+                            new RgbaColor(56, 17, 18, 255),
+                            enemyColor,
+                            25
+                        ),
+                        new TextureRecolorOptions(
+                            @"bmde/ds.bmd",
+                            0,
+                            TextureRecolorType.Greyscale,
+                            new RgbaColor(56, 17, 18, 255),
+                            enemyColor,
+                            25
+                        ),
+                        new TextureRecolorOptions(
+                            @"bmde/ds_head.bmd",
+                            0,
+                            TextureRecolorType.Greyscale,
+                            new RgbaColor(56, 17, 18, 255),
+                            enemyColor,
+                            25
+                        ),
+                    ]
+                ),
+                // Blizetta
+                new TextureRecolor(
+                    @"extractedISO/root/res/Object/B_yo.arc",
+                    [
+                        new TextureRecolorOptions(
+                            @"bmde/yo01.bmd",
+                            0xFFFF0100,
+                            TextureRecolorType.Material,
+                            new RgbaColor(53, 49, 37, 255),
+                            enemyColor,
+                            0
+                        ),
+                        new TextureRecolorOptions(
+                            @"bmde/yo02.bmd",
+                            0xFFFF0100,
+                            TextureRecolorType.Material,
+                            new RgbaColor(53, 49, 37, 255),
+                            enemyColor,
+                            0
+                        ),
+                        new TextureRecolorOptions(
+                            @"bmde/yo_core.bmd",
+                            0xFFFF0100,
+                            TextureRecolorType.Material,
+                            new RgbaColor(53, 49, 37, 255),
+                            enemyColor,
+                            0
+                        ),
+                        new TextureRecolorOptions(
+                            @"bmde/yo_core.bmd",
+                            0xFFFF0101,
+                            TextureRecolorType.Material,
+                            new RgbaColor(53, 49, 37, 255),
+                            enemyColor,
+                            0
+                        ),
+                        new TextureRecolorOptions(
+                            @"bmde/yo_core.bmd",
+                            0xFFFF0102,
+                            TextureRecolorType.Material,
+                            new RgbaColor(53, 49, 37, 255),
+                            enemyColor,
+                            0
+                        ),
+                        new TextureRecolorOptions(
+                            @"bmde/yo_core.bmd",
+                            0xFFFF0103,
+                            TextureRecolorType.Material,
+                            new RgbaColor(53, 49, 37, 255),
+                            enemyColor,
+                            0
+                        ),
+                        new TextureRecolorOptions(
+                            @"bmde/yo_core.bmd",
+                            0xFFFF0104,
+                            TextureRecolorType.Material,
+                            new RgbaColor(53, 49, 37, 255),
+                            enemyColor,
+                            0
+                        ),
+                        new TextureRecolorOptions(
+                            @"bmde/yo_core.bmd",
+                            0xFFFF0105,
+                            TextureRecolorType.Material,
+                            new RgbaColor(53, 49, 37, 255),
+                            enemyColor,
+                            0
+                        ),
+                        new TextureRecolorOptions(
+                            @"bmde/yo_core.bmd",
+                            0xFFFF0106,
+                            TextureRecolorType.Material,
+                            new RgbaColor(53, 49, 37, 255),
+                            enemyColor,
+                            0
+                        ),
+                        new TextureRecolorOptions(
+                            @"bmde/yo_core.bmd",
+                            0xFFFF0107,
+                            TextureRecolorType.Material,
+                            new RgbaColor(53, 49, 37, 255),
+                            enemyColor,
+                            0
+                        ),
+                        new TextureRecolorOptions(
+                            @"bmde/yo_core.bmd",
+                            0xFFFF0108,
+                            TextureRecolorType.Material,
+                            new RgbaColor(53, 49, 37, 255),
+                            enemyColor,
+                            0
+                        ),
+                        new TextureRecolorOptions(
+                            @"bmde/yo_ice.bmd",
+                            0xFFFF0100,
+                            TextureRecolorType.Material,
+                            new RgbaColor(53, 49, 37, 255),
+                            enemyColor,
+                            0
+                        ),
+                        new TextureRecolorOptions(
+                            @"bmde/yo_ice.bmd",
+                            0xFFFF0200,
+                            TextureRecolorType.Material,
+                            new RgbaColor(53, 49, 37, 255),
+                            enemyColor,
+                            0
+                        ),
+                    ]
+                ),
+                // Armogohma
+                new TextureRecolor(
+                    @"extractedISO/root/res/Object/B_gm.arc",
+                    [
+                        new TextureRecolorOptions(
+                            @"bmdv/goma.bmd",
+                            1,
+                            TextureRecolorType.Greyscale,
+                            new RgbaColor(53, 49, 37, 255),
+                            enemyColor,
+                            0
+                        ),
+                    ]
+                ),
+                // Argorok
+                new TextureRecolor(
+                    @"extractedISO/root/res/Object/B_dr.arc",
+                    [
+                        new TextureRecolorOptions(
+                            @"bmde/dr.bmd",
+                            5,
+                            TextureRecolorType.Greyscale,
+                            new RgbaColor(32, 12, 6, 255),
+                            enemyColor,
+                            25
+                        ),
+                        new TextureRecolorOptions(
+                            @"bmde/dr.bmd",
+                            3,
+                            TextureRecolorType.Greyscale,
+                            new RgbaColor(32, 12, 6, 255),
+                            enemyColor,
+                            25
+                        ),
+                        new TextureRecolorOptions(
+                            @"bmde/dr.bmd",
+                            0,
+                            TextureRecolorType.Greyscale,
+                            new RgbaColor(32, 12, 6, 255),
+                            heartColor,
+                            0
+                        ),
+                        new TextureRecolorOptions(
+                            @"bmde/dr_part_a.bmd",
+                            0,
+                            TextureRecolorType.Greyscale,
+                            new RgbaColor(32, 12, 6, 255),
+                            heartColor,
+                            0
+                        ),
+                        new TextureRecolorOptions(
+                            @"bmde/dr_part_b.bmd",
+                            0,
+                            TextureRecolorType.Greyscale,
+                            new RgbaColor(32, 12, 6, 255),
+                            heartColor,
+                            0
+                        ),
+                        new TextureRecolorOptions(
+                            @"bmde/dr_part_c.bmd",
+                            0,
+                            TextureRecolorType.Greyscale,
+                            new RgbaColor(32, 12, 6, 255),
+                            heartColor,
+                            0
+                        ),
+                        new TextureRecolorOptions(
+                            @"bmde/dr_part_dl.bmd",
+                            0,
+                            TextureRecolorType.Greyscale,
+                            new RgbaColor(32, 12, 6, 255),
+                            heartColor,
+                            0
+                        ),
+                        new TextureRecolorOptions(
+                            @"bmde/dr_part_dr.bmd",
+                            0,
+                            TextureRecolorType.Greyscale,
+                            new RgbaColor(32, 12, 6, 255),
+                            heartColor,
+                            0
+                        ),
+                    ]
+                ),
+                // Zant
+                new TextureRecolor(
+                    @"extractedISO/root/res/Object/B_zan.arc",
+                    [
+                        new TextureRecolorOptions(
+                            @"bmdr/zan.bmd",
+                            0xFFFF0202,
+                            TextureRecolorType.Material,
+                            new RgbaColor(56, 17, 18, 255),
+                            heartColor,
+                            25
+                        ),
+                        new TextureRecolorOptions(
+                            @"bmdr/zan.bmd", 
+                            0, // Face/Cloth
+                            TextureRecolorType.Greyscale,
+                            new RgbaColor(56, 17, 18, 255),
+                            heartColor,
+                            25
+                        ),
+                        new TextureRecolorOptions(
+                            @"bmdr/zan.bmd", 
+                            1, // Helmet
+                            TextureRecolorType.Greyscale,
+                            new RgbaColor(56, 17, 18, 255),
+                            enemyColor,
+                            25
+                        ),
+                        new TextureRecolorOptions(
+                            @"bmdr/zz.bmd",
+                            1, // Helmet
+                            TextureRecolorType.Greyscale,
+                            new RgbaColor(56, 17, 18, 255),
                             enemyColor,
                             25
                         ),
@@ -1790,6 +2256,78 @@ public static class CosmeticFunctions
                             TextureRecolorType.Material,
                             new RgbaColor(51, 54, 42, 255),
                             enemyColor,
+                            25
+                        ),
+                    ]
+                ),
+                // Puppet Zelda
+                new TextureRecolor(
+                    @"extractedISO/root/res/Object/Hzelda.arc",
+                    [
+                        new TextureRecolorOptions(
+                            @"bmdr/hzelda.bmd",
+                            0,
+                            TextureRecolorType.Hue,
+                            new RgbaColor(25, 18, 22, 255),
+                            enemyColor,
+                            25
+                        ),
+                    ]
+                ),
+                // Beast Ganon
+                new TextureRecolor(
+                    @"extractedISO/root/res/Object/B_mgn.arc",
+                    [
+                        new TextureRecolorOptions(
+                            @"bmdr/mgn.bmd",
+                            0,
+                            TextureRecolorType.Hue,
+                            new RgbaColor(42, 23, 19, 255),
+                            heartColor,
+                            25
+                        ),
+                    ]
+                ),
+                // Ganondorf - Boss
+                new TextureRecolor(
+                    @"extractedISO/root/res/Object/B_gnd.arc",
+                    [
+                        new TextureRecolorOptions(
+                            @"bmdv/egnd.bmd",
+                            0,
+                            TextureRecolorType.Hue,
+                            new RgbaColor(54, 47, 38, 255),
+                            enemyColor,
+                            25
+                        ),
+                        new TextureRecolorOptions(
+                            @"bmdv/egnd.bmd",
+                            6,
+                            TextureRecolorType.Hue,
+                            new RgbaColor(42, 23, 19, 255),
+                            heartColor,
+                            25
+                        ),
+                    ]
+                ),
+                // Ganondorf
+                new TextureRecolor(
+                    @"extractedISO/root/res/Object/gnd.arc",
+                    [
+                        new TextureRecolorOptions(
+                            @"bmdr/gnd.bmd",
+                            3,
+                            TextureRecolorType.Hue,
+                            new RgbaColor(54, 47, 38, 255),
+                            enemyColor,
+                            25
+                        ),
+                        new TextureRecolorOptions(
+                            @"bmdr/gnd.bmd",
+                            11,
+                            TextureRecolorType.Hue,
+                            new RgbaColor(42, 23, 19, 255),
+                            heartColor,
                             25
                         ),
                     ]

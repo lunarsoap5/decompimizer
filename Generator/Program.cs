@@ -548,8 +548,9 @@ try
     System.IO.Directory.Delete(@"extractedISO\", true); // delete the temp ISO directory once we are done with it.
 
 }
-catch
+catch (Exception ex)
 {
+    Console.WriteLine(ex);
     Console.WriteLine("Cleaning up...");
     System.IO.Directory.Delete(@"extractedISO\", true); // delete the temp ISO directory once we are done with it.
 }
