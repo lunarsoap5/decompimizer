@@ -12,40 +12,37 @@
  * @details
  *
  */
-class obj_ystone_class : public fopAc_ac_c {
-public:
-    void setCurrentPos(cXyz i_pos) {
-        current.pos = i_pos;
-    }
+class obj_ystone_class: public fopAc_ac_c
+{
+   public:
+    void setCurrentPos(cXyz i_pos) { current.pos = i_pos; }
 
-    void setShapeAngle(csXyz i_angle) {
-        shape_angle = i_angle;
-    }
+    void setShapeAngle(csXyz i_angle) { shape_angle = i_angle; }
 
-    void setScale(f32 i_scale) {
-        mScaleF = i_scale;
-    }
+    void setScale(f32 i_scale) { mScaleF = i_scale; }
 
-    void setBaseMtx(MtxP i_mtx) {
+    void setBaseMtx(MtxP i_mtx)
+    {
         field_0x598 = 1;
-        if (mLevel < 3) {
-            if (mpModel != NULL) {
+        if (mLevel < 3)
+        {
+            if (mpModel != NULL)
+            {
                 mpModel->setBaseTRMtx(i_mtx);
             }
-        } else {
-            if (mpMorf != NULL) {
+        }
+        else
+        {
+            if (mpMorf != NULL)
+            {
                 mpMorf->getModel()->setBaseTRMtx(i_mtx);
             }
         }
     }
 
-    int getMirrorMode() {
-        return mMirrorMode;
-    }
+    int getMirrorMode() { return mMirrorMode; }
 
-    void setMirrorMode(int i_mode) {
-        mMirrorMode = i_mode;
-    }
+    void setMirrorMode(int i_mode) { mMirrorMode = i_mode; }
 
     /* 0x568 */ request_of_phase_process_class mPhaseReq;
     /* 0x570 */ J3DModel* mpModel;
