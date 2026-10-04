@@ -8,6 +8,7 @@
 #include "d/actor/d_a_obj_ystone.h"
 #include "d/d_com_inf_game.h"
 #include "f_pc/f_pc_name.h"
+#include "rando/rando.h"
 #include <cstring>
 
 static char const* l_arcName[7] = {
@@ -58,7 +59,21 @@ static int daObj_Ystone_Draw(obj_ystone_class* i_this)
         if (!i_this->field_0x59b)
         {
             g_env_light.setLightTevColorType_MAJI(i_this->mpModel, &i_this->tevStr);
-            i_this->mpBrkAnm->entry(i_this->mpModel->getModelData());
+
+            // If the item we are drawing has a valid brk animation, we want to play it.
+            if (i_this->mpBrkAnm != NULL)
+            {
+                s8 tevFrm = dItem_data::getTevFrm(i_this->mItemId);
+                if (tevFrm != -1)
+                {
+                    i_this->mpBrkAnm->entry(i_this->mpModel->getModelData(), tevFrm);
+                }
+                else
+                {
+                    i_this->mpBrkAnm->entry(i_this->mpModel->getModelData());
+                }
+            }
+
             mDoExt_modelUpdateDL(i_this->mpModel);
         }
     }
@@ -66,6 +81,21 @@ static int daObj_Ystone_Draw(obj_ystone_class* i_this)
     {
         J3DModel* model = i_this->mpMorf->getModel();
         g_env_light.setLightTevColorType_MAJI(model, &i_this->tevStr);
+
+        // If the item we are drawing has a valid brk animation, we want to play it.
+        if (i_this->mpBrkAnm != NULL)
+        {
+            s8 tevFrm = dItem_data::getTevFrm(i_this->mItemId);
+            if (tevFrm != -1)
+            {
+                i_this->mpBrkAnm->entry(model->getModelData(), tevFrm);
+            }
+            else
+            {
+                i_this->mpBrkAnm->entry(model->getModelData());
+            }
+        }
+
         if (i_this->field_0x59a)
         {
             i_this->mpBtkAnm->entry(model->getModelData());
@@ -106,6 +136,11 @@ static u16 mirror_effect_id[10] = {0x89A0, 0x89A1, 0x89A2, 0x89A5, 0x89A6, 0x89A
 
 static void action(obj_ystone_class* i_this)
 {
+    // If the item we are drawing has a valid brk animation, we want to play it.
+    if (i_this->mpBrkAnm != NULL)
+    {
+        i_this->mpBrkAnm->play();
+    }
     if (i_this->mLevel < 3)
     {
         switch (i_this->mShadowMode)
@@ -128,7 +163,6 @@ static void action(obj_ystone_class* i_this)
                                                      NULL,
                                                      NULL,
                                                      NULL);
-        i_this->mpBrkAnm->play();
     }
     else
     {
@@ -264,19 +298,35 @@ static int daObj_Ystone_Delete(obj_ystone_class* i_this)
 static int useHeapInit(fopAc_ac_c* i_this)
 {
     obj_ystone_class* _this = static_cast<obj_ystone_class*>(i_this);
-    void* model_data = dComIfG_getObjectRes(l_arcName[_this->mLevel], l_bmdIndex[_this->mLevel]);
+    // Use the item's "get item" model and animation information to use in the drawing of the actor
+    void* model_data = dComIfG_getObjectRes(dItem_data::getArcName(_this->mItemId), dItem_data::getBmdName(_this->mItemId));
+
+    // If the item has a specified brk animation, we want to initialize it.
+    s16 brkId = dItem_data::getBrkName(_this->mItemId);
+    if (brkId != -1)
+    {
+        J3DAnmTevRegKey* brk_anm = (J3DAnmTevRegKey*)dComIfG_getObjectRes(dItem_data::getArcName(_this->mItemId),
+                                                                          dItem_data::getBrkName(_this->mItemId));
+
+        s8 tevFrm = dItem_data::getTevFrm(_this->mItemId);
+        int anmPlay = TRUE;
+        if (tevFrm != -1)
+        {
+            anmPlay = FALSE;
+        }
+        _this->mpBrkAnm = new mDoExt_brkAnm();
+
+        if (_this->mpBrkAnm == NULL ||
+            !_this->mpBrkAnm->init((J3DModelData*)model_data, brk_anm, anmPlay, J3DFrameCtrl::EMode_LOOP, 1.0f, 0, -1))
+        {
+            return 0;
+        }
+    }
 
     if (_this->mLevel < 3)
     {
         _this->mpModel = mDoExt_J3DModel__create((J3DModelData*)model_data, 0x80000, 0x11000084);
         if (_this->mpModel == NULL)
-        {
-            return 0;
-        }
-
-        J3DAnmTevRegKey* brk_anm = (J3DAnmTevRegKey*)dComIfG_getObjectRes(l_arcName[_this->mLevel], l_brkIndex[_this->mLevel]);
-        _this->mpBrkAnm = new mDoExt_brkAnm();
-        if (_this->mpBrkAnm == NULL || !_this->mpBrkAnm->init((J3DModelData*)model_data, brk_anm, 1, 2, 1.0f, 0, -1))
         {
             return 0;
         }
@@ -319,47 +369,95 @@ static cPhs_Step daObj_Ystone_Create(fopAc_ac_c* i_this)
     obj_ystone_class* _this = static_cast<obj_ystone_class*>(i_this);
     fopAcM_ct(_this, obj_ystone_class);
     _this->mLevel = getNowLevel() - 1;
-    cPhs_Step step = dComIfG_resLoad(&_this->mPhaseReq, l_arcName[_this->mLevel]);
 
+    // Based on the stage we are on, get the replacement item via the rando event system.
+    switch (_this->mLevel)
+    {
+        case 0:
+        {
+            _this->mItemId = g_randoInfo.getEventItem(dItemNo_FUSED_SHADOW_1_e);
+            break;
+        }
+        case 1:
+        {
+            _this->mItemId = g_randoInfo.getEventItem(dItemNo_FUSED_SHADOW_2_e);
+            break;
+        }
+        case 2:
+        {
+            _this->mItemId = g_randoInfo.getEventItem(dItemNo_FUSED_SHADOW_3_e);
+            break;
+        }
+        case 3:
+        {
+            _this->mItemId = g_randoInfo.getEventItem(dItemNo_MIRROR_PIECE_1_e);
+            break;
+        }
+        case 4:
+        {
+            _this->mItemId = g_randoInfo.getEventItem(dItemNo_MIRROR_PIECE_2_e);
+            break;
+        }
+        case 5:
+        {
+            _this->mItemId = g_randoInfo.getEventItem(dItemNo_MIRROR_PIECE_3_e);
+            break;
+        }
+        case 6:
+        {
+            _this->mItemId = g_randoInfo.getEventItem(dItemNo_MIRROR_PIECE_4_e);
+            break;
+        }
+    }
+
+    // Load the vanilla Fused Shadow/Mirror Shard archive as well as the item model archive.
+    cPhs_Step step = dComIfG_resLoad(&_this->mPhaseReq, l_arcName[_this->mLevel]);
+    cPhs_Step step2 = dComIfG_resLoad(&_this->mPhaseReq2, dItem_data::getArcName(_this->mItemId));
+
+    // Don't proceed until both archives have been loaded.
     if (step == cPhs_COMPLEATE_e)
     {
-        if (_this->mLevel < 3)
+        if (step2 == cPhs_COMPLEATE_e)
         {
-            if (!fopAcM_entrySolidHeap(_this, useHeapInit, 0x1000))
-            {
-                return cPhs_ERROR_e;
-            }
-        }
-        else
-        {
-            if (!fopAcM_entrySolidHeap(_this, useHeapInit, 0x33a0))
-            {
-                return cPhs_ERROR_e;
-            }
-        }
-
-        if (_this->mLevel < 3)
-        {
-            fopAcM_SetMtx(_this, _this->mpModel->getBaseTRMtx());
             if (_this->mLevel < 3)
             {
-                _this->field_0x59b = true;
+                if (!fopAcM_entrySolidHeap(_this, useHeapInit, 0x1000))
+                {
+                    return cPhs_ERROR_e;
+                }
             }
-            mDoMtx_stack_c::scaleS(0.0f, 0.0f, 0.0f);
-            _this->mpModel->setBaseTRMtx(mDoMtx_stack_c::get());
-        }
-        else
-        {
-            fopAcM_SetMtx(_this, _this->mpMorf->getModel()->getBaseTRMtx());
-            _this->mMirrorMode = fopAcM_GetParam(_this) & 0xff;
-            if (_this->mMirrorMode >= 7)
+            else
             {
-                _this->mMirrorMode = 0;
+                if (!fopAcM_entrySolidHeap(_this, useHeapInit, 0x33a0))
+                {
+                    return cPhs_ERROR_e;
+                }
             }
-        }
 
-        _this->mScaleF = 1.0f;
-        daObj_Ystone_Execute(_this);
+            if (_this->mLevel < 3)
+            {
+                fopAcM_SetMtx(_this, _this->mpModel->getBaseTRMtx());
+                if (_this->mLevel < 3)
+                {
+                    _this->field_0x59b = true;
+                }
+                mDoMtx_stack_c::scaleS(0.0f, 0.0f, 0.0f);
+                _this->mpModel->setBaseTRMtx(mDoMtx_stack_c::get());
+            }
+            else
+            {
+                fopAcM_SetMtx(_this, _this->mpMorf->getModel()->getBaseTRMtx());
+                _this->mMirrorMode = fopAcM_GetParam(_this) & 0xff;
+                if (_this->mMirrorMode >= 7)
+                {
+                    _this->mMirrorMode = 0;
+                }
+            }
+
+            _this->mScaleF = 1.0f;
+            daObj_Ystone_Execute(_this);
+        }
+        return step2;
     }
     return step;
 }

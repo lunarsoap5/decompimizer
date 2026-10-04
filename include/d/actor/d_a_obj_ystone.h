@@ -61,8 +61,10 @@ class obj_ystone_class: public fopAc_ac_c
     /* 0x59A */ bool field_0x59a;
     /* 0x59B */ bool field_0x59b;
     /* 0x59C */ u8 field_0x59c[4];
+    /* 0x5A0 */ u32 mItemId;
+    /* 0x5A4 */ request_of_phase_process_class mPhaseReq2;
 };
 
-STATIC_ASSERT(sizeof(obj_ystone_class) == 0x5A0);
+STATIC_ASSERT(sizeof(obj_ystone_class) == 0x5AC);
 
 #endif /* D_A_OBJ_YSTONE_H */
