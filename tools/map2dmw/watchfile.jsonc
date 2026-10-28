@@ -1,0 +1,800 @@
+{
+    "watchList": [
+        {
+            "groupEntries": [
+                {
+                    "address": "g_dComIfG_gameInfo + 0xED",
+                    "baseIndex": 0,
+                    "label": "Bomb Bag 1 Ammo",
+                    "typeIndex": 0,
+                    "unsigned": true
+                },
+                {
+                    "address": "g_dComIfG_gameInfo + 0xEE",
+                    "baseIndex": 0,
+                    "label": "Bomb Bag 2 Ammo",
+                    "typeIndex": 0,
+                    "unsigned": true
+                },
+                {
+                    "address": "g_dComIfG_gameInfo + 0xEF",
+                    "baseIndex": 0,
+                    "label": "Bomb Bag 3 Ammo",
+                    "typeIndex": 0,
+                    "unsigned": true
+                },
+                {
+                    "address": "g_dComIfG_gameInfo + 0xEC",
+                    "baseIndex": 0,
+                    "label": "Bow Ammo",
+                    "typeIndex": 0,
+                    "unsigned": true
+                },
+                {
+                    "address": "g_dComIfG_gameInfo + 0x8",
+                    "baseIndex": 0,
+                    "label": "Lantern Oil",
+                    "typeIndex": 1,
+                    "unsigned": true
+                },
+                {
+                    "address": "g_dComIfG_gameInfo + 0xB4",
+                    "baseIndex": 0,
+                    "label": "Slingshot Ammo",
+                    "typeIndex": 0,
+                    "unsigned": true
+                }
+            ],
+            "groupName": "Item Ammo"
+        },
+        {
+            "groupEntries": [
+                {
+                    "address": "g_dComIfG_gameInfo + 0x40C",
+                    "baseIndex": 0,
+                    "label": "FT Key Count",
+                    "typeIndex": 0,
+                    "unsigned": false
+                },
+                {
+                    "address": "g_dComIfG_gameInfo + 0x42C",
+                    "baseIndex": 0,
+                    "label": "GM Key Count",
+                    "typeIndex": 0,
+                    "unsigned": false
+                },
+                {
+                    "address": "g_dComIfG_gameInfo + 0x44C",
+                    "baseIndex": 0,
+                    "label": "LBT Key Count",
+                    "typeIndex": 0,
+                    "unsigned": false
+                },
+                {
+                    "address": "g_dComIfG_gameInfo + 0x46C",
+                    "baseIndex": 0,
+                    "label": "AG Key Count",
+                    "typeIndex": 0,
+                    "unsigned": false
+                },
+                {
+                    "address": "g_dComIfG_gameInfo + 0x48C",
+                    "baseIndex": 0,
+                    "label": "SPR Key Count",
+                    "typeIndex": 0,
+                    "unsigned": false
+                },
+                {
+                    "address": "g_dComIfG_gameInfo + 0x4AC",
+                    "baseIndex": 0,
+                    "label": "ToT Key Count",
+                    "typeIndex": 0,
+                    "unsigned": false
+                },
+                {
+                    "address": "g_dComIfG_gameInfo + 0x4CC",
+                    "baseIndex": 0,
+                    "label": "CitS Key Count",
+                    "typeIndex": 0,
+                    "unsigned": false
+                },
+                {
+                    "address": "g_dComIfG_gameInfo + 0x4EC",
+                    "baseIndex": 0,
+                    "label": "PoT Key Count",
+                    "typeIndex": 0,
+                    "unsigned": false
+                },
+                {
+                    "address": "g_dComIfG_gameInfo + 0x50C",
+                    "baseIndex": 0,
+                    "label": "HC Key Count",
+                    "typeIndex": 0,
+                    "unsigned": false
+                },
+                {
+                    "address": "g_dComIfG_gameInfo + 0x974",
+                    "baseIndex": 0,
+                    "label": "Local Area Keys",
+                    "typeIndex": 0,
+                    "unsigned": true
+                }
+            ],
+            "groupName": "Keys"
+        },
+        {
+            "groupEntries": [
+                {
+                    "groupEntries": [
+                        {
+                            "address": "g_mDoAud_zelAudio + 0xF08",
+                            "baseIndex": 0,
+                            "label": "L - Speed",
+                            "pointerOffsets": [
+                                "5C"
+                            ],
+                            "typeIndex": 3,
+                            "unsigned": false
+                        },
+                        {
+                            "address": "g_mDoAud_zelAudio + 0xF08",
+                            "baseIndex": 0,
+                            "label": "L - Status",
+                            "pointerOffsets": [
+                                "A2"
+                            ],
+                            "typeIndex": 0,
+                            "unsigned": false
+                        },
+                        {
+                            "address": "g_mDoAud_zelAudio + 0xF08",
+                            "baseIndex": 0,
+                            "label": "L - X Position",
+                            "pointerOffsets": [
+                                "0"
+                            ],
+                            "typeIndex": 3,
+                            "unsigned": false
+                        },
+                        {
+                            "address": "g_mDoAud_zelAudio + 0xF08",
+                            "baseIndex": 0,
+                            "label": "L - Y Position",
+                            "pointerOffsets": [
+                                "4"
+                            ],
+                            "typeIndex": 3,
+                            "unsigned": false
+                        },
+                        {
+                            "address": "g_mDoAud_zelAudio + 0xF08",
+                            "baseIndex": 0,
+                            "label": "L - Z Position",
+                            "pointerOffsets": [
+                                "8"
+                            ],
+                            "typeIndex": 3,
+                            "unsigned": false
+                        },
+                        {
+                            "address": "g_mDoAud_zelAudio + 0xF08",
+                            "baseIndex": 0,
+                            "label": "L - Angle",
+                            "pointerOffsets": [
+                                "16"
+                            ],
+                            "typeIndex": 1,
+                            "unsigned": true
+                        },
+                        {
+                            "address": "g_mDoAud_zelAudio + 0xF08",
+                            "baseIndex": 1,
+                            "label": "Link Pointer",
+                            "typeIndex": 2,
+                            "unsigned": true
+                        }
+                    ],
+                    "groupName": "Dynamic Stats"
+                },
+                {
+                    "address": "g_dComIfG_gameInfo + 0x1E",
+                    "baseIndex": 0,
+                    "label": "Form",
+                    "typeIndex": 0,
+                    "unsigned": true
+                },
+                {
+                    "address": "g_dComIfG_gameInfo + 0x3",
+                    "baseIndex": 0,
+                    "label": "Health",
+                    "typeIndex": 0,
+                    "unsigned": true
+                },
+                {
+                    "address": "g_dComIfG_gameInfo + 0x15",
+                    "baseIndex": 0,
+                    "label": "Shield (42,43,44,255)",
+                    "typeIndex": 0,
+                    "unsigned": true
+                },
+                {
+                    "address": "g_dComIfG_gameInfo + 0x13",
+                    "baseIndex": 0,
+                    "label": "Clothing (46,47,48,49)",
+                    "typeIndex": 0,
+                    "unsigned": true
+                },
+                {
+                    "address": "g_dComIfG_gameInfo + 0x14",
+                    "baseIndex": 0,
+                    "label": "Sword (40,41,63,255)",
+                    "typeIndex": 0,
+                    "unsigned": true
+                }
+            ],
+            "groupName": "Link"
+        },
+        {
+            "groupEntries": [
+                {
+                    "groupEntries": [
+                        {
+                            "address": "g_dComIfG_gameInfo + 0x521C",
+                            "baseIndex": 0,
+                            "label": "Trigger Loading",
+                            "typeIndex": 0,
+                            "unsigned": true
+                        }
+                    ],
+                    "groupName": "Loading, Void and Reset"
+                },
+                {
+                    "groupEntries": [
+                        {
+                            "address": "g_env_light + 0x98C",
+                            "baseIndex": 0,
+                            "label": "Current Room ID",
+                            "typeIndex": 0,
+                            "unsigned": true
+                        },
+                        {
+                            "address": "g_dComIfG_gameInfo + 0x5218",
+                            "baseIndex": 0,
+                            "label": "Next Room ID",
+                            "typeIndex": 0,
+                            "unsigned": true
+                        },
+                        {
+                            "address": "g_dComIfG_gameInfo + 0x55AB",
+                            "baseIndex": 0,
+                            "label": "Last Loaded Room ID",
+                            "typeIndex": 0,
+                            "unsigned": true
+                        }
+                    ],
+                    "groupName": "Room"
+                },
+                {
+                    "groupEntries": [
+                        {
+                            "address": "g_dComIfG_gameInfo + 0x5209",
+                            "baseIndex": 1,
+                            "label": "Current Spawn Point ID (Spawn List)",
+                            "typeIndex": 0,
+                            "unsigned": true
+                        },
+                        {
+                            "address": "g_dComIfG_gameInfo + 0x11B9",
+                            "baseIndex": 1,
+                            "label": "Next Spawn Point ID (Fade FX List)",
+                            "typeIndex": 0,
+                            "unsigned": true
+                        },
+                        {
+                            "address": "g_dComIfG_gameInfo + 0x5217",
+                            "baseIndex": 1,
+                            "label": "Next Spawn Point ID (Preload)",
+                            "typeIndex": 0,
+                            "unsigned": true
+                        }
+                    ],
+                    "groupName": "Spawn Point"
+                },
+                {
+                    "groupEntries": [
+                        {
+                            "address": "g_dComIfG_gameInfo + 0x5200",
+                            "baseIndex": 0,
+                            "label": "Current Stage Name",
+                            "length": 8,
+                            "typeIndex": 5,
+                            "unsigned": true
+                        },
+                        {
+                            "address": "g_dComIfG_gameInfo + 0x520E",
+                            "baseIndex": 0,
+                            "label": "Next Stage Name",
+                            "length": 8,
+                            "typeIndex": 5,
+                            "unsigned": true
+                        }
+                    ],
+                    "groupName": "Stage"
+                },
+                {
+                    "groupEntries": [
+                        {
+                            "address": "g_dComIfG_gameInfo + 0x5201",
+                            "baseIndex": 0,
+                            "label": "Current State ID",
+                            "typeIndex": 0,
+                            "unsigned": true
+                        },
+                        {
+                            "address": "g_dComIfG_gameInfo + 0x5219",
+                            "baseIndex": 1,
+                            "label": "Next State ID",
+                            "typeIndex": 0,
+                            "unsigned": true
+                        }
+                    ],
+                    "groupName": "State"
+                }
+            ],
+            "groupName": "Map Info"
+        },
+        {
+            "groupEntries": [
+                {
+                    "address": "g_dComIfG_gameInfo + 0x30",
+                    "baseIndex": 0,
+                    "label": "Midna on Back (8)",
+                    "typeIndex": 0,
+                    "unsigned": true
+                },
+                {
+                    "address": "g_dComIfG_gameInfo + 0x7F5",
+                    "baseIndex": 0,
+                    "label": "Midna Charge",
+                    "typeIndex": 0,
+                    "unsigned": true
+                },
+                {
+                    "address": "g_dComIfG_gameInfo + 0x80E",
+                    "baseIndex": 0,
+                    "label": "Midna State (8)",
+                    "typeIndex": 0,
+                    "unsigned": true
+                }
+            ],
+            "groupName": "Midna"
+        },
+        {
+            "groupEntries": [
+                {
+                    "groupEntries": [
+                        {
+                            "address": "g_dComIfG_gameInfo + 0x339",
+                            "baseIndex": 0,
+                            "label": "Gerudo Mesa (32)",
+                            "typeIndex": 0,
+                            "unsigned": true
+                        },
+                        {
+                            "address": "g_dComIfG_gameInfo + 0x258",
+                            "baseIndex": 0,
+                            "label": "Kakariko Village (128)",
+                            "typeIndex": 0,
+                            "unsigned": true
+                        },
+                        {
+                            "address": "g_dComIfG_gameInfo + 0x27A",
+                            "baseIndex": 0,
+                            "label": "Lake Hylia (4)",
+                            "typeIndex": 0,
+                            "unsigned": true
+                        },
+                        {
+                            "address": "g_dComIfG_gameInfo + 0x33E",
+                            "baseIndex": 0,
+                            "label": "Mirror Chamber (1)",
+                            "typeIndex": 0,
+                            "unsigned": true
+                        },
+                        {
+                            "address": "g_dComIfG_gameInfo + 0x2E7",
+                            "baseIndex": 0,
+                            "label": "Sacred Grove (16)",
+                            "typeIndex": 0,
+                            "unsigned": true
+                        },
+                        {
+                            "address": "g_dComIfG_gameInfo + 0x2F9",
+                            "baseIndex": 0,
+                            "label": "Snowpeak Top (32)",
+                            "typeIndex": 0,
+                            "unsigned": true
+                        },
+                        {
+                            "address": "g_dComIfG_gameInfo + 0x279",
+                            "baseIndex": 0,
+                            "label": "Upper Zora's River (32)",
+                            "typeIndex": 0,
+                            "unsigned": true
+                        },
+                        {
+                            "address": "g_dComIfG_gameInfo + 0x243",
+                            "baseIndex": 0,
+                            "label": "South Faron Woods (128)",
+                            "typeIndex": 0,
+                            "unsigned": true
+                        },
+                        {
+                            "address": "g_dComIfG_gameInfo + 0x23B",
+                            "baseIndex": 0,
+                            "label": "North Faron Woods (4)",
+                            "typeIndex": 0,
+                            "unsigned": true
+                        },
+                        {
+                            "address": "g_dComIfG_gameInfo + 0x27B",
+                            "baseIndex": 0,
+                            "label": "Zora's Domain (4)",
+                            "typeIndex": 0,
+                            "unsigned": true
+                        },
+                        {
+                            "address": "g_dComIfG_gameInfo + 0x2c7",
+                            "baseIndex": 0,
+                            "label": "Bridge of Eldin (8)",
+                            "typeIndex": 0,
+                            "unsigned": true
+                        },
+                        {
+                            "address": "g_dComIfG_gameInfo + 0x1FD",
+                            "baseIndex": 0,
+                            "label": "Ordon Spring (16)",
+                            "typeIndex": 0,
+                            "unsigned": true
+                        },
+                        {
+                            "address": "g_dComIfG_gameInfo + 0x259",
+                            "baseIndex": 0,
+                            "label": "Death Mountain (32)",
+                            "typeIndex": 0,
+                            "unsigned": true
+                        },
+                        {
+                            "address": "g_dComIfG_gameInfo + 0x2B9",
+                            "baseIndex": 0,
+                            "label": "Kakariko Gorge (32)",
+                            "typeIndex": 0,
+                            "unsigned": true
+                        },
+                        {
+                            "address": "g_dComIfG_gameInfo + 0x2BB",
+                            "baseIndex": 0,
+                            "label": "Castle Town (8)",
+                            "typeIndex": 0,
+                            "unsigned": true
+                        }
+                    ],
+                    "groupName": "Warps"
+                },
+                {
+                    "address": "g_dComIfG_gameInfo + 0x7D",
+                    "baseIndex": 0,
+                    "label": "Map Region Unlocked",
+                    "typeIndex": 0,
+                    "unsigned": true
+                },
+                {
+                    "address": "g_dComIfG_gameInfo + 0x7F6",
+                    "baseIndex": 0,
+                    "label": "Map Warping (4,32)",
+                    "typeIndex": 0,
+                    "unsigned": true
+                }
+            ],
+            "groupName": "Minimap"
+        },
+        {
+            "groupEntries": [
+                {
+                    "address": "g_randoInfo + 0x13",
+                    "baseIndex": 0,
+                    "label": "Start of Event Queue",
+                    "typeIndex": 0,
+                    "unsigned": true
+                },
+                {
+                    "address": "g_randoInfo + 0x0",
+                    "baseIndex": 0,
+                    "label": "Start of Rando Class",
+                    "typeIndex": 0,
+                    "unsigned": true
+                }
+            ],
+            "groupName": "Rando"
+        },
+        {
+            "groupEntries": [
+                {
+                    "groupEntries": [
+                        {
+                            "address": "g_dComIfG_gameInfo + 0x18D",
+                            "baseIndex": 0,
+                            "label": "Hylian Loach - Largest",
+                            "typeIndex": 0,
+                            "unsigned": true
+                        },
+                        {
+                            "address": "g_dComIfG_gameInfo + 0x16E",
+                            "baseIndex": 0,
+                            "label": "Hylian Loach - No. Caught",
+                            "typeIndex": 1,
+                            "unsigned": true
+                        },
+                        {
+                            "address": "g_dComIfG_gameInfo + 0x18E",
+                            "baseIndex": 0,
+                            "label": "Hylian Pike - Largest",
+                            "typeIndex": 0,
+                            "unsigned": true
+                        },
+                        {
+                            "address": "g_dComIfG_gameInfo + 0x170",
+                            "baseIndex": 0,
+                            "label": "Hylian Pike - No. Caught",
+                            "typeIndex": 1,
+                            "unsigned": true
+                        },
+                        {
+                            "address": "g_dComIfG_gameInfo + 0x18C",
+                            "baseIndex": 0,
+                            "label": "Hyrule Bass - Largest",
+                            "typeIndex": 0,
+                            "unsigned": true
+                        },
+                        {
+                            "address": "g_dComIfG_gameInfo + 0x16C",
+                            "baseIndex": 0,
+                            "label": "Hyrule Bass - No. Caught",
+                            "typeIndex": 1,
+                            "unsigned": true
+                        },
+                        {
+                            "address": "g_dComIfG_gameInfo + 0x18F",
+                            "baseIndex": 0,
+                            "label": "Ordon Catfish - Largest",
+                            "typeIndex": 0,
+                            "unsigned": true
+                        },
+                        {
+                            "address": "g_dComIfG_gameInfo + 0x172",
+                            "baseIndex": 0,
+                            "label": "Ordon Catfish - No. Caught",
+                            "typeIndex": 1,
+                            "unsigned": true
+                        },
+                        {
+                            "address": "g_dComIfG_gameInfo + 0x190",
+                            "baseIndex": 0,
+                            "label": "Reekfish - Largest",
+                            "typeIndex": 0,
+                            "unsigned": true
+                        },
+                        {
+                            "address": "g_dComIfG_gameInfo + 0x174",
+                            "baseIndex": 0,
+                            "label": "Reekfish - No. Caught",
+                            "typeIndex": 1,
+                            "unsigned": true
+                        },
+                        {
+                            "address": "g_dComIfG_gameInfo + 0x176",
+                            "baseIndex": 0,
+                            "label": "Greengill - No. Caught",
+                            "typeIndex": 1,
+                            "unsigned": true
+                        },
+                        {
+                            "address": "g_dComIfG_gameInfo + 0x191",
+                            "baseIndex": 0,
+                            "label": "Greengill - Largest",
+                            "typeIndex": 0,
+                            "unsigned": true
+                        }
+                    ],
+                    "groupName": "Fishing Journal"
+                },
+                {
+                    "groupEntries": [
+                        {
+                            "address": "g_dComIfG_gameInfo + 0x11E",
+                            "baseIndex": 0,
+                            "label": "Letters",
+                            "typeIndex": 1,
+                            "unsigned": true
+                        }
+                    ],
+                    "groupName": "Letters"
+                },
+                {
+                    "address": "g_dComIfG_gameInfo + 0x819",
+                    "baseIndex": 1,
+                    "label": "Hidden Skills",
+                    "typeIndex": 1,
+                    "unsigned": true
+                },
+                {
+                    "address": "g_dComIfG_gameInfo + 0x10C",
+                    "baseIndex": 0,
+                    "label": "Poe Count",
+                    "typeIndex": 0,
+                    "unsigned": true
+                },
+                {
+                    "address": "g_dComIfG_gameInfo + 0x19",
+                    "baseIndex": 0,
+                    "label": "Wallet Size",
+                    "typeIndex": 0,
+                    "unsigned": true
+                },
+                {
+                    "address": "g_dComIfG_gameInfo + 0x16",
+                    "baseIndex": 0,
+                    "label": "Scent (176,178,179,180,181,255)",
+                    "typeIndex": 0,
+                    "unsigned": true
+                }
+            ],
+            "groupName": "Pause Menu"
+        },
+        {
+            "groupEntries": [
+                {
+                    "groupEntries": [
+                        {
+                            "address": "g_dComIfG_gameInfo + 0x40",
+                            "baseIndex": 0,
+                            "label": "X Position",
+                            "typeIndex": 3,
+                            "unsigned": true
+                        },
+                        {
+                            "address": "g_dComIfG_gameInfo + 0x48",
+                            "baseIndex": 0,
+                            "label": "Z Position",
+                            "typeIndex": 3,
+                            "unsigned": true
+                        },
+                        {
+                            "address": "g_dComIfG_gameInfo + 0x56",
+                            "baseIndex": 1,
+                            "label": "(Unused Spawn Point ID Perhaps)",
+                            "typeIndex": 0,
+                            "unsigned": true
+                        },
+                        {
+                            "address": "g_dComIfG_gameInfo + 0x57",
+                            "baseIndex": 0,
+                            "label": "Room ID",
+                            "typeIndex": 0,
+                            "unsigned": true
+                        },
+                        {
+                            "address": "g_dComIfG_gameInfo + 0x44",
+                            "baseIndex": 0,
+                            "label": "Y Position",
+                            "typeIndex": 3,
+                            "unsigned": true
+                        },
+                        {
+                            "address": "g_dComIfG_gameInfo + 0x4C",
+                            "baseIndex": 0,
+                            "label": "Angle",
+                            "typeIndex": 1,
+                            "unsigned": true
+                        },
+                        {
+                            "address": "g_dComIfG_gameInfo + 0x1C5",
+                            "baseIndex": 0,
+                            "label": "Name",
+                            "length": 8,
+                            "typeIndex": 5,
+                            "unsigned": true
+                        },
+                        {
+                            "address": "g_dComIfG_gameInfo + 0x4E",
+                            "baseIndex": 0,
+                            "label": "Current Stage",
+                            "length": 8,
+                            "typeIndex": 5,
+                            "unsigned": true
+                        }
+                    ],
+                    "groupName": "Epona"
+                },
+                {
+                    "groupEntries": [
+                        {
+                            "address": "g_dComIfG_gameInfo + 0x61",
+                            "baseIndex": 0,
+                            "label": "Room ID",
+                            "typeIndex": 0,
+                            "unsigned": true
+                        },
+                        {
+                            "address": "g_dComIfG_gameInfo + 0x60",
+                            "baseIndex": 1,
+                            "label": "Spawn Point ID",
+                            "typeIndex": 0,
+                            "unsigned": true
+                        },
+                        {
+                            "address": "g_dComIfG_gameInfo + 0x58",
+                            "baseIndex": 0,
+                            "label": "Current Stage",
+                            "length": 8,
+                            "typeIndex": 5,
+                            "unsigned": true
+                        },
+                        {
+                            "address": "g_dComIfG_gameInfo + 0x72",
+                            "baseIndex": 0,
+                            "label": "Previous Stage",
+                            "length": 8,
+                            "typeIndex": 5,
+                            "unsigned": true
+                        },
+                        {
+                            "address": "g_dComIfG_gameInfo + 0x1B4",
+                            "baseIndex": 0,
+                            "label": "Name",
+                            "length": 8,
+                            "typeIndex": 5,
+                            "unsigned": true
+                        }
+                    ],
+                    "groupName": "Link"
+                },
+                {
+                    "groupEntries": [
+                        {
+                            "address": "g_dComIfG_gameInfo + 0x0",
+                            "baseIndex": 0,
+                            "label": "Start of File (Scratchpad)",
+                            "typeIndex": 0,
+                            "unsigned": true
+                        },
+                        {
+                            "address": "g_dComIfG_gameInfo + 0x7F0",
+                            "baseIndex": 0,
+                            "label": "Start of Event Bits",
+                            "typeIndex": 0,
+                            "unsigned": false
+                        },
+                        {
+                            "address": "g_dComIfG_gameInfo + 0x958",
+                            "baseIndex": 0,
+                            "label": "Start of Temp Flags",
+                            "typeIndex": 0,
+                            "unsigned": true
+                        }
+                    ],
+                    "groupName": "Range"
+                }
+            ],
+            "groupName": "Savefile Info"
+        },
+        {
+            "address": "80000000",
+            "baseIndex": 0,
+            "label": "Start",
+            "length": 8,
+            "typeIndex": 5,
+            "unsigned": true
+        }
+    ]
+}
