@@ -4,12 +4,19 @@ A work-in-progress experimental mod that aims to randomize Twilight Princess.
 
 **Note: This is not meant to compete with the REL Randomizer and is a seperate project, although work may be shared between them. No feature suggestions will be accepted for the time being.**
 
-The code for the GameCube releases is completely matching. However, not every Translation Unit (TU) has been linked yet. Work is continuing by aligning the Debug version and getting the Wii versions to match. All versions are built from the same codebase using conditional compilation.
-
 > [!IMPORTANT]
 > This repository does **not** contain any game assets or assembly whatsoever. An existing copy of the game is required.
 >
 > This project itself **is not**, and will not, produce a port, to PC or any other platform.
+>
+> ### **AI Disclosure**
+> 
+> This project's design and core logic are all the work of humans. However, a small number of tools that this project uses were created with the assistance of Artificial Intelligence tools in a supporting role to perform the following:
+> - Explain unfamiliar concepts
+> - Refactor and simplify human-written code
+> - Occasionally draft small utility scripts to establish "proof-of-functionality" before being re-written by hand.
+> 
+> All code is reviewed and undergoes quality assessment before commitment and implementation.
 
 The project can target the following supported versions:
 

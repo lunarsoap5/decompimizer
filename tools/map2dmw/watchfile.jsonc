@@ -513,6 +513,26 @@
                     "label": "Start of Rando Class",
                     "typeIndex": 0,
                     "unsigned": true
+                },
+                {
+                    "address": "g_seedInfo + 0x0",
+                    "baseIndex": 0,
+                    "label": "Seed Header",
+                    "pointerOffsets": [
+                        "0"
+                    ],
+                    "typeIndex": 0,
+                    "unsigned": false
+                },
+                {
+                    "address": "g_seedInfo + 0x4",
+                    "baseIndex": 0,
+                    "label": "Seed Data",
+                    "pointerOffsets": [
+                        "0"
+                    ],
+                    "typeIndex": 0,
+                    "unsigned": false
                 }
             ],
             "groupName": "Rando"

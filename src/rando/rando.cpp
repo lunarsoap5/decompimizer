@@ -310,12 +310,11 @@ int randoInfo_c::execute()
     }
     setRoomReloadingState(currentReloadingState);
 
-    // COpypasta old rando code until I build the framework out.
-    /*if
-    (!libtp::tp::d_a_alink::checkStageName(libtp::data::stage::allStages[libtp::data::stage::StageIDs::Title_Screen]))
+    // Copypasta old rando code until I build the framework out.
+    if (getCurrentStageID() != Title_Screen)
     {
-        handleFoolishItem(randoPtr);
-    }*/
+        handleFoolishItem();
+    }
 
     // Main code as ran, so update any previous frame variables.
     setPrevFrameAnalogR(mDoCPd_c::getAnalogR(PAD_1));
@@ -708,7 +707,7 @@ void randoInfo_c::handleFoolishItem()
 
     Z2SceneMgr* sceneMgr = Z2GetSceneMgr();
     u32 seWave1 = sceneMgr->getLoadedSeWave1();
-    u32 seWave2 = sceneMgr->getLoadedSeWave1();
+    u32 seWave2 = sceneMgr->getLoadedSeWave2();
     sceneMgr->eraseSeWave(seWave1);
     sceneMgr->eraseSeWave(seWave2);
     sceneMgr->loadSeWave(0x46);

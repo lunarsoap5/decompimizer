@@ -29,6 +29,7 @@ enum SeedEnabledFlag
     INVERT_CAMERA_AXIS,
     MAKE_LIGHT_SWORD_GLOW,
     WARP_WITHOUT_TRANSFORM,
+    FAST_BOSS_DEATHS,
 };
 
 bool flagIsEnabled(const uint* bitfieldPtr, uint totalFlags, uint flag);
@@ -172,7 +173,7 @@ class seedHeaderInfo_c
     /* 0xA4 */ u16 returnPlaceSectionOffset;
     /* 0xA6 */ u16 trillDonationGoal;
     /* 0xA8 */ u8 customGoalValue; // Used to check for custom goals (Trill%, Zant, 60 Poes, etc.)
-    /* 0xA9 */ u8 paddingb1[0x3];
+    /* 0xA9 */ u8 padding_a9[0x3];
     /* 0xAC */ GXColor aButtonColor;
     /* 0xB0 */ GXColor bButtonColor;
     /* 0xB4 */ GXColor xButtonColor;
@@ -219,6 +220,7 @@ class seedInfo_c
     bool invertCameraAxis() const { return flagBitfieldFlagIsEnabled(INVERT_CAMERA_AXIS); }
     bool isLightSwordGlow() const { return flagBitfieldFlagIsEnabled(MAKE_LIGHT_SWORD_GLOW); }
     bool canWarpWithoutTransform() const { return flagBitfieldFlagIsEnabled(WARP_WITHOUT_TRANSFORM); }
+    bool fastBossDeaths() const { return flagBitfieldFlagIsEnabled(FAST_BOSS_DEATHS); }
 
     bool spinnerSpeedIsIncreased() const { return flagBitfieldFlagIsEnabled(INCREASE_SPINNER_SPEED); }
 

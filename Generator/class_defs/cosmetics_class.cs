@@ -860,7 +860,7 @@ public static class CosmeticFunctions
                     [
                          TextureRecolorOptions.Greyscale(@"bmde/dr.bmd",5,enemyColor),
                          TextureRecolorOptions.Greyscale(@"bmde/dr.bmd",3,enemyColor),
-                         TextureRecolorOptions.Greyscale(@"bmde/dr.bmd",0,enemyColor),
+                         TextureRecolorOptions.Greyscale(@"bmde/dr.bmd",0,heartColor),
                          TextureRecolorOptions.Greyscale(@"bmde/dr_part_a.bmd",0,heartColor),
                          TextureRecolorOptions.Greyscale(@"bmde/dr_part_b.bmd",0,heartColor),
                          TextureRecolorOptions.Greyscale(@"bmde/dr_part_c.bmd",0,heartColor),
